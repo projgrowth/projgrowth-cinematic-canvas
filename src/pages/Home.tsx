@@ -80,7 +80,7 @@ const Home = () => {
             <div className="flex flex-wrap gap-4 mt-4">
               <Link 
                 to="/work"
-                className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-base text-base rounded-md font-medium transition-all duration-sm ease-smooth hover:scale-[1.02]"
+                className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm ease-smooth hover:scale-[1.02]"
               >
                 View Work
                 <ArrowRight className="w-5 h-5 transition-transform duration-sm ease-smooth group-hover:translate-x-1" />
