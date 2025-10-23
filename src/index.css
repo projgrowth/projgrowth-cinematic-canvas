@@ -2,95 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ProjGrowth Design System - Cinematic Dark Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base Colors (HSL) */
+    --base: 0 0% 5.5%; /* #0E0E0E */
+    --surface: 0 0% 7.1%; /* #121212 */
+    --text: 0 0% 96.1%; /* #F5F5F5 */
+    --mute: 0 0% 63.1%; /* #A1A1A1 */
+    --accent: 72 89% 53%; /* #C9F31D */
+    --accent-alt: 220 62% 72%; /* #86A8E7 */
+    --line: 0 0% 12.2%; /* #1F1F1F */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Semantic Tokens */
+    --background: var(--base);
+    --foreground: var(--text);
+    --card: var(--surface);
+    --card-foreground: var(--text);
+    --popover: var(--surface);
+    --popover-foreground: var(--text);
+    --primary: var(--accent);
+    --primary-foreground: var(--base);
+    --secondary: var(--surface);
+    --secondary-foreground: var(--text);
+    --muted: var(--line);
+    --muted-foreground: var(--mute);
+    --border: var(--line);
+    --input: var(--line);
+    --ring: var(--accent);
+    
+    /* Radii */
+    --radius-sm: 0.375rem; /* 6px */
+    --radius-md: 0.75rem; /* 12px */
+    --radius-lg: 1.5rem; /* 24px */
+    --radius: var(--radius-md);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Spacing Scale */
+    --space-1: 0.5rem; /* 8px */
+    --space-2: 1rem; /* 16px */
+    --space-3: 1.5rem; /* 24px */
+    --space-4: 2rem; /* 32px */
+    --space-5: 2.5rem; /* 40px */
+    --space-6: 3rem; /* 48px */
+    --space-7: 3.5rem; /* 56px */
+    --space-8: 4rem; /* 64px */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Shadows */
+    --shadow-none: none;
+    --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.12);
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Typography */
+    --font-display: "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Motion */
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --duration-xs: 140ms;
+    --duration-sm: 220ms;
+    --duration-md: 360ms;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Layout */
+    --container-max: 1200px;
+    --gutter-desktop: 100px;
+    --gutter-tablet: 70px;
+    --gutter-mobile: 24px;
   }
 }
 
@@ -99,7 +75,119 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    @apply antialiased;
+    background-color: hsl(var(--base));
+    color: hsl(var(--text));
+    font-family: var(--font-body);
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 3rem; /* 48px */
+    line-height: 3.5rem; /* 56px */
+  }
+
+  h2 {
+    font-size: 2.25rem; /* 36px */
+    line-height: 2.75rem; /* 44px */
+  }
+
+  h3 {
+    font-size: 1.75rem; /* 28px */
+    line-height: 2.25rem; /* 36px */
+  }
+
+  body {
+    font-size: 1rem; /* 16px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  small {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.375rem; /* 22px */
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+      line-height: 2.5rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+  }
+}
+
+@layer components {
+  .container-site {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter-desktop);
+    padding-right: var(--gutter-desktop);
+  }
+
+  @media (max-width: 1024px) {
+    .container-site {
+      padding-left: var(--gutter-tablet);
+      padding-right: var(--gutter-tablet);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container-site {
+      padding-left: var(--gutter-mobile);
+      padding-right: var(--gutter-mobile);
+    }
+  }
+
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 768px) {
+    .grid-12 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .animate-smooth {
+    transition: all var(--duration-md) var(--ease);
+  }
+
+  .animate-fast {
+    transition: all var(--duration-sm) var(--ease);
+  }
+
+  .animate-quick {
+    transition: all var(--duration-xs) var(--ease);
   }
 }
