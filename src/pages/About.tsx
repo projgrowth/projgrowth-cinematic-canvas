@@ -4,8 +4,9 @@ import { useCounterAnimation } from "@/hooks/use-counter-animation";
 
 const AnimatedStat = ({ number, label }: { number: string; label: string }) => {
   const { elementRef, isVisible } = useIntersectionObserver({ threshold: 0.5 });
-  const numericValue = parseInt(number.replace(/\D/g, ''));
-  const suffix = number.replace(/\d/g, '');
+  const match = number.match(/(\d+)([+%]*)/);
+  const numericValue = match ? parseInt(match[1]) : 0;
+  const suffix = match ? match[2] : '';
   const count = useCounterAnimation(numericValue, 2000, isVisible);
 
   return (
