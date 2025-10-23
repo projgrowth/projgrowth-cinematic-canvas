@@ -1,4 +1,8 @@
 import Layout from "@/components/Layout";
+import ScrollIndicator from "@/components/ScrollIndicator";
+import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
+import QuickLinks from "@/components/QuickLinks";
+import SocialProof from "@/components/SocialProof";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -64,23 +68,28 @@ const Home = () => {
             {[
               {
                 title: "Brand Strategy",
-                description: "Building authentic brand identities that resonate with your audience and stand the test of time."
+                description: "Building authentic brand identities that resonate with your audience and stand the test of time.",
+                path: "/services#brand-strategy"
               },
               {
                 title: "Digital Design",
-                description: "Creating beautiful, functional interfaces that deliver exceptional user experiences."
+                description: "Creating beautiful, functional interfaces that deliver exceptional user experiences.",
+                path: "/services#digital-design"
               },
               {
                 title: "Development",
-                description: "Engineering robust, scalable solutions using cutting-edge technologies."
+                description: "Engineering robust, scalable solutions using cutting-edge technologies.",
+                path: "/services#development"
               },
               {
                 title: "Growth Marketing",
-                description: "Data-driven strategies to accelerate your business growth and market presence."
+                description: "Data-driven strategies to accelerate your business growth and market presence.",
+                path: "/services#growth-marketing"
               }
             ].map((service, idx) => (
-              <div 
+              <Link
                 key={idx}
+                to={service.path}
                 className="group p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:bg-surface/80 hover:shadow-elegant hover:scale-[1.02] animate-scale-in"
                 style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
               >
@@ -90,11 +99,55 @@ const Home = () => {
                 <p className="text-mute">
                   {service.description}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Featured Work Section */}
+      <section className="container-site py-24 border-t border-line">
+        <div className="mb-12">
+          <h2 className="font-display text-4xl lg:text-5xl text-text mb-4">
+            Featured Work
+          </h2>
+          <p className="text-lg text-mute">
+            Recent projects we're proud of
+          </p>
+        </div>
+
+        <FeaturedWorkSlider
+          projects={[
+            {
+              title: "TechFlow",
+              category: "SaaS Platform",
+              description: "End-to-end platform redesign for B2B workflow automation"
+            },
+            {
+              title: "Urban Nest",
+              category: "Real Estate",
+              description: "Modern property marketplace with immersive 3D experiences"
+            },
+            {
+              title: "FitCore",
+              category: "Health & Wellness",
+              description: "Mobile-first fitness platform connecting trainers and clients"
+            }
+          ]}
+        />
+      </section>
+
+      {/* Quick Links Section */}
+      <section className="container-site py-24 border-t border-line">
+        <QuickLinks />
+      </section>
+
+      {/* Social Proof */}
+      <section className="container-site">
+        <SocialProof />
+      </section>
+
+      <ScrollIndicator />
     </Layout>
   );
 };
