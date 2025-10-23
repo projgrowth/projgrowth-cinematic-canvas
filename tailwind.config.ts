@@ -15,6 +15,7 @@ export default {
     extend: {
       colors: {
         base: "hsl(var(--base))",
+        "base-light": "hsl(var(--base-light))",
         surface: "hsl(var(--surface))",
         text: "hsl(var(--text))",
         mute: "hsl(var(--mute))",
@@ -71,6 +72,12 @@ export default {
       boxShadow: {
         none: "var(--shadow-none)",
         soft: "var(--shadow-soft)",
+        elegant: "var(--shadow-elegant)",
+        "glow-accent": "var(--shadow-glow-accent)",
+      },
+      letterSpacing: {
+        tight: "-0.02em",
+        wide: "0.02em",
       },
       transitionDuration: {
         xs: "var(--duration-xs)",

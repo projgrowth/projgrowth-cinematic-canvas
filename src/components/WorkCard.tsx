@@ -9,10 +9,10 @@ const WorkCard = ({ item }: WorkCardProps) => {
   return (
     <Link
       to={`/work/${item.slug}`}
-      className="group block h-full rounded-sm overflow-hidden bg-base-light border border-border transition-all duration-md ease-smooth hover:shadow-elegant hover:scale-[1.02]"
+      className="group block h-full rounded-sm overflow-hidden bg-surface border border-line/60 transition-all duration-md ease-smooth hover:shadow-elegant hover:scale-[1.02] hover:border-accent/40"
     >
       {/* Media */}
-      <div className="aspect-video overflow-hidden bg-base-dark">
+      <div className="aspect-video overflow-hidden bg-base">
         {item.hero_media?.type === "video" ? (
           <video
             src={item.hero_media.url}
@@ -31,30 +31,30 @@ const WorkCard = ({ item }: WorkCardProps) => {
       </div>
 
       {/* Content */}
-      <div className="p-6 space-y-4">
-        <div className="space-y-2">
+      <div className="p-8 space-y-5">
+        <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-mute">
             <span>{item.industry}</span>
             <span>•</span>
             <span>{item.type}</span>
           </div>
-          <h3 className="font-display text-xl text-primary transition-colors duration-sm group-hover:text-accent">
+          <h3 className="font-display text-2xl text-text transition-colors duration-md group-hover:text-accent">
             {item.title}
           </h3>
           {item.summary && (
-            <p className="text-mute line-clamp-2">{item.summary}</p>
+            <p className="text-mute line-clamp-2 leading-relaxed">{item.summary}</p>
           )}
         </div>
 
         {/* Metrics */}
         {item.metrics && item.metrics.length > 0 && (
-          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
+          <div className="grid grid-cols-2 gap-6 pt-4 border-t border-line/40">
             {item.metrics.slice(0, 2).map((metric, idx) => (
               <div key={idx}>
-                <div className="font-display text-lg text-primary">
+                <div className="font-display text-xl text-accent mb-1">
                   {metric.value}
                 </div>
-                <div className="text-xs text-mute">{metric.label}</div>
+                <div className="text-sm text-mute">{metric.label}</div>
               </div>
             ))}
           </div>
