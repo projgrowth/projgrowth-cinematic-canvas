@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      services: {
+        Row: {
+          created_at: string | null
+          cta_label: string | null
+          id: string
+          inclusions: string[] | null
+          problem: string | null
+          result: string | null
+          slug: string
+          solution: string | null
+          summary: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          cta_label?: string | null
+          id?: string
+          inclusions?: string[] | null
+          problem?: string | null
+          result?: string | null
+          slug: string
+          solution?: string | null
+          summary?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          cta_label?: string | null
+          id?: string
+          inclusions?: string[] | null
+          problem?: string | null
+          result?: string | null
+          slug?: string
+          solution?: string | null
+          summary?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      work: {
+        Row: {
+          body: string | null
+          created_at: string | null
+          featured: boolean | null
+          gallery: Json | null
+          hero_media: Json | null
+          id: string
+          industry: string
+          metrics: Json | null
+          slug: string
+          summary: string | null
+          tech: string[] | null
+          title: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string | null
+          featured?: boolean | null
+          gallery?: Json | null
+          hero_media?: Json | null
+          id?: string
+          industry: string
+          metrics?: Json | null
+          slug: string
+          summary?: string | null
+          tech?: string[] | null
+          title: string
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string | null
+          featured?: boolean | null
+          gallery?: Json | null
+          hero_media?: Json | null
+          id?: string
+          industry?: string
+          metrics?: Json | null
+          slug?: string
+          summary?: string | null
+          tech?: string[] | null
+          title?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
