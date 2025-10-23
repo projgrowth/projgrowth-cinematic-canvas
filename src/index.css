@@ -8,7 +8,6 @@
   :root {
     /* Base Colors (HSL) */
     --base: 0 0% 5.5%; /* #0E0E0E */
-    --base-light: 0 0% 9%; /* Between base and surface */
     --surface: 0 0% 7.1%; /* #121212 */
     --text: 0 0% 96.1%; /* #F5F5F5 */
     --mute: 0 0% 63.1%; /* #A1A1A1 */
@@ -52,8 +51,6 @@
     /* Shadows */
     --shadow-none: none;
     --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.12);
-    --shadow-elegant: 0 10px 40px -10px rgba(134, 168, 231, 0.15);
-    --shadow-glow-accent: 0 10px 40px -10px rgba(201, 243, 29, 0.4);
 
     /* Typography */
     --font-display: "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
@@ -93,27 +90,26 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 500;
-    letter-spacing: -0.02em;
   }
 
   h1 {
     font-size: 3rem; /* 48px */
-    line-height: 3.25rem; /* 52px - tighter for better rhythm */
+    line-height: 3.5rem; /* 56px */
   }
 
   h2 {
     font-size: 2.25rem; /* 36px */
-    line-height: 2.5rem; /* 40px */
+    line-height: 2.75rem; /* 44px */
   }
 
   h3 {
     font-size: 1.75rem; /* 28px */
-    line-height: 2.125rem; /* 34px */
+    line-height: 2.25rem; /* 36px */
   }
 
   body {
     font-size: 1rem; /* 16px */
-    line-height: 1.85rem; /* 29.6px - increased from 28px */
+    line-height: 1.75rem; /* 28px */
   }
 
   small {

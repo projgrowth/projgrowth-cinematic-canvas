@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import Navigation from "./Navigation";
-import Footer from "./Footer";
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,12 +7,11 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-h-screen bg-base flex flex-col">
+    <div className="min-h-screen bg-base">
       <Navigation />
-      <main className="pt-20 flex-1">
+      <main className="pt-20">
         {children}
       </main>
-      <Footer />
     </div>
   );
 };

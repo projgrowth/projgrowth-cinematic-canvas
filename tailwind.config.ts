@@ -15,7 +15,6 @@ export default {
     extend: {
       colors: {
         base: "hsl(var(--base))",
-        "base-light": "hsl(var(--base-light))",
         surface: "hsl(var(--surface))",
         text: "hsl(var(--text))",
         mute: "hsl(var(--mute))",
@@ -72,12 +71,6 @@ export default {
       boxShadow: {
         none: "var(--shadow-none)",
         soft: "var(--shadow-soft)",
-        elegant: "var(--shadow-elegant)",
-        "glow-accent": "var(--shadow-glow-accent)",
-      },
-      letterSpacing: {
-        tight: "-0.02em",
-        wide: "0.02em",
       },
       transitionDuration: {
         xs: "var(--duration-xs)",
@@ -104,39 +97,10 @@ export default {
             height: "0",
           },
         },
-        "fade-in": {
-          from: {
-            opacity: "0",
-            transform: "translateY(20px)",
-          },
-          to: {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
-        "slide": {
-          "0%, 100%": {
-            transform: "translateX(-25%)",
-          },
-          "50%": {
-            transform: "translateX(25%)",
-          },
-        },
-        "pan": {
-          "0%": {
-            backgroundPosition: "0% 0%",
-          },
-          "100%": {
-            backgroundPosition: "100% 100%",
-          },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.6s ease-out",
-        "slide": "slide 8s ease-in-out infinite",
-        "pan": "pan 60s linear infinite",
       },
     },
   },
