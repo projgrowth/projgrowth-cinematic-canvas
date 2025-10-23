@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
+import WorkCard from "@/components/WorkCard";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import { WorkItem } from "@/types/database";
 import { Grid, LayoutGrid } from "lucide-react";
 
 const Work = () => {
@@ -36,8 +38,8 @@ const Work = () => {
 
   return (
     <Layout>
-      <section className="container-site py-24">
-        <div className="mb-16">
+      <section className="container-site py-32">
+        <div className="mb-20 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-6xl text-text mb-6">Our Work</h1>
           <p className="text-xl text-mute max-w-2xl">
             Real results for ambitious financial and legal brands
@@ -45,15 +47,15 @@ const Work = () => {
         </div>
 
         {/* Filters and Layout Toggle */}
-        <div className="flex flex-wrap items-center justify-between gap-6 mb-12 pb-8 border-b border-line">
-          <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-6 mb-16 pb-8 border-b border-line animate-fade-in">
+          <div className="flex flex-wrap items-center gap-6">
             {/* Industry Filter */}
-            <div>
-              <label className="text-sm text-mute mb-2 block">Industry</label>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-mute">Industry</label>
               <select 
                 value={industryFilter}
                 onChange={(e) => setIndustryFilter(e.target.value)}
-                className="px-4 py-2 bg-surface border border-line rounded-md text-text focus:outline-none focus:border-accent transition-colors"
+                className="px-6 py-3 bg-surface border border-line rounded-md text-text focus:outline-none focus:border-accent transition-all duration-sm ease-smooth hover:border-accent/50"
               >
                 {industries.map(industry => (
                   <option key={industry} value={industry}>{industry}</option>
@@ -62,12 +64,12 @@ const Work = () => {
             </div>
 
             {/* Type Filter */}
-            <div>
-              <label className="text-sm text-mute mb-2 block">Type</label>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-mute">Type</label>
               <select 
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="px-4 py-2 bg-surface border border-line rounded-md text-text focus:outline-none focus:border-accent transition-colors"
+                className="px-6 py-3 bg-surface border border-line rounded-md text-text focus:outline-none focus:border-accent transition-all duration-sm ease-smooth hover:border-accent/50"
               >
                 {types.map(type => (
                   <option key={type} value={type}>{type}</option>
@@ -77,11 +79,11 @@ const Work = () => {
           </div>
 
           {/* Layout Toggle */}
-          <div className="flex gap-2 bg-surface border border-line rounded-md p-1">
+          <div className="flex gap-2 bg-surface border border-line rounded-md p-1.5">
             <button
               onClick={() => setLayoutMode('grid')}
-              className={`p-2 rounded transition-colors ${
-                layoutMode === 'grid' ? 'bg-accent text-base' : 'text-mute hover:text-text'
+              className={`p-3 rounded transition-all duration-sm ease-smooth ${
+                layoutMode === 'grid' ? 'bg-accent text-base shadow-sm' : 'text-mute hover:text-text hover:bg-base-light'
               }`}
               aria-label="Grid layout"
             >
@@ -89,8 +91,8 @@ const Work = () => {
             </button>
             <button
               onClick={() => setLayoutMode('masonry')}
-              className={`p-2 rounded transition-colors ${
-                layoutMode === 'masonry' ? 'bg-accent text-base' : 'text-mute hover:text-text'
+              className={`p-3 rounded transition-all duration-sm ease-smooth ${
+                layoutMode === 'masonry' ? 'bg-accent text-base shadow-sm' : 'text-mute hover:text-text hover:bg-base-light'
               }`}
               aria-label="Masonry layout"
             >
@@ -101,66 +103,25 @@ const Work = () => {
 
         {/* Work Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array(6).fill(0).map((_, idx) => (
-              <div key={idx} className="bg-surface rounded-lg border border-line overflow-hidden animate-pulse">
-                <div className="aspect-video bg-mute/10"></div>
-                <div className="p-6 space-y-3">
-                  <div className="h-6 bg-mute/10 rounded w-3/4"></div>
-                  <div className="h-4 bg-mute/10 rounded w-1/2"></div>
-                  <div className="h-4 bg-mute/10 rounded w-2/3"></div>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <LoadingSkeleton variant="card" count={6} />
+          </div>
+        ) : filteredItems && filteredItems.length > 0 ? (
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ${
+            layoutMode === 'masonry' ? 'auto-rows-auto' : ''
+          }`}>
+            {filteredItems.map((item, idx) => (
+              <div 
+                key={item.id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${idx * 80}ms` }}
+              >
+                <WorkCard item={item as unknown as WorkItem} />
               </div>
             ))}
           </div>
-        ) : filteredItems && filteredItems.length > 0 ? (
-          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ${
-            layoutMode === 'masonry' ? 'auto-rows-auto' : ''
-          }`}>
-            {filteredItems.map((item) => {
-              const metrics = item.metrics as Array<{label: string; value: string}> | null;
-              const heroMedia = item.hero_media as {type: string; url: string} | null;
-              const primaryMetric = metrics && metrics.length > 0
-                ? metrics[0]
-                : null;
-
-              return (
-                <Link
-                  key={item.id}
-                  to={`/work/${item.slug}`}
-                  className="group bg-surface rounded-lg border border-line overflow-hidden transition-all duration-md ease-smooth hover:border-accent/50 hover:-translate-y-2"
-                >
-                  <div className="aspect-video bg-mute/10 overflow-hidden relative">
-                    <img 
-                      src={heroMedia?.url || '/placeholder.svg'} 
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-md ease-smooth group-hover:scale-105"
-                    />
-                  </div>
-                  
-                  <div className="p-6 space-y-3">
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="text-accent">{item.industry}</span>
-                      <span className="text-mute">•</span>
-                      <span className="text-mute">{item.type}</span>
-                    </div>
-                    
-                    <h3 className="font-display text-2xl text-text transition-colors duration-sm group-hover:text-accent">
-                      {item.title}
-                    </h3>
-                    
-                    {primaryMetric && (
-                      <p className="text-accent-alt font-medium">
-                        {primaryMetric.value} {primaryMetric.label}
-                      </p>
-                    )}
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
         ) : (
-          <div className="text-center py-24">
+          <div className="text-center py-32">
             <p className="text-xl text-mute">No projects match your filters</p>
           </div>
         )}

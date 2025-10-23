@@ -3,6 +3,9 @@ import { ArrowRight, Target, Rocket, Zap, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import WorkCard from "@/components/WorkCard";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import { WorkItem } from "@/types/database";
 
 const Home = () => {
   const frameworkSteps = [
@@ -162,48 +165,17 @@ const Home = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {isLoading ? (
-            // Loading skeleton
-            Array(3).fill(0).map((_, idx) => (
-              <div key={idx} className="bg-surface rounded-lg border border-line overflow-hidden animate-pulse">
-                <div className="aspect-video bg-mute/10"></div>
-                <div className="p-6 space-y-3">
-                  <div className="h-5 bg-mute/10 rounded w-3/4"></div>
-                  <div className="h-4 bg-mute/10 rounded w-1/2"></div>
-                </div>
+            <LoadingSkeleton variant="card" count={3} />
+          ) : featuredWork && featuredWork.length > 0 ? (
+            featuredWork.map((work, idx) => (
+              <div 
+                key={work.id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${idx * 100}ms` }}
+              >
+                <WorkCard item={work as unknown as WorkItem} />
               </div>
             ))
-          ) : featuredWork && featuredWork.length > 0 ? (
-            featuredWork.map((work) => {
-              const metrics = work.metrics as Array<{label: string; value: string}> | null;
-              const heroMedia = work.hero_media as {type: string; url: string} | null;
-              const primaryMetric = metrics && metrics.length > 0 
-                ? `${metrics[0].value} ${metrics[0].label}`
-                : work.summary;
-              
-              return (
-                <Link
-                  key={work.id}
-                  to={`/work/${work.slug}`}
-                  className="group relative bg-surface rounded-lg border border-line overflow-hidden transition-all duration-md ease-smooth hover:border-accent-alt/50 hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(134,168,231,0.3)]"
-                >
-                  <div className="aspect-video bg-mute/10 overflow-hidden">
-                    <img 
-                      src={heroMedia?.url || '/placeholder.svg'} 
-                      alt={work.title}
-                      className="w-full h-full object-cover transition-transform duration-md ease-smooth group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-display text-xl text-text mb-2 transition-colors duration-sm ease-smooth group-hover:text-accent">
-                      {work.title}
-                    </h3>
-                    <p className="text-accent-alt font-medium">
-                      {primaryMetric}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })
           ) : (
             <p className="col-span-3 text-center text-mute">No featured work available</p>
           )}
