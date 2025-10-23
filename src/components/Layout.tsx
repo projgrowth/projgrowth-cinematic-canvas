@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import Navigation from "./Navigation";
+import BackToTop from "./BackToTop";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="pt-20">
         {children}
       </main>
+      <BackToTop />
     </div>
   );
 };

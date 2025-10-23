@@ -116,6 +116,7 @@ export default {
         "fade-in": "fade-in 0.5s ease-out",
         "slide-up": "slide-up 0.6s ease-out",
         "scale-in": "scale-in 0.4s ease-out",
+        "spin": "spin 1s linear infinite",
       },
     },
   },

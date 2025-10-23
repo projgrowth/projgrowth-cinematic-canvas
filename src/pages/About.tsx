@@ -1,4 +1,22 @@
 import Layout from "@/components/Layout";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useCounterAnimation } from "@/hooks/use-counter-animation";
+
+const AnimatedStat = ({ number, label }: { number: string; label: string }) => {
+  const { elementRef, isVisible } = useIntersectionObserver({ threshold: 0.5 });
+  const numericValue = parseInt(number.replace(/\D/g, ''));
+  const suffix = number.replace(/\d/g, '');
+  const count = useCounterAnimation(numericValue, 2000, isVisible);
+
+  return (
+    <div ref={elementRef} className="text-center">
+      <div className="font-display text-5xl text-accent mb-2">
+        {count}{suffix}
+      </div>
+      <div className="text-mute">{label}</div>
+    </div>
+  );
+};
 
 const About = () => {
   const values = [
@@ -70,19 +88,8 @@ const About = () => {
             { number: "8+", label: "Years Experience" },
             { number: "30+", label: "Happy Clients" },
             { number: "15", label: "Team Members" }
-          ].map((stat, idx) => (
-            <div 
-              key={idx} 
-              className="text-center animate-slide-up"
-              style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
-            >
-              <div className="font-display text-5xl text-accent mb-2">
-                {stat.number}
-              </div>
-              <div className="text-mute">
-                {stat.label}
-              </div>
-            </div>
+          ].map((stat) => (
+            <AnimatedStat key={stat.label} number={stat.number} label={stat.label} />
           ))}
         </div>
       </section>
