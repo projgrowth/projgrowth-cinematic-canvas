@@ -25,9 +25,9 @@ const Work = () => {
   return (
     <Layout>
       <section className="container-site py-24">
-        <div className="mb-16">
+        <div className="mb-16 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
-            Selected Work
+            Featured Projects
           </h1>
           <p className="text-xl text-mute max-w-2xl">
             A showcase of our recent projects and collaborations with forward-thinking brands.
@@ -38,7 +38,8 @@ const Work = () => {
           {projects.map((project, idx) => (
             <div 
               key={idx}
-              className="group grid-12 gap-y-6 py-12 border-t border-line transition-all duration-md ease-smooth hover:border-accent/50"
+              className="group grid-12 gap-y-6 py-12 border-t border-line transition-all duration-md ease-smooth hover:border-accent/50 animate-slide-up"
+              style={{ animationDelay: `${idx * 150}ms`, animationFillMode: "both" }}
             >
               <div className="col-span-12 lg:col-span-4">
                 <span className="text-sm text-mute mb-2 block">{project.category}</span>
@@ -55,7 +56,7 @@ const Work = () => {
                   {project.tags.map((tag, i) => (
                     <span 
                       key={i}
-                      className="px-4 py-2 bg-surface border border-line rounded-md text-sm text-text"
+                      className="px-4 py-2 bg-surface border border-line rounded-md text-sm text-text transition-all duration-sm ease-smooth hover:border-accent hover:text-accent"
                     >
                       {tag}
                     </span>
@@ -64,7 +65,7 @@ const Work = () => {
               </div>
 
               <div className="col-span-12 lg:col-span-3 flex items-center justify-end">
-                <button className="px-6 py-3 border border-line rounded-md text-text font-medium transition-all duration-sm ease-smooth hover:border-accent hover:text-accent">
+                <button className="px-6 py-3 border border-line rounded-md text-text font-medium transition-all duration-sm ease-smooth hover:border-accent hover:text-accent hover:shadow-elegant">
                   View Case Study
                 </button>
               </div>

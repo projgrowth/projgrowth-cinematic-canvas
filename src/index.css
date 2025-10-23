@@ -51,6 +51,9 @@
     /* Shadows */
     --shadow-none: none;
     --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.12);
+    --shadow-elegant: 0 10px 40px -10px rgba(134, 168, 231, 0.15);
+    --shadow-glow-accent: 0 10px 40px -10px rgba(201, 243, 29, 0.4);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 
     /* Typography */
     --font-display: "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
@@ -95,16 +98,19 @@
   h1 {
     font-size: 3rem; /* 48px */
     line-height: 3.5rem; /* 56px */
+    letter-spacing: -0.02em;
   }
 
   h2 {
     font-size: 2.25rem; /* 36px */
     line-height: 2.75rem; /* 44px */
+    letter-spacing: -0.015em;
   }
 
   h3 {
     font-size: 1.75rem; /* 28px */
     line-height: 2.25rem; /* 36px */
+    letter-spacing: -0.01em;
   }
 
   body {

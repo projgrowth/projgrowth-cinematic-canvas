@@ -19,11 +19,11 @@ const About = () => {
   return (
     <Layout>
       <section className="container-site py-24">
-        <div className="mb-20">
+        <div className="mb-20 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
             About Us
           </h1>
-          <p className="text-xl text-mute max-w-3xl">
+          <p className="text-xl text-mute max-w-3xl leading-relaxed">
             We're a team of strategists, designers, and developers who believe in the power 
             of great design and thoughtful technology to transform businesses.
           </p>
@@ -35,10 +35,9 @@ const About = () => {
             <h2 className="font-display text-3xl text-text">Our Mission</h2>
           </div>
           <div className="col-span-12 lg:col-span-8">
-            <p className="text-2xl text-text leading-relaxed">
+            <p className="text-2xl text-text leading-relaxed animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
               To empower businesses with digital solutions that are not only visually stunning 
-              but also strategically sound and technically excellent. We're here to help you 
-              grow, evolve, and succeed in the digital landscape.
+              but also strategically sound and technically excellent.
             </p>
           </div>
         </div>
@@ -48,7 +47,11 @@ const About = () => {
           <h2 className="font-display text-3xl text-text mb-12">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, idx) => (
-              <div key={idx} className="p-8 bg-surface rounded-lg border border-line">
+              <div 
+                key={idx} 
+                className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:shadow-elegant hover:scale-[1.02] animate-scale-in"
+                style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
+              >
                 <h3 className="font-display text-2xl text-accent mb-4">
                   {value.title}
                 </h3>
@@ -68,7 +71,11 @@ const About = () => {
             { number: "30+", label: "Happy Clients" },
             { number: "15", label: "Team Members" }
           ].map((stat, idx) => (
-            <div key={idx} className="text-center">
+            <div 
+              key={idx} 
+              className="text-center animate-slide-up"
+              style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
+            >
               <div className="font-display text-5xl text-accent mb-2">
                 {stat.number}
               </div>

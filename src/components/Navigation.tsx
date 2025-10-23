@@ -12,7 +12,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-line bg-base/80 backdrop-blur-md">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-line bg-base/80 backdrop-blur-md transition-all duration-sm ease-smooth">
       <div className="container-site">
         <div className="flex items-center justify-between py-6">
           <Link 
@@ -28,11 +28,12 @@ const Navigation = () => {
                 key={link.path}
                 to={link.path}
                 className={`
-                  relative text-sm font-medium transition-colors duration-sm ease-smooth
+                  relative text-sm font-medium transition-all duration-sm ease-smooth
                   ${location.pathname === link.path ? 'text-accent' : 'text-mute hover:text-text'}
                   after:absolute after:bottom-[-6px] after:left-0 after:h-[2px] after:w-full 
                   after:bg-accent after:scale-x-0 after:transition-transform after:duration-md after:ease-smooth
                   ${location.pathname === link.path ? 'after:scale-x-100' : 'hover:after:scale-x-100'}
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
                 `}
               >
                 {link.label}
