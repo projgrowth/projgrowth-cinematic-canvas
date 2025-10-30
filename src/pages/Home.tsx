@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
-import QuickLinks from "@/components/QuickLinks";
+import NavigationGuide from "@/components/NavigationGuide";
 import SocialProof from "@/components/SocialProof";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -137,9 +137,9 @@ const Home = () => {
         />
       </section>
 
-      {/* Quick Links Section */}
+      {/* Navigation Guide Section */}
       <section className="container-site py-24 border-t border-line">
-        <QuickLinks />
+        <NavigationGuide />
       </section>
 
       {/* Social Proof */}
