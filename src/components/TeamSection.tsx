@@ -51,12 +51,12 @@ const TeamSection = () => {
 
   return (
     <div className="py-16 border-t border-line">
-      <h2 className="font-display text-3xl text-text mb-12">Meet the Team</h2>
+      <h2 className="font-display text-3xl lg:text-4xl text-text mb-16">Meet the Team</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {team.map((member, idx) => (
           <div
             key={idx}
-            className="group p-6 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:shadow-elegant hover:scale-[1.02] animate-scale-in"
+            className="group p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:shadow-elegant hover:scale-[1.02] animate-scale-in"
             style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
           >
             <div className="relative w-24 h-24 mb-4 mx-auto">

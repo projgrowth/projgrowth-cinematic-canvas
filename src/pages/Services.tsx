@@ -83,7 +83,7 @@ const Services = () => {
     >
       <TooltipProvider>
         <section className="container-site py-24">
-          <div className="mb-20">
+          <div className="mb-16">
             <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
               Our Services
             </h1>
@@ -92,7 +92,7 @@ const Services = () => {
             </p>
           </div>
 
-          <div className="stack gap-1">
+          <div className="stack gap-0">
             {services.map((service, idx) => (
               <div 
                 key={idx}

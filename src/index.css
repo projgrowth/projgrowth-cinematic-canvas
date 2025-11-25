@@ -74,6 +74,13 @@
     --gutter-desktop: 100px;
     --gutter-tablet: 70px;
     --gutter-mobile: 24px;
+
+    /* Spacing Scale */
+    --section-py-sm: 3rem; /* 48px / py-12 */
+    --section-py-md: 6rem; /* 96px / py-24 */
+    --section-py-lg: 8rem; /* 128px / py-32 */
+    --header-mb: 4rem; /* 64px / mb-16 */
+    --gap-cards: 2rem; /* 32px / gap-8 */
   }
 }
 
