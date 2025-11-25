@@ -75,7 +75,12 @@ const Services = () => {
   };
 
   return (
-    <Layout>
+    <Layout
+      seoTitle="Services - ProjGrowth | Brand Strategy, Design & Development"
+      seoDescription="Comprehensive digital services including brand strategy, UI/UX design, web development, and growth marketing. Transform your digital presence."
+      seoKeywords="brand strategy services, UI/UX design, web development, digital design, growth marketing, design agency services"
+      canonicalUrl="/services"
+    >
       <TooltipProvider>
         <section className="container-site py-24">
           <div className="mb-20">

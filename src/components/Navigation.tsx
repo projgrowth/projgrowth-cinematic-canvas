@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import MobileNav from "./MobileNav";
 
 const Navigation = () => {
   const location = useLocation();
@@ -22,7 +23,8 @@ const Navigation = () => {
             ProjGrowth
           </Link>
           
-          <div className="flex gap-8">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex gap-8">
             {links.map((link) => (
               <Link
                 key={link.path}
@@ -39,6 +41,11 @@ const Navigation = () => {
                 {link.label}
               </Link>
             ))}
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <MobileNav />
           </div>
         </div>
       </div>

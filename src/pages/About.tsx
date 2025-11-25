@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import TeamSection from "@/components/TeamSection";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useCounterAnimation } from "@/hooks/use-counter-animation";
 
@@ -36,7 +38,12 @@ const About = () => {
   ];
 
   return (
-    <Layout>
+    <Layout
+      seoTitle="About Us - ProjGrowth | Meet Our Creative Team"
+      seoDescription="Learn about our mission, values, and the talented team behind ProjGrowth. 15+ team members dedicated to creating exceptional digital experiences."
+      seoKeywords="about us, creative team, design studio team, company values, mission statement"
+      canonicalUrl="/about"
+    >
       <section className="container-site py-24">
         <div className="mb-20 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
@@ -93,6 +100,12 @@ const About = () => {
             <AnimatedStat key={stat.label} number={stat.number} label={stat.label} />
           ))}
         </div>
+
+        {/* Team Section */}
+        <TeamSection />
+
+        {/* Testimonials */}
+        <TestimonialsCarousel />
       </section>
     </Layout>
   );

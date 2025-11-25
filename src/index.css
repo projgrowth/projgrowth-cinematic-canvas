@@ -6,14 +6,14 @@
 
 @layer base {
   :root {
-    /* Base Colors (HSL) */
-    --base: 0 0% 5.5%; /* #0E0E0E */
-    --surface: 0 0% 7.1%; /* #121212 */
-    --text: 0 0% 96.1%; /* #F5F5F5 */
-    --mute: 0 0% 63.1%; /* #A1A1A1 */
-    --accent: 72 89% 53%; /* #C9F31D */
-    --accent-alt: 220 62% 72%; /* #86A8E7 */
-    --line: 0 0% 12.2%; /* #1F1F1F */
+    /* Base Colors (HSL) - Premium Dark Palette */
+    --base: 240 6% 6%; /* Deep blue-tinted black */
+    --surface: 240 5% 9%; /* Slightly lighter surface */
+    --text: 45 15% 95%; /* Warm off-white */
+    --mute: 240 4% 60%; /* Cool gray */
+    --accent: 45 100% 75%; /* Warm champagne gold */
+    --accent-alt: 230 50% 65%; /* Refined blue */
+    --line: 240 5% 14%; /* Subtle border */
 
     /* Semantic Tokens */
     --background: var(--base);
@@ -48,12 +48,16 @@
     --space-7: 3.5rem; /* 56px */
     --space-8: 4rem; /* 64px */
 
-    /* Shadows */
+    /* Shadows - Premium depth */
     --shadow-none: none;
-    --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.12);
-    --shadow-elegant: 0 10px 40px -10px rgba(134, 168, 231, 0.15);
-    --shadow-glow-accent: 0 10px 40px -10px rgba(201, 243, 29, 0.4);
-    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.3);
+    --shadow-elegant: 0 10px 40px -10px rgba(255, 240, 180, 0.08);
+    --shadow-glow-accent: 0 10px 50px -10px rgba(255, 240, 180, 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+
+    /* Gradients */
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(48 95% 68%));
+    --gradient-surface: linear-gradient(180deg, hsl(var(--surface)), hsl(240 5% 7%));
 
     /* Typography */
     --font-display: "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
@@ -205,6 +209,30 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+
+  /* Screen reader only - for accessibility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
   }
 
   @keyframes marquee {

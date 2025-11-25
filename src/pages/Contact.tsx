@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { Mail, MessageSquare, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -62,22 +63,41 @@ const Contact = () => {
 
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    
-    toast({
-      title: "Message sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
+    try {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+          }
+        ]);
 
-    // Reset form after 2 seconds
-    setTimeout(() => {
-      setFormData({ name: "", email: "", message: "" });
-      setIsSuccess(false);
-    }, 2000);
+      if (error) throw error;
+
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      
+      toast({
+        title: "Message sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+
+      // Reset form after 2 seconds
+      setTimeout(() => {
+        setFormData({ name: "", email: "", message: "" });
+        setIsSuccess(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setIsSubmitting(false);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -89,7 +109,12 @@ const Contact = () => {
     }
   };
   return (
-    <Layout>
+    <Layout
+      seoTitle="Contact Us - ProjGrowth | Start Your Project"
+      seoDescription="Ready to start your project? Get in touch with our team to discuss how we can help bring your digital vision to life."
+      seoKeywords="contact, get in touch, start project, hire design agency, consultation"
+      canonicalUrl="/contact"
+    >
       <section className="container-site py-24">
         <div className="grid-12 gap-y-12">
           {/* Header */}

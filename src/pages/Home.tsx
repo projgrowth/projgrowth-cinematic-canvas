@@ -8,7 +8,12 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <Layout>
+    <Layout
+      seoTitle="ProjGrowth - Digital Design Studio | Brand Strategy & Web Development"
+      seoDescription="Modern creative studio specializing in brand strategy, digital design, and web development. We create meaningful digital experiences that drive business growth."
+      seoKeywords="digital design studio, brand strategy, web development, UI/UX design, creative agency, digital experiences"
+      canonicalUrl="/"
+    >
       {/* Hero Section */}
       <section className="container-site py-32 min-h-[90vh] flex items-center relative">
         <div className="absolute inset-0 bg-gradient-radial from-base via-base to-base/50 pointer-events-none" />
