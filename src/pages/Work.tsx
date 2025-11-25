@@ -3,6 +3,9 @@ import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
 import { useState, useMemo } from "react";
 import { ArrowUpRight } from "lucide-react";
+import projectTechFlow from "@/assets/project-techflow.jpg";
+import projectUrbanNest from "@/assets/project-urbannest.jpg";
+import projectFitCore from "@/assets/project-fitcore.jpg";
 
 const Work = () => {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -15,21 +18,24 @@ const Work = () => {
       category: "SaaS",
       description: "End-to-end platform redesign for B2B workflow automation",
       tags: ["Strategy", "Design", "Development"],
-      details: "Redesigned the entire platform from ground up, focusing on user workflows and modern design patterns. Achieved 40% increase in user engagement."
+      details: "Redesigned the entire platform from ground up, focusing on user workflows and modern design patterns. Achieved 40% increase in user engagement.",
+      image: projectTechFlow
     },
     {
       title: "Urban Nest",
       category: "Real Estate",
       description: "Modern property marketplace with immersive 3D experiences",
       tags: ["Branding", "Web Design", "3D"],
-      details: "Created an innovative property viewing experience with 3D walkthroughs and AR features. Reduced time-to-sale by 25%."
+      details: "Created an innovative property viewing experience with 3D walkthroughs and AR features. Reduced time-to-sale by 25%.",
+      image: projectUrbanNest
     },
     {
       title: "FitCore",
       category: "Health",
       description: "Mobile-first fitness platform connecting trainers and clients",
       tags: ["Mobile App", "UX/UI", "API"],
-      details: "Built a comprehensive fitness ecosystem with real-time tracking, video streaming, and payment integration. 50K+ active users."
+      details: "Built a comprehensive fitness ecosystem with real-time tracking, video streaming, and payment integration. 50K+ active users.",
+      image: projectFitCore
     }
   ];
 
@@ -92,14 +98,24 @@ const Work = () => {
                   className="grid-12 gap-y-6 py-12 cursor-pointer"
                   onClick={() => setExpandedProject(isExpanded ? null : idx)}
                 >
-                  <div className="col-span-12 lg:col-span-4">
+                  <div className="col-span-12 lg:col-span-3">
+                    <div className="aspect-video overflow-hidden rounded-lg border border-line">
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-md ease-smooth group-hover:scale-105"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-span-12 lg:col-span-3">
                     <span className="text-sm text-mute mb-2 block">{project.category}</span>
                     <h2 className="font-display text-4xl text-text transition-colors duration-sm ease-smooth group-hover:text-accent">
                       {project.title}
                     </h2>
                   </div>
                   
-                  <div className="col-span-12 lg:col-span-5">
+                  <div className="col-span-12 lg:col-span-4">
                     <p className="text-lg text-mute mb-6">
                       {project.description}
                     </p>
@@ -115,7 +131,7 @@ const Work = () => {
                     </div>
                   </div>
 
-                  <div className="col-span-12 lg:col-span-3 flex items-center justify-end gap-3">
+                  <div className="col-span-12 lg:col-span-2 flex items-center justify-end gap-3">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();

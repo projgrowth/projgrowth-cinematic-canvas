@@ -3,6 +3,12 @@ import { Mail, MessageSquare, ArrowRight, Loader2, CheckCircle2 } from "lucide-r
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -75,6 +81,19 @@ const Contact = () => {
         ]);
 
       if (error) throw error;
+
+      // Call edge function to send email notification
+      const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+        body: { 
+          name: formData.name, 
+          email: formData.email, 
+          message: formData.message 
+        }
+      });
+
+      if (emailError) {
+        console.error("Error sending notification email:", emailError);
+      }
 
       setIsSubmitting(false);
       setIsSuccess(true);
@@ -247,6 +266,60 @@ const Contact = () => {
               </button>
             </div>
           </form>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="max-w-3xl mx-auto mt-24 py-16 border-t border-line">
+          <h2 className="font-display text-3xl text-text mb-8 animate-fade-in">
+            Frequently Asked Questions
+          </h2>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-text hover:text-accent">
+                What is your typical project timeline?
+              </AccordionTrigger>
+              <AccordionContent className="text-mute">
+                Project timelines vary based on scope and complexity. A typical website project takes 6-12 weeks from discovery to launch, 
+                while larger applications may take 3-6 months. We'll provide a detailed timeline during our initial consultation.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-text hover:text-accent">
+                How do you structure pricing?
+              </AccordionTrigger>
+              <AccordionContent className="text-mute">
+                We offer both project-based and retainer pricing models. Project fees are determined by scope, complexity, and timeline. 
+                We provide detailed proposals with transparent pricing before starting any work. Most projects start at $10k.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-text hover:text-accent">
+                Do you work with startups?
+              </AccordionTrigger>
+              <AccordionContent className="text-mute">
+                Yes! We love working with startups and have flexible engagement models to fit different stages and budgets. 
+                We can help with MVPs, product design, brand identity, and growth strategy.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger className="text-text hover:text-accent">
+                What happens after the project launches?
+              </AccordionTrigger>
+              <AccordionContent className="text-mute">
+                We provide post-launch support and maintenance packages to ensure your project continues to perform optimally. 
+                We also offer ongoing partnerships for clients who need continuous development, design, or marketing support.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5">
+              <AccordionTrigger className="text-text hover:text-accent">
+                What industries do you specialize in?
+              </AccordionTrigger>
+              <AccordionContent className="text-mute">
+                We've worked across SaaS, fintech, healthcare, real estate, e-commerce, and more. Our process is adaptable to any industry, 
+                and we bring fresh perspectives while respecting industry-specific requirements and regulations.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </section>
     </Layout>
