@@ -47,7 +47,12 @@ const Work = () => {
   }, [activeCategory, searchQuery]);
 
   return (
-    <Layout>
+    <Layout
+      seoTitle="Our Work - ProjGrowth Portfolio | Featured Projects"
+      seoDescription="Explore our portfolio of digital design and development projects. See how we've helped brands create impactful digital experiences."
+      seoKeywords="portfolio, case studies, web design projects, digital projects, UX design work"
+      canonicalUrl="/work"
+    >
       <section className="container-site py-24">
         <div className="mb-12 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
