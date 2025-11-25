@@ -42,21 +42,21 @@ const NavigationGuide = () => {
         
         {/* Primary Navigation Paths */}
         <div className="flex flex-wrap gap-6 mb-4">
-          {guide.primaryPaths.map((path) => (
-            <Link
-              key={path.path}
-              to={path.path}
-              state={path.intent ? { intent: path.intent } : undefined}
-              className="group inline-flex items-center gap-2 text-base font-medium text-text hover:text-accent transition-colors duration-sm ease-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm"
-              aria-label={`Navigate to ${path.label}`}
-            >
-              {path.label}
-              <ArrowRight 
-                className="w-4 h-4 transition-transform duration-sm ease-smooth group-hover:translate-x-1" 
-                aria-hidden="true"
-              />
-            </Link>
-          ))}
+        {guide.primaryPaths.map((path) => (
+          <Link
+            key={path.path}
+            to={path.path}
+            state={path.intent ? { intent: path.intent } : undefined}
+            className="group inline-flex items-center gap-2 text-base font-medium text-text hover:text-accent transition-colors duration-sm ease-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm"
+            aria-label={`Navigate to ${path.label}`}
+          >
+            {path.label}
+            <ArrowRight 
+              className="w-4 h-4 transition-transform duration-sm ease-smooth group-hover:translate-x-1" 
+              aria-hidden="true"
+            />
+          </Link>
+        ))}
         </div>
 
         {/* Secondary Navigation Path */}

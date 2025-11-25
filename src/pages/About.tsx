@@ -45,7 +45,7 @@ const About = () => {
       canonicalUrl="/about"
     >
       <section className="container-site py-24">
-        <div className="mb-20 animate-fade-in">
+        <div className="mb-16 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
             About Us
           </h1>
@@ -56,9 +56,9 @@ const About = () => {
         </div>
 
         {/* Mission */}
-        <div className="grid-12 gap-y-12 py-16 border-t border-line">
+        <div className="grid-12 gap-y-12 py-24 border-t border-line">
           <div className="col-span-12 lg:col-span-4">
-            <h2 className="font-display text-3xl text-text">Our Mission</h2>
+            <h2 className="font-display text-3xl lg:text-4xl text-text">Our Mission</h2>
           </div>
           <div className="col-span-12 lg:col-span-8">
             <p className="text-2xl text-text leading-relaxed animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
@@ -69,8 +69,8 @@ const About = () => {
         </div>
 
         {/* Values */}
-        <div className="py-16 border-t border-line">
-          <h2 className="font-display text-3xl text-text mb-12">Our Values</h2>
+        <div className="py-24 border-t border-line">
+          <h2 className="font-display text-3xl lg:text-4xl text-text mb-16">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, idx) => (
               <div 
@@ -90,7 +90,7 @@ const About = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 py-16 border-t border-line">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 py-24 border-t border-line">
           {[
             { number: "50+", label: "Projects Delivered" },
             { number: "8+", label: "Years Experience" },

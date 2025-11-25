@@ -15,7 +15,7 @@ const Home = () => {
       canonicalUrl="/"
     >
       {/* Hero Section */}
-      <section className="container-site py-32 min-h-[90vh] flex items-center relative">
+      <section className="container-site py-24 lg:py-32 min-h-[90vh] flex items-center relative">
         <div className="absolute inset-0 bg-gradient-radial from-base via-base to-base/50 pointer-events-none" />
         <div 
           className="absolute inset-0 opacity-[0.02] pointer-events-none"
@@ -65,8 +65,8 @@ const Home = () => {
       <section className="container-site py-24 border-t border-line">
         <div className="grid-12 gap-y-12">
           <div className="col-span-12 lg:col-span-4">
-            <h2 className="font-display text-4xl text-text mb-4">What We Do</h2>
-            <p className="text-mute">Comprehensive digital solutions for modern challenges</p>
+            <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">What We Do</h2>
+            <p className="text-xl text-mute">Comprehensive digital solutions for modern challenges</p>
           </div>
 
           <div className="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -112,11 +112,11 @@ const Home = () => {
 
       {/* Featured Work Section */}
       <section className="container-site py-24 border-t border-line">
-        <div className="mb-12">
-          <h2 className="font-display text-4xl lg:text-5xl text-text mb-4">
+        <div className="mb-16">
+          <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
             Featured Work
           </h2>
-          <p className="text-lg text-mute">
+          <p className="text-xl text-mute">
             Recent projects we're proud of
           </p>
         </div>
@@ -143,14 +143,10 @@ const Home = () => {
       </section>
 
       {/* Navigation Guide Section */}
-      <section className="container-site py-24 border-t border-line">
-        <NavigationGuide />
-      </section>
+      <NavigationGuide />
 
       {/* Social Proof */}
-      <section className="container-site">
-        <SocialProof />
-      </section>
+      <SocialProof />
 
       <ScrollIndicator />
     </Layout>

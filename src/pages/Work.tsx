@@ -60,11 +60,11 @@ const Work = () => {
       canonicalUrl="/work"
     >
       <section className="container-site py-24">
-        <div className="mb-12 animate-fade-in">
+        <div className="mb-16 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
             Featured Projects
           </h1>
-          <p className="text-xl text-mute max-w-2xl mb-8">
+          <p className="text-xl text-mute max-w-2xl">
             A showcase of our recent projects and collaborations with forward-thinking brands.
           </p>
         </div>

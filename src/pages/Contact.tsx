@@ -135,7 +135,7 @@ const Contact = () => {
       canonicalUrl="/contact"
     >
       <section className="container-site py-24">
-        <div className="grid-12 gap-y-12">
+        <div className="grid-12 gap-y-16">
           {/* Header */}
           <div className="col-span-12 lg:col-span-6 animate-fade-in">
             <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
@@ -173,7 +173,7 @@ const Contact = () => {
         </div>
 
         {/* Contact Form */}
-        <div className="mt-20 py-16 border-t border-line">
+        <div className="py-24 border-t border-line">
           <form onSubmit={handleSubmit} className="grid-12 gap-y-6">
             <div className="col-span-12 lg:col-span-6">
               <label htmlFor="name" className="block text-sm font-medium text-mute mb-2">
@@ -269,8 +269,8 @@ const Contact = () => {
         </div>
 
         {/* FAQ Section */}
-        <div className="max-w-3xl mx-auto mt-24 py-16 border-t border-line">
-          <h2 className="font-display text-3xl text-text mb-8 animate-fade-in">
+        <div className="max-w-3xl mx-auto py-24 border-t border-line">
+          <h2 className="font-display text-3xl lg:text-4xl text-text mb-16 animate-fade-in">
             Frequently Asked Questions
           </h2>
           <Accordion type="single" collapsible className="w-full">
