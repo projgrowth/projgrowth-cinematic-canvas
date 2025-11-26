@@ -26,29 +26,29 @@ const FeaturedWorkSlider = ({ projects }: FeaturedWorkSliderProps) => {
   const currentProject = projects[currentIndex];
 
   return (
-    <div className="relative bg-surface border border-line rounded-lg p-8 lg:p-12">
-      <div className="mb-8">
+    <div className="relative bg-surface border border-line rounded-lg p-6 md:p-8 lg:p-12">
+      <div className="mb-6 md:mb-8">
         <span className="text-sm text-accent mb-2 block">{currentProject.category}</span>
-        <h3 className="font-display text-3xl lg:text-4xl text-text mb-4">
+        <h3 className="font-display text-2xl md:text-3xl lg:text-4xl text-text mb-3 md:mb-4">
           {currentProject.title}
         </h3>
-        <p className="text-lg text-mute max-w-2xl">
+        <p className="text-base md:text-lg text-mute max-w-2xl">
           {currentProject.description}
         </p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex gap-2">
           <button
             onClick={prev}
-            className="p-3 border border-line rounded-md text-mute hover:border-accent hover:text-accent transition-all duration-sm ease-smooth"
+            className="p-3 border border-line rounded-md text-mute hover:border-accent hover:text-accent transition-all duration-sm ease-smooth min-h-[44px] min-w-[44px]"
             aria-label="Previous project"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={next}
-            className="p-3 border border-line rounded-md text-mute hover:border-accent hover:text-accent transition-all duration-sm ease-smooth"
+            className="p-3 border border-line rounded-md text-mute hover:border-accent hover:text-accent transition-all duration-sm ease-smooth min-h-[44px] min-w-[44px]"
             aria-label="Next project"
           >
             <ChevronRight className="w-5 h-5" />
@@ -57,7 +57,7 @@ const FeaturedWorkSlider = ({ projects }: FeaturedWorkSliderProps) => {
 
         <Link
           to="/work"
-          className="px-6 py-3 bg-accent text-base rounded-md font-medium hover:bg-accent/90 transition-all duration-sm ease-smooth"
+          className="px-6 py-3 bg-accent text-base rounded-md font-medium hover:bg-accent/90 transition-all duration-sm ease-smooth min-h-[44px] flex items-center justify-center w-full sm:w-auto"
         >
           View All Work
         </Link>

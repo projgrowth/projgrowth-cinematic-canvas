@@ -6,8 +6,8 @@ const Footer = () => {
 
   return (
     <footer className="border-t border-line bg-surface/50 backdrop-blur-sm mt-24">
-      <div className="container-site py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <div className="container-site py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
           {/* Brand */}
           <div className="space-y-4">
             <Link 
@@ -92,20 +92,20 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-line flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-mute">
+        <div className="pt-6 md:pt-8 border-t border-line flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+          <p className="text-xs md:text-sm text-mute text-center md:text-left">
             © {currentYear} ProjGrowth. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-4 md:gap-6">
             <Link
               to="/privacy"
-              className="text-sm text-mute hover:text-accent transition-colors duration-sm"
+              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
-              className="text-sm text-mute hover:text-accent transition-colors duration-sm"
+              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
             >
               Terms of Service
             </Link>

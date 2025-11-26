@@ -131,17 +131,17 @@ const Work = () => {
                     </div>
                   </div>
 
-                  <div className="col-span-12 lg:col-span-2 flex items-center justify-end gap-3">
+                  <div className="col-span-12 lg:col-span-2 flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end justify-start lg:justify-end gap-3">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         setExpandedProject(isExpanded ? null : idx);
                       }}
-                      className="px-6 py-3 border border-line rounded-md text-text font-medium transition-all duration-sm ease-smooth hover:border-accent hover:text-accent"
+                      className="px-6 py-3 border border-line rounded-md text-text font-medium transition-all duration-sm ease-smooth hover:border-accent hover:text-accent min-h-[44px] flex items-center justify-center"
                     >
                       {isExpanded ? "Show Less" : "Learn More"}
                     </button>
-                    <button className="p-3 border border-line rounded-md text-text transition-all duration-sm ease-smooth hover:border-accent hover:text-accent hover:shadow-elegant">
+                    <button className="p-3 border border-line rounded-md text-text transition-all duration-sm ease-smooth hover:border-accent hover:text-accent hover:shadow-elegant min-h-[44px] min-w-[44px] flex items-center justify-center">
                       <ArrowUpRight className="w-5 h-5" />
                     </button>
                   </div>

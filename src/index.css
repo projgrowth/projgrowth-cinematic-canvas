@@ -11,7 +11,7 @@
     --surface: 240 5% 9%; /* Slightly lighter surface */
     --text: 45 15% 95%; /* Warm off-white */
     --mute: 240 4% 60%; /* Cool gray */
-    --accent: 45 100% 75%; /* Warm champagne gold */
+    --accent: 200 60% 65%; /* Clean ice blue */
     --accent-alt: 230 50% 65%; /* Refined blue */
     --line: 240 5% 14%; /* Subtle border */
 
@@ -51,12 +51,12 @@
     /* Shadows - Premium depth */
     --shadow-none: none;
     --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.3);
-    --shadow-elegant: 0 10px 40px -10px rgba(255, 240, 180, 0.08);
-    --shadow-glow-accent: 0 10px 50px -10px rgba(255, 240, 180, 0.25);
+    --shadow-elegant: 0 10px 40px -10px rgba(133, 200, 222, 0.08);
+    --shadow-glow-accent: 0 10px 50px -10px rgba(133, 200, 222, 0.25);
     --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
 
     /* Gradients */
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(48 95% 68%));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(195 58% 72%));
     --gradient-surface: linear-gradient(180deg, hsl(var(--surface)), hsl(240 5% 7%));
 
     /* Typography */
