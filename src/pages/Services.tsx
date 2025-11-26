@@ -103,7 +103,7 @@ const Services = () => {
                   <div className="col-span-12 lg:col-span-2">
                     <button
                       onClick={() => toggleService(idx)}
-                      className="font-display text-5xl text-accent/30 transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform transition-transform"
+                      className="font-display text-3xl md:text-5xl text-accent/30 transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform transition-transform min-h-[44px]"
                       aria-label={`Expand ${service.title}`}
                     >
                       {service.number}
@@ -112,17 +112,17 @@ const Services = () => {
 
                   {/* Title & Description */}
                   <div className="col-span-12 lg:col-span-6">
-                    <h2 className="font-display text-4xl text-text mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
+                    <h2 className="font-display text-3xl md:text-4xl text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
                       {service.title}
                     </h2>
-                    <p className="text-lg text-mute mb-6">
+                    <p className="text-base md:text-lg text-mute mb-4 md:mb-6">
                       {service.description}
                     </p>
 
                     {/* Expand Button */}
                     <button
                       onClick={() => toggleService(idx)}
-                      className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
                     >
                       {expandedService === idx ? (
                         <>
@@ -140,13 +140,13 @@ const Services = () => {
 
                   {/* Capabilities with Tooltips */}
                   <div className="col-span-12 lg:col-span-4">
-                    <h3 className="text-sm font-medium text-mute mb-4">Capabilities</h3>
+                    <h3 className="text-sm font-medium text-mute mb-3 md:mb-4">Capabilities</h3>
                     <ul className="stack gap-3">
                       {service.capabilities.map((cap, i) => (
                         <li key={i}>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <button className="text-text hover:text-accent transition-colors cursor-help text-left">
+                              <button className="text-text hover:text-accent transition-colors cursor-help text-left text-sm md:text-base min-h-[44px] flex items-center">
                                 {cap.name}
                               </button>
                             </TooltipTrigger>
