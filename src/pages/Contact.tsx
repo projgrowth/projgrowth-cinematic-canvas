@@ -134,7 +134,7 @@ const Contact = () => {
       seoKeywords="contact, get in touch, start project, hire design agency, consultation"
       canonicalUrl="/contact"
     >
-      <section className="container-site py-24">
+      <section className="container-site py-16 md:py-24">
         <div className="grid-12 gap-y-16">
           {/* Header */}
           <div className="col-span-12 lg:col-span-6 animate-fade-in">
