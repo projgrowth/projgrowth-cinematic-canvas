@@ -35,7 +35,7 @@ const Work = () => {
       seoKeywords="case studies, content systems, web design, brand strategy, cinematic production, AI tools"
       canonicalUrl="/work"
     >
-      <section className="container-site py-24">
+      <section className="container-site py-16 md:py-24">
         <div className="mb-16 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
             Work
@@ -62,7 +62,7 @@ const Work = () => {
             <p className="text-xl text-mute">No case studies found matching your criteria.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredCaseStudies.map((study, idx) => (
               <CaseStudyCard
                 key={study.id}

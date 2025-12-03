@@ -82,7 +82,7 @@ const Services = () => {
       canonicalUrl="/services"
     >
       <TooltipProvider>
-        <section className="container-site py-24">
+        <section className="container-site py-16 md:py-24">
           <div className="mb-16">
             <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
               Our Services

@@ -3,8 +3,12 @@ import ScrollIndicator from "@/components/ScrollIndicator";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
 import NavigationGuide from "@/components/NavigationGuide";
 import SocialProof from "@/components/SocialProof";
+import { caseStudies } from "@/data/caseStudies";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+
+// Select featured projects from real case studies
+const featuredProjects = caseStudies.slice(0, 3);
 
 const Home = () => {
   return (
@@ -111,25 +115,7 @@ const Home = () => {
           </p>
         </div>
 
-        <FeaturedWorkSlider
-          projects={[
-            {
-              title: "TechFlow",
-              category: "SaaS Platform",
-              description: "End-to-end platform redesign for B2B workflow automation"
-            },
-            {
-              title: "Urban Nest",
-              category: "Real Estate",
-              description: "Modern property marketplace with immersive 3D experiences"
-            },
-            {
-              title: "FitCore",
-              category: "Health & Wellness",
-              description: "Mobile-first fitness platform connecting trainers and clients"
-            }
-          ]}
-        />
+        <FeaturedWorkSlider projects={featuredProjects} />
       </section>
 
       {/* Navigation Guide Section */}
