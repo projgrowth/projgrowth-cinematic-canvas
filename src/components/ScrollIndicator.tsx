@@ -25,11 +25,11 @@ const ScrollIndicator = () => {
   return (
     <button
       onClick={scrollToContent}
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 text-mute hover:text-accent transition-colors duration-sm ease-smooth animate-fade-in"
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 text-mute/50 hover:text-mute transition-colors duration-sm"
       aria-label="Scroll to content"
     >
-      <span className="text-sm font-medium">Explore</span>
-      <ChevronDown className="w-6 h-6 animate-bounce" />
+      <span className="text-xs uppercase tracking-widest">Scroll</span>
+      <ChevronDown className="w-5 h-5" />
     </button>
   );
 };

@@ -6,14 +6,14 @@
 
 @layer base {
   :root {
-    /* Base Colors (HSL) - Premium Dark Palette */
+    /* Base Colors (HSL) - Refined Dark Palette */
     --base: 240 6% 6%; /* Deep blue-tinted black */
-    --surface: 240 5% 9%; /* Slightly lighter surface */
-    --text: 45 15% 95%; /* Warm off-white */
-    --mute: 240 4% 60%; /* Cool gray */
-    --accent: 200 60% 65%; /* Clean ice blue */
-    --accent-alt: 230 50% 65%; /* Refined blue */
-    --line: 240 5% 14%; /* Subtle border */
+    --surface: 240 5% 10%; /* Slightly lighter surface */
+    --text: 40 10% 94%; /* Softer off-white */
+    --mute: 240 4% 55%; /* Muted cool gray */
+    --accent: 200 45% 58%; /* Softer, refined ice blue */
+    --accent-alt: 220 40% 55%; /* Muted blue */
+    --line: 240 5% 16%; /* Subtle border */
 
     /* Semantic Tokens */
     --background: var(--base);
@@ -48,12 +48,12 @@
     --space-7: 3.5rem; /* 56px */
     --space-8: 4rem; /* 64px */
 
-    /* Shadows - Premium depth */
+    /* Shadows - Subtle depth */
     --shadow-none: none;
-    --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.3);
-    --shadow-elegant: 0 10px 40px -10px rgba(133, 200, 222, 0.08);
-    --shadow-glow-accent: 0 10px 50px -10px rgba(133, 200, 222, 0.25);
-    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.2);
+    --shadow-elegant: 0 8px 32px -8px rgba(0, 0, 0, 0.15);
+    --shadow-glow-accent: 0 8px 40px -10px rgba(120, 170, 190, 0.15);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 
     /* Gradients */
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(195 58% 72%));

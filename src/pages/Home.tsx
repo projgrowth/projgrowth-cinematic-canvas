@@ -15,44 +15,34 @@ const Home = () => {
       canonicalUrl="/"
     >
       {/* Hero Section */}
-      <section className="container-site py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh] flex items-center relative">
-        <div className="absolute inset-0 bg-gradient-radial from-base via-base to-base/50 pointer-events-none" />
-        <div 
-          className="absolute inset-0 opacity-[0.02] pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-          }}
-        />
-        <div className="grid-12 relative z-10">
+      <section className="container-site py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh] flex items-center">
+        <div className="grid-12">
           <div className="col-span-12 lg:col-span-10 stack gap-6 md:gap-8">
             <h1 className="font-display text-4xl md:text-6xl lg:text-8xl leading-tight text-text animate-fade-in">
               We design digital
               <br />
-              <span className="text-accent relative inline-block">
-                experiences
-                <span className="absolute inset-0 blur-xl bg-accent/20 -z-10" />
-              </span> that
+              <span className="text-accent">experiences</span> that
               <br />
               grow businesses
             </h1>
             
-            <p className="text-base md:text-xl text-mute max-w-2xl leading-relaxed animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
+            <p className="text-base md:text-xl text-mute max-w-2xl leading-relaxed animate-fade-in" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
               A modern creative studio focused on brand strategy, product design, and web development.
               We partner with ambitious brands to create meaningful impact.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-2 md:mt-4 animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
+            <div className="flex flex-col sm:flex-row gap-4 mt-2 md:mt-4 animate-fade-in" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
               <Link 
                 to="/work"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm ease-smooth hover:bg-accent/90 hover:gap-3 hover:shadow-glow-accent min-h-[44px]"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-accent text-accent rounded-md font-medium transition-all duration-sm hover:bg-accent hover:text-base min-h-[44px]"
               >
                 View Our Work
-                <ArrowRight className="w-5 h-5 transition-transform duration-sm ease-smooth group-hover:translate-x-2" />
+                <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
               </Link>
               
               <Link 
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-line text-text rounded-md font-medium transition-all duration-sm ease-smooth hover:border-accent hover:text-accent hover:shadow-elegant min-h-[44px]"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-line text-mute rounded-md font-medium transition-all duration-sm hover:border-muted-foreground hover:text-text min-h-[44px]"
               >
                 Start a Project
               </Link>
@@ -95,10 +85,10 @@ const Home = () => {
               <Link
                 key={idx}
                 to={service.path}
-                className="group p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:bg-surface/80 hover:shadow-elegant hover:scale-[1.02] animate-scale-in"
+                className="group p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 animate-fade-in"
                 style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
               >
-                <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm ease-smooth group-hover:text-accent">
+                <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
                   {service.title}
                 </h3>
                 <p className="text-mute">

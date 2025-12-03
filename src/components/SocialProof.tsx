@@ -10,15 +10,15 @@ const SocialProof = () => {
 
   return (
     <div className="py-12 border-t border-line">
-      <p className="text-center text-sm text-mute mb-8">
+      <p className="text-center text-xs text-mute/60 mb-8 uppercase tracking-widest">
         Trusted by innovative companies
       </p>
       <div className="relative overflow-hidden">
-        <div className="flex gap-12 animate-marquee">
+        <div className="flex gap-16 animate-marquee">
           {[...clients, ...clients].map((client, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 text-xl font-display text-mute/50 hover:text-accent transition-colors duration-sm ease-smooth"
+              className="flex-shrink-0 text-lg font-display text-mute/30 hover:text-mute/50 transition-colors duration-sm"
             >
               {client}
             </div>
