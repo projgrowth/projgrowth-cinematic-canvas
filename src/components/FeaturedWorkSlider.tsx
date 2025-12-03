@@ -8,6 +8,24 @@ interface Project {
   description: string;
 }
 
+const projects: Project[] = [
+  {
+    title: "GFG Solutions",
+    category: "Content Systems",
+    description: "A complete tax-education content ecosystem with cinematic short-form content and workflow automation."
+  },
+  {
+    title: "Smart Financial Planning",
+    category: "Brand & Messaging",
+    description: "A clarity-first brand and content system with 3D visual identity and trust-forward web design."
+  },
+  {
+    title: "Custom Dinks",
+    category: "Web & Product",
+    description: "A fully interactive paddle customization platform with 3D configurator integration."
+  }
+];
+
 interface FeaturedWorkSliderProps {
   projects: Project[];
 }

@@ -1,78 +1,54 @@
 import Layout from "@/components/Layout";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
+import CaseStudyCard from "@/components/CaseStudyCard";
+import CaseStudySheet from "@/components/CaseStudySheet";
 import { useState, useMemo } from "react";
-import { ArrowUpRight } from "lucide-react";
-import projectTechFlow from "@/assets/project-techflow.jpg";
-import projectUrbanNest from "@/assets/project-urbannest.jpg";
-import projectFitCore from "@/assets/project-fitcore.jpg";
+import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 
 const Work = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [expandedProject, setExpandedProject] = useState<number | null>(null);
+  const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
-  const projects = [
-    {
-      title: "TechFlow",
-      category: "SaaS",
-      description: "End-to-end platform redesign for B2B workflow automation",
-      tags: ["Strategy", "Design", "Development"],
-      details: "Redesigned the entire platform from ground up, focusing on user workflows and modern design patterns. Achieved 40% increase in user engagement.",
-      image: projectTechFlow
-    },
-    {
-      title: "Urban Nest",
-      category: "Real Estate",
-      description: "Modern property marketplace with immersive 3D experiences",
-      tags: ["Branding", "Web Design", "3D"],
-      details: "Created an innovative property viewing experience with 3D walkthroughs and AR features. Reduced time-to-sale by 25%.",
-      image: projectUrbanNest
-    },
-    {
-      title: "FitCore",
-      category: "Health",
-      description: "Mobile-first fitness platform connecting trainers and clients",
-      tags: ["Mobile App", "UX/UI", "API"],
-      details: "Built a comprehensive fitness ecosystem with real-time tracking, video streaming, and payment integration. 50K+ active users.",
-      image: projectFitCore
-    }
-  ];
-
-  const categories = ["All", "SaaS", "Real Estate", "Health"];
-
-  const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
-      const matchesCategory = activeCategory === "All" || project.category === activeCategory;
+  const filteredCaseStudies = useMemo(() => {
+    return caseStudies.filter((study) => {
+      const matchesCategory = activeCategory === "All" || study.categories.includes(activeCategory);
       const matchesSearch = 
-        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        study.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        study.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        study.category.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery]);
 
+  const handleCardClick = (study: CaseStudy) => {
+    setSelectedCaseStudy(study);
+    setSheetOpen(true);
+  };
+
   return (
     <Layout
-      seoTitle="Our Work - ProjGrowth Portfolio | Featured Projects"
-      seoDescription="Explore our portfolio of digital design and development projects. See how we've helped brands create impactful digital experiences."
-      seoKeywords="portfolio, case studies, web design projects, digital projects, UX design work"
+      seoTitle="Work - ProjGrowth | Case Studies & Portfolio"
+      seoDescription="A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity."
+      seoKeywords="case studies, content systems, web design, brand strategy, cinematic production, AI tools"
       canonicalUrl="/work"
     >
       <section className="container-site py-24">
         <div className="mb-16 animate-fade-in">
           <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
-            Featured Projects
+            Work
           </h1>
-          <p className="text-xl text-mute max-w-2xl">
-            A showcase of our recent projects and collaborations with forward-thinking brands.
+          <p className="text-xl text-mute max-w-3xl">
+            A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity.
           </p>
         </div>
 
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
-          placeholder="Search projects..."
+          placeholder="Search case studies..."
         />
 
         <CategoryFilter
@@ -81,91 +57,29 @@ const Work = () => {
           onCategoryChange={setActiveCategory}
         />
 
-        {filteredProjects.length === 0 ? (
+        {filteredCaseStudies.length === 0 ? (
           <div className="text-center py-24">
-            <p className="text-xl text-mute">No projects found matching your criteria.</p>
+            <p className="text-xl text-mute">No case studies found matching your criteria.</p>
           </div>
         ) : (
-          <div className="stack gap-12">
-            {filteredProjects.map((project, idx) => {
-              const isExpanded = expandedProject === idx;
-              return (
-              <div 
-                className="group border-t border-line transition-all duration-md ease-smooth hover:border-accent/50 animate-slide-up"
-                style={{ animationDelay: `${idx * 150}ms`, animationFillMode: "both" }}
-              >
-                <div 
-                  className="grid-12 gap-y-6 py-12 cursor-pointer"
-                  onClick={() => setExpandedProject(isExpanded ? null : idx)}
-                >
-                  <div className="col-span-12 lg:col-span-3">
-                    <div className="aspect-video overflow-hidden rounded-lg border border-line">
-                      <img 
-                        src={project.image} 
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-md ease-smooth group-hover:scale-105"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-12 lg:col-span-3">
-                    <span className="text-sm text-mute mb-2 block">{project.category}</span>
-                    <h2 className="font-display text-4xl text-text transition-colors duration-sm ease-smooth group-hover:text-accent">
-                      {project.title}
-                    </h2>
-                  </div>
-                  
-                  <div className="col-span-12 lg:col-span-4">
-                    <p className="text-lg text-mute mb-6">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, i) => (
-                        <span 
-                          key={i}
-                          className="px-4 py-2 bg-surface border border-line rounded-md text-sm text-text transition-all duration-sm ease-smooth hover:border-accent hover:text-accent"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="col-span-12 lg:col-span-2 flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end justify-start lg:justify-end gap-3">
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setExpandedProject(isExpanded ? null : idx);
-                      }}
-                      className="px-6 py-3 border border-line rounded-md text-text font-medium transition-all duration-sm ease-smooth hover:border-accent hover:text-accent min-h-[44px] flex items-center justify-center"
-                    >
-                      {isExpanded ? "Show Less" : "Learn More"}
-                    </button>
-                    <button className="p-3 border border-line rounded-md text-text transition-all duration-sm ease-smooth hover:border-accent hover:text-accent hover:shadow-elegant min-h-[44px] min-w-[44px] flex items-center justify-center">
-                      <ArrowUpRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-
-                {isExpanded && (
-                  <div className="grid-12 pb-12 animate-fade-in">
-                    <div className="col-span-12 lg:col-span-8 lg:col-start-5">
-                      <div className="p-8 bg-surface rounded-lg border border-line">
-                        <h3 className="font-display text-2xl text-text mb-4">Project Details</h3>
-                        <p className="text-mute mb-6">{project.details}</p>
-                        <button className="px-8 py-3 bg-accent text-base rounded-md font-medium hover:bg-accent/90 transition-all duration-sm ease-smooth">
-                          View Full Case Study
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredCaseStudies.map((study, idx) => (
+              <CaseStudyCard
+                key={study.id}
+                caseStudy={study}
+                onClick={() => handleCardClick(study)}
+                index={idx}
+              />
+            ))}
           </div>
         )}
       </section>
+
+      <CaseStudySheet
+        caseStudy={selectedCaseStudy}
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+      />
     </Layout>
   );
 };
