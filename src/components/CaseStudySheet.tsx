@@ -1,4 +1,5 @@
 import { CaseStudy } from "@/data/caseStudies";
+import { FileText, Globe, Sparkles, Film, Cpu } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -12,8 +13,18 @@ interface CaseStudySheetProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  "Content Systems": FileText,
+  "Web & Product": Globe,
+  "Brand & Messaging": Sparkles,
+  "Cinematic Production": Film,
+  "AI & Tools": Cpu,
+};
+
 const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) => {
   if (!caseStudy) return null;
+
+  const Icon = categoryIcons[caseStudy.category] || FileText;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -21,13 +32,12 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
         side="right" 
         className="w-full sm:max-w-2xl overflow-y-auto bg-base border-line p-0"
       >
-        <div className="relative aspect-video w-full overflow-hidden">
-          <img
-            src={caseStudy.image}
-            alt={caseStudy.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-base via-base/20 to-transparent" />
+        {/* Minimal header with icon */}
+        <div className="relative h-48 w-full overflow-hidden bg-surface border-b border-line">
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Icon className="w-24 h-24 text-accent/20" />
+          </div>
         </div>
 
         <div className="p-8">
