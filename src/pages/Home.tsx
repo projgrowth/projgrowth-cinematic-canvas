@@ -2,7 +2,6 @@ import Layout from "@/components/Layout";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
 import NavigationGuide from "@/components/NavigationGuide";
-import SocialProof from "@/components/SocialProof";
 import { caseStudies } from "@/data/caseStudies";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -120,9 +119,6 @@ const Home = () => {
 
       {/* Navigation Guide Section */}
       <NavigationGuide />
-
-      {/* Social Proof */}
-      <SocialProof />
 
       <ScrollIndicator />
     </Layout>
