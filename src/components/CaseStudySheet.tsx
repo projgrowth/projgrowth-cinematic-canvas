@@ -1,5 +1,6 @@
 import { CaseStudy } from "@/data/caseStudies";
-import { FileText, Globe, Sparkles, Film, Cpu } from "lucide-react";
+import { FileText, Globe, Sparkles, Film, Cpu, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -98,6 +99,19 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
               <p className="text-text text-lg leading-relaxed">
                 {caseStudy.whyItMatters}
               </p>
+            </section>
+
+            {/* Contact CTA */}
+            <section className="pt-8 border-t border-line">
+              <p className="text-mute mb-4">Interested in similar results for your business?</p>
+              <Link
+                to="/contact"
+                state={{ service: caseStudy.category }}
+                className="inline-flex items-center gap-2 px-6 py-3 border border-accent text-accent rounded-md hover:bg-accent/10 transition-colors group"
+              >
+                Let's talk
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </section>
           </div>
         </div>
