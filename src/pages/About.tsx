@@ -1,3 +1,10 @@
+/**
+ * About Page
+ * 
+ * PLACEHOLDER CONTENT sections are marked below.
+ * Replace with real data before going live.
+ */
+
 import Layout from "@/components/Layout";
 import TeamSection from "@/components/TeamSection";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
@@ -37,6 +44,15 @@ const About = () => {
     }
   ];
 
+  // TODO: Replace with real company statistics
+  // PLACEHOLDER STATS - Update these numbers with actual metrics
+  const stats = [
+    { number: "50+", label: "Projects Delivered" }, // PLACEHOLDER
+    { number: "8+", label: "Years Experience" }, // PLACEHOLDER
+    { number: "30+", label: "Happy Clients" }, // PLACEHOLDER
+    { number: "15", label: "Team Members" } // PLACEHOLDER
+  ];
+
   return (
     <Layout
       seoTitle="About Us - ProjGrowth | Meet Our Creative Team"
@@ -56,7 +72,7 @@ const About = () => {
         </div>
 
         {/* Mission */}
-        <div className="grid-12 gap-y-12 py-24 border-t border-line">
+        <div className="grid-12 gap-y-12 py-16 md:py-24 border-t border-line">
           <div className="col-span-12 lg:col-span-4">
             <h2 className="font-display text-3xl lg:text-4xl text-text">Our Mission</h2>
           </div>
@@ -69,7 +85,7 @@ const About = () => {
         </div>
 
         {/* Values */}
-        <div className="py-24 border-t border-line">
+        <div className="py-16 md:py-24 border-t border-line">
           <h2 className="font-display text-3xl lg:text-4xl text-text mb-16">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, idx) => (
@@ -89,22 +105,17 @@ const About = () => {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 py-24 border-t border-line">
-          {[
-            { number: "50+", label: "Projects Delivered" },
-            { number: "8+", label: "Years Experience" },
-            { number: "30+", label: "Happy Clients" },
-            { number: "15", label: "Team Members" }
-          ].map((stat) => (
+        {/* Stats - PLACEHOLDER DATA */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 py-16 md:py-24 border-t border-line">
+          {stats.map((stat) => (
             <AnimatedStat key={stat.label} number={stat.number} label={stat.label} />
           ))}
         </div>
 
-        {/* Team Section */}
+        {/* Team Section - Contains placeholder data */}
         <TeamSection />
 
-        {/* Testimonials */}
+        {/* Testimonials - Contains placeholder data */}
         <TestimonialsCarousel />
       </section>
     </Layout>

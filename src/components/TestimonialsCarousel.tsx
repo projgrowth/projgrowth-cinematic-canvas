@@ -1,3 +1,14 @@
+/**
+ * PLACEHOLDER CONTENT - REPLACE WITH REAL DATA
+ * 
+ * To update this section with real testimonials:
+ * 1. Replace the testimonial quotes, author names, roles, and companies below
+ * 2. Consider adding author photos for enhanced credibility
+ * 3. Ensure you have permission to use client testimonials
+ * 
+ * Tip: Ask satisfied clients for written testimonials after successful projects
+ */
+
 import { useState, useEffect } from "react";
 import { Quote } from "lucide-react";
 
@@ -11,24 +22,25 @@ interface Testimonial {
 const TestimonialsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // TODO: Replace with real client testimonials
   const testimonials: Testimonial[] = [
     {
-      quote: "ProjGrowth transformed our digital presence. The attention to detail and strategic thinking exceeded our expectations.",
-      author: "Jennifer Martinez",
-      role: "CEO",
-      company: "TechFlow"
+      quote: "ProjGrowth transformed our digital presence. The attention to detail and strategic thinking exceeded our expectations.", // PLACEHOLDER: Replace with real quote
+      author: "Jennifer Martinez", // PLACEHOLDER: Replace with real name
+      role: "CEO", // PLACEHOLDER: Replace with real role
+      company: "TechFlow" // PLACEHOLDER: Replace with real company
     },
     {
-      quote: "Working with this team was seamless. They understood our vision and brought it to life with precision and creativity.",
-      author: "Michael Chen",
-      role: "Founder",
-      company: "Urban Nest"
+      quote: "Working with this team was seamless. They understood our vision and brought it to life with precision and creativity.", // PLACEHOLDER
+      author: "Michael Chen", // PLACEHOLDER
+      role: "Founder", // PLACEHOLDER
+      company: "Urban Nest" // PLACEHOLDER
     },
     {
-      quote: "The results speak for themselves. Our platform engagement increased by 60% after the redesign.",
-      author: "Sarah Johnson",
-      role: "Product Director",
-      company: "FitCore"
+      quote: "The results speak for themselves. Our platform engagement increased by 60% after the redesign.", // PLACEHOLDER
+      author: "Sarah Johnson", // PLACEHOLDER
+      role: "Product Director", // PLACEHOLDER
+      company: "FitCore" // PLACEHOLDER
     }
   ];
 

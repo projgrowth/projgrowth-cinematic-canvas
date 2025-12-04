@@ -1,8 +1,26 @@
+/**
+ * Footer Component
+ * 
+ * PLACEHOLDER CONTENT - Update before going live:
+ * - Email address (currently hello@projgrowth.com)
+ * - Social media URLs (currently "#")
+ */
+
 import { Link } from "react-router-dom";
 import { Mail, Linkedin, Twitter, Github } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
+  // TODO: Replace with real social media URLs
+  const socialLinks = [
+    { icon: Twitter, href: "#", label: "Twitter" }, // PLACEHOLDER: Replace "#" with real URL
+    { icon: Linkedin, href: "#", label: "LinkedIn" }, // PLACEHOLDER: Replace "#" with real URL
+    { icon: Github, href: "#", label: "GitHub" }, // PLACEHOLDER: Replace "#" with real URL
+  ];
+
+  // TODO: Replace with real email address
+  const contactEmail = "hello@projgrowth.com"; // PLACEHOLDER: Replace with real email
 
   return (
     <footer className="border-t border-line bg-surface/50 backdrop-blur-sm mt-24">
@@ -65,18 +83,14 @@ const Footer = () => {
             <h3 className="font-display text-lg text-text mb-4">Get in Touch</h3>
             <div className="space-y-3">
               <a
-                href="mailto:hello@projgrowth.com"
+                href={`mailto:${contactEmail}`}
                 className="flex items-center gap-2 text-sm text-mute hover:text-accent transition-colors duration-sm"
               >
                 <Mail className="w-4 h-4" />
-                hello@projgrowth.com
+                {contactEmail}
               </a>
               <div className="flex gap-3 pt-2">
-                {[
-                  { icon: Twitter, href: "#", label: "Twitter" },
-                  { icon: Linkedin, href: "#", label: "LinkedIn" },
-                  { icon: Github, href: "#", label: "GitHub" },
-                ].map((social) => (
+                {socialLinks.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}

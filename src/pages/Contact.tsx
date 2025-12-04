@@ -245,7 +245,7 @@ const Contact = () => {
               <button 
                 type="submit"
                 disabled={isSubmitting || isSuccess}
-                className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm ease-smooth hover:bg-accent/90 hover:gap-3 hover:shadow-glow-accent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm ease-smooth hover:bg-accent/90 hover:gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
