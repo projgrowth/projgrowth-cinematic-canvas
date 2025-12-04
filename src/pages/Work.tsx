@@ -45,24 +45,27 @@ const Work = () => {
           </p>
         </div>
 
-        <SearchBar
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Search case studies..."
-        />
+        {/* Filter Bar */}
+        <div className="space-y-4 mb-10">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search case studies..."
+          />
 
-        <CategoryFilter
-          categories={categories}
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-        />
+          <CategoryFilter
+            categories={categories}
+            activeCategory={activeCategory}
+            onCategoryChange={setActiveCategory}
+          />
 
-        {/* Results Counter */}
-        {(activeCategory !== "All" || searchQuery) && (
-          <p className="text-sm text-mute mb-6">
-            Showing {filteredCaseStudies.length} of {caseStudies.length} projects
-          </p>
-        )}
+          {/* Results Counter */}
+          {(activeCategory !== "All" || searchQuery) && (
+            <p className="text-sm text-mute">
+              Showing {filteredCaseStudies.length} of {caseStudies.length} projects
+            </p>
+          )}
+        </div>
 
         {filteredCaseStudies.length === 0 ? (
           <div className="text-center py-24 space-y-6">
