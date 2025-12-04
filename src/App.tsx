@@ -9,6 +9,8 @@ import Work from "./pages/Work";
 import Services from "./pages/Services";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 const pageVariants = {
@@ -80,6 +82,28 @@ const AnimatedRoutes = () => {
             transition={pageTransition}
           >
             <Contact />
+          </motion.div>
+        } />
+        <Route path="/privacy" element={
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+          >
+            <Privacy />
+          </motion.div>
+        } />
+        <Route path="/terms" element={
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+          >
+            <Terms />
           </motion.div>
         } />
         <Route path="*" element={
