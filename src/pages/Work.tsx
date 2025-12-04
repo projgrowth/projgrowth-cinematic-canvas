@@ -57,9 +57,31 @@ const Work = () => {
           onCategoryChange={setActiveCategory}
         />
 
+        {/* Results Counter */}
+        {(activeCategory !== "All" || searchQuery) && (
+          <p className="text-sm text-mute mb-6">
+            Showing {filteredCaseStudies.length} of {caseStudies.length} projects
+          </p>
+        )}
+
         {filteredCaseStudies.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="text-xl text-mute">No case studies found matching your criteria.</p>
+          <div className="text-center py-24 space-y-6">
+            <div className="w-16 h-16 mx-auto rounded-full bg-surface border border-line flex items-center justify-center">
+              <span className="text-2xl text-mute">∅</span>
+            </div>
+            <div>
+              <p className="text-xl text-text mb-2">No projects found</p>
+              <p className="text-mute">Try adjusting your filters or search terms</p>
+            </div>
+            <button
+              onClick={() => {
+                setActiveCategory("All");
+                setSearchQuery("");
+              }}
+              className="px-6 py-3 border border-accent text-accent rounded-md hover:bg-accent/10 transition-colors"
+            >
+              Clear filters
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">

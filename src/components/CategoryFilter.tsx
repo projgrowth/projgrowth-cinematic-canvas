@@ -12,11 +12,11 @@ const CategoryFilter = ({ categories, activeCategory, onCategoryChange }: Catego
           key={category}
           onClick={() => onCategoryChange(category)}
           className={`
-            px-6 py-3 rounded-md font-medium text-sm transition-all duration-sm ease-smooth
+            px-6 py-3 rounded-md font-medium text-sm transition-all duration-sm ease-smooth border
             ${
               activeCategory === category
-                ? "bg-accent text-base shadow-glow-accent"
-                : "bg-surface border border-line text-mute hover:border-accent hover:text-accent"
+                ? "border-accent text-accent bg-accent/10"
+                : "border-line text-mute hover:border-accent hover:text-accent"
             }
           `}
         >
