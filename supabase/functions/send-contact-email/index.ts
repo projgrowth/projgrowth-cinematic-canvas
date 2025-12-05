@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@4.0.0";
+import { Resend } from "https://esm.sh/resend@4.0.0";
+import { z } from "https://esm.sh/zod@3.23.8";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -9,10 +10,21 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-interface ContactEmailRequest {
-  name: string;
-  email: string;
-  message: string;
+// Input validation schema
+const contactSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+  message: z.string().trim().min(1, "Message is required").max(5000, "Message must be less than 5000 characters"),
+});
+
+// Sanitize HTML special characters to prevent injection
+function sanitizeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -22,22 +34,42 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, message }: ContactEmailRequest = await req.json();
+    const body = await req.json();
+    
+    // Validate input
+    const validationResult = contactSchema.safeParse(body);
+    if (!validationResult.success) {
+      console.log("Validation failed:", validationResult.error.flatten());
+      return new Response(
+        JSON.stringify({ error: "Invalid input", details: validationResult.error.flatten() }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
 
-    console.log("Sending contact notification email for:", name, email);
+    const { name, email, message } = validationResult.data;
+
+    console.log("Processing contact form submission");
+
+    // Sanitize user input before including in HTML
+    const safeName = sanitizeHtml(name);
+    const safeEmail = sanitizeHtml(email);
+    const safeMessage = sanitizeHtml(message).replace(/\n/g, '<br>');
 
     // Send notification to your team
     const emailResponse = await resend.emails.send({
       from: "ProjGrowth <onboarding@resend.dev>",
       to: ["your-email@example.com"], // Replace with your actual email
       replyTo: email,
-      subject: `New Contact Form Submission from ${name}`,
+      subject: `New Contact Form Submission from ${safeName}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
         <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <p>${safeMessage}</p>
       `,
     });
 
