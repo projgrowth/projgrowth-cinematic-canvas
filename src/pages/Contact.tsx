@@ -152,7 +152,7 @@ const Contact = () => {
           {/* Contact Info */}
           <div className="col-span-12 lg:col-span-6 lg:col-start-7">
             <div className="stack gap-8">
-              <div className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:shadow-elegant animate-scale-in" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
+              <div className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant animate-scale-in" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
                 <Mail className="w-8 h-8 text-accent mb-4" />
                 <h3 className="font-display text-xl text-text mb-2">Email Us</h3>
                 <a 
@@ -163,7 +163,7 @@ const Contact = () => {
                 </a>
               </div>
 
-              <div className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:shadow-elegant animate-scale-in" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
+              <div className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant animate-scale-in" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
                 <MessageSquare className="w-8 h-8 text-accent mb-4" />
                 <h3 className="font-display text-xl text-text mb-2">Start a Chat</h3>
                 <p className="text-mute">Available Mon-Fri, 9am-6pm EST</p>

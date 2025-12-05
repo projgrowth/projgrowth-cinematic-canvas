@@ -23,7 +23,7 @@ const Footer = () => {
   const contactEmail = "hello@projgrowth.com"; // PLACEHOLDER: Replace with real email
 
   return (
-    <footer className="border-t border-line bg-surface/50 backdrop-blur-sm mt-24">
+    <footer className="border-t border-line bg-base mt-24">
       <div className="container-site py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
           {/* Brand */}
