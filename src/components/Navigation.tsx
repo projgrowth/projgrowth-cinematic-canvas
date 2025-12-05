@@ -1,8 +1,37 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import MobileNav from "./MobileNav";
 
 const Navigation = () => {
   const location = useLocation();
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Only hide after scrolling down 100px
+      if (currentScrollY > 100) {
+        // Scrolling down - hide nav
+        if (currentScrollY > lastScrollY) {
+          setIsHidden(true);
+        } 
+        // Scrolling up - show nav
+        else {
+          setIsHidden(false);
+        }
+      } else {
+        // Always show at top
+        setIsHidden(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const links = [
     { path: "/", label: "Home" },
@@ -13,7 +42,13 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-base border-b border-line/50 transition-colors duration-sm">
+    <nav 
+      className={`
+        fixed top-0 left-0 right-0 z-50 bg-base border-b border-line/50 
+        transition-transform duration-md ease-smooth
+        ${isHidden ? "-translate-y-full" : "translate-y-0"}
+      `}
+    >
       <div className="container-site">
         <div className="flex items-center justify-between py-6">
           <Link 

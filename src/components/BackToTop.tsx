@@ -29,7 +29,7 @@ const BackToTop = () => {
       onClick={scrollToTop}
       className={`
         fixed bottom-8 right-8 z-50 p-3 rounded-full bg-accent text-base
-        shadow-glow-accent transition-all duration-md ease-smooth
+        shadow-elegant transition-all duration-md ease-smooth
         ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
         hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2
       `}
