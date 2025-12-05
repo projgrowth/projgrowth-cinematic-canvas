@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ProcessTimeline from "@/components/ProcessTimeline";
 import PricingEstimator from "@/components/PricingEstimator";
+import ScrollReveal from "@/components/ScrollReveal";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -83,126 +84,131 @@ const Services = () => {
     >
       <TooltipProvider>
         <section className="container-site py-16 md:py-24">
-          <div className="mb-16">
-            <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
-              Our Services
-            </h1>
-            <p className="text-xl text-mute max-w-2xl">
-              Comprehensive digital solutions tailored to your business goals and user needs.
-            </p>
-          </div>
+          <ScrollReveal variant="fade-up">
+            <div className="mb-16">
+              <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
+                Our Services
+              </h1>
+              <p className="text-xl text-mute max-w-2xl">
+                Comprehensive digital solutions tailored to your business goals and user needs.
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="stack gap-0">
             {services.map((service, idx) => (
-              <div 
-                key={idx}
-                className="group border-t border-line py-12 transition-all duration-md ease-smooth hover:bg-surface/30"
-              >
-                <div className="grid-12 gap-y-8">
-                  {/* Service Number */}
-                  <div className="col-span-12 lg:col-span-2">
-                    <button
-                      onClick={() => toggleService(idx)}
-                      className="font-display text-3xl md:text-5xl text-accent/30 transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform transition-transform min-h-[44px]"
-                      aria-label={`Expand ${service.title}`}
-                    >
-                      {service.number}
-                    </button>
-                  </div>
+              <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
+                <div className="group border-t border-line py-12 transition-all duration-md ease-smooth hover:bg-surface/30">
+                  <div className="grid-12 gap-y-8">
+                    {/* Service Number */}
+                    <div className="col-span-12 lg:col-span-2">
+                      <button
+                        onClick={() => toggleService(idx)}
+                        className="font-display text-3xl md:text-5xl text-accent/30 transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform transition-transform min-h-[44px]"
+                        aria-label={`Expand ${service.title}`}
+                      >
+                        {service.number}
+                      </button>
+                    </div>
 
-                  {/* Title & Description */}
-                  <div className="col-span-12 lg:col-span-6">
-                    <h2 className="font-display text-3xl md:text-4xl text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
-                      {service.title}
-                    </h2>
-                    <p className="text-base md:text-lg text-mute mb-4 md:mb-6">
-                      {service.description}
-                    </p>
+                    {/* Title & Description */}
+                    <div className="col-span-12 lg:col-span-6">
+                      <h2 className="font-display text-3xl md:text-4xl text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
+                        {service.title}
+                      </h2>
+                      <p className="text-base md:text-lg text-mute mb-4 md:mb-6">
+                        {service.description}
+                      </p>
 
-                    {/* Expand Button */}
-                    <button
-                      onClick={() => toggleService(idx)}
-                      className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
-                    >
-                      {expandedService === idx ? (
-                        <>
-                          <span>Show less</span>
-                          <ChevronUp className="w-4 h-4" />
-                        </>
-                      ) : (
-                        <>
-                          <span>Learn more</span>
-                          <ChevronDown className="w-4 h-4" />
-                        </>
-                      )}
-                    </button>
-                  </div>
+                      {/* Expand Button */}
+                      <button
+                        onClick={() => toggleService(idx)}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
+                      >
+                        {expandedService === idx ? (
+                          <>
+                            <span>Show less</span>
+                            <ChevronUp className="w-4 h-4" />
+                          </>
+                        ) : (
+                          <>
+                            <span>Learn more</span>
+                            <ChevronDown className="w-4 h-4" />
+                          </>
+                        )}
+                      </button>
+                    </div>
 
-                  {/* Capabilities with Tooltips */}
-                  <div className="col-span-12 lg:col-span-4">
-                    <h3 className="text-sm font-medium text-mute mb-3 md:mb-4">Capabilities</h3>
-                    <ul className="stack gap-3">
-                      {service.capabilities.map((cap, i) => (
-                        <li key={i}>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button className="text-text hover:text-accent transition-colors cursor-help text-left text-sm md:text-base min-h-[44px] flex items-center">
-                                {cap.name}
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent side="left" className="max-w-xs">
-                              <p className="text-sm">{cap.tooltip}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                    {/* Capabilities with Tooltips */}
+                    <div className="col-span-12 lg:col-span-4">
+                      <h3 className="text-sm font-medium text-mute mb-3 md:mb-4">Capabilities</h3>
+                      <ul className="stack gap-3">
+                        {service.capabilities.map((cap, i) => (
+                          <li key={i}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <button className="text-text hover:text-accent transition-colors cursor-help text-left text-sm md:text-base min-h-[44px] flex items-center">
+                                  {cap.name}
+                                </button>
+                              </TooltipTrigger>
+                              <TooltipContent side="left" className="max-w-xs">
+                                <p className="text-sm">{cap.tooltip}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  {/* Expanded Details */}
-                  {expandedService === idx && (
-                    <div className="col-span-12 animate-fade-in">
-                      <div className="pt-8 border-t border-line mt-8">
-                        <div className="grid lg:grid-cols-2 gap-8">
-                          <div>
-                            <h3 className="text-xl font-display text-text mb-4">What We Do</h3>
-                            <p className="text-mute leading-relaxed">
-                              {service.details}
-                            </p>
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-display text-text mb-4">Deliverables</h3>
-                            <ul className="stack gap-3">
-                              {service.deliverables.map((item, i) => (
-                                <li key={i} className="flex items-start gap-3">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
-                                  <span className="text-mute">{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                            <Button
-                              onClick={() => handleRequestService(service.title)}
-                              className="mt-6 group"
-                              variant="default"
-                            >
-                              Request {service.title}
-                              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                            </Button>
+                    {/* Expanded Details */}
+                    {expandedService === idx && (
+                      <div className="col-span-12 animate-fade-in">
+                        <div className="pt-8 border-t border-line mt-8">
+                          <div className="grid lg:grid-cols-2 gap-8">
+                            <div>
+                              <h3 className="text-xl font-display text-text mb-4">What We Do</h3>
+                              <p className="text-mute leading-relaxed">
+                                {service.details}
+                              </p>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-display text-text mb-4">Deliverables</h3>
+                              <ul className="stack gap-3">
+                                {service.deliverables.map((item, i) => (
+                                  <li key={i} className="flex items-start gap-3">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                                    <span className="text-mute">{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                              <Button
+                                onClick={() => handleRequestService(service.title)}
+                                className="mt-6 group"
+                                variant="default"
+                              >
+                                Request {service.title}
+                                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
 
           {/* Process Timeline */}
-          <ProcessTimeline />
+          <ScrollReveal variant="fade-up">
+            <ProcessTimeline />
+          </ScrollReveal>
 
           {/* Pricing Estimator */}
-          <PricingEstimator />
+          <ScrollReveal variant="fade-up">
+            <PricingEstimator />
+          </ScrollReveal>
         </section>
       </TooltipProvider>
     </Layout>

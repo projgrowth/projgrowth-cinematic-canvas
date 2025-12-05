@@ -2,6 +2,8 @@ import Layout from "@/components/Layout";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
 import NavigationGuide from "@/components/NavigationGuide";
+import SocialProof from "@/components/SocialProof";
+import ScrollReveal from "@/components/ScrollReveal";
 import { caseStudies } from "@/data/caseStudies";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -17,7 +19,7 @@ const Home = () => {
       seoKeywords="digital design studio, brand strategy, web development, UI/UX design, creative agency, digital experiences"
       canonicalUrl="/"
     >
-      {/* Hero Section */}
+      {/* Hero Section - No reveal, it's above the fold */}
       <section className="container-site py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh] flex items-center">
         <div className="grid-12">
           <div className="col-span-12 lg:col-span-10 stack gap-6 md:gap-8">
@@ -54,71 +56,84 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Social Proof */}
+      <ScrollReveal variant="fade-in">
+        <SocialProof />
+      </ScrollReveal>
+
       {/* Services Preview */}
       <section className="container-site py-24 border-t border-line">
-        <div className="grid-12 gap-y-12">
-          <div className="col-span-12 lg:col-span-4">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">What We Do</h2>
-            <p className="text-xl text-mute">Comprehensive digital solutions for modern challenges</p>
-          </div>
+        <ScrollReveal variant="fade-up">
+          <div className="grid-12 gap-y-12">
+            <div className="col-span-12 lg:col-span-4">
+              <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">What We Do</h2>
+              <p className="text-xl text-mute">Comprehensive digital solutions for modern challenges</p>
+            </div>
 
-          <div className="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "Brand Strategy",
-                description: "Building authentic brand identities that resonate with your audience and stand the test of time.",
-                path: "/services#brand-strategy"
-              },
-              {
-                title: "Digital Design",
-                description: "Creating beautiful, functional interfaces that deliver exceptional user experiences.",
-                path: "/services#digital-design"
-              },
-              {
-                title: "Development",
-                description: "Engineering robust, scalable solutions using cutting-edge technologies.",
-                path: "/services#development"
-              },
-              {
-                title: "Growth Marketing",
-                description: "Data-driven strategies to accelerate your business growth and market presence.",
-                path: "/services#growth-marketing"
-              }
-            ].map((service, idx) => (
-              <Link
-                key={idx}
-                to={service.path}
-                className="group p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 animate-fade-in"
-                style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
-              >
-                <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
-                  {service.title}
-                </h3>
-                <p className="text-mute">
-                  {service.description}
-                </p>
-              </Link>
-            ))}
+            <div className="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[
+                {
+                  title: "Brand Strategy",
+                  description: "Building authentic brand identities that resonate with your audience and stand the test of time.",
+                  path: "/services#brand-strategy"
+                },
+                {
+                  title: "Digital Design",
+                  description: "Creating beautiful, functional interfaces that deliver exceptional user experiences.",
+                  path: "/services#digital-design"
+                },
+                {
+                  title: "Development",
+                  description: "Engineering robust, scalable solutions using cutting-edge technologies.",
+                  path: "/services#development"
+                },
+                {
+                  title: "Growth Marketing",
+                  description: "Data-driven strategies to accelerate your business growth and market presence.",
+                  path: "/services#growth-marketing"
+                }
+              ].map((service, idx) => (
+                <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
+                  <Link
+                    to={service.path}
+                    className="group block p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30"
+                  >
+                    <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
+                      {service.title}
+                    </h3>
+                    <p className="text-mute">
+                      {service.description}
+                    </p>
+                  </Link>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* Featured Work Section */}
       <section className="container-site py-24 border-t border-line">
-        <div className="mb-16">
-          <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
-            Featured Work
-          </h2>
-          <p className="text-xl text-mute">
-            Recent projects we're proud of
-          </p>
-        </div>
+        <ScrollReveal variant="fade-up">
+          <div className="mb-16">
+            <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
+              Featured Work
+            </h2>
+            <p className="text-xl text-mute">
+              Recent projects we're proud of
+            </p>
+          </div>
+        </ScrollReveal>
 
-        <FeaturedWorkSlider projects={featuredProjects} />
+        <ScrollReveal variant="fade-up" delay={0.2}>
+          <FeaturedWorkSlider projects={featuredProjects} />
+        </ScrollReveal>
       </section>
 
       {/* Navigation Guide Section */}
-      <NavigationGuide />
+      <ScrollReveal variant="fade-up">
+        <NavigationGuide />
+      </ScrollReveal>
 
       <ScrollIndicator />
     </Layout>
