@@ -9,10 +9,10 @@ interface SEOProps {
 }
 
 const SEO = ({
-  title = "ProjGrowth - Digital Design Studio",
-  description = "A modern creative studio focused on brand strategy, product design, and web development. We partner with ambitious brands to create meaningful impact.",
+  title = "ProjGrowth - Digital Experiences That Grow Businesses",
+  description = "A modern creative studio focused on strategy, design, and development. We partner with ambitious brands to create meaningful digital impact.",
   keywords = "digital design, web development, brand strategy, UI/UX design, creative studio",
-  ogImage = "/og-image.jpg",
+  ogImage = "/og-image.png",
   canonicalUrl,
 }: SEOProps) => {
   const siteUrl = "https://projgrowth.com";
@@ -30,16 +30,17 @@ const SEO = ({
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={fullUrl} />
+      <meta property="og:site_name" content="ProjGrowth" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={`${siteUrl}${ogImage}`} />
 
       {/* Twitter */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={fullUrl} />
-      <meta property="twitter:title" content={title} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={`${siteUrl}${ogImage}`} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={fullUrl} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
 
       {/* Additional Meta Tags */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

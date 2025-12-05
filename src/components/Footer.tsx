@@ -19,8 +19,7 @@ const Footer = () => {
     { icon: Github, href: "#", label: "GitHub" }, // PLACEHOLDER: Replace "#" with real URL
   ];
 
-  // TODO: Replace with real email address
-  const contactEmail = "hello@projgrowth.com"; // PLACEHOLDER: Replace with real email
+  const contactEmail = "info@projgrowth.com";
 
   return (
     <footer className="border-t border-line bg-base mt-24">

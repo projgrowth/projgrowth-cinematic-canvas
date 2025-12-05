@@ -61,7 +61,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification to your team
     const emailResponse = await resend.emails.send({
       from: "ProjGrowth <onboarding@resend.dev>",
-      to: ["your-email@example.com"], // Replace with your actual email
+      to: ["info@projgrowth.com"],
       replyTo: email,
       subject: `New Contact Form Submission from ${safeName}`,
       html: `
