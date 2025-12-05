@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const PricingEstimator = () => {
   const navigate = useNavigate();
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [displayTotal, setDisplayTotal] = useState(0);
 
   const services = [
     { id: "brand", name: "Brand Strategy", basePrice: 8000 },
@@ -27,94 +27,90 @@ const PricingEstimator = () => {
     .filter(s => selectedServices.includes(s.id))
     .reduce((sum, s) => sum + s.basePrice, 0);
 
+  // Animate the total
+  useEffect(() => {
+    const duration = 300;
+    const startTime = Date.now();
+    const startValue = displayTotal;
+    const endValue = estimatedTotal;
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(startValue + (endValue - startValue) * easeOut);
+      
+      setDisplayTotal(current);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [estimatedTotal]);
+
   const handleGetQuote = () => {
     navigate('/contact', { state: { selectedServices } });
   };
 
   return (
     <div className="py-16 md:py-24 border-t border-line">
-      <div className="mb-16">
-        <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">Estimate Your Investment</h2>
+      <div className="mb-12">
+        <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">Investment Calculator</h2>
         <p className="text-xl text-mute max-w-2xl">
-          Select the services you need to get a rough estimate. Final pricing depends on project scope and complexity.
+          Select services to estimate your project investment.
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-12">
-        {/* Service Selection */}
-        <div className="stack gap-4">
-          {services.map((service) => (
-            <label
+      {/* Service Pills */}
+      <div className="flex flex-wrap gap-3 mb-12">
+        {services.map((service) => {
+          const isSelected = selectedServices.includes(service.id);
+          return (
+            <button
               key={service.id}
-              className="flex items-center gap-4 p-6 border border-line rounded-lg cursor-pointer transition-all duration-sm ease-smooth hover:border-accent hover:bg-surface/30 group"
+              onClick={() => toggleService(service.id)}
+              className={`
+                px-5 py-3 rounded-full border transition-all duration-sm
+                font-medium text-sm md:text-base
+                ${isSelected 
+                  ? 'bg-accent text-background border-accent' 
+                  : 'bg-transparent text-text border-line hover:border-accent/50 hover:text-accent'
+                }
+              `}
             >
-              <Checkbox
-                checked={selectedServices.includes(service.id)}
-                onCheckedChange={() => toggleService(service.id)}
-                className="data-[state=checked]:bg-accent data-[state=checked]:border-accent"
-              />
-              <div className="flex-1">
-                <div className="font-display text-xl text-text group-hover:text-accent transition-colors duration-sm">
-                  {service.name}
-                </div>
-              </div>
-              <div className="text-lg font-medium text-mute">
-                ${service.basePrice.toLocaleString()}+
-              </div>
-            </label>
-          ))}
-        </div>
-
-        {/* Estimate Display */}
-        <div className="flex flex-col justify-center">
-          <div className="p-8 border border-line rounded-lg bg-surface/30">
-            <div className="mb-6">
-              <div className="text-sm text-mute mb-2">Estimated Investment</div>
-              <div className="font-display text-5xl text-accent">
-                {estimatedTotal > 0 ? `$${estimatedTotal.toLocaleString()}` : '$0'}
-              </div>
-              <div className="text-sm text-mute mt-2">Starting price range</div>
-            </div>
-
-            {selectedServices.length > 0 && (
-              <div className="stack gap-4">
-                <div className="text-sm text-mute">
-                  <strong>Selected Services:</strong>
-                  <ul className="mt-2 stack gap-1">
-                    {services
-                      .filter(s => selectedServices.includes(s.id))
-                      .map(s => (
-                        <li key={s.id} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                          {s.name}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-
-                <Button
-                  onClick={handleGetQuote}
-                  className="w-full group"
-                  size="lg"
-                >
-                  Get Accurate Quote
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-
-                <p className="text-xs text-mute text-center">
-                  Actual pricing may vary based on project requirements and timeline
-                </p>
-              </div>
-            )}
-
-            {selectedServices.length === 0 && (
-              <p className="text-sm text-mute text-center">
-                Select services above to see estimated pricing
-              </p>
-            )}
-          </div>
-        </div>
+              {service.name} <span className="text-inherit opacity-60 ml-1">${(service.basePrice / 1000)}k+</span>
+            </button>
+          );
+        })}
       </div>
+
+      {/* Total & CTA Row */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-8 border-t border-line">
+        <div>
+          <span className="text-sm text-mute block mb-1">Estimated starting at</span>
+          <span className="font-display text-4xl md:text-5xl text-accent">
+            ${displayTotal.toLocaleString()}
+          </span>
+        </div>
+        
+        {selectedServices.length > 0 && (
+          <Button
+            onClick={handleGetQuote}
+            variant="outline"
+            size="lg"
+            className="group"
+          >
+            Get Quote
+            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+          </Button>
+        )}
+      </div>
+      
+      <p className="text-xs text-mute mt-4">
+        Final pricing based on project scope and timeline.
+      </p>
     </div>
   );
 };

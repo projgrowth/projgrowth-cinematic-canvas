@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { CheckCircle2, Circle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ProcessTimeline = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [expandedStep, setExpandedStep] = useState<number | null>(null);
 
   const steps = [
     {
@@ -32,57 +32,66 @@ const ProcessTimeline = () => {
     }
   ];
 
+  const toggleStep = (idx: number) => {
+    setExpandedStep(expandedStep === idx ? null : idx);
+  };
+
   return (
     <div className="py-16 md:py-24 border-t border-line">
-      <div className="mb-16">
+      <div className="mb-12">
         <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">Our Process</h2>
         <p className="text-xl text-mute max-w-2xl">
-          A proven methodology that delivers exceptional results, every time.
+          A proven methodology that delivers exceptional results.
         </p>
       </div>
 
-      <div className="relative">
-        {/* Timeline line */}
-        <div className="absolute top-8 left-0 right-0 h-0.5 bg-line hidden lg:block" />
-        <div 
-          className="absolute top-8 left-0 h-0.5 bg-accent hidden lg:block transition-all duration-md ease-smooth"
-          style={{ width: `${(activeStep / (steps.length - 1)) * 100}%` }}
-        />
-
-        {/* Steps */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-4">
-          {steps.map((step, idx) => (
-            <div
-              key={idx}
-              className="relative cursor-pointer group"
-              onMouseEnter={() => setActiveStep(idx)}
-            >
-              {/* Circle indicator */}
-              <div className="flex items-center justify-center mb-4">
-                <div className="relative z-10 flex items-center justify-center w-16 h-16 rounded-full border-2 border-line bg-background transition-all duration-sm ease-smooth group-hover:border-accent group-hover:bg-accent/10">
-                  {activeStep >= idx ? (
-                    <CheckCircle2 className="w-8 h-8 text-accent" />
-                  ) : (
-                    <Circle className="w-8 h-8 text-mute" />
-                  )}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="text-center lg:text-left">
-                <div className="font-display text-2xl text-text mb-2 transition-colors duration-sm group-hover:text-accent">
-                  {step.title}
-                </div>
-                <div className="text-sm text-accent font-medium mb-3">
-                  {step.duration}
-                </div>
-                <p className="text-sm text-mute leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
+      <div className="space-y-0">
+        {steps.map((step, idx) => (
+          <div
+            key={idx}
+            className="border-t border-line last:border-b cursor-pointer group"
+            onClick={() => toggleStep(idx)}
+          >
+            <div className="py-6 flex items-center gap-6 md:gap-12">
+              {/* Number */}
+              <span className="font-display text-4xl md:text-5xl text-accent/30 w-16 md:w-20 shrink-0">
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              
+              {/* Title */}
+              <span className="font-display text-xl md:text-2xl text-text flex-1 transition-colors duration-sm group-hover:text-accent">
+                {step.title}
+              </span>
+              
+              {/* Duration */}
+              <span className="text-sm md:text-base text-mute shrink-0">
+                {step.duration}
+              </span>
+              
+              {/* Expand indicator */}
+              <span className="text-mute transition-transform duration-sm w-6 text-center">
+                {expandedStep === idx ? '−' : '+'}
+              </span>
             </div>
-          ))}
-        </div>
+            
+            {/* Description - Progressive disclosure */}
+            <AnimatePresence>
+              {expandedStep === idx && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="overflow-hidden"
+                >
+                  <p className="pb-6 pl-[88px] md:pl-[128px] pr-12 text-mute leading-relaxed max-w-2xl">
+                    {step.description}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
       </div>
     </div>
   );
