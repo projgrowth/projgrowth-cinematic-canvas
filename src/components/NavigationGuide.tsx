@@ -34,9 +34,9 @@ const NavigationGuide = () => {
   };
 
   return (
-    <section className="border-t border-line py-12">
+    <section className="border-t border-line py-16 md:py-20">
       <div className="container-site">
-        <h3 className="text-xl text-mute mb-6">
+        <h3 className="text-xl text-mute mb-8">
           {guide.question}
         </h3>
         

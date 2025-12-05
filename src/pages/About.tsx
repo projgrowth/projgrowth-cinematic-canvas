@@ -91,7 +91,7 @@ const About = () => {
             {values.map((value, idx) => (
               <div 
                 key={idx} 
-                className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/50 hover:shadow-elegant hover:scale-[1.02] animate-scale-in"
+                className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant animate-scale-in"
                 style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "both" }}
               >
                 <h3 className="font-display text-2xl text-accent mb-4">
