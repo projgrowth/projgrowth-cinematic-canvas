@@ -158,10 +158,10 @@ const Contact = () => {
                   <Mail className="w-8 h-8 text-accent mb-4" />
                   <h3 className="font-display text-xl text-text mb-2">Email Us</h3>
                   <a 
-                    href="mailto:hello@projgrowth.com" 
+                    href="mailto:info@projgrowth.com" 
                     className="text-mute hover:text-accent transition-colors duration-sm ease-smooth"
                   >
-                    hello@projgrowth.com
+                    info@projgrowth.com
                   </a>
                 </div>
               </ScrollReveal>
@@ -297,7 +297,7 @@ const Contact = () => {
                 </AccordionTrigger>
                 <AccordionContent className="text-mute">
                   We offer both project-based and retainer pricing models. Project fees are determined by scope, complexity, and timeline. 
-                  We provide detailed proposals with transparent pricing before starting any work. Most projects start at $10k.
+                  We provide detailed proposals with transparent pricing before starting any work.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
