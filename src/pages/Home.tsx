@@ -2,7 +2,6 @@ import Layout from "@/components/Layout";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
 import NavigationGuide from "@/components/NavigationGuide";
-import SocialProof from "@/components/SocialProof";
 import ScrollReveal from "@/components/ScrollReveal";
 import { caseStudies } from "@/data/caseStudies";
 import { ArrowRight } from "lucide-react";
@@ -55,11 +54,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Social Proof */}
-      <ScrollReveal variant="fade-in">
-        <SocialProof />
-      </ScrollReveal>
 
       {/* Services Preview */}
       <section className="container-site py-24 border-t border-line">

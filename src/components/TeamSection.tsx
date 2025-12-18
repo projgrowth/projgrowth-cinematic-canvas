@@ -12,55 +12,34 @@
  * - Supported formats: jpg, png, webp
  */
 
-import { Linkedin, Twitter } from "lucide-react";
+import { Instagram } from "lucide-react";
 import teamSarah from "@/assets/team-sarah.jpg";
 import teamMarcus from "@/assets/team-marcus.jpg";
-import teamEmily from "@/assets/team-emily.jpg";
-import teamDavid from "@/assets/team-david.jpg";
 
 interface TeamMember {
   name: string;
   role: string;
   bio: string;
   image: string;
-  linkedin?: string;
-  twitter?: string;
+  instagram?: string;
 }
 
 const TeamSection = () => {
   // TODO: Replace with real team member data
   const team: TeamMember[] = [
     {
-      name: "Sarah Chen", // PLACEHOLDER: Replace with real name
-      role: "Creative Director", // PLACEHOLDER: Replace with real role
-      bio: "15+ years crafting brand experiences that resonate and endure.", // PLACEHOLDER: Replace with real bio
+      name: "Team Member 1", // PLACEHOLDER: Replace with real name
+      role: "Role Title", // PLACEHOLDER: Replace with real role
+      bio: "Brief bio description here.", // PLACEHOLDER: Replace with real bio
       image: teamSarah, // PLACEHOLDER: Replace with real photo
-      linkedin: "#", // PLACEHOLDER: Replace with real LinkedIn URL
-      twitter: "#" // PLACEHOLDER: Replace with real Twitter URL
+      instagram: "https://www.instagram.com/projgrowth" // Links to main account for now
     },
     {
-      name: "Marcus Rodriguez", // PLACEHOLDER
-      role: "Lead Developer", // PLACEHOLDER
-      bio: "Full-stack architect passionate about clean code and scalable systems.", // PLACEHOLDER
+      name: "Team Member 2", // PLACEHOLDER
+      role: "Role Title", // PLACEHOLDER
+      bio: "Brief bio description here.", // PLACEHOLDER
       image: teamMarcus, // PLACEHOLDER
-      linkedin: "#", // PLACEHOLDER
-      twitter: "#" // PLACEHOLDER
-    },
-    {
-      name: "Emily Watson", // PLACEHOLDER
-      role: "UX Strategist", // PLACEHOLDER
-      bio: "Human-centered design advocate with expertise in user research.", // PLACEHOLDER
-      image: teamEmily, // PLACEHOLDER
-      linkedin: "#", // PLACEHOLDER
-      twitter: "#" // PLACEHOLDER
-    },
-    {
-      name: "David Kim", // PLACEHOLDER
-      role: "Growth Lead", // PLACEHOLDER
-      bio: "Data-driven marketer focused on sustainable growth strategies.", // PLACEHOLDER
-      image: teamDavid, // PLACEHOLDER
-      linkedin: "#", // PLACEHOLDER
-      twitter: "#" // PLACEHOLDER
+      instagram: "https://www.instagram.com/projgrowth" // Links to main account for now
     }
   ];
 
@@ -87,24 +66,14 @@ const TeamSection = () => {
             <p className="text-sm text-accent mb-3 text-center">{member.role}</p>
             <p className="text-sm text-mute leading-relaxed mb-4">{member.bio}</p>
             <div className="flex items-center justify-center gap-3">
-              {member.linkedin && (
+              {member.instagram && (
                 <a 
-                  href={member.linkedin}
+                  href={member.instagram}
                   className="p-2 border border-line rounded-md transition-all duration-sm hover:border-accent hover:text-accent"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Linkedin className="w-4 h-4" />
-                </a>
-              )}
-              {member.twitter && (
-                <a 
-                  href={member.twitter}
-                  className="p-2 border border-line rounded-md transition-all duration-sm hover:border-accent hover:text-accent"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Twitter className="w-4 h-4" />
+                  <Instagram className="w-4 h-4" />
                 </a>
               )}
             </div>

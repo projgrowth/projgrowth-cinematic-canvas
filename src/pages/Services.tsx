@@ -3,7 +3,6 @@ import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ProcessTimeline from "@/components/ProcessTimeline";
-import PricingEstimator from "@/components/PricingEstimator";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
@@ -203,11 +202,6 @@ const Services = () => {
           {/* Process Timeline */}
           <ScrollReveal variant="fade-up">
             <ProcessTimeline />
-          </ScrollReveal>
-
-          {/* Pricing Estimator */}
-          <ScrollReveal variant="fade-up">
-            <PricingEstimator />
           </ScrollReveal>
         </section>
       </TooltipProvider>

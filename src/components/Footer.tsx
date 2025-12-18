@@ -1,22 +1,15 @@
 /**
  * Footer Component
- * 
- * PLACEHOLDER CONTENT - Update before going live:
- * - Email address (currently hello@projgrowth.com)
- * - Social media URLs (currently "#")
  */
 
 import { Link } from "react-router-dom";
-import { Mail, Linkedin, Twitter, Github } from "lucide-react";
+import { Mail, Instagram } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  // TODO: Replace with real social media URLs
   const socialLinks = [
-    { icon: Twitter, href: "#", label: "Twitter" }, // PLACEHOLDER: Replace "#" with real URL
-    { icon: Linkedin, href: "#", label: "LinkedIn" }, // PLACEHOLDER: Replace "#" with real URL
-    { icon: Github, href: "#", label: "GitHub" }, // PLACEHOLDER: Replace "#" with real URL
+    { icon: Instagram, href: "https://www.instagram.com/projgrowth", label: "Instagram" },
   ];
 
   const contactEmail = "info@projgrowth.com";
