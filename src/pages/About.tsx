@@ -6,8 +6,9 @@
  */
 
 import Layout from "@/components/Layout";
-import TeamSection from "@/components/TeamSection";
-import TestimonialsCarousel from "@/components/TestimonialsCarousel";
+// Hidden for launch - uncomment when real content is ready:
+// import TeamSection from "@/components/TeamSection";
+// import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import ScrollReveal from "@/components/ScrollReveal";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useCounterAnimation } from "@/hooks/use-counter-animation";
@@ -119,15 +120,15 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-        {/* Team Section - Contains placeholder data */}
+        {/* Hidden for launch - uncomment when real content is ready:
         <ScrollReveal variant="fade-up">
           <TeamSection />
         </ScrollReveal>
 
-        {/* Testimonials - Contains placeholder data */}
         <ScrollReveal variant="fade-up">
           <TestimonialsCarousel />
         </ScrollReveal>
+        */}
       </section>
     </Layout>
   );
