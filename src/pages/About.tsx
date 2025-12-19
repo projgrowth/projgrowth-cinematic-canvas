@@ -1,8 +1,5 @@
 /**
  * About Page
- * 
- * PLACEHOLDER CONTENT sections are marked below.
- * Replace with real data before going live.
  */
 
 import Layout from "@/components/Layout";
@@ -10,25 +7,6 @@ import Layout from "@/components/Layout";
 // import TeamSection from "@/components/TeamSection";
 // import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import ScrollReveal from "@/components/ScrollReveal";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { useCounterAnimation } from "@/hooks/use-counter-animation";
-
-const AnimatedStat = ({ number, label }: { number: string; label: string }) => {
-  const { elementRef, isVisible } = useIntersectionObserver({ threshold: 0.5 });
-  const match = number.match(/(\d+)([+%]*)/);
-  const numericValue = match ? parseInt(match[1]) : 0;
-  const suffix = match ? match[2] : '';
-  const count = useCounterAnimation(numericValue, 2000, isVisible);
-
-  return (
-    <div ref={elementRef} className="text-center">
-      <div className="font-display text-5xl text-accent mb-2">
-        {count}{suffix}
-      </div>
-      <div className="text-mute">{label}</div>
-    </div>
-  );
-};
 
 const About = () => {
   const values = [
@@ -46,19 +24,10 @@ const About = () => {
     }
   ];
 
-  // TODO: Replace with real company statistics
-  // PLACEHOLDER STATS - Update these numbers with actual metrics
-  const stats = [
-    { number: "50+", label: "Projects Delivered" }, // PLACEHOLDER
-    { number: "8+", label: "Years Experience" }, // PLACEHOLDER
-    { number: "30+", label: "Happy Clients" }, // PLACEHOLDER
-    { number: "15", label: "Team Members" } // PLACEHOLDER
-  ];
-
   return (
     <Layout
       seoTitle="About Us - ProjGrowth | Meet Our Creative Team"
-      seoDescription="Learn about our mission, values, and the talented team behind ProjGrowth. 15+ team members dedicated to creating exceptional digital experiences."
+      seoDescription="Learn about our mission, values, and the talented team behind ProjGrowth. Dedicated to creating exceptional digital experiences."
       seoKeywords="about us, creative team, design studio team, company values, mission statement"
       canonicalUrl="/about"
     >
@@ -108,15 +77,6 @@ const About = () => {
                 </ScrollReveal>
               ))}
             </div>
-          </div>
-        </ScrollReveal>
-
-        {/* Stats - PLACEHOLDER DATA */}
-        <ScrollReveal variant="fade-up">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 py-16 md:py-24 border-t border-line">
-            {stats.map((stat) => (
-              <AnimatedStat key={stat.label} number={stat.number} label={stat.label} />
-            ))}
           </div>
         </ScrollReveal>
 

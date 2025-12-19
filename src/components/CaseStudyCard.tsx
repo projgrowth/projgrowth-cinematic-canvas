@@ -21,8 +21,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index }: CaseStudyCardProps) => {
   return (
     <div
       onClick={onClick}
-      className="group cursor-pointer animate-fade-in"
-      style={{ animationDelay: `${index * 100}ms`, animationFillMode: "both" }}
+      className="group cursor-pointer"
     >
       <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4">
         {/* Gradient background */}
