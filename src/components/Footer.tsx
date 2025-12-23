@@ -3,13 +3,15 @@
  */
 
 import { Link } from "react-router-dom";
-import { Mail, Instagram } from "lucide-react";
+import { Mail, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
     { icon: Instagram, href: "https://www.instagram.com/projgrowth", label: "Instagram" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/projgrowth", label: "LinkedIn" },
+    { icon: Twitter, href: "https://twitter.com/projgrowth", label: "Twitter" },
   ];
 
   const contactEmail = "info@projgrowth.com";
@@ -86,8 +88,10 @@ const Footer = () => {
                   <a
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="p-2 rounded-md border border-line text-mute hover:text-accent hover:border-accent transition-all duration-sm"
+                    className="p-2 rounded-md border border-line text-mute hover:text-accent hover:border-accent hover:bg-accent/10 hover:-translate-y-0.5 transition-all duration-200"
                   >
                     <social.icon className="w-4 h-4" />
                   </a>
