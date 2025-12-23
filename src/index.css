@@ -91,6 +91,7 @@
 
   html {
     @apply antialiased;
+    scroll-behavior: smooth;
     background-color: hsl(var(--base));
     color: hsl(var(--text));
     font-family: var(--font-body);
