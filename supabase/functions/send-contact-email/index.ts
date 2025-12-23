@@ -10,6 +10,70 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Rate limiting configuration
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const MAX_REQUESTS_PER_WINDOW = 5; // 5 requests per hour per IP
+
+// In-memory rate limit store (resets on function cold start, which is acceptable for this use case)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+// Clean up expired entries periodically
+function cleanupExpiredEntries() {
+  const now = Date.now();
+  for (const [ip, data] of rateLimitStore.entries()) {
+    if (now > data.resetTime) {
+      rateLimitStore.delete(ip);
+    }
+  }
+}
+
+// Check and update rate limit for an IP
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number; resetTime: number } {
+  const now = Date.now();
+  
+  // Clean up old entries occasionally (every 100 requests)
+  if (Math.random() < 0.01) {
+    cleanupExpiredEntries();
+  }
+  
+  const existing = rateLimitStore.get(ip);
+  
+  if (!existing || now > existing.resetTime) {
+    // First request or window expired - create new entry
+    const resetTime = now + RATE_LIMIT_WINDOW_MS;
+    rateLimitStore.set(ip, { count: 1, resetTime });
+    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1, resetTime };
+  }
+  
+  if (existing.count >= MAX_REQUESTS_PER_WINDOW) {
+    // Rate limit exceeded
+    return { allowed: false, remaining: 0, resetTime: existing.resetTime };
+  }
+  
+  // Increment counter
+  existing.count++;
+  rateLimitStore.set(ip, existing);
+  return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - existing.count, resetTime: existing.resetTime };
+}
+
+// Get client IP from request headers
+function getClientIp(req: Request): string {
+  // Check common headers for client IP (in order of preference)
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    // x-forwarded-for can contain multiple IPs, take the first one (original client)
+    return forwardedFor.split(",")[0].trim();
+  }
+  
+  const realIp = req.headers.get("x-real-ip");
+  if (realIp) {
+    return realIp.trim();
+  }
+  
+  // Fallback to a default if no IP header found
+  return "unknown";
+}
+
 // Input validation schema
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -34,6 +98,29 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Rate limiting check
+    const clientIp = getClientIp(req);
+    const rateLimit = checkRateLimit(clientIp);
+    
+    if (!rateLimit.allowed) {
+      const retryAfterSeconds = Math.ceil((rateLimit.resetTime - Date.now()) / 1000);
+      console.log(`Rate limit exceeded for IP: ${clientIp.substring(0, 8)}...`);
+      return new Response(
+        JSON.stringify({ 
+          error: "Too many requests. Please try again later.",
+          retryAfter: retryAfterSeconds
+        }),
+        {
+          status: 429,
+          headers: { 
+            "Content-Type": "application/json",
+            "Retry-After": String(retryAfterSeconds),
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
     const body = await req.json();
     
     // Validate input
@@ -79,13 +166,14 @@ const handler = async (req: Request): Promise<Response> => {
       status: 200,
       headers: {
         "Content-Type": "application/json",
+        "X-RateLimit-Remaining": String(rateLimit.remaining),
         ...corsHeaders,
       },
     });
   } catch (error: any) {
     console.error("Error in send-contact-email function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "An error occurred. Please try again." }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
