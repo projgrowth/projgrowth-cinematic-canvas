@@ -71,20 +71,8 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            message: formData.message,
-          }
-        ]);
-
-      if (error) throw error;
-
-      // Call edge function to send email notification
-      const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+      // Call rate-limited edge function which handles both DB insert and email
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: { 
           name: formData.name, 
           email: formData.email, 
@@ -92,8 +80,18 @@ const Contact = () => {
         }
       });
 
-      if (emailError) {
-        console.error("Error sending notification email:", emailError);
+      if (error) {
+        // Check for rate limit error
+        if (error.message?.includes('429') || error.message?.includes('Too many requests')) {
+          toast({
+            title: "Too many requests",
+            description: "Please wait a while before submitting again.",
+            variant: "destructive",
+          });
+          setIsSubmitting(false);
+          return;
+        }
+        throw error;
       }
 
       setIsSubmitting(false);
@@ -110,7 +108,6 @@ const Contact = () => {
         setIsSuccess(false);
       }, 2000);
     } catch (error) {
-      console.error('Error submitting form:', error);
       setIsSubmitting(false);
       toast({
         title: "Error",

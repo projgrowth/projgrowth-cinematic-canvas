@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@4.0.0";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.84.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -140,7 +141,46 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Processing contact form submission");
 
-    // Sanitize user input before including in HTML
+    // Initialize Supabase client with service role for inserting into protected table
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error("Missing Supabase configuration");
+      return new Response(
+        JSON.stringify({ error: "Server configuration error" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Insert contact submission into database (using service role - bypasses RLS)
+    const { error: dbError } = await supabase
+      .from("contact_submissions")
+      .insert({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        message: message.trim(),
+      });
+
+    if (dbError) {
+      console.error("Database error:", dbError);
+      return new Response(
+        JSON.stringify({ error: "Failed to save submission" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    console.log("Submission saved to database");
+
+    // Sanitize user input before including in HTML email
     const safeName = sanitizeHtml(name);
     const safeEmail = sanitizeHtml(email);
     const safeMessage = sanitizeHtml(message).replace(/\n/g, '<br>');
@@ -162,7 +202,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Email sent successfully:", emailResponse);
 
-    return new Response(JSON.stringify(emailResponse), {
+    return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
