@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
+import FeaturedWorkSkeleton from "@/components/FeaturedWorkSkeleton";
 import NavigationGuide from "@/components/NavigationGuide";
 import ScrollReveal from "@/components/ScrollReveal";
 import { caseStudies } from "@/data/caseStudies";
@@ -11,6 +13,14 @@ import { Link } from "react-router-dom";
 const featuredProjects = caseStudies.slice(0, 3);
 
 const Home = () => {
+  const [isLoadingWork, setIsLoadingWork] = useState(true);
+
+  useEffect(() => {
+    // Simulate content loading for skeleton demo
+    const timer = setTimeout(() => setIsLoadingWork(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Layout
       seoTitle="ProjGrowth - Digital Design Studio | Brand Strategy & Web Development"
@@ -120,7 +130,11 @@ const Home = () => {
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.2}>
-          <FeaturedWorkSlider projects={featuredProjects} />
+          {isLoadingWork ? (
+            <FeaturedWorkSkeleton />
+          ) : (
+            <FeaturedWorkSlider projects={featuredProjects} />
+          )}
         </ScrollReveal>
       </section>
 
