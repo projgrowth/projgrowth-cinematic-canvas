@@ -1,10 +1,11 @@
+import { useState, useMemo, useEffect } from "react";
 import Layout from "@/components/Layout";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
 import CaseStudyCard from "@/components/CaseStudyCard";
+import CaseStudyCardSkeleton from "@/components/CaseStudyCardSkeleton";
 import CaseStudySheet from "@/components/CaseStudySheet";
 import ScrollReveal from "@/components/ScrollReveal";
-import { useState, useMemo } from "react";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 
 const Work = () => {
@@ -12,6 +13,13 @@ const Work = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate content loading for skeleton demo
+    const timer = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredCaseStudies = useMemo(() => {
     return caseStudies.filter((study) => {
@@ -95,15 +103,19 @@ const Work = () => {
           </ScrollReveal>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {filteredCaseStudies.map((study, idx) => (
-              <ScrollReveal key={study.id} variant="fade-up" delay={idx * 0.05}>
-                <CaseStudyCard
-                  caseStudy={study}
-                  onClick={() => handleCardClick(study)}
-                  index={idx}
-                />
-              </ScrollReveal>
-            ))}
+            {isLoading ? (
+              <CaseStudyCardSkeleton count={6} />
+            ) : (
+              filteredCaseStudies.map((study, idx) => (
+                <ScrollReveal key={study.id} variant="fade-up" delay={idx * 0.05}>
+                  <CaseStudyCard
+                    caseStudy={study}
+                    onClick={() => handleCardClick(study)}
+                    index={idx}
+                  />
+                </ScrollReveal>
+              ))
+            )}
           </div>
         )}
       </section>
