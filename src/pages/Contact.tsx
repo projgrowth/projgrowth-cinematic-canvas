@@ -16,7 +16,8 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
+    website: "" // Honeypot field - should remain empty
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -76,7 +77,8 @@ const Contact = () => {
         body: { 
           name: formData.name, 
           email: formData.email, 
-          message: formData.message 
+          message: formData.message,
+          website: formData.website // Honeypot field
         }
       });
 
@@ -104,7 +106,7 @@ const Contact = () => {
 
       // Reset form after 2 seconds
       setTimeout(() => {
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", message: "", website: "" });
         setIsSuccess(false);
       }, 2000);
     } catch (error) {
@@ -242,6 +244,20 @@ const Contact = () => {
                 {errors.message && (
                   <p className="mt-1 text-sm text-red-500 animate-fade-in">{errors.message}</p>
                 )}
+              </div>
+
+              {/* Honeypot field - hidden from humans, visible to bots */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                  type="text"
+                  id="website"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
               </div>
 
               <div className="col-span-12">
