@@ -80,6 +80,7 @@ const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
   message: z.string().trim().min(1, "Message is required").max(5000, "Message must be less than 5000 characters"),
+  website: z.string().optional(), // Honeypot field - should be empty
 });
 
 // Sanitize HTML special characters to prevent injection
@@ -137,7 +138,17 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const { name, email, message } = validationResult.data;
+    const { name, email, message, website } = validationResult.data;
+
+    // Honeypot check - if website field is filled, it's likely a bot
+    if (website && website.trim() !== "") {
+      console.log("Honeypot triggered - bot detected");
+      // Return success to not tip off the bot, but don't process
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     console.log("Processing contact form submission");
 
