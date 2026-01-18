@@ -41,7 +41,7 @@ const NavigationGuide = () => {
         </h3>
         
         {/* Primary Navigation Paths */}
-        <div className="flex flex-wrap gap-6 mb-4">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6 mb-4">
         {guide.primaryPaths.map((path) => (
           <Link
             key={path.path}

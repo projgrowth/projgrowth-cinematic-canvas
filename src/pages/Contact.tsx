@@ -138,7 +138,7 @@ const Contact = () => {
         <div className="grid-12 gap-y-16">
           {/* Header */}
           <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-6">
-            <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
               Start Your
               <br />
               <span className="text-accent">Project</span>

@@ -85,7 +85,7 @@ const Services = () => {
         <section className="container-site py-16 md:py-24">
           <ScrollReveal variant="fade-up">
             <div className="mb-16">
-              <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
+              <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
                 Our Services
               </h1>
               <p className="text-xl text-mute max-w-2xl">
@@ -144,16 +144,24 @@ const Services = () => {
                       <ul className="stack gap-3">
                         {service.capabilities.map((cap, i) => (
                           <li key={i}>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <button className="text-text hover:text-accent transition-colors cursor-help text-left text-sm md:text-base min-h-[44px] flex items-center">
-                                  {cap.name}
-                                </button>
-                              </TooltipTrigger>
-                              <TooltipContent side="left" className="max-w-xs">
-                                <p className="text-sm">{cap.tooltip}</p>
-                              </TooltipContent>
-                            </Tooltip>
+                            {/* Desktop: Tooltip on hover */}
+                            <div className="hidden md:block">
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button className="text-text hover:text-accent transition-colors cursor-help text-left text-sm md:text-base min-h-[44px] flex items-center">
+                                    {cap.name}
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent side="left" className="max-w-xs">
+                                  <p className="text-sm">{cap.tooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </div>
+                            {/* Mobile: Inline description */}
+                            <div className="md:hidden">
+                              <span className="text-text text-sm block">{cap.name}</span>
+                              <span className="text-mute text-xs">{cap.tooltip}</span>
+                            </div>
                           </li>
                         ))}
                       </ul>
