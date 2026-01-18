@@ -9,6 +9,7 @@ export interface CaseStudy {
   howWeHelped: string[];
   whyItMatters: string;
   image: string;
+  logo?: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -33,7 +34,8 @@ export const caseStudies: CaseStudy[] = [
       "Prototyped a self-guided tax strategy product"
     ],
     whyItMatters: "Clearer communication, stronger authority, and a reusable system that compounds every month.",
-    image: "/case-gfg.jpg"
+    image: "/case-gfg.jpg",
+    logo: "/logos/gfg-solutions.png"
   },
   {
     id: "smart-financial",
@@ -56,7 +58,8 @@ export const caseStudies: CaseStudy[] = [
       "Rebuilt website with a clean, trust-forward aesthetic"
     ],
     whyItMatters: "High-clarity messaging + consistent visuals = lower friction and stronger conversion paths.",
-    image: "/case-smartfinancial.jpg"
+    image: "/case-smartfinancial.jpg",
+    logo: "/logos/smart-financial.jpg"
   },
   {
     id: "real-thread",
@@ -77,7 +80,8 @@ export const caseStudies: CaseStudy[] = [
       "Delivered product and process-focused reels"
     ],
     whyItMatters: "Authentic storytelling builds loyalty, trust, and long-term brand equity.",
-    image: "/case-realthread.jpg"
+    image: "/case-realthread.jpg",
+    logo: "/logos/real-thread.png"
   },
   {
     id: "victoria-jewelers",
@@ -97,7 +101,8 @@ export const caseStudies: CaseStudy[] = [
       "Created consistent, detail-focused luxury storytelling"
     ],
     whyItMatters: "Luxury is sold through detail. Stronger visuals directly raise perceived value.",
-    image: "/case-victoria.jpg"
+    image: "/case-victoria.jpg",
+    logo: "/logos/victoria-jewelers.png"
   },
   {
     id: "diverse-wealth",
@@ -118,7 +123,8 @@ export const caseStudies: CaseStudy[] = [
       "Built a clean, repeatable publishing system"
     ],
     whyItMatters: "Consistent visibility builds trust before the first meeting.",
-    image: "/case-diversewealth.jpg"
+    image: "/case-diversewealth.jpg",
+    logo: "/logos/diverse-wealth.png"
   },
   {
     id: "windermere-team",
@@ -138,7 +144,8 @@ export const caseStudies: CaseStudy[] = [
       "Replicable monthly production workflow"
     ],
     whyItMatters: "Human connection accelerates prospect trust and drives inbound.",
-    image: "/case-windermere.jpg"
+    image: "/case-windermere.jpg",
+    logo: "/logos/northwestern-mutual.png"
   },
   {
     id: "custom-dinks",
@@ -159,7 +166,8 @@ export const caseStudies: CaseStudy[] = [
       "Structured a smooth customization flow"
     ],
     whyItMatters: "Interactive customization increases engagement and purchase intent.",
-    image: "/case-customdinks.jpg"
+    image: "/case-customdinks.jpg",
+    logo: "/logos/custom-dinks.png"
   },
   {
     id: "florida-private",
@@ -180,7 +188,8 @@ export const caseStudies: CaseStudy[] = [
       "Designed modern, minimal UI layouts"
     ],
     whyItMatters: "Faster reviews, fewer errors, and a foundation for a scalable internal tool.",
-    image: "/case-floridaprivate.jpg"
+    image: "/case-floridaprivate.jpg",
+    logo: "/logos/florida-private-providers.png"
   },
   {
     id: "fritzler-law",
@@ -202,7 +211,8 @@ export const caseStudies: CaseStudy[] = [
       "Implemented a clear inquiry structure"
     ],
     whyItMatters: "Professional services rely on trust. A modern, authoritative site shortens the decision cycle.",
-    image: "/case-fritzler.jpg"
+    image: "/case-fritzler.jpg",
+    logo: "/logos/fritzler-law.png"
   }
 ];
 
