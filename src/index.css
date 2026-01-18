@@ -255,4 +255,19 @@
   .animate-marquee {
     animation: marquee 30s linear infinite;
   }
+
+  /* Enhanced focus styles for accessibility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base;
+  }
+
+  /* Button hover micro-interactions */
+  .btn-interactive {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
+  }
+
+  /* Skip link styles */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-accent focus:text-base focus:rounded-md focus:font-medium focus:shadow-lg;
+  }
 }

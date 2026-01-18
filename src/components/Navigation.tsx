@@ -42,46 +42,52 @@ const Navigation = () => {
   ];
 
   return (
-    <nav 
-      className={`
-        fixed top-0 left-0 right-0 z-50 bg-base border-b border-line/50 
-        transition-transform duration-md ease-smooth
-        ${isHidden ? "-translate-y-full" : "translate-y-0"}
-      `}
-    >
-      <div className="container-site">
-        <div className="flex items-center justify-between py-6">
-          <Link 
-            to="/" 
-            className="text-2xl font-display font-normal text-text hover:text-accent transition-colors duration-sm"
-          >
-            ProjGrowth
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-10">
-            {links.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`
-                  text-sm transition-colors duration-sm
-                  ${location.pathname === link.path ? 'text-text' : 'text-mute hover:text-text'}
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
-                `}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+    <header>
+      <nav 
+        className={`
+          fixed top-0 left-0 right-0 z-50 bg-base border-b border-line/50 
+          transition-transform duration-md ease-smooth
+          ${isHidden ? "-translate-y-full" : "translate-y-0"}
+        `}
+        aria-label="Main navigation"
+      >
+        <div className="container-site">
+          <div className="flex items-center justify-between py-6">
+            <Link 
+              to="/" 
+              className="text-2xl font-display font-normal text-text hover:text-accent transition-colors duration-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm"
+              aria-label="ProjGrowth - Go to homepage"
+            >
+              ProjGrowth
+            </Link>
+            
+            {/* Desktop Navigation */}
+            <ul className="hidden md:flex gap-10" role="list">
+              {links.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className={`
+                      text-sm transition-colors duration-sm
+                      ${location.pathname === link.path ? 'text-text' : 'text-mute hover:text-text'}
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
+                    `}
+                    aria-current={location.pathname === link.path ? "page" : undefined}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          {/* Mobile Navigation */}
-          <div className="md:hidden">
-            <MobileNav />
+            {/* Mobile Navigation */}
+            <div className="md:hidden">
+              <MobileNav />
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 
