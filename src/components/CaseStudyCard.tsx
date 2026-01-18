@@ -1,5 +1,4 @@
 import { CaseStudy } from "@/data/caseStudies";
-import { FileText, Globe, Sparkles, Film, Cpu } from "lucide-react";
 
 interface CaseStudyCardProps {
   caseStudy: CaseStudy;
@@ -7,17 +6,7 @@ interface CaseStudyCardProps {
   index: number;
 }
 
-const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  "Content Systems": FileText,
-  "Web & Product": Globe,
-  "Brand & Messaging": Sparkles,
-  "Cinematic Production": Film,
-  "AI & Tools": Cpu,
-};
-
 const CaseStudyCard = ({ caseStudy, onClick, index }: CaseStudyCardProps) => {
-  const Icon = categoryIcons[caseStudy.category] || FileText;
-  
   return (
     <div
       onClick={onClick}
@@ -27,9 +16,19 @@ const CaseStudyCard = ({ caseStudy, onClick, index }: CaseStudyCardProps) => {
         {/* Gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
         
-        {/* Category icon */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Icon className="w-16 h-16 text-accent/20 transition-all duration-md group-hover:text-accent/30 group-hover:scale-110" />
+        {/* Logo display */}
+        <div className="absolute inset-0 flex items-center justify-center p-8">
+          {caseStudy.logo ? (
+            <img 
+              src={caseStudy.logo} 
+              alt={`${caseStudy.title} logo`}
+              className="max-w-[70%] max-h-[60%] object-contain opacity-70 group-hover:opacity-100 transition-all duration-md group-hover:scale-105 brightness-0 invert"
+            />
+          ) : (
+            <span className="font-display text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-md">
+              {caseStudy.title.split(' ').map(word => word[0]).join('')}
+            </span>
+          )}
         </div>
         
         {/* Mobile: always visible arrow indicator, Desktop: hover overlay */}

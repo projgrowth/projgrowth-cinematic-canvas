@@ -1,14 +1,15 @@
 import ScrollReveal from "./ScrollReveal";
 
-// Placeholder client logos with placeholder text
-// Replace with actual client logo images when available
 const clients = [
-  { name: "TechCorp", placeholder: "TC" },
-  { name: "Innovate Labs", placeholder: "IL" },
-  { name: "Digital First", placeholder: "DF" },
-  { name: "Growth Co", placeholder: "GC" },
-  { name: "Future Systems", placeholder: "FS" },
-  { name: "Creative Hub", placeholder: "CH" },
+  { name: "GFG Solutions", logo: "/logos/gfg-solutions.png" },
+  { name: "Smart Financial Planning", logo: "/logos/smart-financial.jpg" },
+  { name: "Real Thread", logo: "/logos/real-thread.png" },
+  { name: "Victoria Jewelers", logo: "/logos/victoria-jewelers.png" },
+  { name: "Diverse Wealth", logo: "/logos/diverse-wealth.png" },
+  { name: "Northwestern Mutual", logo: "/logos/northwestern-mutual.png" },
+  { name: "Custom Dinks", logo: "/logos/custom-dinks.png" },
+  { name: "Florida Private Providers", logo: "/logos/florida-private-providers.png" },
+  { name: "Fritzler Law", logo: "/logos/fritzler-law.png" },
 ];
 
 const ClientLogos = () => {
@@ -30,13 +31,14 @@ const ClientLogos = () => {
           {clients.map((client, idx) => (
             <div
               key={idx}
-              className="group flex items-center justify-center w-24 h-16 md:w-32 md:h-20 text-mute hover:text-accent transition-colors duration-sm"
+              className="group flex items-center justify-center w-24 h-16 md:w-32 md:h-20"
               aria-label={client.name}
             >
-              {/* Placeholder logo - replace with actual images */}
-              <span className="font-display text-2xl md:text-3xl font-medium opacity-60 group-hover:opacity-100 transition-opacity duration-sm">
-                {client.placeholder}
-              </span>
+              <img 
+                src={client.logo} 
+                alt={`${client.name} logo`}
+                className="max-w-full max-h-full object-contain opacity-50 group-hover:opacity-80 transition-opacity duration-sm brightness-0 invert"
+              />
             </div>
           ))}
         </div>
