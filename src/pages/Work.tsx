@@ -47,7 +47,7 @@ const Work = () => {
       <section className="container-site py-16 md:py-24">
         <ScrollReveal variant="fade-up">
           <div className="mb-16">
-            <h1 className="font-display text-5xl lg:text-7xl text-text mb-6">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
               Work
             </h1>
             <p className="text-xl text-mute max-w-3xl">
