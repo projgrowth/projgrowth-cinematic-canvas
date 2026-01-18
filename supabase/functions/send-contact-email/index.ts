@@ -197,7 +197,7 @@ const handler = async (req: Request): Promise<Response> => {
     const safeMessage = sanitizeHtml(message).replace(/\n/g, '<br>');
 
     // Send notification to your team
-    const emailResponse = await resend.emails.send({
+    const teamEmailResponse = await resend.emails.send({
       from: "ProjGrowth <onboarding@resend.dev>",
       to: ["info@projgrowth.com"],
       replyTo: email,
@@ -211,7 +211,66 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    console.log("Team notification sent:", teamEmailResponse);
+
+    // Send confirmation email to the user
+    const userEmailResponse = await resend.emails.send({
+      from: "ProjGrowth <onboarding@resend.dev>",
+      to: [email],
+      subject: "We received your message - ProjGrowth",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Message Received</title>
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #0f0f10; color: #f0ede6;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+              <h1 style="font-size: 32px; font-weight: 500; margin: 0; color: #82b3c9;">PG</h1>
+            </div>
+            
+            <h2 style="font-size: 24px; font-weight: 500; margin-bottom: 20px; color: #f0ede6;">
+              Thank you for reaching out, ${safeName}!
+            </h2>
+            
+            <p style="font-size: 16px; line-height: 1.6; color: #888888; margin-bottom: 20px;">
+              We've received your message and are excited to connect with you. Our team typically responds within 24-48 hours.
+            </p>
+            
+            <div style="background-color: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 24px; margin: 30px 0;">
+              <p style="font-size: 14px; color: #888888; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 1px;">
+                Your message:
+              </p>
+              <p style="font-size: 16px; line-height: 1.6; color: #f0ede6; margin: 0;">
+                ${safeMessage}
+              </p>
+            </div>
+            
+            <p style="font-size: 16px; line-height: 1.6; color: #888888; margin-bottom: 30px;">
+              In the meantime, feel free to explore our recent work at <a href="https://projgrowth.com/work" style="color: #82b3c9; text-decoration: none;">projgrowth.com/work</a>.
+            </p>
+            
+            <p style="font-size: 16px; line-height: 1.6; color: #f0ede6;">
+              Best regards,<br>
+              <strong>The ProjGrowth Team</strong>
+            </p>
+            
+            <hr style="border: none; border-top: 1px solid #27272a; margin: 40px 0;">
+            
+            <p style="font-size: 12px; color: #666666; text-align: center;">
+              ProjGrowth • Digital Design Studio<br>
+              <a href="https://projgrowth.com" style="color: #82b3c9; text-decoration: none;">projgrowth.com</a>
+            </p>
+          </div>
+        </body>
+        </html>
+      `,
+    });
+
+    console.log("User confirmation sent:", userEmailResponse);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

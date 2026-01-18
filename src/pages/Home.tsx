@@ -5,6 +5,7 @@ import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
 import FeaturedWorkSkeleton from "@/components/FeaturedWorkSkeleton";
 import NavigationGuide from "@/components/NavigationGuide";
 import ScrollReveal from "@/components/ScrollReveal";
+import ClientLogos from "@/components/ClientLogos";
 import { caseStudies } from "@/data/caseStudies";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -137,6 +138,9 @@ const Home = () => {
           )}
         </ScrollReveal>
       </section>
+
+      {/* Client Logos Section */}
+      <ClientLogos />
 
       {/* Navigation Guide Section */}
       <ScrollReveal variant="fade-up">
