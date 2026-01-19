@@ -102,9 +102,9 @@ const Work = () => {
 
   return (
     <Layout
-      seoTitle="Work - ProjGrowth | Case Studies & Portfolio"
-      seoDescription="A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity."
-      seoKeywords="case studies, content systems, web design, brand strategy, cinematic production, AI tools"
+      seoTitle="Our Work - ProjGrowth | Portfolio & Case Studies"
+      seoDescription="Explore our portfolio of successful brand strategy, web design, and content system projects. See how we've helped businesses like GFG Solutions, Smart Financial, and more grow their digital presence."
+      seoKeywords="portfolio, case studies, brand strategy examples, web design portfolio, content systems, cinematic production, digital projects"
       canonicalUrl="/work"
     >
       <section className="container-site py-16 md:py-24 relative">
