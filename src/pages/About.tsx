@@ -3,9 +3,6 @@
  */
 
 import Layout from "@/components/Layout";
-// Hidden for launch - uncomment when real content is ready:
-// import TeamSection from "@/components/TeamSection";
-// import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import ScrollReveal from "@/components/ScrollReveal";
 
 const About = () => {
@@ -80,15 +77,6 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-        {/* Hidden for launch - uncomment when real content is ready:
-        <ScrollReveal variant="fade-up">
-          <TeamSection />
-        </ScrollReveal>
-
-        <ScrollReveal variant="fade-up">
-          <TestimonialsCarousel />
-        </ScrollReveal>
-        */}
       </section>
     </Layout>
   );

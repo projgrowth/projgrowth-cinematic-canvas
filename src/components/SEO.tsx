@@ -6,6 +6,7 @@ interface SEOProps {
   keywords?: string;
   ogImage?: string;
   canonicalUrl?: string;
+  type?: "website" | "article";
 }
 
 const SEO = ({
@@ -14,9 +15,83 @@ const SEO = ({
   keywords = "digital design, web development, brand strategy, UI/UX design, creative studio",
   ogImage = "/og-image.png",
   canonicalUrl,
+  type = "website",
 }: SEOProps) => {
   const siteUrl = "https://projgrowth.com";
   const fullUrl = canonicalUrl ? `${siteUrl}${canonicalUrl}` : siteUrl;
+
+  // JSON-LD Structured Data for Organization
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "ProjGrowth",
+    url: siteUrl,
+    logo: `${siteUrl}/favicon.png`,
+    description: "A modern creative studio focused on brand strategy, digital design, and web development.",
+    sameAs: [
+      "https://www.instagram.com/projgrowth"
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "info@projgrowth.com",
+      contactType: "customer service"
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "US"
+    }
+  };
+
+  // JSON-LD for LocalBusiness / ProfessionalService
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "ProjGrowth",
+    url: siteUrl,
+    image: `${siteUrl}/og-image.png`,
+    description: "Digital design studio specializing in brand strategy, UI/UX design, and web development.",
+    priceRange: "$$",
+    openingHours: "Mo-Fr 09:00-18:00",
+    email: "info@projgrowth.com",
+    areaServed: {
+      "@type": "Country",
+      name: "United States"
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Digital Services",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Brand Strategy"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Digital Design"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Web Development"
+          }
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Growth Marketing"
+          }
+        }
+      ]
+    }
+  };
 
   return (
     <Helmet>
@@ -28,7 +103,7 @@ const SEO = ({
       <link rel="canonical" href={fullUrl} />
 
       {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
+      <meta property="og:type" content={type} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:site_name" content="ProjGrowth" />
       <meta property="og:title" content={title} />
@@ -47,6 +122,15 @@ const SEO = ({
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       <meta name="language" content="English" />
       <meta name="author" content="ProjGrowth" />
+      <meta name="robots" content="index, follow" />
+
+      {/* JSON-LD Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify(organizationSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(localBusinessSchema)}
+      </script>
     </Helmet>
   );
 };
