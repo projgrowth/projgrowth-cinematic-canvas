@@ -22,7 +22,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
             <img 
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
-              className="h-10 max-w-[80%] object-contain opacity-70 group-hover:opacity-100 transition-all duration-300 brightness-0 invert"
+              className="h-10 max-w-[80%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300"
             />
           ) : (
             <span className="font-display text-xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
@@ -73,7 +73,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
             <img 
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
-              className="h-12 max-w-[80%] object-contain opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 brightness-0 invert"
+              className="h-12 max-w-[80%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
             />
           ) : (
             <span className="font-display text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">

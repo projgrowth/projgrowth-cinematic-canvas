@@ -35,7 +35,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Clearer communication, stronger authority, and a reusable system that compounds every month.",
     image: "/case-gfg.jpg",
-    logo: "/logos/gfg-solutions.png"
+    logo: "/logos/gfg-solutions.svg"
   },
   {
     id: "smart-financial",
@@ -59,7 +59,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "High-clarity messaging + consistent visuals = lower friction and stronger conversion paths.",
     image: "/case-smartfinancial.jpg",
-    logo: "/logos/smart-financial.jpg"
+    logo: "/logos/smart-financial.png"
   },
   {
     id: "real-thread",
@@ -81,7 +81,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Authentic storytelling builds loyalty, trust, and long-term brand equity.",
     image: "/case-realthread.jpg",
-    logo: "/logos/real-thread.png"
+    logo: "/logos/real-thread.svg"
   },
   {
     id: "victoria-jewelers",
@@ -102,7 +102,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Luxury is sold through detail. Stronger visuals directly raise perceived value.",
     image: "/case-victoria.jpg",
-    logo: "/logos/victoria-jewelers.png"
+    logo: "/logos/victoria-jewelers.svg"
   },
   {
     id: "diverse-wealth",
@@ -124,7 +124,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Consistent visibility builds trust before the first meeting.",
     image: "/case-diversewealth.jpg",
-    logo: "/logos/diverse-wealth.png"
+    logo: "/logos/diverse-wealth.svg"
   },
   {
     id: "windermere-team",
@@ -145,7 +145,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Human connection accelerates prospect trust and drives inbound.",
     image: "/case-windermere.jpg",
-    logo: "/logos/northwestern-mutual.png"
+    logo: "/logos/northwestern-mutual.svg"
   },
   {
     id: "custom-dinks",
@@ -167,7 +167,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Interactive customization increases engagement and purchase intent.",
     image: "/case-customdinks.jpg",
-    logo: "/logos/custom-dinks.png"
+    logo: "/logos/custom-dinks.svg"
   },
   {
     id: "florida-private",
@@ -189,7 +189,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Faster reviews, fewer errors, and a foundation for a scalable internal tool.",
     image: "/case-floridaprivate.jpg",
-    logo: "/logos/florida-private-providers.png"
+    logo: "/logos/florida-private-providers.svg"
   },
   {
     id: "fritzler-law",
@@ -212,7 +212,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     whyItMatters: "Professional services rely on trust. A modern, authoritative site shortens the decision cycle.",
     image: "/case-fritzler.jpg",
-    logo: "/logos/fritzler-law.png"
+    logo: "/logos/fritzler-law.svg"
   }
 ];
 
