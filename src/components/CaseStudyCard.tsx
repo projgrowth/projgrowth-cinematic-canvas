@@ -15,14 +15,14 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         className="group cursor-pointer flex gap-6 p-6 rounded-lg border border-line bg-surface/50 hover:border-accent/50 hover:bg-surface transition-all duration-300 hover:shadow-lg hover:shadow-accent/5"
       >
         {/* Logo */}
-        <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-line bg-surface flex items-center justify-center">
+        <div className="relative w-28 h-28 flex-shrink-0 overflow-hidden rounded-md border border-line bg-surface flex items-center justify-center">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', backgroundSize: '8px 8px' }} />
           {caseStudy.logo ? (
             <img 
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
-              className="h-10 max-w-[80%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300"
+              className="h-14 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300"
             />
           ) : (
             <span className="font-display text-xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
@@ -73,7 +73,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
             <img 
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
-              className="h-12 max-w-[80%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
+              className="h-16 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
             />
           ) : (
             <span className="font-display text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
