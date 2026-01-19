@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/Layout";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
@@ -7,22 +8,57 @@ import CaseStudyCardSkeleton from "@/components/CaseStudyCardSkeleton";
 import CaseStudySheet from "@/components/CaseStudySheet";
 import ScrollReveal from "@/components/ScrollReveal";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
+import { Grid3X3, List, ArrowUpDown } from "lucide-react";
+
+type SortOption = "default" | "a-z" | "z-a" | "category";
+type ViewMode = "grid" | "list";
+
+const sortOptions: { value: SortOption; label: string }[] = [
+  { value: "default", label: "Default" },
+  { value: "a-z", label: "A → Z" },
+  { value: "z-a", label: "Z → A" },
+  { value: "category", label: "Category" },
+];
 
 const Work = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Initialize state from URL params
+  const [activeCategory, setActiveCategory] = useState(() => 
+    searchParams.get("category") || "All"
+  );
+  const [searchQuery, setSearchQuery] = useState(() => 
+    searchParams.get("q") || ""
+  );
+  const [sortBy, setSortBy] = useState<SortOption>(() => 
+    (searchParams.get("sort") as SortOption) || "default"
+  );
+  const [viewMode, setViewMode] = useState<ViewMode>(() => 
+    (searchParams.get("view") as ViewMode) || "grid"
+  );
+  
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Sync state to URL
   useEffect(() => {
-    // Simulate content loading for skeleton demo
+    const params = new URLSearchParams();
+    if (activeCategory !== "All") params.set("category", activeCategory);
+    if (searchQuery) params.set("q", searchQuery);
+    if (sortBy !== "default") params.set("sort", sortBy);
+    if (viewMode !== "grid") params.set("view", viewMode);
+    
+    setSearchParams(params, { replace: true });
+  }, [activeCategory, searchQuery, sortBy, viewMode, setSearchParams]);
+
+  useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 600);
     return () => clearTimeout(timer);
   }, []);
 
-  const filteredCaseStudies = useMemo(() => {
-    return caseStudies.filter((study) => {
+  const filteredAndSortedCaseStudies = useMemo(() => {
+    let result = caseStudies.filter((study) => {
       const matchesCategory = activeCategory === "All" || study.categories.includes(activeCategory);
       const matchesSearch = 
         study.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -30,12 +66,37 @@ const Work = () => {
         study.category.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, searchQuery]);
+
+    // Apply sorting
+    switch (sortBy) {
+      case "a-z":
+        result = [...result].sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "z-a":
+        result = [...result].sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case "category":
+        result = [...result].sort((a, b) => a.category.localeCompare(b.category));
+        break;
+      default:
+        break;
+    }
+
+    return result;
+  }, [activeCategory, searchQuery, sortBy]);
 
   const handleCardClick = (study: CaseStudy) => {
     setSelectedCaseStudy(study);
     setSheetOpen(true);
   };
+
+  const handleClearFilters = () => {
+    setActiveCategory("All");
+    setSearchQuery("");
+    setSortBy("default");
+  };
+
+  const hasActiveFilters = activeCategory !== "All" || searchQuery || sortBy !== "default";
 
   return (
     <Layout
@@ -65,22 +126,72 @@ const Work = () => {
               placeholder="Search case studies..."
             />
 
-            <CategoryFilter
-              categories={categories}
-              activeCategory={activeCategory}
-              onCategoryChange={setActiveCategory}
-            />
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <CategoryFilter
+                categories={categories}
+                activeCategory={activeCategory}
+                onCategoryChange={setActiveCategory}
+              />
+
+              {/* Sort & View Controls */}
+              <div className="flex items-center gap-3">
+                {/* Sort Dropdown */}
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as SortOption)}
+                    className="appearance-none pl-9 pr-8 py-2 bg-surface border border-line rounded-md text-sm text-text cursor-pointer hover:border-accent/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
+                  >
+                    {sortOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-mute pointer-events-none" />
+                  <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-mute pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+
+                {/* View Toggle */}
+                <div className="flex border border-line rounded-md overflow-hidden">
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-2 transition-colors ${
+                      viewMode === "grid" 
+                        ? "bg-accent/10 text-accent" 
+                        : "text-mute hover:text-text hover:bg-surface"
+                    }`}
+                    aria-label="Grid view"
+                  >
+                    <Grid3X3 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-2 transition-colors ${
+                      viewMode === "list" 
+                        ? "bg-accent/10 text-accent" 
+                        : "text-mute hover:text-text hover:bg-surface"
+                    }`}
+                    aria-label="List view"
+                  >
+                    <List className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
 
             {/* Results Counter */}
-            {(activeCategory !== "All" || searchQuery) && (
+            {hasActiveFilters && (
               <p className="text-sm text-mute">
-                Showing {filteredCaseStudies.length} of {caseStudies.length} projects
+                Showing {filteredAndSortedCaseStudies.length} of {caseStudies.length} projects
               </p>
             )}
           </div>
         </ScrollReveal>
 
-        {filteredCaseStudies.length === 0 ? (
+        {filteredAndSortedCaseStudies.length === 0 ? (
           <ScrollReveal variant="fade-up">
             <div className="text-center py-24 space-y-6">
               <div className="w-16 h-16 mx-auto rounded-full bg-surface border border-line flex items-center justify-center">
@@ -91,10 +202,7 @@ const Work = () => {
                 <p className="text-mute">Try adjusting your filters or search terms</p>
               </div>
               <button
-                onClick={() => {
-                  setActiveCategory("All");
-                  setSearchQuery("");
-                }}
+                onClick={handleClearFilters}
                 className="px-6 py-3 border border-accent text-accent rounded-md hover:bg-accent/10 transition-colors"
               >
                 Clear filters
@@ -102,16 +210,21 @@ const Work = () => {
             </div>
           </ScrollReveal>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className={
+            viewMode === "grid" 
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+              : "flex flex-col gap-4"
+          }>
             {isLoading ? (
               <CaseStudyCardSkeleton count={6} />
             ) : (
-              filteredCaseStudies.map((study, idx) => (
+              filteredAndSortedCaseStudies.map((study, idx) => (
                 <ScrollReveal key={study.id} variant="fade-up" delay={idx * 0.05}>
                   <CaseStudyCard
                     caseStudy={study}
                     onClick={() => handleCardClick(study)}
                     index={idx}
+                    viewMode={viewMode}
                   />
                 </ScrollReveal>
               ))
