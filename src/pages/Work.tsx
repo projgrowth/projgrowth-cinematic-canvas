@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Layout from "@/components/Layout";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
@@ -7,6 +8,7 @@ import CaseStudyCard from "@/components/CaseStudyCard";
 import CaseStudyCardSkeleton from "@/components/CaseStudyCardSkeleton";
 import CaseStudySheet from "@/components/CaseStudySheet";
 import ScrollReveal from "@/components/ScrollReveal";
+import FuturisticGrid from "@/components/FuturisticGrid";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 import { Grid3X3, List, ArrowUpDown } from "lucide-react";
 
@@ -105,9 +107,12 @@ const Work = () => {
       seoKeywords="case studies, content systems, web design, brand strategy, cinematic production, AI tools"
       canonicalUrl="/work"
     >
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site py-16 md:py-24 relative">
+        {/* Futuristic grid background */}
+        <FuturisticGrid />
+        
         <ScrollReveal variant="fade-up">
-          <div className="mb-16">
+          <div className="mb-16 relative z-10">
             <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
               Work
             </h1>
@@ -119,7 +124,7 @@ const Work = () => {
 
         {/* Filter Bar */}
         <ScrollReveal variant="fade-up" delay={0.1}>
-          <div className="space-y-4 mb-10">
+          <div className="space-y-4 mb-10 relative z-10">
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}
@@ -210,26 +215,38 @@ const Work = () => {
             </div>
           </ScrollReveal>
         ) : (
-          <div className={
-            viewMode === "grid" 
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-              : "flex flex-col gap-4"
-          }>
-            {isLoading ? (
-              <CaseStudyCardSkeleton count={6} />
-            ) : (
-              filteredAndSortedCaseStudies.map((study, idx) => (
-                <ScrollReveal key={study.id} variant="fade-up" delay={idx * 0.05}>
-                  <CaseStudyCard
-                    caseStudy={study}
-                    onClick={() => handleCardClick(study)}
-                    index={idx}
-                    viewMode={viewMode}
-                  />
-                </ScrollReveal>
-              ))
-            )}
-          </div>
+          <motion.div 
+            className={
+              viewMode === "grid" 
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 relative z-10"
+                : "flex flex-col gap-4 relative z-10"
+            }
+            layout
+          >
+            <AnimatePresence mode="popLayout">
+              {isLoading ? (
+                <CaseStudyCardSkeleton count={6} />
+              ) : (
+                filteredAndSortedCaseStudies.map((study, idx) => (
+                  <motion.div
+                    key={study.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
+                  >
+                    <CaseStudyCard
+                      caseStudy={study}
+                      onClick={() => handleCardClick(study)}
+                      index={idx}
+                      viewMode={viewMode}
+                    />
+                  </motion.div>
+                ))
+              )}
+            </AnimatePresence>
+          </motion.div>
         )}
       </section>
 

@@ -1,3 +1,5 @@
+import { useState, useRef } from "react";
+import { motion } from "framer-motion";
 import { CaseStudy } from "@/data/caseStudies";
 
 interface CaseStudyCardProps {
@@ -8,14 +10,50 @@ interface CaseStudyCardProps {
 }
 
 const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStudyCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const mouseX = e.clientX - centerX;
+    const mouseY = e.clientY - centerY;
+    
+    // Subtle tilt effect
+    setRotateX(-mouseY / 25);
+    setRotateY(mouseX / 25);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setRotateX(0);
+    setRotateY(0);
+  };
+
+  const formattedIndex = String(index + 1).padStart(2, '0');
+
   if (viewMode === "list") {
     return (
-      <div
+      <motion.div
+        ref={cardRef}
         onClick={onClick}
-        className="group cursor-pointer flex gap-6 p-6 rounded-lg border border-line bg-surface/50 hover:border-accent/50 hover:bg-surface transition-all duration-300 hover:shadow-lg hover:shadow-accent/5"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={handleMouseLeave}
+        className="group cursor-pointer flex gap-6 p-6 rounded-lg border border-line bg-surface/50 hover:border-accent/50 hover:bg-surface transition-all duration-300 hover:shadow-lg hover:shadow-accent/5 relative overflow-hidden"
+        whileHover={{ x: 4 }}
+        transition={{ duration: 0.2 }}
       >
+        {/* Index number */}
+        <span className="absolute -left-2 top-1/2 -translate-y-1/2 font-display text-6xl font-bold text-accent/10 select-none pointer-events-none">
+          {formattedIndex}
+        </span>
+
         {/* Logo */}
-        <div className="relative w-28 h-28 flex-shrink-0 overflow-hidden rounded-md border border-line bg-surface flex items-center justify-center">
+        <div className="relative w-28 h-28 flex-shrink-0 overflow-hidden rounded-md border border-line bg-surface flex items-center justify-center ml-8">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', backgroundSize: '8px 8px' }} />
           {caseStudy.logo ? (
@@ -42,38 +80,122 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
           <p className="text-sm text-mute leading-relaxed line-clamp-2">
             {caseStudy.subtitle}
           </p>
+          
+          {/* Progressive disclosure - insight on hover */}
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0, height: isHovered ? 'auto' : 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <p className="text-xs text-accent mt-3 pt-3 border-t border-line/50">
+              {caseStudy.howWeHelped[0]}
+            </p>
+          </motion.div>
         </div>
 
-        {/* Arrow */}
+        {/* Arrow with morph effect */}
         <div className="flex-shrink-0 flex items-center">
-          <div className="w-10 h-10 rounded-full border border-line flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all duration-200">
-            <svg className="w-4 h-4 text-mute group-hover:text-accent transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
+          <motion.div 
+            className="w-10 h-10 rounded-full border border-line flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all duration-200 overflow-hidden"
+            whileHover={{ scale: 1.1 }}
+          >
+            <motion.span
+              initial={{ opacity: 1 }}
+              animate={{ opacity: isHovered ? 0 : 1, x: isHovered ? 10 : 0 }}
+              transition={{ duration: 0.15 }}
+              className="absolute text-xs text-mute font-medium"
+            >
+              View
+            </motion.span>
+            <motion.svg 
+              className="w-4 h-4 text-accent"
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -10 }}
+              transition={{ duration: 0.15 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </motion.svg>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div
+    <motion.div
+      ref={cardRef}
       onClick={onClick}
-      className="group cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group cursor-pointer relative"
+      style={{
+        transformStyle: 'preserve-3d',
+        perspective: '1000px',
+      }}
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4 transition-all duration-300 ease-out hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
+      {/* Large index number behind card */}
+      <span className="absolute -top-4 -left-2 font-display text-8xl font-bold text-accent/[0.07] select-none pointer-events-none z-0 transition-all duration-300 group-hover:text-accent/[0.12] group-hover:-translate-y-1">
+        {formattedIndex}
+      </span>
+
+      <motion.div 
+        className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4 transition-all duration-300 ease-out z-10"
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: 'preserve-3d',
+        }}
+        animate={{
+          borderColor: isHovered ? 'hsl(var(--accent) / 0.5)' : 'hsl(var(--line))',
+          boxShadow: isHovered 
+            ? '0 25px 50px -12px hsl(var(--accent) / 0.15), 0 0 0 1px hsl(var(--accent) / 0.1)' 
+            : '0 0 0 0 transparent',
+          y: isHovered ? -4 : 0,
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        {/* Animated gradient border overlay */}
+        <motion.div 
+          className="absolute inset-0 rounded-lg pointer-events-none z-20"
+          style={{
+            background: 'linear-gradient(135deg, hsl(var(--accent) / 0.3) 0%, transparent 50%, hsl(var(--accent) / 0.2) 100%)',
+            opacity: 0,
+          }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        />
+
         {/* Gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 group-hover:from-accent/10 group-hover:to-accent/20 transition-all duration-300" />
+        
         {/* Subtle dot pattern */}
         <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-300" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
+        
+        {/* Glow effect behind logo */}
+        <motion.div 
+          className="absolute inset-0 flex items-center justify-center"
+          animate={{
+            background: isHovered 
+              ? 'radial-gradient(circle at center, hsl(var(--accent) / 0.1) 0%, transparent 70%)' 
+              : 'radial-gradient(circle at center, transparent 0%, transparent 70%)',
+          }}
+          transition={{ duration: 0.3 }}
+        />
         
         {/* Logo display */}
         <div className="absolute inset-0 flex items-center justify-center p-8">
           {caseStudy.logo ? (
-            <img 
+            <motion.img 
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
-              className="h-16 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110"
+              className="h-16 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300"
+              animate={{ scale: isHovered ? 1.1 : 1 }}
+              transition={{ duration: 0.3 }}
             />
           ) : (
             <span className="font-display text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
@@ -82,7 +204,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
           )}
         </div>
         
-        {/* Mobile: always visible arrow indicator, Desktop: hover overlay */}
+        {/* Mobile: always visible arrow indicator */}
         <div className="absolute bottom-3 right-3 md:hidden">
           <div className="w-8 h-8 rounded-full bg-surface/80 border border-line flex items-center justify-center">
             <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,10 +212,34 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
             </svg>
           </div>
         </div>
-        <div className="absolute inset-0 bg-base/70 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out hidden md:flex items-center justify-center backdrop-blur-sm">
-          <span className="text-text font-medium tracking-wide transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">View Case Study</span>
-        </div>
-      </div>
+
+        {/* Desktop: hover overlay with morphing text */}
+        <motion.div 
+          className="absolute inset-0 bg-base/70 hidden md:flex items-center justify-center backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            className="flex items-center gap-2"
+            initial={{ y: 10 }}
+            animate={{ y: isHovered ? 0 : 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <span className="text-text font-medium tracking-wide">View Case Study</span>
+            <motion.svg 
+              className="w-4 h-4 text-accent"
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+              animate={{ x: isHovered ? [0, 4, 0] : 0 }}
+              transition={{ duration: 0.6, repeat: isHovered ? Infinity : 0, repeatDelay: 0.5 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </motion.svg>
+          </motion.div>
+        </motion.div>
+      </motion.div>
       
       <span className="text-xs text-mute uppercase tracking-wider mb-2 block">
         {caseStudy.category}
@@ -106,7 +252,19 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
       <p className="text-sm text-mute leading-relaxed">
         {caseStudy.subtitle}
       </p>
-    </div>
+
+      {/* Progressive disclosure - expand on hover */}
+      <motion.div 
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: isHovered ? 1 : 0, height: isHovered ? 'auto' : 0 }}
+        transition={{ duration: 0.2 }}
+        className="overflow-hidden"
+      >
+        <p className="text-xs text-accent mt-3 pt-3 border-t border-line/50">
+          {caseStudy.howWeHelped[0]}
+        </p>
+      </motion.div>
+    </motion.div>
   );
 };
 
