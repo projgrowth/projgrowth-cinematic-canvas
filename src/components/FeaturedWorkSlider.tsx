@@ -86,18 +86,18 @@ const FeaturedWorkSlider = ({ projects }: FeaturedWorkSliderProps) => {
         </div>
 
         {/* Dots */}
-        <div className="flex gap-3 mt-6">
-          {projects.map((_, idx) => (
+        <div className="flex gap-3 mt-6" role="tablist" aria-label="Featured projects">
+          {projects.map((project, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`h-2 rounded-full transition-all duration-sm min-h-[44px] flex items-center ${
+              className={`h-2 rounded-full transition-all duration-sm ${
                 idx === currentIndex ? "w-10 bg-accent" : "w-5 bg-line hover:bg-muted-foreground"
               }`}
-              aria-label={`Go to project ${idx + 1}`}
-            >
-              <span className={`h-2 w-full rounded-full ${idx === currentIndex ? "bg-accent" : "bg-line"}`} />
-            </button>
+              role="tab"
+              aria-selected={idx === currentIndex}
+              aria-label={`View ${project.title}`}
+            />
           ))}
         </div>
       </div>
