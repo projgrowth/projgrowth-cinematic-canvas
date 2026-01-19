@@ -23,9 +23,9 @@ const About = () => {
 
   return (
     <Layout
-      seoTitle="About Us - ProjGrowth | Meet Our Creative Team"
-      seoDescription="Learn about our mission, values, and the talented team behind ProjGrowth. Dedicated to creating exceptional digital experiences."
-      seoKeywords="about us, creative team, design studio team, company values, mission statement"
+      seoTitle="About Us - ProjGrowth | Digital Design Studio in the US"
+      seoDescription="Meet the team behind ProjGrowth. We're strategists, designers, and developers passionate about creating digital experiences that transform businesses and drive growth."
+      seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
     >
       <section className="container-site py-16 md:py-24">

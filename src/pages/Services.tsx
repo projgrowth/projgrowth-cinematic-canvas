@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -74,13 +75,34 @@ const Services = () => {
     navigate('/contact', { state: { selectedService: serviceTitle } });
   };
 
+  // FAQ Schema for Services page
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: services.map(service => ({
+      "@type": "Question",
+      name: `What does ${service.title} include?`,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: `${service.description} Our ${service.title.toLowerCase()} service includes: ${service.deliverables.join(', ')}.`
+      }
+    }))
+  };
+
   return (
     <Layout
       seoTitle="Services - ProjGrowth | Brand Strategy, Design & Development"
-      seoDescription="Comprehensive digital services including brand strategy, UI/UX design, web development, and growth marketing. Transform your digital presence."
-      seoKeywords="brand strategy services, UI/UX design, web development, digital design, growth marketing, design agency services"
+      seoDescription="Transform your digital presence with our comprehensive services: brand strategy, UI/UX design, web development, and growth marketing. Get a free consultation."
+      seoKeywords="brand strategy services, UI/UX design agency, web development company, digital design studio, growth marketing services, creative agency"
       canonicalUrl="/services"
     >
+      {/* FAQ Schema for rich snippets */}
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
+      
       <TooltipProvider>
         <section className="container-site py-16 md:py-24">
           <ScrollReveal variant="fade-up">

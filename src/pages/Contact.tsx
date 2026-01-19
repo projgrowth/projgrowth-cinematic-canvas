@@ -129,9 +129,9 @@ const Contact = () => {
   };
   return (
     <Layout
-      seoTitle="Contact Us - ProjGrowth | Start Your Project"
-      seoDescription="Ready to start your project? Get in touch with our team to discuss how we can help bring your digital vision to life."
-      seoKeywords="contact, get in touch, start project, hire design agency, consultation"
+      seoTitle="Contact Us - ProjGrowth | Get a Free Consultation"
+      seoDescription="Ready to transform your digital presence? Contact ProjGrowth for a free consultation. We respond within 24 hours to discuss your brand strategy, design, or development needs."
+      seoKeywords="contact ProjGrowth, free consultation, hire design agency, start project, digital agency contact, web design quote"
       canonicalUrl="/contact"
     >
       <section className="container-site py-16 md:py-24">
