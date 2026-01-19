@@ -4,17 +4,65 @@ interface CaseStudyCardProps {
   caseStudy: CaseStudy;
   onClick: () => void;
   index: number;
+  viewMode?: "grid" | "list";
 }
 
-const CaseStudyCard = ({ caseStudy, onClick, index }: CaseStudyCardProps) => {
+const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStudyCardProps) => {
+  if (viewMode === "list") {
+    return (
+      <div
+        onClick={onClick}
+        className="group cursor-pointer flex gap-6 p-6 rounded-lg border border-line bg-surface/50 hover:border-accent/50 hover:bg-surface transition-all duration-300 hover:shadow-lg hover:shadow-accent/5"
+      >
+        {/* Logo */}
+        <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-line bg-surface flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
+          {caseStudy.logo ? (
+            <img 
+              src={caseStudy.logo} 
+              alt={`${caseStudy.title} logo`}
+              className="max-w-[80%] max-h-[80%] object-contain opacity-70 group-hover:opacity-100 transition-all duration-300 brightness-0 invert"
+            />
+          ) : (
+            <span className="font-display text-xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
+              {caseStudy.title.split(' ').map(word => word[0]).join('')}
+            </span>
+          )}
+        </div>
+        
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <span className="text-xs text-mute uppercase tracking-wider mb-1 block">
+            {caseStudy.category}
+          </span>
+          <h3 className="font-display text-xl text-text mb-2 transition-colors duration-200 group-hover:text-accent truncate">
+            {caseStudy.title}
+          </h3>
+          <p className="text-sm text-mute leading-relaxed line-clamp-2">
+            {caseStudy.subtitle}
+          </p>
+        </div>
+
+        {/* Arrow */}
+        <div className="flex-shrink-0 flex items-center">
+          <div className="w-10 h-10 rounded-full border border-line flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all duration-200">
+            <svg className="w-4 h-4 text-mute group-hover:text-accent transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       onClick={onClick}
       className="group cursor-pointer"
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4 transition-all duration-300 ease-out hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
         {/* Gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 group-hover:from-accent/10 group-hover:to-accent/20 transition-all duration-300" />
         
         {/* Logo display */}
         <div className="absolute inset-0 flex items-center justify-center p-8">
@@ -22,10 +70,10 @@ const CaseStudyCard = ({ caseStudy, onClick, index }: CaseStudyCardProps) => {
             <img 
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
-              className="max-w-[70%] max-h-[60%] object-contain opacity-70 group-hover:opacity-100 transition-all duration-md group-hover:scale-105 brightness-0 invert"
+              className="max-w-[70%] max-h-[60%] object-contain opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 brightness-0 invert"
             />
           ) : (
-            <span className="font-display text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-md">
+            <span className="font-display text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
               {caseStudy.title.split(' ').map(word => word[0]).join('')}
             </span>
           )}
@@ -39,8 +87,8 @@ const CaseStudyCard = ({ caseStudy, onClick, index }: CaseStudyCardProps) => {
             </svg>
           </div>
         </div>
-        <div className="absolute inset-0 bg-base/60 opacity-0 group-hover:opacity-100 transition-opacity duration-md ease-smooth hidden md:flex items-center justify-center">
-          <span className="text-text font-medium tracking-wide">View Case Study</span>
+        <div className="absolute inset-0 bg-base/70 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out hidden md:flex items-center justify-center backdrop-blur-sm">
+          <span className="text-text font-medium tracking-wide transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">View Case Study</span>
         </div>
       </div>
       
@@ -48,7 +96,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index }: CaseStudyCardProps) => {
         {caseStudy.category}
       </span>
       
-      <h3 className="font-display text-2xl text-text mb-2 transition-colors duration-sm group-hover:text-accent">
+      <h3 className="font-display text-2xl text-text mb-2 transition-colors duration-200 group-hover:text-accent">
         {caseStudy.title}
       </h3>
       
