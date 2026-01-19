@@ -17,6 +17,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         {/* Logo */}
         <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-md border border-line bg-surface flex items-center justify-center">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', backgroundSize: '8px 8px' }} />
           {caseStudy.logo ? (
             <img 
               src={caseStudy.logo} 
@@ -63,6 +64,8 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
       <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4 transition-all duration-300 ease-out hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
         {/* Gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 group-hover:from-accent/10 group-hover:to-accent/20 transition-all duration-300" />
+        {/* Subtle dot pattern */}
+        <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-300" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
         
         {/* Logo display */}
         <div className="absolute inset-0 flex items-center justify-center p-8">
