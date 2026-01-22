@@ -13,4 +13,7 @@ Allow: /
 User-agent: *
 Allow: /
 
+# Disallow admin or private paths if any
+Disallow: /api/
+
 Sitemap: https://projgrowth.com/sitemap.xml
