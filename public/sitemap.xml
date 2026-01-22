@@ -3,47 +3,77 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://projgrowth.com/</loc>
-    <lastmod>2025-01-19</lastmod>
+    <lastmod>2025-01-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://projgrowth.com/og-image.png</image:loc>
-      <image:title>ProjGrowth - Digital Experiences That Grow Businesses</image:title>
+      <image:title>ProjGrowth - Orlando Digital Marketing Agency</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://projgrowth.com/work</loc>
-    <lastmod>2025-01-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://projgrowth.com/services/web-design</loc>
+    <lastmod>2025-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://projgrowth.com/services/branding</loc>
+    <lastmod>2025-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://projgrowth.com/services/content-creation</loc>
+    <lastmod>2025-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://projgrowth.com/services/digital-marketing</loc>
+    <lastmod>2025-01-22</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://projgrowth.com/services</loc>
-    <lastmod>2025-01-19</lastmod>
+    <lastmod>2025-01-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://projgrowth.com/work</loc>
+    <lastmod>2025-01-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://projgrowth.com/portfolio</loc>
+    <lastmod>2025-01-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://projgrowth.com/about</loc>
-    <lastmod>2025-01-19</lastmod>
+    <lastmod>2025-01-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://projgrowth.com/contact</loc>
-    <lastmod>2025-01-19</lastmod>
+    <lastmod>2025-01-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://projgrowth.com/privacy</loc>
-    <lastmod>2025-01-19</lastmod>
+    <lastmod>2025-01-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://projgrowth.com/terms</loc>
-    <lastmod>2025-01-19</lastmod>
+    <lastmod>2025-01-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

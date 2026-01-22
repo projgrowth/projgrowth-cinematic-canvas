@@ -29,7 +29,7 @@ const Footer = () => {
               ProjGrowth
             </Link>
             <p className="text-sm text-mute leading-relaxed">
-              A modern creative studio focused on digital experiences that drive growth.
+              Orlando's boutique digital marketing agency focused on web design, branding, and growth.
             </p>
           </div>
 

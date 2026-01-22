@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, ChevronDown } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -12,11 +12,18 @@ import { useState } from "react";
 const MobileNav = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const [servicesExpanded, setServicesExpanded] = useState(false);
 
-  const links = [
+  const serviceLinks = [
+    { path: "/services/web-design", label: "Web Design" },
+    { path: "/services/branding", label: "Branding" },
+    { path: "/services/content-creation", label: "Content Creation" },
+    { path: "/services/digital-marketing", label: "Digital Marketing" },
+  ];
+
+  const mainLinks = [
     { path: "/", label: "Home" },
-    { path: "/work", label: "Work" },
-    { path: "/services", label: "Services" },
+    { path: "/work", label: "Portfolio" },
     { path: "/about", label: "About" },
     { path: "/contact", label: "Contact" },
   ];
@@ -37,20 +44,89 @@ const MobileNav = () => {
             Menu
           </SheetTitle>
         </SheetHeader>
-        <nav className="flex flex-col gap-6 mt-8">
-          {links.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setOpen(false)}
+        <nav className="flex flex-col gap-4 mt-8">
+          {/* Home */}
+          <Link
+            to="/"
+            onClick={() => setOpen(false)}
+            className={`
+              text-lg font-medium transition-colors duration-sm
+              ${location.pathname === "/" ? 'text-accent' : 'text-text hover:text-accent'}
+            `}
+          >
+            Home
+          </Link>
+
+          {/* Portfolio */}
+          <Link
+            to="/work"
+            onClick={() => setOpen(false)}
+            className={`
+              text-lg font-medium transition-colors duration-sm
+              ${location.pathname === "/work" ? 'text-accent' : 'text-text hover:text-accent'}
+            `}
+          >
+            Portfolio
+          </Link>
+
+          {/* Services with expandable submenu */}
+          <div>
+            <button
+              onClick={() => setServicesExpanded(!servicesExpanded)}
               className={`
-                text-lg font-medium transition-colors duration-sm
-                ${location.pathname === link.path ? 'text-accent' : 'text-text hover:text-accent'}
+                w-full text-left text-lg font-medium transition-colors duration-sm flex items-center justify-between
+                ${location.pathname.startsWith("/services") ? 'text-accent' : 'text-text hover:text-accent'}
               `}
             >
-              {link.label}
-            </Link>
-          ))}
+              Services
+              <ChevronDown className={`w-5 h-5 transition-transform duration-sm ${servicesExpanded ? 'rotate-180' : ''}`} />
+            </button>
+            
+            <div className={`
+              overflow-hidden transition-all duration-sm
+              ${servicesExpanded ? 'max-h-48 mt-2' : 'max-h-0'}
+            `}>
+              <div className="pl-4 flex flex-col gap-2 border-l border-line">
+                {serviceLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setOpen(false)}
+                    className={`
+                      text-base transition-colors duration-sm
+                      ${location.pathname === link.path ? 'text-accent' : 'text-mute hover:text-accent'}
+                    `}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* About */}
+          <Link
+            to="/about"
+            onClick={() => setOpen(false)}
+            className={`
+              text-lg font-medium transition-colors duration-sm
+              ${location.pathname === "/about" ? 'text-accent' : 'text-text hover:text-accent'}
+            `}
+          >
+            About
+          </Link>
+
+          {/* Contact */}
+          <Link
+            to="/contact"
+            onClick={() => setOpen(false)}
+            className={`
+              text-lg font-medium transition-colors duration-sm
+              ${location.pathname === "/contact" ? 'text-accent' : 'text-text hover:text-accent'}
+            `}
+          >
+            Contact
+          </Link>
         </nav>
       </SheetContent>
     </Sheet>
