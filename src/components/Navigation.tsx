@@ -48,6 +48,7 @@ const Navigation = () => {
         { path: "/services/digital-marketing", label: "Digital Marketing" },
       ]
     },
+    { path: "/blog", label: "Blog" },
     { path: "/about", label: "About" },
     { path: "/contact", label: "Contact" },
   ];

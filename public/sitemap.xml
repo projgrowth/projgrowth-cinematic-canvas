@@ -60,6 +60,34 @@
     <priority>0.8</priority>
   </url>
   
+  <!-- Blog - Priority 0.8 -->
+  <url>
+    <loc>https://projgrowth.com/blog</loc>
+    <lastmod>2025-01-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Blog Posts - Priority 0.6 -->
+  <url>
+    <loc>https://projgrowth.com/blog/signs-your-orlando-business-needs-website-redesign</loc>
+    <lastmod>2025-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://projgrowth.com/blog/why-orlando-businesses-need-strong-branding-2025</loc>
+    <lastmod>2025-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://projgrowth.com/blog/content-marketing-strategies-central-florida-businesses</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
   <!-- Contact - Priority 0.7 -->
   <url>
     <loc>https://projgrowth.com/contact</loc>

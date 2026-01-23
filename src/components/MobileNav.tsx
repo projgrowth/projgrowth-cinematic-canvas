@@ -104,6 +104,18 @@ const MobileNav = () => {
             </div>
           </div>
 
+          {/* Blog */}
+          <Link
+            to="/blog"
+            onClick={() => setOpen(false)}
+            className={`
+              text-lg font-medium transition-colors duration-sm
+              ${location.pathname.startsWith("/blog") ? 'text-accent' : 'text-text hover:text-accent'}
+            `}
+          >
+            Blog
+          </Link>
+
           {/* About */}
           <Link
             to="/about"
