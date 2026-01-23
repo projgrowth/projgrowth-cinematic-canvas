@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import useAnalytics from "@/hooks/useAnalytics";
 import Home from "./pages/Home";
 import Work from "./pages/Work";
 import Portfolio from "./pages/Portfolio";
@@ -31,6 +32,9 @@ const pageTransition = {
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  
+  // Track page views on route changes
+  useAnalytics();
 
   return (
     <AnimatePresence mode="wait">
