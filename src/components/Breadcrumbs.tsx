@@ -20,6 +20,7 @@ const routeLabels: Record<string, string> = {
   "digital-marketing": "Digital Marketing",
   "portfolio": "Portfolio",
   "work": "Portfolio",
+  "blog": "Blog",
   "about": "About",
   "contact": "Contact",
   "privacy": "Privacy Policy",

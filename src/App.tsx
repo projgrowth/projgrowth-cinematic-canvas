@@ -16,6 +16,8 @@ import ContentCreation from "./pages/services/ContentCreation";
 import DigitalMarketing from "./pages/services/DigitalMarketing";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
@@ -136,6 +138,28 @@ const AnimatedRoutes = () => {
             transition={pageTransition}
           >
             <About />
+          </motion.div>
+        } />
+        <Route path="/blog" element={
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+          >
+            <Blog />
+          </motion.div>
+        } />
+        <Route path="/blog/:slug" element={
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+          >
+            <BlogPost />
           </motion.div>
         } />
         <Route path="/contact" element={
