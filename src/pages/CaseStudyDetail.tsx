@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Quote, Share2, Linkedin, Twitter } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Share2, Linkedin, Twitter } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
@@ -118,24 +118,40 @@ const CaseStudyDetail = () => {
         </div>
       </section>
 
-      {/* Metrics Bar */}
+      {/* Results Dashboard */}
       {caseStudy.metrics && caseStudy.metrics.length > 0 && (
-        <section className="border-y border-line bg-surface/50">
-          <div className="container-site py-8 md:py-12">
+        <section className="border-y border-line">
+          <div className="container-site py-12 md:py-16">
             <ScrollReveal variant="fade-up">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+              <div className="mb-8">
+                <span className="text-xs uppercase tracking-wider text-accent">Results</span>
+                <h2 className="font-display text-2xl md:text-3xl text-text mt-2">Measurable Impact</h2>
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 {caseStudy.metrics.map((metric, idx) => (
-                  <div key={idx} className="text-center md:text-left">
-                    <AnimatedCounter
-                      value={metric.value}
-                      className="font-display text-3xl md:text-4xl lg:text-5xl text-accent font-medium"
-                      delay={idx * 0.15}
-                    />
-                    <p className="text-sm md:text-base text-text mt-1">{metric.label}</p>
-                    {metric.description && (
-                      <p className="text-xs text-mute mt-0.5">{metric.description}</p>
-                    )}
-                  </div>
+                  <motion.div 
+                    key={idx} 
+                    className="relative p-6 bg-surface rounded-xl border border-line group hover:border-accent/30 transition-all duration-300 overflow-hidden"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    {/* Background glow on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    <div className="relative z-10">
+                      <AnimatedCounter
+                        value={metric.value}
+                        className="font-display text-3xl md:text-4xl text-accent font-medium"
+                        delay={idx * 0.15}
+                      />
+                      <p className="text-sm md:text-base text-text mt-2 font-medium">{metric.label}</p>
+                      {metric.description && (
+                        <p className="text-xs text-mute mt-1">{metric.description}</p>
+                      )}
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </ScrollReveal>
@@ -268,29 +284,75 @@ const CaseStudyDetail = () => {
               </div>
             </ScrollReveal>
 
-            {/* Testimonial */}
-            {caseStudy.testimonial && (
+            {/* Process Steps */}
+            {caseStudy.processSteps && caseStudy.processSteps.length > 0 && (
               <ScrollReveal variant="fade-up" delay={0.3}>
-                <div className="relative p-8 md:p-10 bg-surface rounded-xl border border-line">
-                  <Quote className="absolute top-6 left-6 w-8 h-8 text-accent/20" />
-                  <blockquote className="relative z-10">
-                    <p className="text-lg md:text-xl text-text italic leading-relaxed mb-6 pl-6">
-                      "{caseStudy.testimonial.quote}"
-                    </p>
-                    <footer className="flex items-center gap-4 pl-6">
-                      <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                        <span className="font-display text-accent">
-                          {caseStudy.testimonial.author.split(' ').map(n => n[0]).join('')}
+                <div className="space-y-6">
+                  <h2 className="font-display text-2xl md:text-3xl text-text">Our Process</h2>
+                  <div className="grid gap-4">
+                    {caseStudy.processSteps.map((step, idx) => (
+                      <motion.div
+                        key={idx}
+                        className="flex gap-6 p-5 bg-surface rounded-lg border border-line group hover:border-accent/30 transition-colors"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.1 }}
+                      >
+                        <span className="font-display text-3xl text-accent/40 group-hover:text-accent transition-colors">
+                          {String(idx + 1).padStart(2, '0')}
                         </span>
-                      </div>
-                      <div>
-                        <cite className="not-italic font-medium text-text">
-                          {caseStudy.testimonial.author}
-                        </cite>
-                        <p className="text-sm text-mute">{caseStudy.testimonial.role}</p>
-                      </div>
-                    </footer>
-                  </blockquote>
+                        <div>
+                          <h3 className="text-text font-medium mb-1">{step.title}</h3>
+                          <p className="text-mute text-sm">{step.description}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+            )}
+
+            {/* Gallery */}
+            {caseStudy.gallery && caseStudy.gallery.length > 0 && (
+              <ScrollReveal variant="fade-up" delay={0.4}>
+                <div className="space-y-6">
+                  <h2 className="font-display text-2xl md:text-3xl text-text">The Work</h2>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {caseStudy.gallery.map((item, idx) => (
+                      <motion.div
+                        key={idx}
+                        className="relative aspect-video rounded-lg overflow-hidden border border-line group"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.1 }}
+                      >
+                        {item.type === "video" ? (
+                          <video
+                            src={item.url}
+                            className="w-full h-full object-cover"
+                            muted
+                            loop
+                            playsInline
+                            onMouseEnter={(e) => e.currentTarget.play()}
+                            onMouseLeave={(e) => { e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
+                          />
+                        ) : (
+                          <img
+                            src={item.url}
+                            alt={item.caption || `Project gallery ${idx + 1}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )}
+                        {item.caption && (
+                          <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-base/90 to-transparent">
+                            <p className="text-sm text-text">{item.caption}</p>
+                          </div>
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </ScrollReveal>
             )}
