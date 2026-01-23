@@ -8,6 +8,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import useAnalytics from "@/hooks/useAnalytics";
 import Home from "./pages/Home";
 import Work from "./pages/Work";
+import CaseStudyDetail from "./pages/CaseStudyDetail";
 import Portfolio from "./pages/Portfolio";
 import Services from "./pages/Services";
 import WebDesign from "./pages/services/WebDesign";
@@ -61,6 +62,17 @@ const AnimatedRoutes = () => {
             transition={pageTransition}
           >
             <Work />
+          </motion.div>
+        } />
+        <Route path="/work/:slug" element={
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+          >
+            <CaseStudyDetail />
           </motion.div>
         } />
         <Route path="/portfolio" element={

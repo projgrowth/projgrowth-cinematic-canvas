@@ -1,0 +1,365 @@
+import { useParams, Link, Navigate } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Quote, Share2, Linkedin, Twitter } from "lucide-react";
+import Layout from "@/components/Layout";
+import ScrollReveal from "@/components/ScrollReveal";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import { caseStudies } from "@/data/caseStudies";
+import { useRef } from "react";
+
+const CaseStudyDetail = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const heroRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const caseStudy = caseStudies.find(cs => cs.id === slug);
+  
+  if (!caseStudy) {
+    return <Navigate to="/work" replace />;
+  }
+
+  // Get adjacent case studies for navigation
+  const currentIndex = caseStudies.findIndex(cs => cs.id === slug);
+  const prevStudy = caseStudies[currentIndex - 1];
+  const nextStudy = caseStudies[currentIndex + 1];
+
+  const shareUrl = `${window.location.origin}/work/${caseStudy.id}`;
+  const shareText = `Check out this case study: ${caseStudy.title} by ProjGrowth`;
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({ title: caseStudy.title, text: shareText, url: shareUrl });
+    }
+  };
+
+  return (
+    <Layout
+      seoTitle={`${caseStudy.title} Case Study | ProjGrowth`}
+      seoDescription={`${caseStudy.subtitle}. Learn how we helped ${caseStudy.title} overcome their challenges with ${caseStudy.category.toLowerCase()}.`}
+      seoKeywords={`${caseStudy.title}, ${caseStudy.category}, case study, Orlando agency`}
+      canonicalUrl={`/work/${caseStudy.id}`}
+    >
+      {/* Hero Section */}
+      <section ref={heroRef} className="relative min-h-[60vh] md:min-h-[70vh] flex items-end overflow-hidden">
+        {/* Background */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-accent/10 via-base to-base"
+          style={{ y: heroY }}
+        />
+        
+        {/* Hero media */}
+        {caseStudy.heroMedia && (
+          <motion.div 
+            className="absolute inset-0"
+            style={{ y: heroY, opacity: heroOpacity }}
+          >
+            {caseStudy.heroMedia.type === "video" ? (
+              <video
+                src={caseStudy.heroMedia.url}
+                poster={caseStudy.heroMedia.poster}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover opacity-30"
+              />
+            ) : (
+              <img
+                src={caseStudy.heroMedia.url}
+                alt={caseStudy.title}
+                className="w-full h-full object-cover opacity-30"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-base via-base/80 to-transparent" />
+          </motion.div>
+        )}
+
+        {/* Content */}
+        <div className="container-site relative z-10 pb-12 md:pb-20">
+          <Link 
+            to="/work" 
+            className="inline-flex items-center gap-2 text-mute hover:text-accent transition-colors mb-8 group"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to Work
+          </Link>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex flex-wrap gap-2 mb-4">
+              {caseStudy.categories.map((cat) => (
+                <span 
+                  key={cat}
+                  className="px-3 py-1 text-xs uppercase tracking-wider text-accent bg-accent/10 rounded-full border border-accent/20"
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+
+            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-4">
+              {caseStudy.title}
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-mute max-w-3xl">
+              {caseStudy.subtitle}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Metrics Bar */}
+      {caseStudy.metrics && caseStudy.metrics.length > 0 && (
+        <section className="border-y border-line bg-surface/50">
+          <div className="container-site py-8 md:py-12">
+            <ScrollReveal variant="fade-up">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                {caseStudy.metrics.map((metric, idx) => (
+                  <div key={idx} className="text-center md:text-left">
+                    <AnimatedCounter
+                      value={metric.value}
+                      className="font-display text-3xl md:text-4xl lg:text-5xl text-accent font-medium"
+                      delay={idx * 0.15}
+                    />
+                    <p className="text-sm md:text-base text-text mt-1">{metric.label}</p>
+                    {metric.description && (
+                      <p className="text-xs text-mute mt-0.5">{metric.description}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      )}
+
+      {/* Main Content */}
+      <section className="container-site py-16 md:py-24">
+        <div className="grid md:grid-cols-12 gap-12 md:gap-16">
+          {/* Sidebar */}
+          <aside className="md:col-span-4 lg:col-span-3">
+            <ScrollReveal variant="fade-up">
+              <div className="sticky top-24 space-y-8">
+                {/* Logo */}
+                {caseStudy.logo && (
+                  <div className="p-6 bg-surface rounded-lg border border-line">
+                    <img 
+                      src={caseStudy.logo} 
+                      alt={`${caseStudy.title} logo`}
+                      className="h-12 max-w-full object-contain opacity-80"
+                    />
+                  </div>
+                )}
+
+                {/* What They Do */}
+                <div>
+                  <h3 className="text-xs uppercase tracking-wider text-accent mb-3">About</h3>
+                  <p className="text-mute">{caseStudy.whatTheyDo}</p>
+                </div>
+
+                {/* Share */}
+                <div>
+                  <h3 className="text-xs uppercase tracking-wider text-accent mb-3">Share</h3>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleShare}
+                      className="p-2 rounded-md border border-line hover:border-accent hover:text-accent transition-colors"
+                      aria-label="Share"
+                    >
+                      <Share2 className="w-4 h-4" />
+                    </button>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-md border border-line hover:border-accent hover:text-accent transition-colors"
+                      aria-label="Share on Twitter"
+                    >
+                      <Twitter className="w-4 h-4" />
+                    </a>
+                    <a
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-md border border-line hover:border-accent hover:text-accent transition-colors"
+                      aria-label="Share on LinkedIn"
+                    >
+                      <Linkedin className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          </aside>
+
+          {/* Main Content */}
+          <div className="md:col-span-8 lg:col-span-9 space-y-16">
+            {/* The Challenge */}
+            <ScrollReveal variant="fade-up">
+              <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-destructive/10 border border-destructive/20 flex items-center justify-center">
+                    <AlertCircle className="w-5 h-5 text-destructive" />
+                  </div>
+                  <h2 className="font-display text-2xl md:text-3xl text-text">The Challenge</h2>
+                </div>
+                <ul className="space-y-4 pl-2">
+                  {caseStudy.theirIssues.map((issue, idx) => (
+                    <motion.li 
+                      key={idx}
+                      className="flex items-start gap-4 text-mute"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.1 }}
+                    >
+                      <span className="text-destructive/60 mt-1.5">—</span>
+                      <span className="text-base md:text-lg">{issue}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </ScrollReveal>
+
+            {/* The Solution */}
+            <ScrollReveal variant="fade-up" delay={0.1}>
+              <div className="space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+                    <Lightbulb className="w-5 h-5 text-accent" />
+                  </div>
+                  <h2 className="font-display text-2xl md:text-3xl text-text">The Solution</h2>
+                </div>
+                <ul className="space-y-4 pl-2">
+                  {caseStudy.howWeHelped.map((help, idx) => (
+                    <motion.li 
+                      key={idx}
+                      className="flex items-start gap-4"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.1 }}
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
+                      <span className="text-base md:text-lg text-text">{help}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </ScrollReveal>
+
+            {/* The Impact */}
+            <ScrollReveal variant="fade-up" delay={0.2}>
+              <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-xl border border-accent/20">
+                <h2 className="font-display text-2xl md:text-3xl text-text mb-4">Why It Matters</h2>
+                <p className="text-lg md:text-xl text-mute leading-relaxed">
+                  {caseStudy.whyItMatters}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            {/* Testimonial */}
+            {caseStudy.testimonial && (
+              <ScrollReveal variant="fade-up" delay={0.3}>
+                <div className="relative p-8 md:p-10 bg-surface rounded-xl border border-line">
+                  <Quote className="absolute top-6 left-6 w-8 h-8 text-accent/20" />
+                  <blockquote className="relative z-10">
+                    <p className="text-lg md:text-xl text-text italic leading-relaxed mb-6 pl-6">
+                      "{caseStudy.testimonial.quote}"
+                    </p>
+                    <footer className="flex items-center gap-4 pl-6">
+                      <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                        <span className="font-display text-accent">
+                          {caseStudy.testimonial.author.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                      <div>
+                        <cite className="not-italic font-medium text-text">
+                          {caseStudy.testimonial.author}
+                        </cite>
+                        <p className="text-sm text-mute">{caseStudy.testimonial.role}</p>
+                      </div>
+                    </footer>
+                  </blockquote>
+                </div>
+              </ScrollReveal>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="border-t border-line">
+        <div className="container-site py-16 md:py-24">
+          <ScrollReveal variant="fade-up">
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="font-display text-3xl md:text-4xl text-text mb-4">
+                Ready for similar results?
+              </h2>
+              <p className="text-mute mb-8">
+                Let's discuss how we can help transform your brand, content, or digital presence.
+              </p>
+              <Link
+                to="/contact"
+                state={{ service: caseStudy.category }}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium hover:bg-accent/90 transition-colors group"
+              >
+                Start a Conversation
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Navigation */}
+      <section className="border-t border-line">
+        <div className="container-site py-8">
+          <div className="flex justify-between items-center">
+            {prevStudy ? (
+              <Link
+                to={`/work/${prevStudy.id}`}
+                className="flex items-center gap-3 text-mute hover:text-accent transition-colors group"
+              >
+                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                <div className="text-left">
+                  <span className="text-xs uppercase tracking-wider block">Previous</span>
+                  <span className="text-text group-hover:text-accent transition-colors">{prevStudy.title}</span>
+                </div>
+              </Link>
+            ) : (
+              <div />
+            )}
+            
+            {nextStudy ? (
+              <Link
+                to={`/work/${nextStudy.id}`}
+                className="flex items-center gap-3 text-mute hover:text-accent transition-colors group text-right"
+              >
+                <div>
+                  <span className="text-xs uppercase tracking-wider block">Next</span>
+                  <span className="text-text group-hover:text-accent transition-colors">{nextStudy.title}</span>
+                </div>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            ) : (
+              <div />
+            )}
+          </div>
+        </div>
+      </section>
+    </Layout>
+  );
+};
+
+export default CaseStudyDetail;
