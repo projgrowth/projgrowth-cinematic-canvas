@@ -6,6 +6,7 @@ interface SEOProps {
   description?: string;
   keywords?: string;
   ogImage?: string;
+  twitterImage?: string;
   canonicalUrl?: string;
   type?: "website" | "article";
 }
@@ -14,7 +15,8 @@ const SEO = ({
   title = "ProjGrowth - Digital Experiences That Grow Businesses",
   description = "Modern creative studio specializing in brand strategy, digital design, and web development. We create meaningful digital experiences that drive business growth.",
   keywords = "digital design, web development, brand strategy, UI/UX design, creative studio, growth marketing",
-  ogImage = "/og-image.png",
+  ogImage = "/og-image.jpg",
+  twitterImage = "/twitter-card.jpg",
   canonicalUrl,
   type = "website",
 }: SEOProps) => {
@@ -132,7 +134,8 @@ const SEO = ({
       <meta name="twitter:url" content={fullUrl} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+      <meta name="twitter:image" content={`${siteUrl}${twitterImage}`} />
+      <meta name="twitter:site" content="@projgrowth" />
 
       {/* Additional Meta Tags */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
