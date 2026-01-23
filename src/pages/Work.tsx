@@ -7,13 +7,14 @@ import SearchBar from "@/components/SearchBar";
 import CaseStudyCard from "@/components/CaseStudyCard";
 import CaseStudyCardSkeleton from "@/components/CaseStudyCardSkeleton";
 import CaseStudySheet from "@/components/CaseStudySheet";
+import BentoGrid from "@/components/BentoGrid";
 import ScrollReveal from "@/components/ScrollReveal";
 import FuturisticGrid from "@/components/FuturisticGrid";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
-import { Grid3X3, List, ArrowUpDown } from "lucide-react";
+import { Grid3X3, List, ArrowUpDown, LayoutGrid } from "lucide-react";
 
 type SortOption = "default" | "a-z" | "z-a" | "category";
-type ViewMode = "grid" | "list";
+type ViewMode = "bento" | "grid" | "list";
 
 const sortOptions: { value: SortOption; label: string }[] = [
   { value: "default", label: "Default" },
@@ -36,7 +37,7 @@ const Work = () => {
     (searchParams.get("sort") as SortOption) || "default"
   );
   const [viewMode, setViewMode] = useState<ViewMode>(() => 
-    (searchParams.get("view") as ViewMode) || "grid"
+    (searchParams.get("view") as ViewMode) || "bento"
   );
   
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
@@ -162,6 +163,17 @@ const Work = () => {
                 {/* View Toggle */}
                 <div className="flex border border-line rounded-md overflow-hidden">
                   <button
+                    onClick={() => setViewMode("bento")}
+                    className={`p-2 transition-colors ${
+                      viewMode === "bento" 
+                        ? "bg-accent/10 text-accent" 
+                        : "text-mute hover:text-text hover:bg-surface"
+                    }`}
+                    aria-label="Bento view"
+                  >
+                    <LayoutGrid className="w-4 h-4" />
+                  </button>
+                  <button
                     onClick={() => setViewMode("grid")}
                     className={`p-2 transition-colors ${
                       viewMode === "grid" 
@@ -214,6 +226,12 @@ const Work = () => {
               </button>
             </div>
           </ScrollReveal>
+        ) : viewMode === "bento" ? (
+          <BentoGrid
+            caseStudies={filteredAndSortedCaseStudies}
+            onCardClick={handleCardClick}
+            isLoading={isLoading}
+          />
         ) : (
           <motion.div 
             className={
