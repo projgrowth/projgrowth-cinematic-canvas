@@ -1,9 +1,11 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Mail, MessageSquare, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import MultiStepContactForm from "@/components/MultiStepContactForm";
+import AIChatbotPlaceholder from "@/components/AIChatbotPlaceholder";
+import { Mail, MessageSquare } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -12,330 +14,177 @@ import {
 } from "@/components/ui/accordion";
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-    website: "" // Honeypot field - should remain empty
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
   });
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
-  const validateForm = () => {
-    const newErrors = {
-      name: "",
-      email: "",
-      message: ""
-    };
-    let isValid = true;
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-      isValid = false;
-    } else if (formData.name.length > 100) {
-      newErrors.name = "Name must be less than 100 characters";
-      isValid = false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Please enter a valid email";
-      isValid = false;
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-      isValid = false;
-    } else if (formData.message.length > 1000) {
-      newErrors.message = "Message must be less than 1000 characters";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
+  // Schema markup
+  const contactPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact ProjGrowth",
+    description: "Get in touch with ProjGrowth for web design, branding, and digital marketing services in Orlando.",
+    url: "https://projgrowth.com/contact",
+    mainEntity: {
+      "@type": "Organization",
+      name: "ProjGrowth",
+      url: "https://projgrowth.com",
+      email: "info@projgrowth.com",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Orlando",
+        addressRegion: "FL",
+        addressCountry: "US",
+      },
+      areaServed: {
+        "@type": "Place",
+        name: "Orlando, Central Florida",
+      },
+    },
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-
-    setIsSubmitting(true);
-    
-    try {
-      // Call rate-limited edge function which handles both DB insert and email
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
-        body: { 
-          name: formData.name, 
-          email: formData.email, 
-          message: formData.message,
-          website: formData.website // Honeypot field
-        }
-      });
-
-      if (error) {
-        // Check for rate limit error
-        if (error.message?.includes('429') || error.message?.includes('Too many requests')) {
-          toast({
-            title: "Too many requests",
-            description: "Please wait a while before submitting again.",
-            variant: "destructive",
-          });
-          setIsSubmitting(false);
-          return;
-        }
-        throw error;
-      }
-
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      
-      toast({
-        title: "Message sent!",
-        description: "We'll get back to you within 24 hours.",
-      });
-
-      // Reset form after 2 seconds
-      setTimeout(() => {
-        setFormData({ name: "", email: "", message: "", website: "" });
-        setIsSuccess(false);
-      }, 2000);
-    } catch (error) {
-      setIsSubmitting(false);
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
-    if (errors[name as keyof typeof errors]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
-    }
-  };
   return (
     <Layout
-      seoTitle="Contact Us - ProjGrowth | Get a Free Consultation"
-      seoDescription="Ready to transform your digital presence? Contact ProjGrowth for a free consultation. We respond within 24 hours to discuss your brand strategy, design, or development needs."
-      seoKeywords="contact ProjGrowth, free consultation, hire design agency, start project, digital agency contact, web design quote"
+      seoTitle="Contact Us | Start Your Project | ProjGrowth Orlando"
+      seoDescription="Ready to transform your digital presence? Contact ProjGrowth for a free consultation. Orlando's boutique digital agency - web design, branding, and content strategy."
+      seoKeywords="contact ProjGrowth, free consultation, hire design agency, start project, digital agency contact, web design quote Orlando"
       canonicalUrl="/contact"
     >
-      <section className="container-site py-16 md:py-24">
-        <div className="grid-12 gap-y-16">
-          {/* Header */}
-          <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-6">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
-              Start Your
-              <br />
-              <span className="text-accent">Project</span>
-            </h1>
-            <p className="text-xl text-mute leading-relaxed">
-              Have a project in mind? We'd love to hear about it. 
-              Drop us a line and let's start a conversation.
-            </p>
-          </ScrollReveal>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(contactPageSchema)}
+        </script>
+      </Helmet>
 
-          {/* Contact Info */}
-          <div className="col-span-12 lg:col-span-6 lg:col-start-7">
-            <div className="stack gap-8">
-              <ScrollReveal variant="scale" delay={0.1}>
-                <div className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant">
-                  <Mail className="w-8 h-8 text-accent mb-4" />
-                  <h3 className="font-display text-xl text-text mb-2">Email Us</h3>
-                  <a 
-                    href="mailto:info@projgrowth.com" 
-                    className="text-mute hover:text-accent transition-colors duration-sm ease-smooth"
+      {/* Hero with Parallax */}
+      <section ref={heroRef} className="relative min-h-[60vh] flex items-center overflow-hidden">
+        {/* Parallax Background Elements */}
+        <motion.div
+          style={{ y: heroY, opacity: heroOpacity }}
+          className="absolute inset-0 pointer-events-none"
+        >
+          <div className="absolute top-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/3 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-accent/5 to-transparent opacity-50" />
+        </motion.div>
+
+        <div className="container-site relative z-10 py-16 md:py-24">
+          <div className="grid-12 gap-y-12 items-center">
+            {/* Header */}
+            <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-7">
+              <motion.h1 
+                className="font-display text-4xl md:text-5xl lg:text-7xl text-foreground mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                Let's Build
+                <br />
+                <span className="text-accent">Something Great</span>
+              </motion.h1>
+              <motion.p 
+                className="text-xl text-muted leading-relaxed max-w-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Tell us about your project and we'll craft a tailored approach 
+                to bring your vision to life.
+              </motion.p>
+            </ScrollReveal>
+
+            {/* Quick Contact Cards */}
+            <div className="col-span-12 lg:col-span-5 lg:col-start-8">
+              <div className="space-y-4">
+                <ScrollReveal variant="scale" delay={0.2}>
+                  <motion.a
+                    href="mailto:info@projgrowth.com"
+                    className="block p-6 bg-surface/80 backdrop-blur-sm rounded-lg border border-line transition-all duration-300 hover:border-accent/50 hover:bg-surface group"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    info@projgrowth.com
-                  </a>
-                </div>
-              </ScrollReveal>
+                    <Mail className="w-6 h-6 text-accent mb-3" />
+                    <h3 className="font-medium text-foreground mb-1 group-hover:text-accent transition-colors">
+                      Email Us
+                    </h3>
+                    <p className="text-sm text-muted">info@projgrowth.com</p>
+                  </motion.a>
+                </ScrollReveal>
 
-              <ScrollReveal variant="scale" delay={0.2}>
-                <div className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant">
-                  <MessageSquare className="w-8 h-8 text-accent mb-4" />
-                  <h3 className="font-display text-xl text-text mb-2">Start a Chat</h3>
-                  <p className="text-mute">Available Mon-Fri, 9am-6pm EST</p>
-                </div>
-              </ScrollReveal>
+                <ScrollReveal variant="scale" delay={0.3}>
+                  <div className="p-6 bg-surface/80 backdrop-blur-sm rounded-lg border border-line">
+                    <MessageSquare className="w-6 h-6 text-accent mb-3" />
+                    <h3 className="font-medium text-foreground mb-1">Response Time</h3>
+                    <p className="text-sm text-muted">Within 24 hours, Mon-Fri</p>
+                  </div>
+                </ScrollReveal>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Contact Form */}
-        <ScrollReveal variant="fade-up">
-          <div className="py-24 border-t border-line">
-            <form onSubmit={handleSubmit} className="grid-12 gap-y-6">
-              <div className="col-span-12 lg:col-span-6">
-                <label htmlFor="name" className="block text-sm font-medium text-mute mb-2">
-                  Name
-                </label>
-                <input 
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-surface border rounded-md text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 shadow-inner transition-all duration-sm ease-smooth ${
-                    errors.name ? 'border-red-500' : 'border-line'
-                  }`}
-                  placeholder="Your name"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500 animate-fade-in">{errors.name}</p>
-                )}
-              </div>
-
-              <div className="col-span-12 lg:col-span-6">
-                <label htmlFor="email" className="block text-sm font-medium text-mute mb-2">
-                  Email
-                </label>
-                <input 
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-surface border rounded-md text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 shadow-inner transition-all duration-sm ease-smooth ${
-                    errors.email ? 'border-red-500' : 'border-line'
-                  }`}
-                  placeholder="your@email.com"
-                />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-500 animate-fade-in">{errors.email}</p>
-                )}
-              </div>
-
-              <div className="col-span-12">
-                <div className="flex justify-between items-center mb-2">
-                  <label htmlFor="message" className="block text-sm font-medium text-mute">
-                    Project Details
-                  </label>
-                  <span className="text-xs text-mute">
-                    {formData.message.length}/1000
-                  </span>
-                </div>
-                <textarea 
-                  id="message"
-                  name="message"
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                  maxLength={1000}
-                  className={`w-full px-4 py-3 bg-surface border rounded-md text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 shadow-inner transition-all duration-sm ease-smooth resize-none ${
-                    errors.message ? 'border-red-500' : 'border-line'
-                  }`}
-                  placeholder="Tell us about your project..."
-                />
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-500 animate-fade-in">{errors.message}</p>
-                )}
-              </div>
-
-              {/* Honeypot field - hidden from humans, visible to bots */}
-              <div className="absolute -left-[9999px]" aria-hidden="true">
-                <label htmlFor="website">Website</label>
-                <input
-                  type="text"
-                  id="website"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
-              </div>
-
-              <div className="col-span-12">
-                <button 
-                  type="submit"
-                  disabled={isSubmitting || isSuccess}
-                  className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm ease-smooth hover:bg-accent/90 hover:gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Sending...
-                    </>
-                  ) : isSuccess ? (
-                    <>
-                      <CheckCircle2 className="w-5 h-5" />
-                      Sent!
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <ArrowRight className="w-5 h-5 transition-transform duration-sm ease-smooth group-hover:translate-x-2" />
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
+      {/* Multi-Step Form Section */}
+      <section className="container-site py-16 md:py-24 border-t border-line">
+        <ScrollReveal>
+          <MultiStepContactForm />
         </ScrollReveal>
+      </section>
 
-        {/* FAQ Section */}
+      {/* FAQ Section */}
+      <section className="container-site py-16 md:py-24 border-t border-line">
         <ScrollReveal variant="fade-up">
-          <div className="max-w-3xl mx-auto py-24 border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-16">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="font-display text-3xl lg:text-4xl text-foreground mb-12 text-center">
               Frequently Asked Questions
             </h2>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-text hover:text-accent">
+                <AccordionTrigger className="text-foreground hover:text-accent text-left">
                   What is your typical project timeline?
                 </AccordionTrigger>
-                <AccordionContent className="text-mute">
+                <AccordionContent className="text-muted">
                   Project timelines vary based on scope and complexity. A typical website project takes 6-12 weeks from discovery to launch, 
                   while larger applications may take 3-6 months. We'll provide a detailed timeline during our initial consultation.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-text hover:text-accent">
+                <AccordionTrigger className="text-foreground hover:text-accent text-left">
                   How do you structure pricing?
                 </AccordionTrigger>
-                <AccordionContent className="text-mute">
+                <AccordionContent className="text-muted">
                   We offer both project-based and retainer pricing models. Project fees are determined by scope, complexity, and timeline. 
                   We provide detailed proposals with transparent pricing before starting any work.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-text hover:text-accent">
+                <AccordionTrigger className="text-foreground hover:text-accent text-left">
                   Do you work with startups?
                 </AccordionTrigger>
-                <AccordionContent className="text-mute">
+                <AccordionContent className="text-muted">
                   Yes! We love working with startups and have flexible engagement models to fit different stages and budgets. 
                   We can help with MVPs, product design, brand identity, and growth strategy.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-4">
-                <AccordionTrigger className="text-text hover:text-accent">
+                <AccordionTrigger className="text-foreground hover:text-accent text-left">
                   What happens after the project launches?
                 </AccordionTrigger>
-                <AccordionContent className="text-mute">
+                <AccordionContent className="text-muted">
                   We provide post-launch support and maintenance packages to ensure your project continues to perform optimally. 
                   We also offer ongoing partnerships for clients who need continuous development, design, or marketing support.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-5">
-                <AccordionTrigger className="text-text hover:text-accent">
+                <AccordionTrigger className="text-foreground hover:text-accent text-left">
                   What industries do you specialize in?
                 </AccordionTrigger>
-                <AccordionContent className="text-mute">
+                <AccordionContent className="text-muted">
                   We've worked across SaaS, fintech, healthcare, real estate, e-commerce, and more. Our process is adaptable to any industry, 
                   and we bring fresh perspectives while respecting industry-specific requirements and regulations.
                 </AccordionContent>
@@ -344,6 +193,9 @@ const Contact = () => {
           </div>
         </ScrollReveal>
       </section>
+
+      {/* AI Chatbot Placeholder */}
+      <AIChatbotPlaceholder />
     </Layout>
   );
 };
