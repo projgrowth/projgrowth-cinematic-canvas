@@ -4,6 +4,17 @@ export interface CaseStudyMetric {
   description?: string;
 }
 
+export interface ProcessStep {
+  title: string;
+  description: string;
+}
+
+export interface GalleryItem {
+  type: "image" | "video";
+  url: string;
+  caption?: string;
+}
+
 export interface CaseStudy {
   id: string;
   title: string;
@@ -20,14 +31,11 @@ export interface CaseStudy {
   heroMedia?: {
     type: "image" | "video";
     url: string;
-    poster?: string; // For video thumbnail
+    poster?: string;
   };
   metrics?: CaseStudyMetric[];
-  testimonial?: {
-    quote: string;
-    author: string;
-    role: string;
-  };
+  processSteps?: ProcessStep[];
+  gallery?: GalleryItem[];
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -60,11 +68,11 @@ export const caseStudies: CaseStudy[] = [
       { label: "Engagement", value: "+127%", description: "Social media engagement" },
       { label: "Lead Quality", value: "+85%", description: "Qualified leads from content" }
     ],
-    testimonial: {
-      quote: "ProjGrowth transformed how we communicate complex tax strategies. Our content finally matches our expertise.",
-      author: "Gregory Franklin",
-      role: "Founder, GFG Solutions"
-    }
+    processSteps: [
+      { title: "Content Strategy", description: "Mapped complex tax concepts to digestible video formats" },
+      { title: "Production System", description: "Built a repeatable cinematic filming workflow" },
+      { title: "Distribution Framework", description: "Created Notion dashboard for publishing cadence" }
+    ]
   },
   {
     id: "smart-financial",
@@ -94,6 +102,11 @@ export const caseStudies: CaseStudy[] = [
       { label: "Brand Clarity", value: "92%", description: "Client recognition score" },
       { label: "Conversions", value: "+64%", description: "Seminar sign-ups" },
       { label: "Time Saved", value: "15hrs", description: "Weekly content creation" }
+    ],
+    processSteps: [
+      { title: "Brand Audit", description: "Analyzed existing messaging against market positioning" },
+      { title: "Visual Identity", description: "Created signature 3D visual style for social content" },
+      { title: "Website Redesign", description: "Built clean, trust-forward digital presence" }
     ]
   },
   {
@@ -250,6 +263,11 @@ export const caseStudies: CaseStudy[] = [
       { label: "Review Time", value: "-70%", description: "Per plan submission" },
       { label: "Accuracy", value: "99.2%", description: "Code compliance detection" },
       { label: "Client Satisfaction", value: "4.9★", description: "Average rating" }
+    ],
+    processSteps: [
+      { title: "Research & Requirements", description: "Mapped county-specific code compliance rules" },
+      { title: "AI Architecture", description: "Designed intelligent document review system" },
+      { title: "Portal Development", description: "Built client-facing upload and tracking interface" }
     ]
   },
   {
