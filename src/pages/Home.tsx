@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
@@ -15,11 +16,16 @@ import { Link } from "react-router-dom";
 // Select featured projects from real case studies
 const featuredProjects = caseStudies.slice(0, 3);
 
+const heroWords = [
+  { text: "Orlando Digital Marketing", accent: false },
+  { text: "Agency That Delivers", accent: false },
+  { text: "Results", accent: true },
+];
+
 const Home = () => {
   const [isLoadingWork, setIsLoadingWork] = useState(true);
 
   useEffect(() => {
-    // Simulate content loading for skeleton demo
     const timer = setTimeout(() => setIsLoadingWork(false), 800);
     return () => clearTimeout(timer);
   }, []);
@@ -44,23 +50,8 @@ const Home = () => {
       "latitude": 28.5383,
       "longitude": -81.3792
     },
-    "areaServed": [
-      "Orlando",
-      "Central Florida",
-      "Winter Park",
-      "Kissimmee",
-      "Lake Mary",
-      "Sanford",
-      "Altamonte Springs"
-    ],
-    "serviceType": [
-      "Web Design",
-      "Branding",
-      "Content Creation",
-      "Digital Marketing",
-      "Graphic Design",
-      "SEO Services"
-    ],
+    "areaServed": ["Orlando", "Central Florida", "Winter Park", "Kissimmee", "Lake Mary", "Sanford", "Altamonte Springs"],
+    "serviceType": ["Web Design", "Branding", "Content Creation", "Digital Marketing", "Graphic Design", "SEO Services"],
     "priceRange": "$$",
     "openingHours": "Mo-Fr 09:00-17:00",
     "sameAs": [
@@ -71,49 +62,17 @@ const Home = () => {
   };
 
   const services = [
-    {
-      icon: Monitor,
-      title: "Web Design",
-      description: "Custom websites that convert visitors into customers",
-      path: "/services/web-design"
-    },
-    {
-      icon: Palette,
-      title: "Branding",
-      description: "Strategic brand identity that sets you apart",
-      path: "/services/branding"
-    },
-    {
-      icon: PenTool,
-      title: "Content Creation",
-      description: "Compelling content that tells your story",
-      path: "/services/content-creation"
-    },
-    {
-      icon: BarChart3,
-      title: "Digital Marketing",
-      description: "Data-driven strategies that drive growth",
-      path: "/services/digital-marketing"
-    }
+    { icon: Monitor, title: "Web Design", description: "Custom websites that convert visitors into customers", path: "/services/web-design" },
+    { icon: Palette, title: "Branding", description: "Strategic brand identity that sets you apart", path: "/services/branding" },
+    { icon: PenTool, title: "Content Creation", description: "Compelling content that tells your story", path: "/services/content-creation" },
+    { icon: BarChart3, title: "Digital Marketing", description: "Data-driven strategies that drive growth", path: "/services/digital-marketing" },
   ];
 
   const differentiators = [
-    {
-      title: "Boutique Agency Attention",
-      description: "Personal service—you're never just a number. Direct access to our team."
-    },
-    {
-      title: "Results-Driven Approach",
-      description: "We measure what matters and optimize for real business outcomes."
-    },
-    {
-      title: "Orlando Market Expertise",
-      description: "We know Central Florida businesses and what makes them thrive."
-    },
-    {
-      title: "Full-Service Capabilities",
-      description: "Strategy through execution—everything under one roof."
-    }
+    { title: "Boutique Agency Attention", description: "Personal service—you're never just a number. Direct access to our team." },
+    { title: "Results-Driven Approach", description: "We measure what matters and optimize for real business outcomes." },
+    { title: "Orlando Market Expertise", description: "We know Central Florida businesses and what makes them thrive." },
+    { title: "Full-Service Capabilities", description: "Strategy through execution—everything under one roof." },
   ];
 
   return (
@@ -129,24 +88,44 @@ const Home = () => {
         </script>
       </Helmet>
 
-      {/* Hero Section */}
+      {/* Hero Section — Staggered text reveal */}
       <section className="container-site py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh] flex items-center">
         <div className="grid-12">
           <div className="col-span-12 lg:col-span-10 stack gap-6 md:gap-8">
-            <h1 className="font-display text-4xl md:text-6xl lg:text-8xl leading-tight text-text animate-fade-in">
-              Orlando Digital Marketing
-              <br />
-              Agency That Delivers
-              <br />
-              <span className="text-accent">Results</span>
+            <h1 className="font-display text-4xl md:text-6xl lg:text-8xl leading-tight text-text">
+              {heroWords.map((word, i) => (
+                <motion.span
+                  key={i}
+                  className={`block ${word.accent ? "text-accent" : ""}`}
+                  initial={{ opacity: 0, y: 30, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{
+                    duration: 0.6,
+                    delay: i * 0.15,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                >
+                  {word.text}
+                </motion.span>
+              ))}
             </h1>
             
-            <p className="text-base md:text-xl text-mute max-w-2xl leading-relaxed animate-fade-in" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
+            <motion.p
+              className="text-base md:text-xl text-mute max-w-2xl leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+            >
               We create websites, brands, and content that help Orlando businesses 
               stand out and grow. Your success is our mission.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-2 md:mt-4 animate-fade-in" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 mt-2 md:mt-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
               <Link 
                 to="/contact"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm hover:bg-accent/90 min-h-[44px]"
@@ -161,7 +140,7 @@ const Home = () => {
               >
                 View Our Work
               </Link>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -190,9 +169,7 @@ const Home = () => {
                     <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
                       {service.title}
                     </h3>
-                    <p className="text-mute">
-                      {service.description}
-                    </p>
+                    <p className="text-mute">{service.description}</p>
                   </Link>
                 </ScrollReveal>
               ))}
@@ -230,21 +207,13 @@ const Home = () => {
       <section className="container-site py-24 border-t border-line">
         <ScrollReveal variant="fade-up">
           <div className="mb-16">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
-              Our Recent Work
-            </h2>
-            <p className="text-xl text-mute">
-              Projects we're proud of from Orlando and beyond
-            </p>
+            <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">Our Recent Work</h2>
+            <p className="text-xl text-mute">Projects we're proud of from Orlando and beyond</p>
           </div>
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.2}>
-          {isLoadingWork ? (
-            <FeaturedWorkSkeleton />
-          ) : (
-            <FeaturedWorkSlider projects={featuredProjects} />
-          )}
+          {isLoadingWork ? <FeaturedWorkSkeleton /> : <FeaturedWorkSlider projects={featuredProjects} />}
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.3}>
@@ -262,28 +231,6 @@ const Home = () => {
 
       {/* Client Logos Section */}
       <ClientLogos />
-
-      {/* CTA Section */}
-      <section className="container-site py-24 border-t border-line">
-        <ScrollReveal variant="fade-up">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-6">
-              Ready to Grow Your Business?
-            </h2>
-            <p className="text-xl text-mute mb-8">
-              Let's discuss how we can help your Orlando business stand out, 
-              attract more customers, and achieve your goals.
-            </p>
-            <Link
-              to="/contact"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm hover:bg-accent/90"
-            >
-              Start Your Project
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </ScrollReveal>
-      </section>
 
       {/* Navigation Guide Section */}
       <ScrollReveal variant="fade-up">

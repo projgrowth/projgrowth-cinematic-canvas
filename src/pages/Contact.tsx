@@ -63,23 +63,21 @@ const Contact = () => {
       </Helmet>
 
       {/* Hero with Parallax */}
-      <section ref={heroRef} className="relative min-h-[50vh] flex items-center overflow-hidden">
-        {/* Parallax Background Elements */}
+      <section ref={heroRef} className="relative overflow-hidden">
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 pointer-events-none"
         >
           <div className="absolute top-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/3 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-accent/5 to-transparent opacity-50" />
         </motion.div>
 
         <div className="container-site relative z-10 py-16 md:py-24">
-          <div className="grid-12 gap-y-12 items-center">
+          <div className="grid-12 gap-y-8 items-end">
             {/* Header */}
-            <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-7">
+            <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-8">
               <motion.h1 
-                className="font-display text-3xl md:text-5xl lg:text-7xl text-foreground mb-6"
+                className="font-display text-3xl md:text-5xl lg:text-7xl text-foreground mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -89,7 +87,7 @@ const Contact = () => {
                 <span className="text-accent">Something Great</span>
               </motion.h1>
               <motion.p 
-                className="text-xl text-muted leading-relaxed max-w-xl"
+                className="text-lg text-muted leading-relaxed max-w-xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -99,32 +97,29 @@ const Contact = () => {
               </motion.p>
             </ScrollReveal>
 
-            {/* Quick Contact Cards */}
-            <div className="col-span-12 lg:col-span-5 lg:col-start-8">
-              <div className="space-y-4">
-                <ScrollReveal variant="scale" delay={0.2}>
-                  <motion.a
-                    href="mailto:info@projgrowth.com"
-                    className="block p-6 bg-surface/80 backdrop-blur-sm rounded-lg border border-line transition-all duration-300 hover:border-accent/50 hover:bg-surface group"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Mail className="w-6 h-6 text-accent mb-3" />
-                    <h3 className="font-medium text-foreground mb-1 group-hover:text-accent transition-colors">
-                      Email Us
-                    </h3>
-                    <p className="text-sm text-muted">info@projgrowth.com</p>
-                  </motion.a>
-                </ScrollReveal>
-
-                <ScrollReveal variant="scale" delay={0.3}>
-                  <div className="p-6 bg-surface/80 backdrop-blur-sm rounded-lg border border-line">
-                    <MessageSquare className="w-6 h-6 text-accent mb-3" />
-                    <h3 className="font-medium text-foreground mb-1">Response Time</h3>
-                    <p className="text-sm text-muted">Within 24 hours, Mon-Fri</p>
+            {/* Compact info row */}
+            <div className="col-span-12 lg:col-span-4 flex flex-row lg:flex-col gap-4">
+              <ScrollReveal variant="scale" delay={0.2}>
+                <a
+                  href="mailto:info@projgrowth.com"
+                  className="flex items-center gap-3 p-4 bg-surface/80 rounded-lg border border-line hover:border-accent/50 transition-all duration-300 group"
+                >
+                  <Mail className="w-5 h-5 text-accent flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">Email Us</p>
+                    <p className="text-xs text-muted">info@projgrowth.com</p>
                   </div>
-                </ScrollReveal>
-              </div>
+                </a>
+              </ScrollReveal>
+              <ScrollReveal variant="scale" delay={0.3}>
+                <div className="flex items-center gap-3 p-4 bg-surface/80 rounded-lg border border-line">
+                  <MessageSquare className="w-5 h-5 text-accent flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Response Time</p>
+                    <p className="text-xs text-muted">Within 24 hours, Mon-Fri</p>
+                  </div>
+                </div>
+              </ScrollReveal>
             </div>
           </div>
         </div>

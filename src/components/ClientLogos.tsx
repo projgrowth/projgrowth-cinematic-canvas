@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import ScrollReveal from "./ScrollReveal";
 
 const clients = [
@@ -12,11 +13,66 @@ const clients = [
   { name: "Fritzler Law", logo: "/logos/fritzler-law.svg" },
 ];
 
+const LogoMarquee = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    // Check for reduced motion preference
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    let animationId: number;
+    let offset = 0;
+    const speed = 0.5; // px per frame
+
+    const animate = () => {
+      offset += speed;
+      // Reset when first set scrolls out
+      const halfWidth = el.scrollWidth / 2;
+      if (offset >= halfWidth) offset = 0;
+      el.style.transform = `translateX(-${offset}px)`;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationId);
+  }, []);
+
+  // Duplicate logos for seamless loop
+  const allLogos = [...clients, ...clients];
+
+  return (
+    <div className="overflow-hidden" role="list" aria-label="Client logos">
+      <div ref={scrollRef} className="flex items-center gap-12 md:gap-16 lg:gap-20 will-change-transform">
+        {allLogos.map((client, idx) => (
+          <div
+            key={idx}
+            role="listitem"
+            className="flex-shrink-0 flex items-center justify-center w-28 h-16 md:w-36 md:h-20"
+          >
+            <img
+              src={client.logo}
+              alt={`${client.name} logo`}
+              loading="lazy"
+              width={144}
+              height={80}
+              className="max-w-full max-h-full object-contain opacity-40 hover:opacity-80 transition-opacity duration-300 grayscale hover:grayscale-0"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const ClientLogos = () => {
   return (
-    <section className="container-site py-16 md:py-24 border-t border-line" aria-labelledby="clients-heading">
+    <section className="py-16 md:py-24 border-t border-line" aria-labelledby="clients-heading">
       <ScrollReveal variant="fade-up">
-        <div className="text-center mb-12">
+        <div className="container-site text-center mb-12">
           <p className="text-mute text-sm uppercase tracking-widest mb-2">
             Trusted By
           </p>
@@ -27,27 +83,11 @@ const ClientLogos = () => {
       </ScrollReveal>
 
       <ScrollReveal variant="fade-up" delay={0.1}>
-        <ul className="flex flex-wrap justify-center items-center gap-8 md:gap-12 lg:gap-16" role="list" aria-label="Client logos">
-          {clients.map((client, idx) => (
-            <li
-              key={idx}
-              className="group flex items-center justify-center w-24 h-16 md:w-32 md:h-20"
-            >
-              <img 
-                src={client.logo} 
-                alt={`${client.name} logo`}
-                loading="lazy"
-                width={128}
-                height={80}
-                className="max-w-full max-h-full object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-sm"
-              />
-            </li>
-          ))}
-        </ul>
+        <LogoMarquee />
       </ScrollReveal>
 
       <ScrollReveal variant="fade-up" delay={0.2}>
-        <p className="text-center text-mute text-sm mt-12">
+        <p className="container-site text-center text-mute text-sm mt-12">
           Join 50+ companies that trust us with their digital presence
         </p>
       </ScrollReveal>

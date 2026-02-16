@@ -7,24 +7,23 @@ const Navigation = () => {
   const location = useLocation();
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Only hide after scrolling down 100px
+      // Track if scrolled past threshold for background shift
+      setIsScrolled(currentScrollY > 20);
+      
       if (currentScrollY > 100) {
-        // Scrolling down - hide nav
         if (currentScrollY > lastScrollY) {
           setIsHidden(true);
-        } 
-        // Scrolling up - show nav
-        else {
+        } else {
           setIsHidden(false);
         }
       } else {
-        // Always show at top
         setIsHidden(false);
       }
       
@@ -59,9 +58,13 @@ const Navigation = () => {
     <header>
       <nav 
         className={`
-          fixed top-0 left-0 right-0 z-50 bg-base border-b border-line/50 
-          transition-transform duration-md ease-smooth
+          fixed top-0 left-0 right-0 z-50 
+          transition-all duration-300 ease-smooth
           ${isHidden ? "-translate-y-full" : "translate-y-0"}
+          ${isScrolled 
+            ? "bg-base/95 backdrop-blur-md border-b border-line/50 shadow-[0_1px_3px_rgba(0,0,0,0.3)]" 
+            : "bg-transparent border-b border-transparent"
+          }
         `}
         aria-label="Main navigation"
       >

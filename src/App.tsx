@@ -24,13 +24,14 @@ import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 }
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 }
 };
 
 const pageTransition = {
-  duration: 0.3
+  duration: 0.2,
+  ease: "easeInOut" as const
 };
 
 const AnimatedRoutes = () => {
