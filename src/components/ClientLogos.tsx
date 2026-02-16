@@ -70,26 +70,17 @@ const LogoMarquee = () => {
 
 const ClientLogos = () => {
   return (
-    <section className="py-16 md:py-24 border-t border-line" aria-labelledby="clients-heading">
+    <section className="py-24 border-t border-line" aria-labelledby="clients-heading">
       <ScrollReveal variant="fade-up">
         <div className="container-site text-center mb-12">
-          <p className="text-mute text-sm uppercase tracking-widest mb-2">
+          <p id="clients-heading" className="text-mute text-sm uppercase tracking-widest">
             Trusted By
           </p>
-          <h2 id="clients-heading" className="font-display text-2xl lg:text-3xl text-text">
-            Industry Leaders
-          </h2>
         </div>
       </ScrollReveal>
 
       <ScrollReveal variant="fade-up" delay={0.1}>
         <LogoMarquee />
-      </ScrollReveal>
-
-      <ScrollReveal variant="fade-up" delay={0.2}>
-        <p className="container-site text-center text-mute text-sm mt-12">
-          Join 50+ companies that trust us with their digital presence
-        </p>
       </ScrollReveal>
     </section>
   );

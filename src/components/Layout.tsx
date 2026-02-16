@@ -4,7 +4,6 @@ import Navigation from "./Navigation";
 import Footer from "./Footer";
 import GlobalCTA from "./GlobalCTA";
 import BackToTop from "./BackToTop";
-import ScrollProgress from "./ScrollProgress";
 import SEO from "./SEO";
 
 interface LayoutProps {
@@ -65,7 +64,6 @@ const Layout = ({
         Skip to main content
       </a>
       
-      <ScrollProgress />
       <Navigation />
       <main id="main-content" className="pt-20 flex-1">
         {children}

@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
-import ScrollIndicator from "@/components/ScrollIndicator";
+import ScrollReveal from "@/components/ScrollReveal";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
 import FeaturedWorkSkeleton from "@/components/FeaturedWorkSkeleton";
-import NavigationGuide from "@/components/NavigationGuide";
-import ScrollReveal from "@/components/ScrollReveal";
 import ClientLogos from "@/components/ClientLogos";
 import GrowthLines from "@/components/GrowthLines";
 import LeafDivider from "@/components/LeafDivider";
@@ -139,7 +137,7 @@ const Home = () => {
             >
               <Link 
                 to="/contact"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent text-base rounded-md font-medium transition-all duration-sm hover:bg-accent/90 min-h-[44px]"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-accent text-accent rounded-md font-medium transition-all duration-sm hover:bg-accent hover:text-base min-h-[44px]"
               >
                 Get Your Free Consultation
                 <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
@@ -147,7 +145,7 @@ const Home = () => {
               
               <Link 
                 to="/work"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-line text-mute rounded-md font-medium transition-all duration-sm hover:border-muted-foreground hover:text-text min-h-[44px]"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-mute rounded-md font-medium transition-all duration-sm hover:text-text min-h-[44px]"
               >
                 View Our Work
               </Link>
@@ -248,13 +246,6 @@ const Home = () => {
 
       {/* Client Logos Section */}
       <ClientLogos />
-
-      {/* Navigation Guide Section */}
-      <ScrollReveal variant="fade-up">
-        <NavigationGuide />
-      </ScrollReveal>
-
-      <ScrollIndicator />
     </Layout>
   );
 };
