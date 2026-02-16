@@ -43,6 +43,7 @@ const Footer = () => {
                 { path: "/work", label: "Work" },
                 { path: "/services", label: "Services" },
                 { path: "/about", label: "About" },
+                { path: "/blog", label: "Blog" },
                 { path: "/contact", label: "Contact" },
               ].map((link) => (
                 <li key={link.path}>
@@ -57,18 +58,23 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Services — now linked */}
           <div>
             <h3 className="font-display text-lg text-text mb-4">Services</h3>
             <ul className="space-y-2">
               {[
-                "Brand Strategy",
-                "Digital Design",
-                "Development",
-                "Growth Marketing",
+                { path: "/services/branding", label: "Brand Strategy" },
+                { path: "/services/web-design", label: "Web Design" },
+                { path: "/services/content-creation", label: "Content Creation" },
+                { path: "/services/digital-marketing", label: "Digital Marketing" },
               ].map((service) => (
-                <li key={service}>
-                  <span className="text-sm text-mute">{service}</span>
+                <li key={service.path}>
+                  <Link
+                    to={service.path}
+                    className="text-sm text-mute hover:text-accent transition-colors duration-sm"
+                  >
+                    {service.label}
+                  </Link>
                 </li>
               ))}
             </ul>

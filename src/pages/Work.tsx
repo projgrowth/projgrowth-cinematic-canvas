@@ -10,10 +10,10 @@ import CaseStudySheet from "@/components/CaseStudySheet";
 import BentoGrid from "@/components/BentoGrid";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageHeader from "@/components/PageHeader";
-import FuturisticGrid from "@/components/FuturisticGrid";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 import { Grid3X3, List, ArrowUpDown, LayoutGrid } from "lucide-react";
 
+// Define types for sort options and view mode
 type SortOption = "default" | "a-z" | "z-a" | "category";
 type ViewMode = "bento" | "grid" | "list";
 
@@ -27,7 +27,6 @@ const sortOptions: { value: SortOption; label: string }[] = [
 const Work = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // Initialize state from URL params
   const [activeCategory, setActiveCategory] = useState(() => 
     searchParams.get("category") || "All"
   );
@@ -45,7 +44,6 @@ const Work = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Sync state to URL
   useEffect(() => {
     const params = new URLSearchParams();
     if (activeCategory !== "All") params.set("category", activeCategory);
@@ -71,7 +69,6 @@ const Work = () => {
       return matchesCategory && matchesSearch;
     });
 
-    // Apply sorting
     switch (sortBy) {
       case "a-z":
         result = [...result].sort((a, b) => a.title.localeCompare(b.title));
@@ -110,9 +107,6 @@ const Work = () => {
       canonicalUrl="/work"
     >
       <section className="container-site py-16 md:py-24 relative">
-        {/* Futuristic grid background */}
-        <FuturisticGrid />
-        
         <ScrollReveal variant="fade-up">
           <PageHeader className="mb-16 relative z-10">
             <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
@@ -142,7 +136,6 @@ const Work = () => {
 
               {/* Sort & View Controls */}
               <div className="flex items-center gap-3">
-                {/* Sort Dropdown */}
                 <div className="relative">
                   <select
                     value={sortBy}
@@ -161,7 +154,6 @@ const Work = () => {
                   </svg>
                 </div>
 
-                {/* View Toggle */}
                 <div className="flex border border-line rounded-md overflow-hidden">
                   <button
                     onClick={() => setViewMode("bento")}
@@ -200,7 +192,6 @@ const Work = () => {
               </div>
             </div>
 
-            {/* Results Counter */}
             {hasActiveFilters && (
               <p className="text-sm text-mute">
                 Showing {filteredAndSortedCaseStudies.length} of {caseStudies.length} projects

@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import ProcessTimeline from "@/components/ProcessTimeline";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageHeader from "@/components/PageHeader";
+import LeafDivider from "@/components/LeafDivider";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -76,7 +77,6 @@ const Services = () => {
     navigate('/contact', { state: { selectedService: serviceTitle } });
   };
 
-  // FAQ Schema for Services page
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -97,7 +97,6 @@ const Services = () => {
       seoKeywords="brand strategy services, UI/UX design agency, web development company, digital design studio, growth marketing services, creative agency"
       canonicalUrl="/services"
     >
-      {/* FAQ Schema for rich snippets */}
       <Helmet>
         <script type="application/ld+json">
           {JSON.stringify(faqSchema)}
@@ -122,7 +121,6 @@ const Services = () => {
               <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                 <div className="group border-t border-line py-12 transition-all duration-md ease-smooth hover:bg-surface/30 relative before:absolute before:left-0 before:top-12 before:bottom-12 before:w-[2px] before:bg-accent before:scale-y-0 before:transition-transform before:duration-300 hover:before:scale-y-100 before:origin-top">
                   <div className="grid-12 gap-y-8">
-                    {/* Service Number */}
                     <div className="col-span-12 lg:col-span-2">
                       <button
                         onClick={() => toggleService(idx)}
@@ -133,7 +131,6 @@ const Services = () => {
                       </button>
                     </div>
 
-                    {/* Title & Description */}
                     <div className="col-span-12 lg:col-span-6">
                       <h2 className="font-display text-3xl md:text-4xl text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
                         {service.title}
@@ -142,7 +139,6 @@ const Services = () => {
                         {service.description}
                       </p>
 
-                      {/* Expand Button */}
                       <button
                         onClick={() => toggleService(idx)}
                         className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
@@ -161,13 +157,11 @@ const Services = () => {
                       </button>
                     </div>
 
-                    {/* Capabilities with Tooltips */}
                     <div className="col-span-12 lg:col-span-4">
                       <h3 className="text-sm font-medium text-mute mb-3 md:mb-4">Capabilities</h3>
                       <ul className="stack gap-3">
                         {service.capabilities.map((cap, i) => (
                           <li key={i}>
-                            {/* Desktop: Tooltip on hover */}
                             <div className="hidden md:block">
                               <Tooltip>
                                 <TooltipTrigger asChild>
@@ -180,7 +174,6 @@ const Services = () => {
                                 </TooltipContent>
                               </Tooltip>
                             </div>
-                            {/* Mobile: Inline description */}
                             <div className="md:hidden">
                               <span className="text-text text-sm block">{cap.name}</span>
                               <span className="text-mute text-xs">{cap.tooltip}</span>
@@ -190,7 +183,6 @@ const Services = () => {
                       </ul>
                     </div>
 
-                    {/* Expanded Details */}
                     {expandedService === idx && (
                       <div className="col-span-12 animate-fade-in">
                         <div className="pt-8 border-t border-line mt-8">
@@ -231,6 +223,7 @@ const Services = () => {
           </div>
 
           {/* Process Timeline */}
+          <LeafDivider />
           <ScrollReveal variant="fade-up">
             <ProcessTimeline />
           </ScrollReveal>
