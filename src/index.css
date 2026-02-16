@@ -93,6 +93,8 @@
     @apply antialiased;
     scroll-behavior: smooth;
     background-color: hsl(var(--base));
+    background-image: radial-gradient(circle, hsl(var(--mute) / 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
     color: hsl(var(--text));
     font-family: var(--font-body);
   }
