@@ -9,28 +9,84 @@ interface SEOProps {
   twitterImage?: string;
   canonicalUrl?: string;
   type?: "website" | "article";
+  /** If true, uses the dynamic OG image endpoint instead of a static image */
+  dynamicOg?: boolean;
+  /** Additional params for dynamic OG (author, date, price, ogType) */
+  ogParams?: {
+    ogType?: "default" | "article" | "product";
+    author?: string;
+    date?: string;
+    price?: string;
+    image?: string;
+  };
+  noindex?: boolean;
+}
+
+const SITE_URL = "https://projgrowth.com";
+const OG_ENDPOINT = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og`;
+
+/**
+ * Builds a dynamic OG image URL from the edge function.
+ */
+function buildOgUrl(
+  title: string,
+  description?: string,
+  params?: SEOProps["ogParams"]
+): string {
+  const url = new URL(OG_ENDPOINT);
+  url.searchParams.set("title", title);
+  if (description) url.searchParams.set("description", description);
+  if (params?.ogType) url.searchParams.set("type", params.ogType);
+  if (params?.author) url.searchParams.set("author", params.author);
+  if (params?.date) url.searchParams.set("date", params.date);
+  if (params?.price) url.searchParams.set("price", params.price);
+  if (params?.image) url.searchParams.set("image", params.image);
+  return url.toString();
 }
 
 const SEO = ({
   title = "ProjGrowth - Digital Experiences That Grow Businesses",
   description = "Modern creative studio specializing in brand strategy, digital design, and web development. We create meaningful digital experiences that drive business growth.",
   keywords = "digital design, web development, brand strategy, UI/UX design, creative studio, growth marketing",
-  ogImage = "/og-image.jpg",
-  twitterImage = "/twitter-card.jpg",
+  ogImage,
+  twitterImage,
   canonicalUrl,
   type = "website",
+  dynamicOg = false,
+  ogParams,
+  noindex = false,
 }: SEOProps) => {
-  const siteUrl = "https://projgrowth.com";
   const location = useLocation();
-  const fullUrl = canonicalUrl ? `${siteUrl}${canonicalUrl}` : `${siteUrl}${location.pathname}`;
+  const fullUrl = canonicalUrl ? `${SITE_URL}${canonicalUrl}` : `${SITE_URL}${location.pathname}`;
+
+  // Determine the OG image URL
+  let resolvedOgImage: string;
+  if (ogImage) {
+    // Explicit image provided — use it directly
+    resolvedOgImage = ogImage.startsWith("http") ? ogImage : `${SITE_URL}${ogImage}`;
+  } else if (dynamicOg && OG_ENDPOINT) {
+    // Generate a dynamic OG image from the edge function
+    resolvedOgImage = buildOgUrl(title, description, ogParams);
+  } else {
+    // Fallback to static default
+    resolvedOgImage = `${SITE_URL}/og-image.jpg`;
+  }
+
+  const resolvedTwitterImage = twitterImage
+    ? (twitterImage.startsWith("http") ? twitterImage : `${SITE_URL}${twitterImage}`)
+    : resolvedOgImage;
+
+  const robotsContent = noindex
+    ? "noindex, nofollow"
+    : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
   // JSON-LD Structured Data for Organization
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "ProjGrowth",
-    url: siteUrl,
-    logo: `${siteUrl}/favicon.png`,
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon.png`,
     description: "Modern creative studio specializing in brand strategy, digital design, and web development.",
     sameAs: [
       "https://www.instagram.com/projgrowth",
@@ -54,8 +110,8 @@ const SEO = ({
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: "ProjGrowth",
-    url: siteUrl,
-    image: `${siteUrl}/og-image.png`,
+    url: SITE_URL,
+    image: `${SITE_URL}/og-image.png`,
     description: "Digital design studio specializing in brand strategy, UI/UX design, and web development.",
     priceRange: "$$",
     openingHours: "Mo-Fr 09:00-18:00",
@@ -98,13 +154,13 @@ const SEO = ({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: siteUrl
+        item: SITE_URL
       },
       ...pathSegments.map((segment, index) => ({
         "@type": "ListItem",
         position: index + 2,
         name: segment.charAt(0).toUpperCase() + segment.slice(1),
-        item: `${siteUrl}/${pathSegments.slice(0, index + 1).join('/')}`
+        item: `${SITE_URL}/${pathSegments.slice(0, index + 1).join('/')}`
       }))
     ]
   };
@@ -118,13 +174,17 @@ const SEO = ({
       <meta name="keywords" content={keywords} />
       <link rel="canonical" href={fullUrl} />
 
+      {/* Robots */}
+      <meta name="robots" content={robotsContent} />
+      <meta name="googlebot" content={noindex ? "noindex, nofollow" : "index, follow"} />
+
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:site_name" content="ProjGrowth" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+      <meta property="og:image" content={resolvedOgImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="en_US" />
@@ -134,7 +194,7 @@ const SEO = ({
       <meta name="twitter:url" content={fullUrl} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={`${siteUrl}${twitterImage}`} />
+      <meta name="twitter:image" content={resolvedTwitterImage} />
       <meta name="twitter:site" content="@projgrowth" />
 
       {/* Additional Meta Tags */}
@@ -142,8 +202,6 @@ const SEO = ({
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       <meta name="language" content="English" />
       <meta name="author" content="ProjGrowth" />
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-      <meta name="googlebot" content="index, follow" />
       
       {/* Geo Tags for Local SEO */}
       <meta name="geo.region" content="US" />

@@ -14,6 +14,16 @@ interface LayoutProps {
   seoKeywords?: string;
   canonicalUrl?: string;
   hideGlobalCTA?: boolean;
+  ogImage?: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  ogParams?: {
+    ogType?: "default" | "article" | "product";
+    author?: string;
+    date?: string;
+    price?: string;
+    image?: string;
+  };
 }
 
 const Layout = ({ 
@@ -23,6 +33,10 @@ const Layout = ({
   seoKeywords,
   canonicalUrl,
   hideGlobalCTA = false,
+  ogImage,
+  ogType,
+  noindex,
+  ogParams,
 }: LayoutProps) => {
   const location = useLocation();
   
@@ -36,6 +50,11 @@ const Layout = ({
         description={seoDescription}
         keywords={seoKeywords}
         canonicalUrl={canonicalUrl}
+        ogImage={ogImage}
+        type={ogType}
+        noindex={noindex}
+        dynamicOg={!ogImage}
+        ogParams={ogParams}
       />
       
       {/* Skip to main content link for accessibility */}
