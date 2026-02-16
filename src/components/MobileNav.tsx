@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Menu, ChevronDown } from "lucide-react";
+import pgLogo from "@/assets/logos/pg-logo.png";
 import {
   Sheet,
   SheetContent,
@@ -40,8 +41,9 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent side="right" className="w-[300px] bg-surface border-line">
         <SheetHeader>
-          <SheetTitle className="text-left font-display text-2xl text-text">
-            Menu
+          <SheetTitle className="text-left font-display text-2xl text-text flex items-center gap-2">
+            <img src={pgLogo} alt="" className="h-6 w-auto" />
+            ProjGrowth
           </SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-4 mt-8">

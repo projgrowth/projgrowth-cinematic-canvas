@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import pgLogo from "@/assets/logos/pg-logo.png";
 
 interface PageLoaderProps {
   isLoading: boolean;
@@ -28,9 +29,7 @@ const PageLoader = ({ isLoading }: PageLoaderProps) => {
               }}
               className="w-16 h-16 flex items-center justify-center"
             >
-              <span className="font-display text-4xl text-accent font-medium">
-                PG
-              </span>
+              <img src={pgLogo} alt="Loading" className="h-12 w-auto" />
             </motion.div>
 
             {/* Loading bar */}
