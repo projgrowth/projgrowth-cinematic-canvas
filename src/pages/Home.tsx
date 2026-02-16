@@ -157,7 +157,6 @@ const Home = () => {
       </section>
 
       {/* Services Overview */}
-      <LeafDivider />
       <section className="container-site py-24">
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-12">
@@ -221,7 +220,6 @@ const Home = () => {
       </section>
 
       {/* Featured Work Section */}
-      <LeafDivider />
       <section className="container-site py-24">
         <ScrollReveal variant="fade-up">
           <div className="mb-16">

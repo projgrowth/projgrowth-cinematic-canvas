@@ -9,11 +9,11 @@ import PageHeader from "@/components/PageHeader";
 import LeafDivider from "@/components/LeafDivider";
 
 const About = () => {
+  // PLACEHOLDER — replace with verified numbers
   const stats = [
-    { value: "50+", label: "Projects Delivered" },
-    { value: "8+", label: "Years Experience" },
-    { value: "30+", label: "Happy Clients" },
-    { value: "98%", label: "Client Retention" },
+    { value: "9", label: "Client Partners" },
+    { value: "5", label: "Service Areas" },
+    { value: "Orlando", label: "Based In" },
   ];
 
   const values = [
@@ -66,7 +66,6 @@ const About = () => {
         </ScrollReveal>
 
         {/* Mission */}
-        <LeafDivider />
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-12 py-16 md:py-24">
             <div className="col-span-12 lg:col-span-4">

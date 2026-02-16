@@ -130,7 +130,6 @@ const Contact = () => {
       </section>
 
       {/* Quick Contact */}
-      <LeafDivider />
       <section className="container-site py-12">
         <ScrollReveal>
           <div className="max-w-xl mx-auto">
@@ -154,7 +153,6 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <LeafDivider />
       <section className="container-site py-16 md:py-24">
         <ScrollReveal variant="fade-up">
           <div className="max-w-3xl mx-auto">

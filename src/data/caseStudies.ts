@@ -63,11 +63,6 @@ export const caseStudies: CaseStudy[] = [
     image: "/case-gfg.jpg",
     logo: "/logos/gfg-solutions.svg",
     featured: true,
-    metrics: [
-      { label: "Content Output", value: "4x", description: "Monthly content production" },
-      { label: "Engagement", value: "+127%", description: "Social media engagement" },
-      { label: "Lead Quality", value: "+85%", description: "Qualified leads from content" }
-    ],
     processSteps: [
       { title: "Content Strategy", description: "Mapped complex tax concepts to digestible video formats" },
       { title: "Production System", description: "Built a repeatable cinematic filming workflow" },
@@ -98,11 +93,6 @@ export const caseStudies: CaseStudy[] = [
     image: "/case-smartfinancial.jpg",
     logo: "/logos/smart-financial.png",
     featured: true,
-    metrics: [
-      { label: "Brand Clarity", value: "92%", description: "Client recognition score" },
-      { label: "Conversions", value: "+64%", description: "Seminar sign-ups" },
-      { label: "Time Saved", value: "15hrs", description: "Weekly content creation" }
-    ],
     processSteps: [
       { title: "Brand Audit", description: "Analyzed existing messaging against market positioning" },
       { title: "Visual Identity", description: "Created signature 3D visual style for social content" },
@@ -130,10 +120,6 @@ export const caseStudies: CaseStudy[] = [
     whyItMatters: "Authentic storytelling builds loyalty, trust, and long-term brand equity.",
     image: "/case-realthread.jpg",
     logo: "/logos/real-thread.svg",
-    metrics: [
-      { label: "Video Views", value: "2.3M", description: "Total views across platforms" },
-      { label: "Brand Sentiment", value: "+45%", description: "Positive mentions" }
-    ]
   },
   {
     id: "victoria-jewelers",
@@ -155,10 +141,6 @@ export const caseStudies: CaseStudy[] = [
     whyItMatters: "Luxury is sold through detail. Stronger visuals directly raise perceived value.",
     image: "/case-victoria.jpg",
     logo: "/logos/victoria-jewelers.svg",
-    metrics: [
-      { label: "Avg. Order Value", value: "+38%", description: "Online purchases" },
-      { label: "Time on Site", value: "+52%", description: "Engagement increase" }
-    ]
   },
   {
     id: "diverse-wealth",
@@ -181,10 +163,6 @@ export const caseStudies: CaseStudy[] = [
     whyItMatters: "Consistent visibility builds trust before the first meeting.",
     image: "/case-diversewealth.jpg",
     logo: "/logos/diverse-wealth.svg",
-    metrics: [
-      { label: "Advisor Visibility", value: "3x", description: "Social impressions" },
-      { label: "Inbound Leads", value: "+67%", description: "From content" }
-    ]
   },
   {
     id: "windermere-team",
@@ -206,10 +184,6 @@ export const caseStudies: CaseStudy[] = [
     whyItMatters: "Human connection accelerates prospect trust and drives inbound.",
     image: "/case-windermere.jpg",
     logo: "/logos/northwestern-mutual.svg",
-    metrics: [
-      { label: "Team Features", value: "24", description: "Advisor spotlights" },
-      { label: "Engagement Rate", value: "8.4%", description: "Above industry average" }
-    ]
   },
   {
     id: "custom-dinks",
@@ -232,10 +206,6 @@ export const caseStudies: CaseStudy[] = [
     whyItMatters: "Interactive customization increases engagement and purchase intent.",
     image: "/case-customdinks.jpg",
     logo: "/logos/custom-dinks.svg",
-    metrics: [
-      { label: "Configurator Uses", value: "12K", description: "Monthly interactions" },
-      { label: "Conversion Rate", value: "+89%", description: "From configurator to cart" }
-    ]
   },
   {
     id: "florida-private",
@@ -259,11 +229,6 @@ export const caseStudies: CaseStudy[] = [
     image: "/case-floridaprivate.jpg",
     logo: "/logos/florida-private-providers.svg",
     featured: true,
-    metrics: [
-      { label: "Review Time", value: "-70%", description: "Per plan submission" },
-      { label: "Accuracy", value: "99.2%", description: "Code compliance detection" },
-      { label: "Client Satisfaction", value: "4.9★", description: "Average rating" }
-    ],
     processSteps: [
       { title: "Research & Requirements", description: "Mapped county-specific code compliance rules" },
       { title: "AI Architecture", description: "Designed intelligent document review system" },
@@ -292,10 +257,6 @@ export const caseStudies: CaseStudy[] = [
     whyItMatters: "Professional services rely on trust. A modern, authoritative site shortens the decision cycle.",
     image: "/case-fritzler.jpg",
     logo: "/logos/fritzler-law.svg",
-    metrics: [
-      { label: "Inquiries", value: "+156%", description: "Contact form submissions" },
-      { label: "Bounce Rate", value: "-42%", description: "Improved engagement" }
-    ]
   }
 ];
 
