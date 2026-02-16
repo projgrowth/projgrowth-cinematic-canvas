@@ -19,7 +19,7 @@ const Footer = () => {
 
   return (
     <footer className="border-t border-line bg-base mt-24">
-      <div className="container-site py-12 md:py-16">
+      <div className="container-site py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
           {/* Brand */}
           <div className="space-y-4">
@@ -37,7 +37,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-display text-lg text-text mb-4">Quick Links</h3>
+            <h3 className="font-display text-sm uppercase tracking-wider text-mute mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {[
                 { path: "/work", label: "Work" },
@@ -60,7 +60,7 @@ const Footer = () => {
 
           {/* Services — now linked */}
           <div>
-            <h3 className="font-display text-lg text-text mb-4">Services</h3>
+            <h3 className="font-display text-sm uppercase tracking-wider text-mute mb-4">Services</h3>
             <ul className="space-y-2">
               {[
                 { path: "/services/branding", label: "Brand Strategy" },
@@ -82,7 +82,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="font-display text-lg text-text mb-4">Get in Touch</h3>
+            <h3 className="font-display text-sm uppercase tracking-wider text-mute mb-4">Get in Touch</h3>
             <div className="space-y-3">
               <a
                 href={`mailto:${contactEmail}`}
