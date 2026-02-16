@@ -1,16 +1,140 @@
+# ============================================================
 # robots.txt for ProjGrowth
 # https://projgrowth.com
+# Last updated: 2026-02-16
+# ============================================================
+
+
+# ============================================================
+# 1. STANDARD SEARCH ENGINE BOTS — Full access to public content
+# ============================================================
+
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Slurp
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Baiduspider
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: YandexBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+
+# ============================================================
+# 2. AI / LLM CRAWLERS — Block training & scraping bots
+#    These bots scrape content to train large language models.
+#    We do not permit our content to be used for AI training.
+# ============================================================
+
+# OpenAI
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+# Common Crawl (used by many AI training pipelines)
+User-agent: CCBot
+Disallow: /
+
+# Google AI / Gemini training crawler
+User-agent: Google-Extended
+Disallow: /
+
+# Anthropic
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Meta / Facebook AI
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+# Apple AI
+User-agent: Applebot-Extended
+Disallow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Disallow: /
+
+# Bytespider (ByteDance / TikTok AI)
+User-agent: Bytespider
+Disallow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Disallow: /
+
+# Amazon / Alexa AI crawler
+User-agent: Amazonbot
+Disallow: /
+
+# Diffbot (AI data extraction)
+User-agent: Diffbot
+Disallow: /
+
+# Omgili / Webz.io (AI data collection)
+User-agent: omgili
+Disallow: /
+
+
+# ============================================================
+# 3. DEFAULT RULES — All other bots
+# ============================================================
 
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://projgrowth.com/sitemap.xml
-
-# Crawl-delay (optional, for polite crawling)
-Crawl-delay: 1
-
-# Block common bot paths
+# --- API & backend routes ---
 Disallow: /api/
-Disallow: /_next/
+Disallow: /functions/
+
+# --- Admin & internal areas ---
 Disallow: /admin/
+Disallow: /dashboard/
+
+# --- Private user data ---
+Disallow: /profile/
+Disallow: /account/
+Disallow: /settings/
+
+# --- Duplicate / utility paths ---
+Disallow: /preview/
+Disallow: /_next/
+Disallow: /*.json$
+
+# Polite crawl rate for unrecognized bots
+Crawl-delay: 2
+
+
+# ============================================================
+# 4. SITEMAP
+# ============================================================
+
+Sitemap: https://projgrowth.com/sitemap.xml
