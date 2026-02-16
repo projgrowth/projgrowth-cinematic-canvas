@@ -7,7 +7,7 @@ import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Search, Users, Mail, BarChart3 } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -18,22 +18,18 @@ import {
 const DigitalMarketing = () => {
   const services = [
     {
-      icon: Search,
       title: "SEO Services",
       description: "Improve your search rankings and drive organic traffic with technical SEO, content optimization, and link building."
     },
     {
-      icon: Users,
       title: "Social Media Marketing",
       description: "Build your community and engage audiences across platforms with strategic content and community management."
     },
     {
-      icon: Mail,
       title: "Email Marketing",
       description: "Nurture leads and drive conversions with targeted email campaigns, automations, and newsletter strategies."
     },
     {
-      icon: BarChart3,
       title: "Paid Advertising",
       description: "Reach your ideal customers through Google Ads, Meta Ads, and other paid channels with data-driven campaigns."
     }
@@ -122,7 +118,9 @@ const DigitalMarketing = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {services.map((service, idx) => (
                 <div key={idx} className="p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30">
-                  <service.icon className="w-10 h-10 text-accent mb-4" />
+                  <span className="font-display text-3xl text-accent/30 mb-4 block">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
                   <h3 className="font-display text-xl text-text mb-3">{service.title}</h3>
                   <p className="text-mute leading-relaxed">{service.description}</p>
                 </div>

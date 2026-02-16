@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
 import MobileNav from "./MobileNav";
 import pgLogo from "@/assets/logos/pg-logo.png";
 
@@ -9,7 +8,7 @@ const Navigation = () => {
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,22 +37,14 @@ const Navigation = () => {
   const links = [
     { path: "/", label: "Home" },
     { path: "/work", label: "Portfolio" },
-    { 
-      path: "/services", 
-      label: "Services",
-      dropdown: [
-        { path: "/services/web-design", label: "Web Design" },
-        { path: "/services/branding", label: "Branding" },
-        { path: "/services/content-creation", label: "Content Creation" },
-        { path: "/services/digital-marketing", label: "Digital Marketing" },
-      ]
-    },
+    { path: "/services", label: "Services" },
     { path: "/blog", label: "Blog" },
     { path: "/about", label: "About" },
     { path: "/contact", label: "Contact" },
   ];
 
-  const isServicePage = location.pathname.startsWith("/services");
+  const isActive = (path: string) => 
+    path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
   return (
     <header>
@@ -83,63 +74,18 @@ const Navigation = () => {
             {/* Desktop Navigation */}
             <ul className="hidden md:flex gap-10" role="list">
               {links.map((link) => (
-                <li key={link.path} className="relative">
-                  {link.dropdown ? (
-                    <div
-                      className="relative"
-                      onMouseEnter={() => setServicesOpen(true)}
-                      onMouseLeave={() => setServicesOpen(false)}
-                    >
-                      <Link
-                        to={link.path}
-                        className={`
-                          text-sm transition-colors duration-sm flex items-center gap-1
-                          ${isServicePage ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
-                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm relative
-                        `}
-                        aria-current={location.pathname === link.path ? "page" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={servicesOpen}
-                      >
-                        {link.label}
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-sm ${servicesOpen ? 'rotate-180' : ''}`} />
-                      </Link>
-                      
-                      {/* Dropdown */}
-                      <div 
-                        className={`
-                          absolute top-full left-0 mt-2 w-48 bg-surface border border-line rounded-lg shadow-elegant overflow-hidden
-                          transition-all duration-sm origin-top
-                          ${servicesOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'}
-                        `}
-                      >
-                        {link.dropdown.map((item) => (
-                          <Link
-                            key={item.path}
-                            to={item.path}
-                            className={`
-                              block px-4 py-3 text-sm transition-colors duration-sm
-                              ${location.pathname === item.path ? 'text-accent bg-accent/10' : 'text-mute hover:text-text hover:bg-line/30'}
-                            `}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      to={link.path}
-                      className={`
-                        text-sm transition-colors duration-sm relative
-                        ${location.pathname === link.path ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
-                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
-                      `}
-                      aria-current={location.pathname === link.path ? "page" : undefined}
-                    >
-                      {link.label}
-                    </Link>
-                  )}
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className={`
+                      text-sm transition-colors duration-sm relative
+                      ${isActive(link.path) ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
+                    `}
+                    aria-current={location.pathname === link.path ? "page" : undefined}
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
