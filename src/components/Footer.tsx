@@ -4,6 +4,7 @@
 
 import { Link } from "react-router-dom";
 import { Mail, Instagram, Linkedin, Twitter } from "lucide-react";
+import pgLogo from "@/assets/logos/pg-logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -24,8 +25,9 @@ const Footer = () => {
           <div className="space-y-4">
             <Link 
               to="/" 
-              className="text-2xl font-display font-medium text-text hover:text-accent transition-colors duration-sm"
+              className="text-2xl font-display font-medium text-text hover:text-accent transition-colors duration-sm flex items-center gap-2"
             >
+              <img src={pgLogo} alt="" className="h-6 w-auto" />
               ProjGrowth
             </Link>
             <p className="text-sm text-mute leading-relaxed">

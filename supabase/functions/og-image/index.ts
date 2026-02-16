@@ -4,7 +4,7 @@ const corsHeaders = {
 };
 
 const SITE_NAME = "ProjGrowth";
-const ACCENT_RGB = "102, 170, 204";
+const ACCENT_RGB = "68, 160, 120";
 const BG_DARK = "#0a0a0f";
 const BG_SURFACE = "#12121a";
 const TEXT_WHITE = "#f0f0f5";

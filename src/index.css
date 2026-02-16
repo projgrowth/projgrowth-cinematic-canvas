@@ -11,8 +11,8 @@
     --surface: 240 5% 10%; /* Slightly lighter surface */
     --text: 40 10% 94%; /* Softer off-white */
     --mute: 240 4% 55%; /* Muted cool gray */
-    --accent: 200 45% 58%; /* Softer, refined ice blue */
-    --accent-alt: 220 40% 55%; /* Muted blue */
+    --accent: 155 42% 49%; /* Refined emerald green */
+    --accent-alt: 165 35% 42%; /* Deeper complementary green */
     --line: 240 5% 16%; /* Subtle border */
 
     /* Semantic Tokens */
@@ -52,11 +52,11 @@
     --shadow-none: none;
     --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.2);
     --shadow-elegant: 0 8px 32px -8px rgba(0, 0, 0, 0.15);
-    --shadow-glow-accent: 0 8px 40px -10px rgba(120, 170, 190, 0.15);
+    --shadow-glow-accent: 0 8px 40px -10px rgba(68, 160, 120, 0.15);
     --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 
     /* Gradients */
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(195 58% 72%));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(165 45% 62%));
     --gradient-surface: linear-gradient(180deg, hsl(var(--surface)), hsl(240 5% 7%));
 
     /* Typography */

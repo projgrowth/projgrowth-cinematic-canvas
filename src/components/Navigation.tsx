@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import MobileNav from "./MobileNav";
+import pgLogo from "@/assets/logos/pg-logo.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -72,9 +73,10 @@ const Navigation = () => {
           <div className="flex items-center justify-between py-6">
             <Link 
               to="/" 
-              className="text-2xl font-display font-normal text-text hover:text-accent transition-colors duration-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm"
+              className="text-2xl font-display font-normal text-text hover:text-accent transition-colors duration-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm flex items-center gap-2"
               aria-label="ProjGrowth - Go to homepage"
             >
+              <img src={pgLogo} alt="" className="h-7 w-auto" />
               ProjGrowth
             </Link>
             
