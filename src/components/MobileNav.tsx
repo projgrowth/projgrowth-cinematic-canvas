@@ -41,8 +41,8 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent side="right" className="w-[300px] bg-surface border-line">
         <SheetHeader>
-          <SheetTitle className="text-left font-display text-2xl text-text flex items-center gap-2">
-            <img src={pgLogo} alt="" className="h-6 w-auto" />
+          <SheetTitle className="text-left font-display text-2xl font-medium tracking-tight text-text flex items-center gap-2">
+            <img src={pgLogo} alt="" className="h-6 w-auto brightness-0 invert" />
             ProjGrowth
           </SheetTitle>
         </SheetHeader>

@@ -60,7 +60,7 @@
     --gradient-surface: linear-gradient(180deg, hsl(var(--surface)), hsl(240 5% 7%));
 
     /* Typography */
-    --font-display: "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
+    --font-display: "Outfit", "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
     --font-body: "Inter", system-ui, -apple-system, sans-serif;
 
     /* Motion */
