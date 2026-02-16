@@ -1,35 +1,99 @@
 
-# Mobile Optimization for Contact Page
 
-## Issues Found
+# Logo and Color Integration Plan
 
-1. **"Let's Build" heading is cut off** -- On mobile (390px), the hero h1 "Let's Build / Something Great" only shows "Something Great" because the first line scrolls above the viewport or is clipped by the nav bar.
+## Overview
+Integrate the new PG leaf logo and shift the site's accent color from ice blue to a refined emerald green, applied consistently across the entire design system while preserving the premium dark agency aesthetic.
 
-2. **AI Chatbot FAB overlaps the "Response Time" card** -- The fixed-position bot button (bottom-6 right-6) sits directly on top of the contact info cards on small screens.
+---
 
-3. **Back-to-Top button overlaps footer copyright text** -- Both the BackToTop and AI Chatbot FABs are positioned at bottom-6 right-6, causing them to stack on top of each other and cover footer content.
+## 1. Color System Update
 
-## Changes
+Update the single CSS variable `--accent` in `src/index.css` from the current ice blue to a refined emerald green:
 
-### 1. Contact Page Hero -- Tighter Mobile Spacing (`src/pages/Contact.tsx`)
-- Reduce the mobile hero min-height from `min-h-[60vh]` to `min-h-[50vh]` so the heading isn't pushed out of view.
-- Reduce mobile heading size slightly (text-3xl instead of text-4xl on smallest screens) to ensure "Let's Build" fits.
+- **Current**: `--accent: 200 45% 58%` (ice blue)
+- **New**: `--accent: 155 42% 49%` (emerald green -- sophisticated, slightly cool-toned, premium on dark backgrounds)
+- **Accent-alt**: shift from `220 40% 55%` to `165 35% 42%` (deeper complementary green)
+- **Glow shadow**: update `--shadow-glow-accent` RGB values to match the new emerald tone
+- **Gradient**: update `--gradient-accent` stops to emerald hues
 
-### 2. Stagger the Two Fixed Buttons (`src/components/AIChatbotPlaceholder.tsx` + `src/components/BackToTop.tsx`)
-- Move the AI Chatbot FAB to `bottom-20 right-6` on mobile so it doesn't overlap the Back-to-Top button or footer content.
-- Keep BackToTop at `bottom-6 right-6` as-is (it's the primary action).
-- This gives ~56px vertical separation between the two buttons.
+Because every component already references `hsl(var(--accent))`, the entire site (buttons, hover states, links, icons, borders, CTA, scroll progress bar, page loader) will update automatically with this single CSS change. No per-component edits needed for color.
 
-### 3. Quick Contact Form Touch Target Polish (`src/components/QuickContactForm.tsx`)
-- Ensure the send button has a minimum 44px touch target (currently `px-4 py-3` which is close but the icon-only button may render small). Add `min-h-[44px] min-w-[44px]` for accessibility compliance.
+---
+
+## 2. Logo Asset Integration
+
+- Copy `PG_Web_Logo.png` into `src/assets/logos/pg-logo.png` for component imports
+- Also copy to `public/logos/pg-logo.png` for use in meta tags, OG images, and favicon contexts
+
+---
+
+## 3. Navigation -- Logo Mark + Text Wordmark
+
+Update `src/components/Navigation.tsx`:
+- Import the leaf logo image
+- Render a ~28px leaf icon alongside the existing "ProjGrowth" text
+- Small gap between icon and text (gap-2)
+- Logo gets a subtle hover opacity transition
+
+---
+
+## 4. Footer Branding
+
+Update `src/components/Footer.tsx`:
+- Add the leaf logo mark next to the "ProjGrowth" text in the footer brand section
+- Same sizing approach as nav (~24px icon)
+
+---
+
+## 5. Mobile Nav
+
+Update `src/components/MobileNav.tsx`:
+- Add leaf logo in the sheet header next to "Menu" or replace with logo + "ProjGrowth"
+
+---
+
+## 6. Page Loader
+
+Update `src/components/PageLoader.tsx`:
+- Replace the text "PG" spinner with the actual leaf logo image
+- Keep the existing pulse animation wrapping it
+- Loading bar color updates automatically via accent variable
+
+---
+
+## 7. OG Image Edge Function
+
+Update `supabase/functions/og-image/index.ts`:
+- Change `ACCENT_RGB` from blue values to the new emerald green RGB equivalent (~`68, 160, 120`~)
+- Update the "PG" text block to reference the new brand color
+
+---
+
+## 8. Favicon
+
+Replace `public/favicon.png` with a version of the leaf logo optimized for small sizes (the uploaded logo works well as a favicon given its simple shape)
+
+---
 
 ## Technical Details
 
-| File | Change |
-|------|--------|
-| `src/pages/Contact.tsx` | Hero: `min-h-[50vh]`, heading: `text-3xl md:text-5xl lg:text-7xl` |
-| `src/components/AIChatbotPlaceholder.tsx` | FAB position: `bottom-20 right-6 md:bottom-6 md:right-6` |
-| `src/components/BackToTop.tsx` | No change needed (already well-positioned) |
-| `src/components/QuickContactForm.tsx` | Add `min-h-[44px] min-w-[44px]` to send button |
+### Files Modified (8 files)
+1. `src/index.css` -- accent color variables (1 line change + shadow/gradient updates)
+2. `src/components/Navigation.tsx` -- add logo image import + render
+3. `src/components/Footer.tsx` -- add logo image
+4. `src/components/MobileNav.tsx` -- add logo image in sheet header
+5. `src/components/PageLoader.tsx` -- replace "PG" text with logo image
+6. `supabase/functions/og-image/index.ts` -- update accent RGB constant
+7. `public/favicon.png` -- replace with leaf logo
 
-Total: 3 files modified, minimal changes focused on mobile layout spacing.
+### Files Copied (2 operations)
+- `user-uploads://PG_Web_Logo.png` to `src/assets/logos/pg-logo.png`
+- `user-uploads://PG_Web_Logo.png` to `public/logos/pg-logo.png`
+
+### What stays the same
+- All component structure, layout, spacing, and animations remain untouched
+- The dark cinematic base palette (base, surface, text, mute, line) stays identical
+- Typography system unchanged
+- Every existing `text-accent`, `bg-accent`, `border-accent` reference automatically picks up the new green -- zero per-component color edits needed
+
