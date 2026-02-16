@@ -76,7 +76,7 @@ const Navigation = () => {
               className="text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm flex items-center gap-2 group"
               aria-label="ProjGrowth - Go to homepage"
             >
-              <img src={pgLogo} alt="" className="h-5 md:h-7 w-auto brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-sm" />
+              <img src={pgLogo} alt="" className="h-5 md:h-7 w-auto brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-[filter] duration-sm" />
               ProjGrowth
             </Link>
             
