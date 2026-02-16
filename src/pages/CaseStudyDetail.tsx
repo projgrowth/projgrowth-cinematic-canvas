@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Share2, Linkedin, Twitter } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
-import AnimatedCounter from "@/components/AnimatedCounter";
 import { caseStudies } from "@/data/caseStudies";
 import { useRef } from "react";
 
@@ -118,49 +117,9 @@ const CaseStudyDetail = () => {
         </div>
       </section>
 
-      {/* Results Dashboard */}
-      {caseStudy.metrics && caseStudy.metrics.length > 0 && (
-        <section className="border-y border-line">
-          <div className="container-site py-12 md:py-16">
-            <ScrollReveal variant="fade-up">
-              <div className="mb-8">
-                <span className="text-xs uppercase tracking-wider text-accent">Results</span>
-                <h2 className="font-display text-2xl md:text-3xl text-text mt-2">Measurable Impact</h2>
-              </div>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                {caseStudy.metrics.map((metric, idx) => (
-                  <motion.div 
-                    key={idx} 
-                    className="relative p-6 bg-surface rounded-xl border border-line group hover:border-accent/30 transition-all duration-300 overflow-hidden"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.1 }}
-                  >
-                    {/* Background glow on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    <div className="relative z-10">
-                      <AnimatedCounter
-                        value={metric.value}
-                        className="font-display text-3xl md:text-4xl text-accent font-medium"
-                        delay={idx * 0.15}
-                      />
-                      <p className="text-sm md:text-base text-text mt-2 font-medium">{metric.label}</p>
-                      {metric.description && (
-                        <p className="text-xs text-mute mt-1">{metric.description}</p>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-      )}
 
       {/* Main Content */}
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site py-24">
         <div className="grid md:grid-cols-12 gap-12 md:gap-16">
           {/* Sidebar */}
           <aside className="md:col-span-4 lg:col-span-3">

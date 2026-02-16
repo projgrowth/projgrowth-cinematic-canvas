@@ -74,7 +74,7 @@ const Contact = () => {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/3 rounded-full blur-3xl" />
         </motion.div>
 
-        <div className="container-site relative z-10 py-16 md:py-24">
+        <div className="container-site relative z-10 py-24">
           <div className="grid-12 gap-y-8 items-end">
             {/* Header */}
             <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-8">
@@ -130,7 +130,7 @@ const Contact = () => {
       </section>
 
       {/* Quick Contact */}
-      <section className="container-site py-12">
+      <section className="container-site py-24">
         <ScrollReveal>
           <div className="max-w-xl mx-auto">
             <h2 className="font-display text-xl text-text mb-2 text-center">Quick Message</h2>
@@ -142,7 +142,7 @@ const Contact = () => {
 
       {/* Multi-Step Form Section */}
       <LeafDivider />
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site py-24">
         <ScrollReveal>
           <div className="text-center mb-8">
             <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Start a Project</h2>
@@ -153,7 +153,7 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site py-24">
         <ScrollReveal variant="fade-up">
           <div className="max-w-3xl mx-auto">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12 text-center">

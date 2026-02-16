@@ -93,7 +93,7 @@ const DigitalMarketing = () => {
         </script>
       </Helmet>
 
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site py-24">
         <Breadcrumbs />
         
         <ScrollReveal variant="fade-up">
@@ -117,7 +117,8 @@ const DigitalMarketing = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {services.map((service, idx) => (
-                <div key={idx} className="p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30">
+                <div key={idx} className="group relative p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="font-display text-3xl text-accent/30 mb-4 block">
                     {String(idx + 1).padStart(2, "0")}
                   </span>

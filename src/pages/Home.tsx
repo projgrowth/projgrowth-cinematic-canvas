@@ -174,17 +174,18 @@ const Home = () => {
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                   <Link
                     to={service.path}
-                    className={`group block p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 ${
+                    className={`group relative block p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden ${
                       idx === 0 ? "border-t-2 border-t-accent" : ""
                     }`}
                   >
-                    <span className="font-display text-3xl text-accent/30 mb-4 block">
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <span className="relative font-display text-3xl text-accent/30 mb-4 block">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
+                    <h3 className="relative font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
                       {service.title}
                     </h3>
-                    <p className="text-mute">{service.description}</p>
+                    <p className="relative text-mute">{service.description}</p>
                   </Link>
                 </ScrollReveal>
               ))}
