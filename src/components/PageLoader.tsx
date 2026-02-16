@@ -29,7 +29,7 @@ const PageLoader = ({ isLoading }: PageLoaderProps) => {
               }}
               className="w-16 h-16 flex items-center justify-center"
             >
-              <img src={pgLogo} alt="Loading" className="h-12 w-auto" />
+              <img src={pgLogo} alt="Loading" className="h-12 w-auto brightness-0 invert" />
             </motion.div>
 
             {/* Loading bar */}

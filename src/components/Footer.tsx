@@ -25,9 +25,9 @@ const Footer = () => {
           <div className="space-y-4">
             <Link 
               to="/" 
-              className="text-2xl font-display font-medium text-text hover:text-accent transition-colors duration-sm flex items-center gap-2"
+              className="text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm flex items-center gap-2 group"
             >
-              <img src={pgLogo} alt="" className="h-6 w-auto" />
+              <img src={pgLogo} alt="" className="h-6 w-auto brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-sm" />
               ProjGrowth
             </Link>
             <p className="text-sm text-mute leading-relaxed">
