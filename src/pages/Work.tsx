@@ -106,7 +106,7 @@ const Work = () => {
       seoKeywords="portfolio, case studies, brand strategy examples, web design portfolio, content systems, cinematic production, digital projects"
       canonicalUrl="/work"
     >
-      <section className="container-site py-16 md:py-24 relative">
+      <section className="container-site py-24 relative">
         <ScrollReveal variant="fade-up">
           <PageHeader className="mb-16 relative z-10">
             <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">

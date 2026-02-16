@@ -38,7 +38,7 @@ const About = () => {
       seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
     >
-      <section className="container-site py-16 md:py-24 relative">
+      <section className="container-site py-24 relative">
         <ScrollReveal variant="fade-up">
           <PageHeader className="mb-16">
             <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
@@ -67,7 +67,7 @@ const About = () => {
 
         {/* Mission */}
         <ScrollReveal variant="fade-up">
-          <div className="grid-12 gap-y-12 py-16 md:py-24">
+          <div className="grid-12 gap-y-12 py-24">
             <div className="col-span-12 lg:col-span-4">
               <h2 className="font-display text-3xl lg:text-4xl text-text">Our Mission</h2>
             </div>
@@ -83,7 +83,7 @@ const About = () => {
         {/* Values */}
         <LeafDivider />
         <ScrollReveal variant="fade-up">
-          <div className="py-16 md:py-24">
+          <div className="py-24">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-16">Our Values</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {values.map((value, idx) => (

@@ -101,7 +101,7 @@ const WebDesign = () => {
         </script>
       </Helmet>
 
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site py-24">
         <Breadcrumbs />
         
         <ScrollReveal variant="fade-up">
