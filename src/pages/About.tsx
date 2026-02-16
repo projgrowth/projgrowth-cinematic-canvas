@@ -4,8 +4,16 @@
 
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const About = () => {
+  const stats = [
+    { value: "50+", label: "Projects Delivered" },
+    { value: "8+", label: "Years Experience" },
+    { value: "30+", label: "Happy Clients" },
+    { value: "98%", label: "Client Retention" },
+  ];
+
   const values = [
     {
       title: "Craft",
@@ -38,6 +46,20 @@ const About = () => {
               We're a team of strategists, designers, and developers who believe in the power 
               of great design and thoughtful technology to transform businesses.
             </p>
+          </div>
+        </ScrollReveal>
+
+        {/* Stats Row */}
+        <ScrollReveal variant="fade-up" delay={0.1}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 py-12 border-t border-b border-line mb-16">
+            {stats.map((stat, idx) => (
+              <div key={idx} className="text-center">
+                <div className="font-display text-3xl md:text-4xl lg:text-5xl text-accent mb-2">
+                  <AnimatedCounter value={stat.value} />
+                </div>
+                <p className="text-sm text-mute">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </ScrollReveal>
 

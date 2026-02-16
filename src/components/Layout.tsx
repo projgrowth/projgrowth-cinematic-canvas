@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
+import GlobalCTA from "./GlobalCTA";
 import BackToTop from "./BackToTop";
 import ScrollProgress from "./ScrollProgress";
 import SEO from "./SEO";
@@ -11,6 +13,7 @@ interface LayoutProps {
   seoDescription?: string;
   seoKeywords?: string;
   canonicalUrl?: string;
+  hideGlobalCTA?: boolean;
 }
 
 const Layout = ({ 
@@ -18,8 +21,14 @@ const Layout = ({
   seoTitle, 
   seoDescription, 
   seoKeywords,
-  canonicalUrl 
+  canonicalUrl,
+  hideGlobalCTA = false,
 }: LayoutProps) => {
+  const location = useLocation();
+  
+  // Hide global CTA on Contact page (already has its own) and legal pages
+  const suppressCTA = hideGlobalCTA || ["/contact", "/privacy", "/terms"].includes(location.pathname);
+
   return (
     <div className="min-h-screen bg-base flex flex-col">
       <SEO 
@@ -42,6 +51,7 @@ const Layout = ({
       <main id="main-content" className="pt-20 flex-1">
         {children}
       </main>
+      {!suppressCTA && <GlobalCTA />}
       <Footer />
       <BackToTop />
     </div>
