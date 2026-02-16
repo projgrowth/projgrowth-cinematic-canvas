@@ -27,7 +27,7 @@ const Footer = () => {
               to="/" 
               className="text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm flex items-center gap-2 group"
             >
-              <img src={pgLogo} alt="" className="h-6 w-auto brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-[filter] duration-sm" />
+              <img src={pgLogo} alt="" className="h-6 w-auto logo-accent-hover" />
               ProjGrowth
             </Link>
             <p className="text-sm text-mute leading-relaxed">

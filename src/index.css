@@ -261,6 +261,15 @@
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base;
   }
 
+  /* Logo hover: white → accent emerald green */
+  .logo-accent-hover {
+    filter: brightness(0) invert(1);
+    transition: filter var(--duration-sm) var(--ease);
+  }
+  .group:hover .logo-accent-hover {
+    filter: invert(58%) sepia(30%) saturate(700%) hue-rotate(110deg) brightness(88%);
+  }
+
   /* Button hover micro-interactions */
   .btn-interactive {
     @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
