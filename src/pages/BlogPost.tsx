@@ -29,7 +29,7 @@ interface BlogPost {
 
 const parseInlineMarkdown = (text: string): string => {
   return text
-    .replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground font-medium">$1</strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="text-text font-medium">$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="text-accent hover:underline">$1</a>');
 };
@@ -46,7 +46,7 @@ const renderContent = (content: string) => {
       elements.push(
         <ListComponent 
           key={`list-${elements.length}`} 
-          className={`mb-6 space-y-2 ${listType === 'ul' ? 'list-disc' : 'list-decimal'} list-inside text-muted`}
+          className={`mb-6 space-y-2 ${listType === 'ul' ? 'list-disc' : 'list-decimal'} list-inside text-mute`}
         >
           {currentList.map((item, i) => (
             <li key={i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseInlineMarkdown(item)) }} />
@@ -64,21 +64,21 @@ const renderContent = (content: string) => {
     if (trimmed.startsWith('# ')) {
       flushList();
       elements.push(
-        <h1 key={index} className="text-3xl md:text-4xl font-medium text-foreground mb-6 mt-8">
+        <h1 key={index} className="text-3xl md:text-4xl font-medium text-text mb-6 mt-8">
           {trimmed.slice(2)}
         </h1>
       );
     } else if (trimmed.startsWith('## ')) {
       flushList();
       elements.push(
-        <h2 key={index} className="text-2xl md:text-3xl font-medium text-foreground mb-4 mt-10">
+        <h2 key={index} className="text-2xl md:text-3xl font-medium text-text mb-4 mt-10">
           {trimmed.slice(3)}
         </h2>
       );
     } else if (trimmed.startsWith('### ')) {
       flushList();
       elements.push(
-        <h3 key={index} className="text-xl md:text-2xl font-medium text-foreground mb-3 mt-8">
+        <h3 key={index} className="text-xl md:text-2xl font-medium text-text mb-3 mt-8">
           {trimmed.slice(4)}
         </h3>
       );
@@ -101,7 +101,7 @@ const renderContent = (content: string) => {
       elements.push(
         <p 
           key={index} 
-          className="text-muted leading-relaxed mb-6"
+          className="text-mute leading-relaxed mb-6"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseInlineMarkdown(trimmed)) }}
         />
       );
@@ -177,7 +177,7 @@ const BlogPost = () => {
     return (
       <Layout>
         <div className="py-16 md:py-24">
-          <div className="container max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="container-site max-w-4xl">
             <Skeleton className="h-8 w-48 mb-8" />
             <Skeleton className="h-12 w-full mb-4" />
             <Skeleton className="h-6 w-64 mb-8" />
@@ -197,9 +197,9 @@ const BlogPost = () => {
     return (
       <Layout>
         <div className="py-16 md:py-24">
-          <div className="container max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <h1 className="text-3xl font-medium text-foreground mb-4">Post Not Found</h1>
-            <p className="text-muted mb-8">The blog post you're looking for doesn't exist.</p>
+          <div className="container-site max-w-4xl text-center">
+            <h1 className="text-3xl font-medium text-text mb-4">Post Not Found</h1>
+            <p className="text-mute mb-8">The blog post you're looking for doesn't exist.</p>
             <Link to="/blog" className="text-accent hover:underline">
               ← Back to Blog
             </Link>
@@ -245,7 +245,7 @@ const BlogPost = () => {
       </Helmet>
 
       <article className="py-16 md:py-24">
-        <div className="container max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="container-site max-w-4xl">
           <Breadcrumbs />
 
           <ScrollReveal>
@@ -253,10 +253,10 @@ const BlogPost = () => {
               <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-sm font-medium rounded-full mb-4">
                 {post.category}
               </span>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-foreground mb-6 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-text mb-6 leading-tight">
                 {post.title}
               </h1>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-mute">
                 <span className="flex items-center gap-2">
                   <User className="w-4 h-4" />
                   {post.author}
@@ -304,7 +304,7 @@ const BlogPost = () => {
 
           <ScrollReveal delay={0.3}>
             <div className="lg:hidden mt-10 pt-6 border-t border-line">
-              <p className="text-sm text-muted mb-4 flex items-center gap-2">
+              <p className="text-sm text-mute mb-4 flex items-center gap-2">
                 <Share2 className="w-4 h-4" />
                 Share this article
               </p>
@@ -332,8 +332,8 @@ const BlogPost = () => {
                   <User className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground mb-1">{post.author}</h3>
-                  <p className="text-sm text-muted">
+                  <h3 className="font-medium text-text mb-1">{post.author}</h3>
+                  <p className="text-sm text-mute">
                     The ProjGrowth team helps Orlando businesses grow through strategic web design, branding, and digital marketing.
                   </p>
                 </div>
@@ -344,13 +344,13 @@ const BlogPost = () => {
           {relatedPosts && relatedPosts.length > 0 && (
             <ScrollReveal delay={0.4}>
               <div className="mt-16">
-                <h2 className="text-2xl font-medium text-foreground mb-8">Related Articles</h2>
+                <h2 className="text-2xl font-medium text-text mb-8">Related Articles</h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   {relatedPosts.map((related) => (
                     <Link key={related.id} to={`/blog/${related.slug}`} className="group p-6 bg-surface border border-line rounded-lg hover:border-accent/50 transition-colors">
                       <span className="text-xs text-accent mb-2 block">{related.category}</span>
-                      <h3 className="font-medium text-foreground group-hover:text-accent transition-colors mb-2 line-clamp-2">{related.title}</h3>
-                      <span className="text-xs text-muted flex items-center gap-1">
+                      <h3 className="font-medium text-text group-hover:text-accent transition-colors mb-2 line-clamp-2">{related.title}</h3>
+                      <span className="text-xs text-mute flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {related.read_time} min read
                       </span>
@@ -361,23 +361,8 @@ const BlogPost = () => {
             </ScrollReveal>
           )}
 
-          <ScrollReveal delay={0.5}>
-            <div className="mt-16 p-8 md:p-12 bg-gradient-to-br from-accent/10 to-accent/5 border border-accent/20 rounded-lg text-center">
-              <h2 className="text-2xl md:text-3xl font-medium text-foreground mb-4">
-                Need Help With Your Digital Marketing?
-              </h2>
-              <p className="text-muted mb-6 max-w-xl mx-auto">
-                ProjGrowth helps Orlando businesses grow through strategic web design, branding, and digital marketing.
-              </p>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-base font-medium rounded-md hover:bg-accent/90 transition-colors">
-                Get a Free Consultation
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </ScrollReveal>
-
           <div className="mt-12 pt-8 border-t border-line">
-            <Link to="/blog" className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors">
+            <Link to="/blog" className="inline-flex items-center gap-2 text-mute hover:text-accent transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Back to Blog
             </Link>

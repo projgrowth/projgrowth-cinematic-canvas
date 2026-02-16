@@ -5,6 +5,8 @@ import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import MultiStepContactForm from "@/components/MultiStepContactForm";
 import AIChatbotPlaceholder from "@/components/AIChatbotPlaceholder";
+import PageHeader from "@/components/PageHeader";
+import LeafDivider from "@/components/LeafDivider";
 import { Mail, MessageSquare } from "lucide-react";
 import QuickContactForm from "@/components/QuickContactForm";
 import {
@@ -76,25 +78,27 @@ const Contact = () => {
           <div className="grid-12 gap-y-8 items-end">
             {/* Header */}
             <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-8">
-              <motion.h1 
-                className="font-display text-3xl md:text-5xl lg:text-7xl text-foreground mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                Let's Build
-                <br />
-                <span className="text-accent">Something Great</span>
-              </motion.h1>
-              <motion.p 
-                className="text-lg text-muted leading-relaxed max-w-xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                Tell us about your project and we'll craft a tailored approach 
-                to bring your vision to life.
-              </motion.p>
+              <PageHeader>
+                <motion.h1 
+                  className="font-display text-3xl md:text-5xl lg:text-7xl text-text mb-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  Let's Build
+                  <br />
+                  <span className="text-accent">Something Great</span>
+                </motion.h1>
+                <motion.p 
+                  className="text-lg text-mute leading-relaxed max-w-xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  Tell us about your project and we'll craft a tailored approach 
+                  to bring your vision to life.
+                </motion.p>
+              </PageHeader>
             </ScrollReveal>
 
             {/* Compact info row */}
@@ -106,8 +110,8 @@ const Contact = () => {
                 >
                   <Mail className="w-5 h-5 text-accent flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">Email Us</p>
-                    <p className="text-xs text-muted">info@projgrowth.com</p>
+                    <p className="text-sm font-medium text-text group-hover:text-accent transition-colors">Email Us</p>
+                    <p className="text-xs text-mute">info@projgrowth.com</p>
                   </div>
                 </a>
               </ScrollReveal>
@@ -115,8 +119,8 @@ const Contact = () => {
                 <div className="flex items-center gap-3 p-4 bg-surface/80 rounded-lg border border-line">
                   <MessageSquare className="w-5 h-5 text-accent flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-foreground">Response Time</p>
-                    <p className="text-xs text-muted">Within 24 hours, Mon-Fri</p>
+                    <p className="text-sm font-medium text-text">Response Time</p>
+                    <p className="text-xs text-mute">Within 24 hours, Mon-Fri</p>
                   </div>
                 </div>
               </ScrollReveal>
@@ -126,76 +130,79 @@ const Contact = () => {
       </section>
 
       {/* Quick Contact */}
-      <section className="container-site py-12 border-t border-line">
+      <LeafDivider />
+      <section className="container-site py-12">
         <ScrollReveal>
           <div className="max-w-xl mx-auto">
-            <h2 className="font-display text-xl text-foreground mb-2 text-center">Quick Message</h2>
-            <p className="text-sm text-muted mb-6 text-center">Don't need the full rundown? Just drop us a line.</p>
+            <h2 className="font-display text-xl text-text mb-2 text-center">Quick Message</h2>
+            <p className="text-sm text-mute mb-6 text-center">Don't need the full rundown? Just drop us a line.</p>
             <QuickContactForm />
           </div>
         </ScrollReveal>
       </section>
 
       {/* Multi-Step Form Section */}
-      <section className="container-site py-16 md:py-24 border-t border-line">
+      <LeafDivider />
+      <section className="container-site py-16 md:py-24">
         <ScrollReveal>
           <div className="text-center mb-8">
-            <h2 className="font-display text-2xl md:text-3xl text-foreground mb-2">Start a Project</h2>
-            <p className="text-muted">Want to tell us more? Walk through our guided form.</p>
+            <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Start a Project</h2>
+            <p className="text-mute">Want to tell us more? Walk through our guided form.</p>
           </div>
           <MultiStepContactForm />
         </ScrollReveal>
       </section>
 
       {/* FAQ Section */}
-      <section className="container-site py-16 md:py-24 border-t border-line">
+      <LeafDivider />
+      <section className="container-site py-16 md:py-24">
         <ScrollReveal variant="fade-up">
           <div className="max-w-3xl mx-auto">
-            <h2 className="font-display text-3xl lg:text-4xl text-foreground mb-12 text-center">
+            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12 text-center">
               Frequently Asked Questions
             </h2>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-foreground hover:text-accent text-left">
+                <AccordionTrigger className="text-text hover:text-accent text-left">
                   What is your typical project timeline?
                 </AccordionTrigger>
-                <AccordionContent className="text-muted">
+                <AccordionContent className="text-mute">
                   Project timelines vary based on scope and complexity. A typical website project takes 6-12 weeks from discovery to launch, 
                   while larger applications may take 3-6 months. We'll provide a detailed timeline during our initial consultation.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-foreground hover:text-accent text-left">
+                <AccordionTrigger className="text-text hover:text-accent text-left">
                   How do you structure pricing?
                 </AccordionTrigger>
-                <AccordionContent className="text-muted">
+                <AccordionContent className="text-mute">
                   We offer both project-based and retainer pricing models. Project fees are determined by scope, complexity, and timeline. 
                   We provide detailed proposals with transparent pricing before starting any work.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-foreground hover:text-accent text-left">
+                <AccordionTrigger className="text-text hover:text-accent text-left">
                   Do you work with startups?
                 </AccordionTrigger>
-                <AccordionContent className="text-muted">
+                <AccordionContent className="text-mute">
                   Yes! We love working with startups and have flexible engagement models to fit different stages and budgets. 
                   We can help with MVPs, product design, brand identity, and growth strategy.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-4">
-                <AccordionTrigger className="text-foreground hover:text-accent text-left">
+                <AccordionTrigger className="text-text hover:text-accent text-left">
                   What happens after the project launches?
                 </AccordionTrigger>
-                <AccordionContent className="text-muted">
+                <AccordionContent className="text-mute">
                   We provide post-launch support and maintenance packages to ensure your project continues to perform optimally. 
                   We also offer ongoing partnerships for clients who need continuous development, design, or marketing support.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-5">
-                <AccordionTrigger className="text-foreground hover:text-accent text-left">
+                <AccordionTrigger className="text-text hover:text-accent text-left">
                   What industries do you specialize in?
                 </AccordionTrigger>
-                <AccordionContent className="text-muted">
+                <AccordionContent className="text-mute">
                   We've worked across SaaS, fintech, healthcare, real estate, e-commerce, and more. Our process is adaptable to any industry, 
                   and we bring fresh perspectives while respecting industry-specific requirements and regulations.
                 </AccordionContent>
