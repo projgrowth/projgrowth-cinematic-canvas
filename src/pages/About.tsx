@@ -5,6 +5,7 @@
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import PageHeader from "@/components/PageHeader";
 
 const About = () => {
   const stats = [
@@ -36,9 +37,9 @@ const About = () => {
       seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
     >
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site py-16 md:py-24 relative">
         <ScrollReveal variant="fade-up">
-          <div className="mb-16">
+          <PageHeader className="mb-16">
             <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
               About Us
             </h1>
@@ -46,7 +47,7 @@ const About = () => {
               We're a team of strategists, designers, and developers who believe in the power 
               of great design and thoughtful technology to transform businesses.
             </p>
-          </div>
+          </PageHeader>
         </ScrollReveal>
 
         {/* Stats Row */}
