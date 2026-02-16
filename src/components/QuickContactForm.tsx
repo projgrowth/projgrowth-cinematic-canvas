@@ -129,7 +129,7 @@ const QuickContactForm = () => {
         <motion.button
           type="submit"
           disabled={isSubmitting}
-          className="self-end px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 flex items-center gap-2 text-sm"
+          className="self-end px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 flex items-center gap-2 text-sm min-h-[44px] min-w-[44px] justify-center"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >

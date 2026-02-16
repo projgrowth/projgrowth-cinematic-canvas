@@ -10,7 +10,7 @@ const AIChatbotPlaceholder = () => {
       {/* Floating Button */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 p-4 bg-accent text-base rounded-full shadow-lg hover:bg-accent/90 transition-colors"
+        className="fixed bottom-20 right-6 md:bottom-6 md:right-6 z-50 p-4 bg-accent text-base rounded-full shadow-lg hover:bg-accent/90 transition-colors"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Ask our AI assistant"

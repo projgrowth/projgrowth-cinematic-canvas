@@ -63,7 +63,7 @@ const Contact = () => {
       </Helmet>
 
       {/* Hero with Parallax */}
-      <section ref={heroRef} className="relative min-h-[60vh] flex items-center overflow-hidden">
+      <section ref={heroRef} className="relative min-h-[50vh] flex items-center overflow-hidden">
         {/* Parallax Background Elements */}
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
@@ -79,7 +79,7 @@ const Contact = () => {
             {/* Header */}
             <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-7">
               <motion.h1 
-                className="font-display text-4xl md:text-5xl lg:text-7xl text-foreground mb-6"
+                className="font-display text-3xl md:text-5xl lg:text-7xl text-foreground mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
