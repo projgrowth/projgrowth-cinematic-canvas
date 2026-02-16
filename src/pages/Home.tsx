@@ -7,6 +7,8 @@ import FeaturedWorkSkeleton from "@/components/FeaturedWorkSkeleton";
 import NavigationGuide from "@/components/NavigationGuide";
 import ScrollReveal from "@/components/ScrollReveal";
 import ClientLogos from "@/components/ClientLogos";
+import GrowthLines from "@/components/GrowthLines";
+import LeafDivider from "@/components/LeafDivider";
 import { Helmet } from "react-helmet-async";
 
 import { caseStudies } from "@/data/caseStudies";
@@ -89,8 +91,17 @@ const Home = () => {
       </Helmet>
 
       {/* Hero Section — Staggered text reveal */}
-      <section className="container-site py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh] flex items-center">
-        <div className="grid-12">
+      <section className="relative container-site py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh] flex items-center">
+        {/* Atmospheric radial glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          style={{
+            background: "radial-gradient(ellipse at 15% 40%, hsl(155 42% 49% / 0.04), transparent 55%), radial-gradient(ellipse at 80% 70%, hsl(155 42% 49% / 0.02), transparent 50%)",
+          }}
+        />
+        <GrowthLines />
+        <div className="grid-12 relative z-10">
           <div className="col-span-12 lg:col-span-10 stack gap-6 md:gap-8">
             <h1 className="font-display text-4xl md:text-6xl lg:text-8xl leading-tight text-text">
               {heroWords.map((word, i) => (
@@ -146,7 +157,8 @@ const Home = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="container-site py-24 border-t border-line">
+      <LeafDivider />
+      <section className="container-site py-24">
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-12">
             <div className="col-span-12 lg:col-span-4">
@@ -179,7 +191,8 @@ const Home = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="container-site py-24 border-t border-line">
+      <LeafDivider />
+      <section className="container-site py-24">
         <ScrollReveal variant="fade-up">
           <div className="mb-16">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
@@ -204,7 +217,8 @@ const Home = () => {
       </section>
 
       {/* Featured Work Section */}
-      <section className="container-site py-24 border-t border-line">
+      <LeafDivider />
+      <section className="container-site py-24">
         <ScrollReveal variant="fade-up">
           <div className="mb-16">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">Our Recent Work</h2>
