@@ -6,6 +6,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import MultiStepContactForm from "@/components/MultiStepContactForm";
 import AIChatbotPlaceholder from "@/components/AIChatbotPlaceholder";
 import { Mail, MessageSquare } from "lucide-react";
+import QuickContactForm from "@/components/QuickContactForm";
 import {
   Accordion,
   AccordionContent,
@@ -129,9 +130,24 @@ const Contact = () => {
         </div>
       </section>
 
+      {/* Quick Contact */}
+      <section className="container-site py-12 border-t border-line">
+        <ScrollReveal>
+          <div className="max-w-xl mx-auto">
+            <h2 className="font-display text-xl text-foreground mb-2 text-center">Quick Message</h2>
+            <p className="text-sm text-muted mb-6 text-center">Don't need the full rundown? Just drop us a line.</p>
+            <QuickContactForm />
+          </div>
+        </ScrollReveal>
+      </section>
+
       {/* Multi-Step Form Section */}
       <section className="container-site py-16 md:py-24 border-t border-line">
         <ScrollReveal>
+          <div className="text-center mb-8">
+            <h2 className="font-display text-2xl md:text-3xl text-foreground mb-2">Start a Project</h2>
+            <p className="text-muted">Want to tell us more? Walk through our guided form.</p>
+          </div>
           <MultiStepContactForm />
         </ScrollReveal>
       </section>
