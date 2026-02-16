@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ProcessTimeline from "@/components/ProcessTimeline";
 import ScrollReveal from "@/components/ScrollReveal";
+import PageHeader from "@/components/PageHeader";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -104,16 +105,16 @@ const Services = () => {
       </Helmet>
       
       <TooltipProvider>
-        <section className="container-site py-16 md:py-24">
+        <section className="container-site py-16 md:py-24 relative">
           <ScrollReveal variant="fade-up">
-            <div className="mb-16">
+            <PageHeader className="mb-16">
               <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
                 Our Services
               </h1>
               <p className="text-xl text-mute max-w-2xl">
                 Comprehensive digital solutions tailored to your business goals and user needs.
               </p>
-            </div>
+            </PageHeader>
           </ScrollReveal>
 
           <div className="stack gap-0">

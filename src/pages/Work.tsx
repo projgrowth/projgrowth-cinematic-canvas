@@ -9,6 +9,7 @@ import CaseStudyCardSkeleton from "@/components/CaseStudyCardSkeleton";
 import CaseStudySheet from "@/components/CaseStudySheet";
 import BentoGrid from "@/components/BentoGrid";
 import ScrollReveal from "@/components/ScrollReveal";
+import PageHeader from "@/components/PageHeader";
 import FuturisticGrid from "@/components/FuturisticGrid";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 import { Grid3X3, List, ArrowUpDown, LayoutGrid } from "lucide-react";
@@ -113,14 +114,14 @@ const Work = () => {
         <FuturisticGrid />
         
         <ScrollReveal variant="fade-up">
-          <div className="mb-16 relative z-10">
+          <PageHeader className="mb-16 relative z-10">
             <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
               Work
             </h1>
             <p className="text-xl text-mute max-w-3xl">
               A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity.
             </p>
-          </div>
+          </PageHeader>
         </ScrollReveal>
 
         {/* Filter Bar */}

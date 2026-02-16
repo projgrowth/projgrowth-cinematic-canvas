@@ -94,8 +94,8 @@ const Navigation = () => {
                         to={link.path}
                         className={`
                           text-sm transition-colors duration-sm flex items-center gap-1
-                          ${isServicePage ? 'text-text' : 'text-mute hover:text-text'}
-                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
+                          ${isServicePage ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm relative
                         `}
                         aria-current={location.pathname === link.path ? "page" : undefined}
                         aria-haspopup="true"
@@ -131,8 +131,8 @@ const Navigation = () => {
                     <Link
                       to={link.path}
                       className={`
-                        text-sm transition-colors duration-sm
-                        ${location.pathname === link.path ? 'text-text' : 'text-mute hover:text-text'}
+                        text-sm transition-colors duration-sm relative
+                        ${location.pathname === link.path ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
                       `}
                       aria-current={location.pathname === link.path ? "page" : undefined}

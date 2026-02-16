@@ -175,7 +175,9 @@ const Home = () => {
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                   <Link
                     to={service.path}
-                    className="group block p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30"
+                    className={`group block p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 ${
+                      idx === 0 ? "border-t-2 border-t-accent" : ""
+                    }`}
                   >
                     <service.icon className="w-10 h-10 text-accent mb-4" />
                     <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
