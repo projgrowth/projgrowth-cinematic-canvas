@@ -9,6 +9,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import DOMPurify from "dompurify";
 
 interface BlogPost {
   id: string;
@@ -48,7 +49,7 @@ const renderContent = (content: string) => {
           className={`mb-6 space-y-2 ${listType === 'ul' ? 'list-disc' : 'list-decimal'} list-inside text-muted`}
         >
           {currentList.map((item, i) => (
-            <li key={i} dangerouslySetInnerHTML={{ __html: parseInlineMarkdown(item) }} />
+            <li key={i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseInlineMarkdown(item)) }} />
           ))}
         </ListComponent>
       );
@@ -101,7 +102,7 @@ const renderContent = (content: string) => {
         <p 
           key={index} 
           className="text-muted leading-relaxed mb-6"
-          dangerouslySetInnerHTML={{ __html: parseInlineMarkdown(trimmed) }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseInlineMarkdown(trimmed)) }}
         />
       );
     }
