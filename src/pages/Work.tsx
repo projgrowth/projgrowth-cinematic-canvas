@@ -8,7 +8,9 @@ import CaseStudyCard from "@/components/CaseStudyCard";
 import CaseStudyCardSkeleton from "@/components/CaseStudyCardSkeleton";
 import CaseStudySheet from "@/components/CaseStudySheet";
 import BentoGrid from "@/components/BentoGrid";
+import BrowserMockup3D from "@/components/BrowserMockup3D";
 import ScrollReveal from "@/components/ScrollReveal";
+import LeafDivider from "@/components/LeafDivider";
 import PageHeader from "@/components/PageHeader";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 import { Grid3X3, List, ArrowUpDown, LayoutGrid } from "lucide-react";
@@ -117,6 +119,13 @@ const Work = () => {
             </p>
           </PageHeader>
         </ScrollReveal>
+
+        {/* Featured Project Spotlight */}
+        <ScrollReveal variant="fade-up" delay={0.05}>
+          <BrowserMockup3D />
+        </ScrollReveal>
+
+        <LeafDivider />
 
         {/* Filter Bar */}
         <ScrollReveal variant="fade-up" delay={0.1}>
