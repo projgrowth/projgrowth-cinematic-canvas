@@ -12,7 +12,7 @@ import LeafDivider from "@/components/LeafDivider";
 import { Helmet } from "react-helmet-async";
 
 import { caseStudies } from "@/data/caseStudies";
-import { ArrowRight, Monitor, Palette, PenTool, BarChart3 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Select featured projects from real case studies
@@ -64,10 +64,10 @@ const Home = () => {
   };
 
   const services = [
-    { icon: Monitor, title: "Web Design", description: "Custom websites that convert visitors into customers", path: "/services/web-design" },
-    { icon: Palette, title: "Branding", description: "Strategic brand identity that sets you apart", path: "/services/branding" },
-    { icon: PenTool, title: "Content Creation", description: "Compelling content that tells your story", path: "/services/content-creation" },
-    { icon: BarChart3, title: "Digital Marketing", description: "Data-driven strategies that drive growth", path: "/services/digital-marketing" },
+    { title: "Web Design", description: "Custom websites that convert visitors into customers", path: "/services/web-design" },
+    { title: "Branding", description: "Strategic brand identity that sets you apart", path: "/services/branding" },
+    { title: "Content Creation", description: "Compelling content that tells your story", path: "/services/content-creation" },
+    { title: "Digital Marketing", description: "Data-driven strategies that drive growth", path: "/services/digital-marketing" },
   ];
 
   const differentiators = [
@@ -179,7 +179,9 @@ const Home = () => {
                       idx === 0 ? "border-t-2 border-t-accent" : ""
                     }`}
                   >
-                    <service.icon className="w-10 h-10 text-accent mb-4" />
+                    <span className="font-display text-3xl text-accent/30 mb-4 block">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
                     <h3 className="font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
                       {service.title}
                     </h3>
