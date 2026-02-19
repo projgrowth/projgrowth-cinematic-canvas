@@ -5,6 +5,7 @@
 import { Link } from "react-router-dom";
 import { Mail, Instagram, Linkedin, Twitter } from "lucide-react";
 import pgLogo from "@/assets/logos/pg-logo.png";
+import QuickContactForm from "@/components/QuickContactForm";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -83,7 +84,8 @@ const Footer = () => {
           {/* Contact */}
           <div>
             <h3 className="font-display text-sm uppercase tracking-wider text-mute mb-4">Get in Touch</h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
+              <QuickContactForm />
               <a
                 href={`mailto:${contactEmail}`}
                 className="flex items-center gap-2 text-sm text-mute hover:text-accent transition-colors duration-sm"
@@ -91,7 +93,7 @@ const Footer = () => {
                 <Mail className="w-4 h-4" />
                 {contactEmail}
               </a>
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-3 pt-1">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}

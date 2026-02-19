@@ -12,6 +12,8 @@ import ScrollReveal from "@/components/ScrollReveal";
 import PageHeader from "@/components/PageHeader";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 import { Grid3X3, List, ArrowUpDown, LayoutGrid } from "lucide-react";
+import QuickContactForm from "@/components/QuickContactForm";
+import GlobalCTA from "@/components/GlobalCTA";
 
 // Define types for sort options and view mode
 type SortOption = "default" | "a-z" | "z-a" | "category";
@@ -259,6 +261,19 @@ const Work = () => {
           </motion.div>
         )}
       </section>
+
+      {/* Quick Contact */}
+      <section className="container-site py-24">
+        <ScrollReveal variant="fade-up">
+          <div className="max-w-xl mx-auto text-center">
+            <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Like What You See?</h2>
+            <p className="text-mute mb-6">Tell us about your project and let's create something great together.</p>
+            <QuickContactForm />
+          </div>
+        </ScrollReveal>
+      </section>
+
+      <GlobalCTA />
 
       <CaseStudySheet
         caseStudy={selectedCaseStudy}

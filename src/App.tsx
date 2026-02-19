@@ -22,6 +22,7 @@ import BlogPost from "./pages/BlogPost";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
+import AdminLeads from "./pages/AdminLeads";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -206,6 +207,17 @@ const AnimatedRoutes = () => {
             transition={pageTransition}
           >
             <Terms />
+          </motion.div>
+        } />
+        <Route path="/admin/leads" element={
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+          >
+            <AdminLeads />
           </motion.div>
         } />
         <Route path="*" element={
