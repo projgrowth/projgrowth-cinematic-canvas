@@ -246,17 +246,12 @@ Company: ${formData.company || "Not provided"}
           We'll be in touch within 24 hours. In the meantime, feel free to explore our work.
         </p>
 
-        <div className="p-6 bg-surface border border-line rounded-lg max-w-md mx-auto">
-          <p className="text-sm text-muted mb-4">Can't wait?</p>
-          <a
-            href="#calendly"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-base font-medium rounded-md hover:bg-accent/90 transition-colors"
-          >
-            <Calendar className="w-4 h-4" />
-            Grab a Spot Now
+        <p className="text-sm text-muted">
+          Can't wait? Email us directly at{" "}
+          <a href="mailto:info@projgrowth.com" className="text-accent hover:underline">
+            info@projgrowth.com
           </a>
-          <p className="text-xs text-muted mt-4">Calendly integration coming soon</p>
-        </div>
+        </p>
       </motion.div>
     );
   }

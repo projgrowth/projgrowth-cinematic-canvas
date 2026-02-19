@@ -8,6 +8,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, PenTool, Video, Camera, Share2 } from "lucide-react";
+import QuickContactForm from "@/components/QuickContactForm";
 import {
   Accordion,
   AccordionContent,
@@ -196,6 +197,17 @@ const ContentCreation = () => {
                 </AccordionItem>
               ))}
             </Accordion>
+          </div>
+        </ScrollReveal>
+
+        {/* Quick Contact */}
+        <ScrollReveal variant="fade-up">
+          <div className="py-16 border-t border-line">
+            <div className="max-w-xl mx-auto text-center">
+              <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Interested in Content Creation?</h2>
+              <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
+              <QuickContactForm />
+            </div>
           </div>
         </ScrollReveal>
 

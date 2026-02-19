@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import MultiStepContactForm from "@/components/MultiStepContactForm";
-import AIChatbotPlaceholder from "@/components/AIChatbotPlaceholder";
+
 import PageHeader from "@/components/PageHeader";
 import LeafDivider from "@/components/LeafDivider";
 import { Mail, MessageSquare } from "lucide-react";
@@ -210,8 +210,6 @@ const Contact = () => {
         </ScrollReveal>
       </section>
 
-      {/* AI Chatbot Placeholder */}
-      <AIChatbotPlaceholder />
     </Layout>
   );
 };
