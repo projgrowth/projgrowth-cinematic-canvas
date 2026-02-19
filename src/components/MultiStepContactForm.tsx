@@ -144,6 +144,10 @@ Company: ${formData.company || "Not provided"}
           email: formData.email,
           message,
           website: formData.website, // Honeypot
+          source: "multi-step",
+          service_interest: services.find(s => s.id === formData.service)?.label || formData.service,
+          budget: budgets.find(b => b.id === formData.budget)?.label || formData.budget,
+          timeline: timelines.find(t => t.id === formData.timeline)?.label || formData.timeline,
         },
       });
 
