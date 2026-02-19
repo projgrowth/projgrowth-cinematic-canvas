@@ -1,99 +1,60 @@
 
 
-# Logo and Color Integration Plan
+# Lead Capture Hardening Plan
 
-## Overview
-Integrate the new PG leaf logo and shift the site's accent color from ice blue to a refined emerald green, applied consistently across the entire design system while preserving the premium dark agency aesthetic.
+## Problem
+Multiple points where leads can slip through: non-delivering emails, no visibility into submissions, dead-end UI elements, and missing capture points on high-intent pages.
 
----
+## Changes
 
-## 1. Color System Update
+### 1. Remove dead-end elements
+- **Remove AIChatbotPlaceholder** entirely from Contact page and codebase. A "coming soon" chatbot actively discourages real contact.
+- **Remove fake Calendly CTA** from MultiStepContactForm success state. Replace with a simple "We'll be in touch within 24 hours" message and a mailto fallback.
 
-Update the single CSS variable `--accent` in `src/index.css` from the current ice blue to a refined emerald green:
+### 2. Add inline QuickContactForm to Footer
+- Embed the existing QuickContactForm component in the Footer's "Get in Touch" column, giving every page a persistent low-friction capture point beyond just a mailto link.
 
-- **Current**: `--accent: 200 45% 58%` (ice blue)
-- **New**: `--accent: 155 42% 49%` (emerald green -- sophisticated, slightly cool-toned, premium on dark backgrounds)
-- **Accent-alt**: shift from `220 40% 55%` to `165 35% 42%` (deeper complementary green)
-- **Glow shadow**: update `--shadow-glow-accent` RGB values to match the new emerald tone
-- **Gradient**: update `--gradient-accent` stops to emerald hues
+### 3. Add QuickContactForm to high-intent pages
+- Embed a QuickContactForm at the bottom of each **Service subpage** (Branding, Web Design, Content Creation, Digital Marketing) and the **Work** page, just above the GlobalCTA. These are where intent is highest.
 
-Because every component already references `hsl(var(--accent))`, the entire site (buttons, hover states, links, icons, borders, CTA, scroll progress bar, page loader) will update automatically with this single CSS change. No per-component edits needed for color.
+### 4. Fix the email delivery issue
+- Update the edge function `from` address. The current `onboarding@resend.dev` is Resend's shared sandbox domain and likely gets filtered or blocked. Change it to use a verified domain or at minimum surface a clear log when email send fails vs succeeds, so you can diagnose delivery.
+- Add a `status` and `email_sent` column to `contact_submissions` so you can see at a glance which leads got email confirmation and which didn't.
 
----
+### 5. Build a simple admin submissions viewer
+- Create a `/admin/leads` page (protected by a simple password or hidden route) that reads from `contact_submissions` and displays all leads in a table with name, email, message, date, and email delivery status. This gives immediate visibility without needing direct database access.
 
-## 2. Logo Asset Integration
-
-- Copy `PG_Web_Logo.png` into `src/assets/logos/pg-logo.png` for component imports
-- Also copy to `public/logos/pg-logo.png` for use in meta tags, OG images, and favicon contexts
-
----
-
-## 3. Navigation -- Logo Mark + Text Wordmark
-
-Update `src/components/Navigation.tsx`:
-- Import the leaf logo image
-- Render a ~28px leaf icon alongside the existing "ProjGrowth" text
-- Small gap between icon and text (gap-2)
-- Logo gets a subtle hover opacity transition
-
----
-
-## 4. Footer Branding
-
-Update `src/components/Footer.tsx`:
-- Add the leaf logo mark next to the "ProjGrowth" text in the footer brand section
-- Same sizing approach as nav (~24px icon)
-
----
-
-## 5. Mobile Nav
-
-Update `src/components/MobileNav.tsx`:
-- Add leaf logo in the sheet header next to "Menu" or replace with logo + "ProjGrowth"
-
----
-
-## 6. Page Loader
-
-Update `src/components/PageLoader.tsx`:
-- Replace the text "PG" spinner with the actual leaf logo image
-- Keep the existing pulse animation wrapping it
-- Loading bar color updates automatically via accent variable
-
----
-
-## 7. OG Image Edge Function
-
-Update `supabase/functions/og-image/index.ts`:
-- Change `ACCENT_RGB` from blue values to the new emerald green RGB equivalent (~`68, 160, 120`~)
-- Update the "PG" text block to reference the new brand color
-
----
-
-## 8. Favicon
-
-Replace `public/favicon.png` with a version of the leaf logo optimized for small sizes (the uploaded logo works well as a favicon given its simple shape)
+### 6. Surface contact capture errors clearly
+- In the edge function, if the Resend email call fails, still return success to the user (their submission is saved) but log the failure distinctly and mark `email_sent = false` in the DB so you can follow up manually.
 
 ---
 
 ## Technical Details
 
-### Files Modified (8 files)
-1. `src/index.css` -- accent color variables (1 line change + shadow/gradient updates)
-2. `src/components/Navigation.tsx` -- add logo image import + render
-3. `src/components/Footer.tsx` -- add logo image
-4. `src/components/MobileNav.tsx` -- add logo image in sheet header
-5. `src/components/PageLoader.tsx` -- replace "PG" text with logo image
-6. `supabase/functions/og-image/index.ts` -- update accent RGB constant
-7. `public/favicon.png` -- replace with leaf logo
+### Database migration
+```sql
+ALTER TABLE contact_submissions
+  ADD COLUMN email_sent boolean DEFAULT false,
+  ADD COLUMN source text DEFAULT 'quick',
+  ADD COLUMN service_interest text,
+  ADD COLUMN budget text,
+  ADD COLUMN timeline text;
+```
+This lets you track which form they used (quick vs multi-step), what they're interested in, and whether the notification email actually sent.
 
-### Files Copied (2 operations)
-- `user-uploads://PG_Web_Logo.png` to `src/assets/logos/pg-logo.png`
-- `user-uploads://PG_Web_Logo.png` to `public/logos/pg-logo.png`
+### Files to create
+- `src/pages/AdminLeads.tsx` — simple table view of all submissions
 
-### What stays the same
-- All component structure, layout, spacing, and animations remain untouched
-- The dark cinematic base palette (base, surface, text, mute, line) stays identical
-- Typography system unchanged
-- Every existing `text-accent`, `bg-accent`, `border-accent` reference automatically picks up the new green -- zero per-component color edits needed
+### Files to modify
+- `supabase/functions/send-contact-email/index.ts` — mark `email_sent` on success, `false` on failure; store structured multi-step data
+- `src/components/Footer.tsx` — embed QuickContactForm
+- `src/pages/Contact.tsx` — remove AIChatbotPlaceholder import and usage
+- `src/components/MultiStepContactForm.tsx` — remove fake Calendly CTA from success state
+- `src/pages/services/Branding.tsx`, `WebDesign.tsx`, `ContentCreation.tsx`, `DigitalMarketing.tsx` — add QuickContactForm above GlobalCTA
+- `src/pages/Work.tsx` — add QuickContactForm section
+- `src/App.tsx` — add route for `/admin/leads`
+- `src/components/AIChatbotPlaceholder.tsx` — delete file
+
+### Route protection for admin
+A simple approach: the `/admin/leads` route checks for a query param or prompts for a password stored as a backend secret. No full auth system needed — just enough to keep it from being publicly browsable.
 
