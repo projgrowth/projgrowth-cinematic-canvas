@@ -19,9 +19,9 @@ const Footer = () => {
   const contactEmail = "info@projgrowth.com";
 
   return (
-    <footer className="border-t border-line bg-base mt-24">
-      <div className="container-site py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
+    <footer className="border-t border-line bg-base mt-3xl">
+      <div className="container-site py-3xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-3 mb-8 md:mb-3">">
           {/* Brand */}
           <div className="space-y-4">
             <Link 
@@ -101,7 +101,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="p-2 rounded-md border border-line text-mute hover:text-accent hover:border-accent hover:bg-accent/10 hover:-translate-y-0.5 transition-all duration-200"
+                    className="btn-interactive p-2 rounded-md border border-line text-mute hover:text-accent hover:border-accent hover:bg-accent/10"
                   >
                     <social.icon className="w-4 h-4" />
                   </a>
