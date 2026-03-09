@@ -170,9 +170,25 @@
     gap: var(--space-3);
   }
 
+  
+  /* Responsive Grid Breakpoints */
+  @media (max-width: 1200px) {
+    .grid-12 {
+      grid-template-columns: repeat(8, 1fr);
+    }
+  }
+
   @media (max-width: 768px) {
     .grid-12 {
       grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-2);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .grid-12 {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
     }
   }
 
@@ -246,9 +262,17 @@
     animation: marquee 30s linear infinite;
   }
 
-  /* Enhanced focus styles for accessibility */
+  /* Enhanced Focus Styles - Scales with zoom */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base;
+    @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-base;
+    transition: all var(--duration-sm) var(--ease);
+  }
+
+  /* High-contrast mode support */
+  @media (prefers-contrast: high) {
+    .focus-ring {
+      @apply focus-visible:ring-8 focus-visible:ring-offset-8;
+    }
   }
 
   /* Logo hover: white → accent emerald green */
