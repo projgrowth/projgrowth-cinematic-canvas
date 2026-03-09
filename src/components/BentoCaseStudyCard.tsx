@@ -39,9 +39,9 @@ const BentoCaseStudyCard = ({
   }, [isHovered, isTouchDevice, caseStudy.heroMedia]);
 
   const aspectClass = {
-    standard: "aspect-[4/3]",
-    wide: "aspect-[2/1] md:aspect-[2/1]",
-    tall: "aspect-[3/4] md:aspect-auto md:h-full md:min-h-[400px]"
+    standard: "aspect-[4/3] md:aspect-auto md:h-full",
+    wide: "aspect-[2/1] md:aspect-auto md:h-full",
+    tall: "aspect-[3/4] md:aspect-auto md:h-full"
   }[size];
 
   const hasMedia = caseStudy.heroMedia?.url;
@@ -49,7 +49,7 @@ const BentoCaseStudyCard = ({
 
   return (
     <motion.article
-      className={`group relative overflow-hidden rounded-xl border border-line bg-surface cursor-pointer h-full ${aspectClass}`}
+      className={`group relative overflow-hidden rounded-xl border border-line bg-surface cursor-pointer h-full w-full ${aspectClass}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}

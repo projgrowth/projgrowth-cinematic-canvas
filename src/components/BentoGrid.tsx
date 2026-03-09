@@ -16,14 +16,14 @@ const BentoGrid = ({ caseStudies, onCardClick, isLoading }: BentoGridProps) => {
   // Determine grid positions - featured get larger cells
   const getGridClass = (index: number, isFeatured: boolean) => {
     if (isFeatured) {
-      // First featured: spans 2 columns
+      // First featured: wide, 1 row
       if (index === 0) return "md:col-span-2 md:row-span-1";
-      // Second featured: tall card
+      // Second featured: tall, 2 rows
       if (index === 1) return "md:col-span-1 md:row-span-2";
-      // Third featured: wide
-      return "md:col-span-2";
+      // Third featured: wide, 1 row
+      return "md:col-span-2 md:row-span-1";
     }
-    return "col-span-1";
+    return "col-span-1 md:row-span-1";
   };
 
   if (isLoading) {
@@ -45,7 +45,7 @@ const BentoGrid = ({ caseStudies, onCardClick, isLoading }: BentoGridProps) => {
 
   return (
     <motion.div 
-      className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 auto-rows-auto"
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 md:auto-rows-[260px] lg:auto-rows-[280px]"
       layout
     >
       <AnimatePresence mode="popLayout">
