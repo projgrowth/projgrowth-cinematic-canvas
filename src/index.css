@@ -284,9 +284,18 @@
     filter: invert(58%) sepia(30%) saturate(700%) hue-rotate(110deg) brightness(88%);
   }
 
-  /* Button hover micro-interactions */
+  /* Enhanced Touch Targets - Minimum 44px at any zoom level */
   .btn-interactive {
-    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
+    @apply min-h-[44px] min-w-[44px] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
+  }
+
+  /* Improved Micro-interactions */
+  .card-interactive {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-elegant;
+  }
+
+  .card-interactive:hover {
+    box-shadow: var(--shadow-glow-accent);
   }
 
   /* Skip link styles */
