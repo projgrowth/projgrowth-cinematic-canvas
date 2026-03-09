@@ -49,7 +49,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         onClick={onClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
-        className="group cursor-pointer flex gap-4 md:gap-6 p-4 md:p-6 rounded-lg border border-line bg-surface/50 hover:border-accent/50 hover:bg-surface transition-all duration-300 hover:shadow-lg hover:shadow-accent/5 relative overflow-hidden"
+        className="group cursor-pointer card-interactive flex gap-4 md:gap-6 p-4 md:p-6 rounded-lg border border-line bg-surface/50 hover:border-accent/50 hover:bg-surface relative overflow-hidden"
         whileHover={{ x: isTouchDevice ? 0 : 4 }}
         transition={{ duration: 0.2 }}
       >
@@ -105,7 +105,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
 
         {/* Arrow */}
         <div className="flex-shrink-0 flex items-center">
-          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-line flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all duration-200">
+          <div className="btn-interactive w-10 h-10 rounded-full border border-line flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10">
             <svg className="w-4 h-4 text-mute group-hover:text-accent transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
