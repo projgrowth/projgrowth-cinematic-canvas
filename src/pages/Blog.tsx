@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Clock, ArrowRight, Tag } from "lucide-react";
+import { Clock, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -92,7 +92,7 @@ const Blog = () => {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   selectedCategory === category
-                    ? "bg-accent text-base"
+                    ? "bg-accent text-primary-foreground"
                     : "bg-surface text-mute hover:text-text hover:bg-surface"
                 }`}
               >

@@ -79,7 +79,7 @@ const FeaturedWorkSlider = ({ projects }: FeaturedWorkSliderProps) => {
 
           <Link
             to="/work"
-            className="px-6 py-3 border border-accent text-accent rounded-md font-medium hover:bg-accent hover:text-base transition-all duration-sm min-h-[44px] flex items-center justify-center w-full sm:w-auto"
+            className="px-6 py-3 border border-accent text-accent rounded-md font-medium hover:bg-accent hover:text-primary-foreground transition-all duration-sm min-h-[44px] flex items-center justify-center w-full sm:w-auto"
           >
             View All Work
           </Link>

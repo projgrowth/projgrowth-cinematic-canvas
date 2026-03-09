@@ -137,7 +137,7 @@ const Home = () => {
             >
               <Link 
                 to="/contact"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-accent text-accent rounded-md font-medium transition-all duration-sm hover:bg-accent hover:text-base min-h-[44px]"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-accent text-accent rounded-md font-medium transition-all duration-sm hover:bg-accent hover:text-primary-foreground min-h-[44px]"
               >
                 Get Your Free Consultation
                 <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
