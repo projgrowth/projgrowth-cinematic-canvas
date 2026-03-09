@@ -61,14 +61,14 @@ const Navigation = () => {
         aria-label="Main navigation"
       >
         <div className="container-site">
-          <div className="flex items-center justify-between py-6">
+          <div className="flex items-center justify-between py-4 md:py-6">
             <Link 
               to="/" 
-              className="text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm flex items-center gap-2 group"
+              className="text-xl md:text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm focus-ring rounded-sm flex items-center gap-2 group min-h-[44px]"
               aria-label="ProjGrowth - Go to homepage"
             >
               <img src={pgLogo} alt="" className="h-5 md:h-7 w-auto logo-accent-hover" />
-              ProjGrowth
+              <span className="hidden xs:inline">ProjGrowth</span>
             </Link>
             
             {/* Desktop Navigation */}
@@ -78,9 +78,8 @@ const Navigation = () => {
                   <Link
                     to={link.path}
                     className={`
-                      text-sm transition-colors duration-sm relative
+                      text-sm md:text-base transition-colors duration-sm relative min-h-[44px] flex items-center px-2 focus-ring rounded-sm
                       ${isActive(link.path) ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base rounded-sm
                     `}
                     aria-current={location.pathname === link.path ? "page" : undefined}
                   >

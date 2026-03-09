@@ -7,9 +7,20 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: {
+        DEFAULT: "1rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "5rem",
+        "2xl": "6rem",
+      },
       screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
         "2xl": "1400px",
+        "3xl": "1800px",
       },
     },
     extend: {
@@ -54,6 +65,8 @@ export default {
         body: "var(--font-body)",
       },
       spacing: {
+        '2xs': 'var(--space-2xs)',
+        'xs': 'var(--space-xs)',
         '1': 'var(--space-1)',
         '2': 'var(--space-2)',
         '3': 'var(--space-3)',
@@ -62,6 +75,8 @@ export default {
         '6': 'var(--space-6)',
         '7': 'var(--space-7)',
         '8': 'var(--space-8)',
+        '3xl': 'var(--space-3xl)',
+        '4xl': 'var(--space-4xl)',
       },
       borderRadius: {
         sm: "var(--radius-sm)",

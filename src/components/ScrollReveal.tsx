@@ -13,7 +13,7 @@ interface ScrollRevealProps {
 
 const variants = {
   'fade-up': {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 'clamp(20px, 3vw, 40px)' },
     visible: { opacity: 1, y: 0 }
   },
   'fade-in': {
@@ -25,11 +25,11 @@ const variants = {
     visible: { opacity: 1, scale: 1 }
   },
   'slide-left': {
-    hidden: { opacity: 0, x: -30 },
+    hidden: { opacity: 0, x: 'clamp(-20px, -3vw, -40px)' },
     visible: { opacity: 1, x: 0 }
   },
   'slide-right': {
-    hidden: { opacity: 0, x: 30 },
+    hidden: { opacity: 0, x: 'clamp(20px, 3vw, 40px)' },
     visible: { opacity: 1, x: 0 }
   }
 };

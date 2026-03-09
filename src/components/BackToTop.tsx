@@ -28,9 +28,8 @@ const BackToTop = () => {
     <button
       onClick={scrollToTop}
       className={`
-        fixed bottom-6 right-6 z-50 p-2.5 rounded-full
+        btn-interactive fixed bottom-6 right-6 z-50 rounded-full
         border border-line/50 bg-surface/60 backdrop-blur-sm text-mute
-        transition-all duration-md ease-smooth min-h-[40px] min-w-[40px]
         ${isVisible ? "opacity-60 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
         hover:opacity-100 hover:border-accent/50 hover:text-accent
       `}

@@ -14,7 +14,7 @@ const PageHeader = ({ children, className = "" }: PageHeaderProps) => {
     <div className={`relative ${className}`}>
       {/* Atmospheric glow behind header */}
       <div
-        className="absolute -top-32 -left-20 w-[500px] h-[400px] pointer-events-none"
+        className="absolute -top-4xl -left-8 w-[clamp(300px, 50vw, 600px)] h-[clamp(200px, 30vw, 500px)] pointer-events-none"
         aria-hidden="true"
         style={{
           background: "radial-gradient(ellipse at 30% 50%, hsl(155 42% 49% / 0.04), transparent 60%)",
@@ -26,7 +26,7 @@ const PageHeader = ({ children, className = "" }: PageHeaderProps) => {
       </div>
       
       {/* Leaf mark accent */}
-      <div className="mt-8 flex items-center gap-3" aria-hidden="true">
+      <div className="mt-6 md:mt-8 flex items-center gap-3" aria-hidden="true">
         <div className="h-px w-8 bg-accent/40" />
         <img
           src={pgLogo}
