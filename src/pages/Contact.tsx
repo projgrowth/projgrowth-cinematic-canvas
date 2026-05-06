@@ -66,7 +66,7 @@ const Contact = () => {
       </Helmet>
 
       {/* Hero with Parallax */}
-      <section ref={heroRef} className="relative overflow-hidden">
+      <Section as="section" className="overflow-hidden" ref={heroRef as any}>
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
           className="absolute inset-0 pointer-events-none"
@@ -74,9 +74,7 @@ const Contact = () => {
           <div className="absolute top-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/3 rounded-full blur-3xl" />
         </motion.div>
-
-        <div className="container-site relative z-10 section">
-          <div className="grid-12 gap-y-8 items-end">
+        <div className="grid-12 gap-y-8 items-end">
             {/* Header */}
             <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-8">
               <PageHeader>
@@ -127,8 +125,7 @@ const Contact = () => {
               </ScrollReveal>
             </div>
           </div>
-        </div>
-      </section>
+      </Section>
 
       {/* Quick Contact */}
       <Section>
