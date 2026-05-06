@@ -119,7 +119,7 @@ const CaseStudyDetail = () => {
 
 
       {/* Main Content */}
-      <section className="container-site py-24">
+      <section className="container-site section">
         <div className="grid md:grid-cols-12 gap-12 md:gap-16">
           {/* Sidebar */}
           <aside className="md:col-span-4 lg:col-span-3">
@@ -321,7 +321,7 @@ const CaseStudyDetail = () => {
 
       {/* CTA Section */}
       <section className="border-t border-line">
-        <div className="container-site py-16 md:py-24">
+        <div className="container-site section">
           <ScrollReveal variant="fade-up">
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="font-display text-3xl md:text-4xl text-text mb-4">

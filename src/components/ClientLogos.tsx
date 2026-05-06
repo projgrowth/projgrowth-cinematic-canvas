@@ -70,7 +70,7 @@ const LogoMarquee = () => {
 
 const ClientLogos = () => {
   return (
-    <section className="py-24 border-t border-line" aria-labelledby="clients-heading">
+    <section className="section border-t border-line" aria-labelledby="clients-heading">
       <ScrollReveal variant="fade-up">
         <div className="container-site text-center mb-12">
           <p id="clients-heading" className="text-mute text-sm uppercase tracking-widest">

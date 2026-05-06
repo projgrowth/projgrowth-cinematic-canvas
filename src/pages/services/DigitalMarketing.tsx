@@ -94,7 +94,7 @@ const DigitalMarketing = () => {
         </script>
       </Helmet>
 
-      <section className="container-site py-24">
+      <section className="container-site section">
         <Breadcrumbs />
         
         <ScrollReveal variant="fade-up">

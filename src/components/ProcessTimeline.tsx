@@ -37,7 +37,7 @@ const ProcessTimeline = () => {
   };
 
   return (
-    <div className="py-16 md:py-24 border-t border-line">
+    <div className="py-16 md:section border-t border-line">
       <div className="mb-12">
         <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">Our Process</h2>
         <p className="text-xl text-mute max-w-2xl">

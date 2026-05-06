@@ -17,7 +17,7 @@ const Privacy = () => {
       seoKeywords="privacy policy, data protection, personal information"
       canonicalUrl="/privacy"
     >
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site section">
         {/* Back Link */}
         <Link 
           to="/"

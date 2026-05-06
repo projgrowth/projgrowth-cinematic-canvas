@@ -17,7 +17,7 @@ const Terms = () => {
       seoKeywords="terms of service, terms and conditions, user agreement"
       canonicalUrl="/terms"
     >
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site section">
         {/* Back Link */}
         <Link 
           to="/"

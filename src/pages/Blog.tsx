@@ -69,7 +69,7 @@ const Blog = () => {
       seoKeywords="Orlando marketing blog, web design tips, branding insights, digital marketing Orlando, content marketing strategies"
       canonicalUrl="/blog"
     >
-      <section className="container-site py-16 md:py-24">
+      <section className="container-site section">
         <Breadcrumbs />
 
         <ScrollReveal>
