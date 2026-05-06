@@ -24,6 +24,10 @@ interface Discovery {
   responses: Record<string, any>;
   generated_brief: string | null;
   email_sent: boolean | null;
+  confidence?: string | null;
+  services?: string[] | null;
+  engagement_tier?: string | null;
+  reference_signed_urls?: string[];
 }
 
 const AdminLeads = () => {
@@ -193,9 +197,14 @@ const AdminLeads = () => {
                     className="w-full flex items-center justify-between p-4 hover:bg-surface/50 transition-colors text-left"
                   >
                     <div>
-                      <div className="text-text font-medium">{d.full_name}</div>
+                    <div className="text-text font-medium flex items-center gap-2 flex-wrap">
+                      {d.full_name}
+                      {d.engagement_tier && <span className="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/30">{d.engagement_tier}</span>}
+                      {d.confidence && <span className="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full bg-surface text-mute border border-line">{d.confidence}</span>}
+                    </div>
                       <div className="text-mute text-xs mt-1">
                         {d.practice_name || "—"} · <a href={`mailto:${d.email}`} className="text-accent hover:underline">{d.email}</a>
+                        {d.services && d.services.length > 0 && <span className="ml-2">· {d.services.join(", ")}</span>}
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -217,6 +226,18 @@ const AdminLeads = () => {
                           >
                             Copy brief
                           </button>
+                        </div>
+                      )}
+                      {d.reference_signed_urls && d.reference_signed_urls.length > 0 && (
+                        <div>
+                          <div className="text-xs uppercase tracking-wide text-mute mb-2">Reference uploads</div>
+                          <div className="grid grid-cols-3 gap-2">
+                            {d.reference_signed_urls.map((u, i) => (
+                              <a key={i} href={u} target="_blank" rel="noreferrer" className="block aspect-square overflow-hidden rounded border border-line bg-base">
+                                <img src={u} alt={`Reference ${i + 1}`} className="w-full h-full object-cover" />
+                              </a>
+                            ))}
+                          </div>
                         </div>
                       )}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
