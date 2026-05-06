@@ -15,6 +15,12 @@
     --accent-alt: 165 35% 42%; /* Deeper complementary green */
     --line: 240 5% 16%; /* Subtle border */
 
+    /* Accent opacity scale - locked tokens */
+    --accent-tint: hsl(var(--accent) / 0.08);
+    --accent-border: hsl(var(--accent) / 0.20);
+    --accent-border-hover: hsl(var(--accent) / 0.35);
+    --inner-highlight: inset 0 1px 0 hsl(var(--text) / 0.04);
+
     /* Semantic Tokens */
     --background: var(--base);
     --foreground: var(--text);
