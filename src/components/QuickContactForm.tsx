@@ -110,7 +110,7 @@ const QuickContactForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Your email"
-          className="flex-1 px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all text-sm"
+          className="flex-1 px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all text-sm"
           required
           maxLength={255}
         />
@@ -122,14 +122,14 @@ const QuickContactForm = () => {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Quick message — what do you need help with?"
           rows={2}
-          className="flex-1 px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all text-sm resize-none"
+          className="flex-1 px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all text-sm resize-none"
           required
           maxLength={5000}
         />
         <motion.button
           type="submit"
           disabled={isSubmitting}
-          className="self-end px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 flex items-center gap-2 text-sm min-h-[44px] min-w-[44px] justify-center"
+          className="self-end px-4 h-[52px] w-[52px] bg-accent text-primary-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 flex items-center justify-center shrink-0"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
