@@ -1141,7 +1141,13 @@ export default function Discovery() {
               <div style={{ fontSize: 10, color: EMERALD, letterSpacing: ".22em", textTransform: "uppercase" }}>
                 Chapter {CHAPTERS[chapter].n} · {CHAPTERS[chapter].t}
               </div>
-              <span style={{ fontSize: 11, color: C.faint, letterSpacing: ".05em" }}>Step {step + 1} / {TOTAL}</span>
+              <span style={{ fontSize: 11, color: C.faint, letterSpacing: ".05em" }}>
+                {(() => {
+                  const remaining = Math.max(1, TOTAL - step - 1);
+                  const mins = Math.max(1, Math.round(remaining * 0.4));
+                  return step >= TOTAL - 1 ? "Last step" : `~${mins} min left · ${remaining} step${remaining === 1 ? "" : "s"}`;
+                })()}
+              </span>
             </div>
             <div style={{ display: "flex", gap: 4 }}>
               {CHAPTERS.map((c, i) => {
