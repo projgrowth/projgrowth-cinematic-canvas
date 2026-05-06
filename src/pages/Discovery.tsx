@@ -1197,6 +1197,9 @@ export default function Discovery() {
               {step === TOTAL - 1 ? "See the reveal →" : "Continue →"}
             </button>
           </div>
+          <div style={{ marginTop: 10, textAlign: "right", fontSize: 10, color: C.faint, letterSpacing: ".06em" }}>
+            tip: <kbd style={{ background: "rgba(255,255,255,.06)", padding: "1px 5px", borderRadius: 3 }}>Enter</kbd> or <kbd style={{ background: "rgba(255,255,255,.06)", padding: "1px 5px", borderRadius: 3 }}>→</kbd> to advance
+          </div>
         </div>
 
         {showVisionBoard && (
