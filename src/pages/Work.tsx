@@ -108,13 +108,13 @@ const Work = () => {
       seoKeywords="portfolio, case studies, brand strategy examples, web design portfolio, content systems, cinematic production, digital projects"
       canonicalUrl="/work"
     >
-      <section className="container-site py-24 relative">
+      <section className="container-site section relative">
         <ScrollReveal variant="fade-up">
-          <PageHeader className="mb-16 relative z-10">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
+          <PageHeader className="mb-12 md:mb-16 relative z-10">
+            <h1 className="font-display text-text mb-5">
               Work
             </h1>
-            <p className="text-xl text-mute max-w-3xl">
+            <p className="lede max-w-3xl">
               A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity.
             </p>
           </PageHeader>
@@ -230,7 +230,7 @@ const Work = () => {
           <motion.div 
             className={
               viewMode === "grid" 
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 relative z-10"
+                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-cards relative z-10"
                 : "flex flex-col gap-4 relative z-10"
             }
             layout
@@ -263,10 +263,10 @@ const Work = () => {
       </section>
 
       {/* Quick Contact */}
-      <section className="container-site py-24">
+      <section className="container-site section">
         <ScrollReveal variant="fade-up">
           <div className="max-w-xl mx-auto text-center">
-            <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Like What You See?</h2>
+            <h2 className="font-display text-text mb-2">Like What You See?</h2>
             <p className="text-mute mb-6">Tell us about your project and let's create something great together.</p>
             <QuickContactForm />
           </div>

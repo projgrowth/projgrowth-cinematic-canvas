@@ -104,13 +104,13 @@ const Services = () => {
       </Helmet>
       
       <TooltipProvider>
-        <section className="container-site py-16 md:py-24 relative">
+        <section className="container-site section relative">
           <ScrollReveal variant="fade-up">
-            <PageHeader className="mb-16">
-              <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
+            <PageHeader className="mb-12 md:mb-16">
+              <h1 className="font-display text-text mb-5">
                 Our Services
               </h1>
-              <p className="text-xl text-mute max-w-2xl">
+              <p className="lede">
                 Comprehensive digital solutions tailored to your business goals and user needs.
               </p>
             </PageHeader>
@@ -124,7 +124,7 @@ const Services = () => {
                     <div className="col-span-12 lg:col-span-2">
                       <button
                         onClick={() => toggleService(idx)}
-                        className="font-display text-3xl md:text-5xl text-accent/30 transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform transition-transform min-h-[44px]"
+                        className="font-display text-3xl md:text-4xl lg:text-5xl text-accent/30 transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform min-h-[44px]"
                         aria-label={`Expand ${service.title}`}
                       >
                         {service.number}
@@ -132,7 +132,7 @@ const Services = () => {
                     </div>
 
                     <div className="col-span-12 lg:col-span-6">
-                      <h2 className="font-display text-3xl md:text-4xl text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
+                      <h2 className="font-display text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
                         {service.title}
                       </h2>
                       <p className="text-base md:text-lg text-mute mb-4 md:mb-6">

@@ -74,13 +74,13 @@ const Contact = () => {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/3 rounded-full blur-3xl" />
         </motion.div>
 
-        <div className="container-site relative z-10 py-24">
+        <div className="container-site relative z-10 section">
           <div className="grid-12 gap-y-8 items-end">
             {/* Header */}
             <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-8">
               <PageHeader>
                 <motion.h1 
-                  className="font-display text-3xl md:text-5xl lg:text-7xl text-text mb-4"
+                  className="font-display text-text mb-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
@@ -90,7 +90,7 @@ const Contact = () => {
                   <span className="text-accent">Something Great</span>
                 </motion.h1>
                 <motion.p 
-                  className="text-lg text-mute leading-relaxed max-w-xl"
+                  className="lede"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
@@ -130,10 +130,10 @@ const Contact = () => {
       </section>
 
       {/* Quick Contact */}
-      <section className="container-site py-24">
+      <section className="container-site section">
         <ScrollReveal>
           <div className="max-w-xl mx-auto">
-            <h2 className="font-display text-xl text-text mb-2 text-center">Quick Message</h2>
+            <h2 className="font-display text-text mb-2 text-center">Quick Message</h2>
             <p className="text-sm text-mute mb-6 text-center">Don't need the full rundown? Just drop us a line.</p>
             <QuickContactForm />
           </div>
@@ -142,10 +142,10 @@ const Contact = () => {
 
       {/* Multi-Step Form Section */}
       <LeafDivider />
-      <section className="container-site py-24">
+      <section className="container-site section">
         <ScrollReveal>
           <div className="text-center mb-8">
-            <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Start a Project</h2>
+            <h2 className="font-display text-text mb-2">Start a Project</h2>
             <p className="text-mute">Want to tell us more? Walk through our guided form.</p>
           </div>
           <MultiStepContactForm />
@@ -153,10 +153,10 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="container-site py-24">
+      <section className="container-site section">
         <ScrollReveal variant="fade-up">
           <div className="max-w-3xl mx-auto">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12 text-center">
+            <h2 className="font-display text-text mb-10 md:mb-12 text-center">
               Frequently Asked Questions
             </h2>
             <Accordion type="single" collapsible className="w-full">

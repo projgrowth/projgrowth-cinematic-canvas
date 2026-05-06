@@ -38,13 +38,13 @@ const About = () => {
       seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
     >
-      <section className="container-site py-24 relative">
+      <section className="container-site section relative">
         <ScrollReveal variant="fade-up">
-          <PageHeader className="mb-16">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
+          <PageHeader className="mb-12 md:mb-16">
+            <h1 className="font-display text-text mb-5">
               About Us
             </h1>
-            <p className="text-xl text-mute max-w-3xl leading-relaxed">
+            <p className="lede max-w-3xl">
               We're a team of strategists, designers, and developers who believe in the power 
               of great design and thoughtful technology to transform businesses.
             </p>
@@ -53,10 +53,10 @@ const About = () => {
 
         {/* Stats Row */}
         <ScrollReveal variant="fade-up" delay={0.1}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 py-12 border-t border-b border-line mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-cards py-10 md:py-12 border-t border-b border-line mb-16">
             {stats.map((stat, idx) => (
               <div key={idx} className="text-center">
-                <div className="font-display text-3xl md:text-4xl lg:text-5xl text-accent mb-2">
+                <div className="font-display text-3xl md:text-4xl text-accent mb-2">
                   <AnimatedCounter value={stat.value} />
                 </div>
                 <p className="text-sm text-mute">{stat.label}</p>
@@ -67,12 +67,12 @@ const About = () => {
 
         {/* Mission */}
         <ScrollReveal variant="fade-up">
-          <div className="grid-12 gap-y-12 py-24">
+          <div className="grid-12 gap-y-10 section">
             <div className="col-span-12 lg:col-span-4">
-              <h2 className="font-display text-3xl lg:text-4xl text-text">Our Mission</h2>
+              <h2 className="font-display text-text">Our Mission</h2>
             </div>
             <div className="col-span-12 lg:col-span-8">
-              <p className="text-2xl text-text leading-relaxed">
+              <p className="text-xl md:text-2xl text-text leading-relaxed max-w-readable">
                 To empower businesses with digital solutions that are not only visually stunning 
                 but also strategically sound and technically excellent.
               </p>
@@ -83,13 +83,13 @@ const About = () => {
         {/* Values */}
         <LeafDivider />
         <ScrollReveal variant="fade-up">
-          <div className="py-24">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-16">Our Values</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="section">
+            <h2 className="font-display text-text mb-12 md:mb-16">Our Values</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-cards">
               {values.map((value, idx) => (
                 <ScrollReveal key={idx} variant="scale" delay={idx * 0.1}>
-                  <div className="p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant">
-                    <h3 className="font-display text-2xl text-accent mb-4">
+                  <div className="p-7 md:p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant h-full">
+                    <h3 className="font-display text-accent mb-3">
                       {value.title}
                     </h3>
                     <p className="text-mute">
