@@ -215,7 +215,7 @@ const Work = () => {
               </div>
               <button
                 onClick={handleClearFilters}
-                className="inline-flex items-center justify-center min-h-[44px] px-6 py-3 border border-accent text-accent rounded-md hover:bg-accent hover:text-primary-foreground transition-colors duration-sm font-medium"
+                className="btn-outline-cta"
               >
                 Clear filters
               </button>
