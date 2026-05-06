@@ -176,7 +176,7 @@ const BlogPost = () => {
   if (isLoading) {
     return (
       <Layout>
-        <div className="py-16 md:py-24">
+        <div className="section">
           <div className="container-site max-w-4xl">
             <Skeleton className="h-8 w-48 mb-8" />
             <Skeleton className="h-12 w-full mb-4" />
@@ -196,7 +196,7 @@ const BlogPost = () => {
   if (error || !post) {
     return (
       <Layout>
-        <div className="py-16 md:py-24">
+        <div className="section">
           <div className="container-site max-w-4xl text-center">
             <h1 className="text-3xl font-medium text-text mb-4">Post Not Found</h1>
             <p className="text-mute mb-8">The blog post you're looking for doesn't exist.</p>
@@ -244,7 +244,7 @@ const BlogPost = () => {
         </script>
       </Helmet>
 
-      <article className="py-16 md:py-24">
+      <article className="section">
         <div className="container-site max-w-4xl">
           <Breadcrumbs />
 

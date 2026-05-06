@@ -166,7 +166,7 @@ const Blog = () => {
             ))}
           </motion.div>
         ) : (
-          <div className="text-center py-16">
+          <div className="text-center section-sm">
             <p className="text-mute">No blog posts found.</p>
           </div>
         )}

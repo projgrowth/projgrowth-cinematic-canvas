@@ -112,8 +112,8 @@ const DigitalMarketing = () => {
 
         {/* Services */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+          <div className="section border-t border-line">
+            <h2 className="font-display text-text mb-12">
               Our Digital Marketing Services
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -133,8 +133,8 @@ const DigitalMarketing = () => {
 
         {/* Our Approach */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+          <div className="section border-t border-line">
+            <h2 className="font-display text-text mb-12">
               Our Approach
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -154,8 +154,8 @@ const DigitalMarketing = () => {
 
         {/* Deliverables */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+          <div className="section border-t border-line">
+            <h2 className="font-display text-text mb-12">
               What's Included
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -171,8 +171,8 @@ const DigitalMarketing = () => {
 
         {/* FAQs */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+          <div className="section border-t border-line">
+            <h2 className="font-display text-text mb-12">
               Frequently Asked Questions
             </h2>
             <Accordion type="single" collapsible className="space-y-4">
@@ -196,7 +196,7 @@ const DigitalMarketing = () => {
 
         {/* Quick Contact */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <div className="max-w-xl mx-auto text-center">
               <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Interested in Digital Marketing?</h2>
               <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
@@ -207,8 +207,8 @@ const DigitalMarketing = () => {
 
         {/* CTA */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line text-center">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-6">
+          <div className="section border-t border-line text-center">
+            <h2 className="font-display text-text mb-6">
               Ready to Grow Your Business?
             </h2>
             <p className="text-xl text-mute max-w-2xl mx-auto mb-8">
