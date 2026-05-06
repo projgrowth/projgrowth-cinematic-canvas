@@ -110,6 +110,39 @@ export type Database = {
         }
         Relationships: []
       }
+      discovery_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          email_sent: boolean | null
+          full_name: string
+          generated_brief: string | null
+          id: string
+          practice_name: string | null
+          responses: Json
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          email_sent?: boolean | null
+          full_name: string
+          generated_brief?: string | null
+          id?: string
+          practice_name?: string | null
+          responses: Json
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          email_sent?: boolean | null
+          full_name?: string
+          generated_brief?: string | null
+          id?: string
+          practice_name?: string | null
+          responses?: Json
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           created_at: string | null
