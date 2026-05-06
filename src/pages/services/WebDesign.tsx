@@ -107,7 +107,7 @@ const WebDesign = () => {
         
         <ScrollReveal variant="fade-up">
           <div className="mb-16">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
+            <h1 className="font-display text-text mb-6">
               Web Design Services in Orlando
             </h1>
             <p className="text-xl text-mute max-w-3xl leading-relaxed">

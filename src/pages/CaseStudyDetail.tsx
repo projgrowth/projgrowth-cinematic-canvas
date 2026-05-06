@@ -106,7 +106,7 @@ const CaseStudyDetail = () => {
               ))}
             </div>
 
-            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-4">
+            <h1 className="font-display text-text mb-4">
               {caseStudy.title}
             </h1>
             
