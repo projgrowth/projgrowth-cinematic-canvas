@@ -224,7 +224,7 @@ const DigitalMarketing = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
     </Layout>
   );
 };

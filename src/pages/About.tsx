@@ -103,7 +103,7 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-      </section>
+      </Section>
     </Layout>
   );
 };

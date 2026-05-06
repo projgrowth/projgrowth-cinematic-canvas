@@ -147,7 +147,7 @@ const TestimonialsCarousel = () => {
           </div>
         </div>
       </ScrollReveal>
-    </section>
+    </Section>
   );
 };
 

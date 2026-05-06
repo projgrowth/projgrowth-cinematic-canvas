@@ -261,7 +261,7 @@ const Work = () => {
             </AnimatePresence>
           </motion.div>
         )}
-      </section>
+      </Section>
 
       {/* Quick Contact */}
       <Section>
@@ -272,7 +272,7 @@ const Work = () => {
             <QuickContactForm />
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
       <GlobalCTA />
 

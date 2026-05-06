@@ -168,7 +168,7 @@ const Blog = () => {
             <p className="text-mute">No blog posts found.</p>
           </div>
         )}
-      </section>
+      </Section>
     </Layout>
   );
 };

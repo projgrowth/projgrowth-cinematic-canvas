@@ -139,7 +139,7 @@ const Contact = () => {
             <QuickContactForm />
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
       {/* Multi-Step Form Section */}
       <LeafDivider />
@@ -151,7 +151,7 @@ const Contact = () => {
           </div>
           <MultiStepContactForm />
         </ScrollReveal>
-      </section>
+      </Section>
 
       {/* FAQ Section */}
       <Section>
@@ -209,7 +209,7 @@ const Contact = () => {
             </Accordion>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
     </Layout>
   );

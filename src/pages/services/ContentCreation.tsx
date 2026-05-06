@@ -230,7 +230,7 @@ const ContentCreation = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
     </Layout>
   );
 };

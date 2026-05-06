@@ -228,7 +228,7 @@ const Services = () => {
           <ScrollReveal variant="fade-up">
             <ProcessTimeline />
           </ScrollReveal>
-        </section>
+        </Section>
       </TooltipProvider>
     </Layout>
   );

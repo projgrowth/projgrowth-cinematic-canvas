@@ -112,7 +112,7 @@ const Terms = () => {
             </div>
           </div>
         </div>
-      </section>
+      </Section>
     </Layout>
   );
 };

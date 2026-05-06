@@ -230,7 +230,7 @@ const WebDesign = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
     </Layout>
   );
 };

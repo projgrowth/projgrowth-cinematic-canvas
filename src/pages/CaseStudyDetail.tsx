@@ -318,7 +318,7 @@ const CaseStudyDetail = () => {
             )}
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* CTA Section */}
       <section className="border-t border-line">

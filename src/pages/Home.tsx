@@ -144,7 +144,7 @@ const Home = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Services Overview */}
       <Section>
@@ -179,7 +179,7 @@ const Home = () => {
             </div>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
       {/* Why Choose Us */}
       <LeafDivider />
@@ -205,7 +205,7 @@ const Home = () => {
             </ScrollReveal>
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* Featured Work Section */}
       <Section>
@@ -231,7 +231,7 @@ const Home = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
       {/* Client Logos Section */}
       <ClientLogos />

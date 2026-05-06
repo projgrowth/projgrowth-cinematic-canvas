@@ -230,7 +230,7 @@ const Branding = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
     </Layout>
   );
 };
