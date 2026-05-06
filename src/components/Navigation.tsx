@@ -79,7 +79,7 @@ const Navigation = () => {
                     to={link.path}
                     className={`
                       text-sm md:text-base transition-colors duration-sm relative min-h-[44px] flex items-center px-2 focus-ring rounded-sm
-                      ${isActive(link.path) ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
+                      ${isActive(link.path) ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-text/75 hover:text-text'}
                     `}
                     aria-current={location.pathname === link.path ? "page" : undefined}
                   >

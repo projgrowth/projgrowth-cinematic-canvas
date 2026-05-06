@@ -152,6 +152,7 @@ const Home = () => {
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-10">
             <div className="col-span-12 lg:col-span-4">
+              <p className="eyebrow mb-3">Services</p>
               <h2 className="font-display text-text mb-3">
                 Digital Marketing Services in Orlando
               </h2>
@@ -187,6 +188,7 @@ const Home = () => {
       <Section>
         <ScrollReveal variant="fade-up">
           <div className="section-header">
+            <p className="eyebrow mb-3">Why Us</p>
             <h2 className="font-display text-text mb-3">
               Why Orlando Businesses Choose ProjGrowth
             </h2>
@@ -212,6 +214,7 @@ const Home = () => {
       <Section>
         <ScrollReveal variant="fade-up">
           <div className="section-header">
+            <p className="eyebrow mb-3">Recent Work</p>
             <h2 className="font-display text-text mb-3">Our Recent Work</h2>
             <p className="lede">Projects we're proud of from Orlando and beyond</p>
           </div>
