@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { DiscoveryShell } from "./discovery/Shell";
-import { BusinessCard, LaptopBrowser, Phone, Signage, Storefront, MockupDisclaimer, MiniCard, deriveSpec, NM_BLUE, EMERALD, fontFor, weightFor } from "./discovery/mockups";
+import { BusinessCard, MockupDisclaimer, MiniCard, deriveSpec, NM_BLUE, EMERALD, fontFor, weightFor } from "./discovery/mockups";
 import { downloadBrandBriefPdf } from "./discovery/brandBriefPdf";
 
 // ============================================================
@@ -942,14 +942,7 @@ function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
   );
 }
 
-function SurfaceLabel({ label, children, centered }: any) {
-  return (
-    <div style={{ textAlign: "center" }}>
-      <div style={{ display: "flex", justifyContent: centered ? "center" : "flex-start" }}>{children}</div>
-      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginTop: 16 }}>{label}</div>
-    </div>
-  );
-}
+
 
 // ============================================================
 // Thanks
