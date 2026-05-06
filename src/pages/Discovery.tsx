@@ -1157,7 +1157,11 @@ export default function Discovery() {
           {err && <p style={{ color: "#e8a4a4", fontSize: 13, marginTop: 16 }}>{err}</p>}
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 36 }}>
-            <button onClick={() => step > 0 && setStep(s => s - 1)} style={{ background: "transparent", border: "none", color: C.mute, fontSize: 14, fontFamily: "inherit", cursor: "pointer", padding: "10px 0", opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? "none" : "auto" }}>← Back</button>
+            <button onClick={() => {
+              let prev = step - 1;
+              while (prev >= 0 && plan[prev] === "iconConcept" && form.mark === "wordmark") prev--;
+              if (prev >= 0) setStep(prev);
+            }} style={{ background: "transparent", border: "none", color: C.mute, fontSize: 14, fontFamily: "inherit", cursor: "pointer", padding: "10px 0", opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? "none" : "auto" }}>← Back</button>
             <button onClick={onNext} disabled={!cn} style={{
               background: cn ? EMERALD : "rgba(255,255,255,0.06)",
               color: cn ? "#0a0d11" : C.faint, border: "none",
