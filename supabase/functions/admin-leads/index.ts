@@ -41,8 +41,16 @@ serve(async (req: Request) => {
       );
     }
 
+    // Sign reference image URLs (1h) for each discovery row
+    const enriched = await Promise.all((discovery || []).map(async (d: any) => {
+      const paths: string[] = Array.isArray(d.reference_image_urls) ? d.reference_image_urls : [];
+      if (!paths.length) return { ...d, reference_signed_urls: [] };
+      const { data: signed } = await supabase.storage.from("discovery-uploads").createSignedUrls(paths, 3600);
+      return { ...d, reference_signed_urls: (signed || []).map((s: any) => s.signedUrl).filter(Boolean) };
+    }));
+
     return new Response(
-      JSON.stringify({ submissions, discovery }),
+      JSON.stringify({ submissions, discovery: enriched }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch {
