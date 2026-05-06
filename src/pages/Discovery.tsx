@@ -107,6 +107,9 @@ type Form = {
   avoid: string[]; vision: string; truth: string[];
   websiteCurrent: string; websiteGoals: string;
   contentNeeds: string; adsBudget: string; printNeeds: string; timeline: string;
+  brandValues: string[]; brandValuesCustom: string;
+  brandPromise: string; brandStory: string;
+  iconConcept: string | null;
 };
 const blank = (): Form => ({
   dbaStatus: null, dbaName: "", pitch: "", diff: [], diffCustom: "",
@@ -116,26 +119,31 @@ const blank = (): Form => ({
   mark: null, accent: null,
   inspiration: "", refLikes: [], refUploads: [],
   avoid: [], vision: "", truth: [],
-  websiteCurrent: "", websiteGoals: "", contentNeeds: "", adsBudget: "", printNeeds: "", timeline: ""
+  websiteCurrent: "", websiteGoals: "", contentNeeds: "", adsBudget: "", printNeeds: "", timeline: "",
+  brandValues: [], brandValuesCustom: "",
+  brandPromise: "", brandStory: "",
+  iconConcept: null,
 });
 
 // step plan
-const LOGO_STEPS_FULL = ["dbaName","pitch","diff","audience","adjectives","nmLean","touchpoints","personality","typo","density","tone","mood","mark","accent","references","avoid","vision","truth"];
-const LOGO_STEPS_GUIDED = ["dbaName","diff","audience","adjectives","nmLean","touchpoints","mood","mark","accent","references","vision","truth"];
-const LOGO_STEPS_CLEAR = ["dbaName","nmLean","mark","accent","touchpoints","references","vision","truth"];
+const LOGO_STEPS_FULL = ["dbaName","pitch","diff","audience","adjectives","brandValues","brandPromise","brandStory","nmLean","touchpoints","personality","typo","density","tone","mood","mark","iconConcept","accent","references","avoid","vision","truth"];
+const LOGO_STEPS_GUIDED = ["dbaName","diff","audience","adjectives","brandValues","brandPromise","nmLean","touchpoints","mood","mark","iconConcept","accent","references","vision","truth"];
+const LOGO_STEPS_CLEAR = ["dbaName","brandPromise","nmLean","mark","iconConcept","accent","touchpoints","references","vision","truth"];
 
 // chapter assignment per step id
 const CHAPTER: Record<string, number> = {
   dbaName: 0, pitch: 0, diff: 0, audience: 0, adjectives: 0,
-  personality: 1, mood: 1, tone: 1, vision: 1, truth: 1,
-  nmLean: 2, typo: 2, density: 2, mark: 2, accent: 2, references: 2, avoid: 2,
-  touchpoints: 3, svc_website: 3, svc_content: 3, svc_ads: 3, svc_print: 3, svc_timeline: 3,
+  brandValues: 1, brandPromise: 1, brandStory: 1,
+  personality: 2, mood: 2, tone: 2, vision: 2, truth: 2,
+  nmLean: 3, typo: 3, density: 3, mark: 3, iconConcept: 3, accent: 3, references: 3, avoid: 3,
+  touchpoints: 4, svc_website: 4, svc_content: 4, svc_ads: 4, svc_print: 4, svc_timeline: 4,
 };
 const CHAPTERS = [
   { n: "01", t: "Who you are" },
-  { n: "02", t: "How it should feel" },
-  { n: "03", t: "What it looks like" },
-  { n: "04", t: "Where it lives" },
+  { n: "02", t: "What you stand for" },
+  { n: "03", t: "How it should feel" },
+  { n: "04", t: "What it looks like" },
+  { n: "05", t: "Where it lives" },
 ];
 
 // host notes — appear after answering certain steps
