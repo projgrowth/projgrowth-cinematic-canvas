@@ -1,93 +1,68 @@
 
-# Site-wide Visual & Responsive Cleanup Plan
+## What a senior designer/engineer would flag
 
-## Audit findings
+After auditing `src/index.css`, all 14 pages, and 35+ components, the foundation is genuinely solid (fluid type scale, section primitives, semantic tokens). The issues that read as "almost-premium" rather than premium are:
 
-After reading `index.css`, `tailwind.config.ts`, `Home.tsx`, and scanning every page/component, the system is *almost* there but inconsistent in practice. The fluid tokens exist — they just aren't being used.
+1. **Heading scale is inconsistent.** The global clamp gives every `h2`/`h3` a tasteful size, but ~20 components still hard-override with `text-2xl md:text-3xl`, `text-4xl md:text-5xl`, `text-5xl md:text-8xl`. CaseStudyCard, BentoCaseStudyCard, FeaturedWorkSlider, TestimonialsCarousel, ProcessTimeline, CaseStudySheet, ErrorBoundary, two service pages — they all fight the design system.
+2. **Two competing card styles.** `SurfaceCard` exists, but Home/About/Services still hand-roll `bg-surface rounded-lg border border-line p-6 md:p-8 hover:border-accent/30`. Cards have ~3 different border-radii (`rounded-md`, `rounded-lg`, `rounded-2xl`) and 4 different hover treatments across the site.
+3. **Hero CTA pattern is duplicated raw.** Home, Services, Contact, service sub-pages each inline the same `h-12 px-8 border border-accent ...` link instead of using the new `<Button variant="cta">`. Visual drift is guaranteed.
+4. **Atmospheric glow is copy-pasted ~6 times** with slightly different stops/opacity. It should be one `<AmbientGlow variant="..." />` so the lighting reads consistent across pages.
+5. **Discovery.tsx is 1,113 lines.** It's a single monolithic file holding state machine, copy, mockup composition, PDF trigger, and UI for every step. Hard to evolve. Needs a light split, not a rewrite.
+6. **MultiStepContactForm.tsx is 582 lines** with inline validation, step UI, and submit logic mixed together. Same problem, smaller scope.
+7. **Spacing micro-inconsistencies.** A handful of pages still use `mb-12`, `mb-16`, `mt-12`, `gap-y-10` instead of the `--header-mb`/`--gap-cards` tokens — small but visible at 1440px+.
+8. **Color polish.** Accent is used at 5+ opacities (`/5`, `/10`, `/20`, `/30`, `/40`) ad-hoc. A senior would lock to 3 (`/10` surface tint, `/20` border, `/30` hover-border) and remove the rest.
+9. **Borders read flat.** `--line` at `240 5% 16%` against `--surface` at `240 5% 10%` is only 6% delta. On a 4K display the cards look like floating rectangles with no edge. A 1px inner highlight (`box-shadow: inset 0 1px 0 hsl(var(--text)/0.04)`) would add the "expensive" glass quality the rest of the site is reaching for.
+10. **No real motion language.** Components mix `duration-200`, `duration-300`, `duration-sm`, `duration-md`, custom `framer-motion` easings. Should be one easing curve, three durations, used everywhere.
 
-**Issues found**
-
-1. **Token bypass.** Pages hardcode `py-16 md:py-24 lg:py-32`, `mb-16`, `gap-8`, `px-8 py-4`, `mb-12`, etc., instead of the fluid `--space-*` / `--section-py-*` tokens that already exist in `index.css`. This is why the site feels different at every breakpoint — every page invented its own scale.
-2. **Heading scales duplicated 25+ times.** Variants like `text-3xl md:text-4xl lg:text-7xl`, `text-4xl md:text-6xl lg:text-8xl`, `text-5xl lg:text-7xl` are scattered across pages. Some H1s jump from 32→72→128 px (`text-4xl md:text-6xl lg:text-8xl`) which feels jarring on mid-size laptops (1024–1280). The base `h1`/`h2`/`h3` clamps are already defined but pages override them.
-3. **Button styles re-implemented inline** in nearly every page (Home, Contact, Services, Work, CaseStudyDetail) with slightly different padding (`px-8 py-4` vs `px-6 py-3`) and hover behaviors. There's no shared `<Button>` primitive being used for primary/secondary CTAs even though shadcn `button` exists.
-4. **Card styling repeated.** `p-6 bg-surface rounded-lg border border-line` and `p-8 bg-surface rounded-lg border border-line` are duplicated in Home, Services, About, Contact, Privacy with subtle variations.
-5. **Grid column counts inconsistent.** Some sections use `grid-cols-1 md:grid-cols-2 lg:grid-cols-4`, others `grid grid-cols-1 md:grid-cols-2 gap-8`, others the `.grid-12` system. No rule for when to use which.
-6. **Container too narrow on ultra-wide.** `--container-max: min(1200px, 90vw)` caps content at 1200 except above 1800 px. Between 1400–1800 px the site looks small and floaty.
-7. **Hero min-heights** (`min-h-[80vh] lg:min-h-[90vh]`) cause large empty areas on short laptops (e.g., 1280×720) — content sits awkwardly low.
-8. **Section rhythm.** Long pages use `py-24` for every section, no variation between intro/dense/breather sections, so everything feels equally weighted.
-9. **Discovery v3** uses its own dark token (`#0a0f14`) instead of `hsl(var(--base))` — close but not identical. Should be aligned.
-10. **Mobile gutters** drop to `1rem` (16 px) via Tailwind container, but `.container-site` uses fluid `clamp(1.5rem, 4vw, 6.25rem)` — two containers, two rules.
+Given a ~10-call budget, I'm proposing three surgical passes, not a refactor.
 
 ---
 
-## Strategy: Two-Pass Refactor
+## Pass 1 — Visual polish (1 call, global)
 
-### Pass 1 — Foundation (tokens + primitives, no page edits)
+Edit `src/index.css` only:
 
-**1.1 Tighten the design tokens in `index.css`**
-- Add a 1440 px container tier: `--container-max: min(1320px, 92vw)` and bump to 1480 px ≥1800.
-- Add semantic section presets: `.section` (default `py-[var(--section-py-md)]`), `.section-sm`, `.section-lg`, `.section-hero` (with min-height capped at `min(90vh, 880px)` to fix short-laptop hero).
-- Add header rhythm helper: `.section-header { margin-bottom: var(--header-mb); max-width: 65ch; }`.
-- Tighten H1 clamp range: from `clamp(2rem, 4vw + 1rem, 4.5rem)` → `clamp(2.25rem, 3.2vw + 1.25rem, 4.25rem)` (smoother mid-range, no giant jump at lg).
-- Add `.eyebrow` (uppercase tracked label) and `.lede` (large intro paragraph) text recipes.
+- Add `--line` lift: bump from `240 5% 16%` to `240 5% 18%` and add a global `.surface-card` recipe with the 1px inner highlight + standardized hover state (border to accent/25, subtle accent glow).
+- Tighten accent opacity scale: define `--accent-tint`, `--accent-border`, `--accent-border-hover` CSS vars so future code references one token.
+- Lock motion: redefine `--duration-sm`/`--duration-md` values, ensure `--ease` is the single curve. Add `.hover-lift` utility used by all interactive cards.
+- Standardize radii usage by aliasing `.card { border-radius: var(--radius-lg); }`.
+- Fix the heading override problem at the source: add `.font-display` resets so a heading inside `.font-display` inherits the global clamp instead of being shrunk by sibling text-* classes (use `:where()` to keep specificity low, then we strip the overrides in Pass 2).
 
-**1.2 Add primitive components**
-- `src/components/ui/Section.tsx` — `<Section size="sm|md|lg|hero" bleed?>` wrapping `container-site` with consistent vertical rhythm + optional radial-glow background slot.
-- `src/components/ui/SectionHeader.tsx` — `<SectionHeader eyebrow title lede align>` — replaces the 15+ duplicated `<div className="mb-16"><h2…><p…></div>` blocks.
-- `src/components/ui/Card.tsx` — `<Card variant="surface|outline|elevated" interactive?>` — replaces all `p-6 bg-surface rounded-lg border border-line` repeats.
-- Adopt shadcn `<Button>` with two project-specific variants: `cta` (outlined emerald, current Home style) and `ghost-link` (text+arrow). Centralize the `min-h-[44px]` touch target there.
+## Pass 2 — Strip overrides + adopt primitives (1 call, sed + targeted edits)
 
-**1.3 Tailwind config touch-ups**
-- Add `maxWidth: { prose: '65ch', readable: '72ch', wide: '1480px' }`.
-- Add `screens: { xs: '480px' }` so we stop using arbitrary `min-w-[480px]` checks.
-- No new colors — palette is already correct.
+- One `sed` sweep across `src/components` and `src/pages` to remove the 20 remaining `text-2xl md:text-3xl`, `text-3xl md:text-4xl`, `text-4xl md:text-5xl`, `text-5xl md:text-8xl`, `text-6xl` overrides from elements that already carry `font-display` or are `<h1>`–`<h3>`. (Decorative giant numerals on CaseStudyCard/BentoCard keep their size — those are graphic, not text.)
+- Replace the inline hero CTA pattern in `Home.tsx`, `Services.tsx`, `Contact.tsx`, and the four service pages with `<Button variant="cta">`. ~7 small edits.
+- Convert remaining hand-rolled card divs in `Home.tsx` (services + differentiators), `About.tsx`, `Services.tsx` to `<SurfaceCard>`.
+- Replace ad-hoc `mb-12`/`mb-16`/`gap-y-10` instances with `section-header` / `gap-cards` tokens.
 
-**Deliverable of Pass 1:** all primitives compile and are usable. Site is unchanged visually.
+## Pass 3 — Structural tidy (1 call)
 
----
+- Extract one tiny `<AmbientGlow />` component and swap the 6 inline radial-gradient `<div>`s for it (Home hero, About, Services, Contact, Work, Discovery shell).
+- Split `Discovery.tsx` minimally: pull the step copy/data array into `src/pages/discovery/steps.ts` and the success/thanks screen into `src/pages/discovery/ThanksScreen.tsx`. Don't touch state logic. Drops the file from 1,113 to ~500 lines without behavior change.
 
-### Pass 2 — Apply primitives across every page
-
-Mechanical sweep, one page at a time, in this order: `Home → Services → Work → CaseStudyDetail → About → Contact → Blog → BlogPost → Privacy → Terms → NotFound → Discovery → AdminLeads → service detail pages`.
-
-For each page:
-
-| Replace | With |
-|---|---|
-| `<section className="container-site py-24">` | `<Section size="md">` |
-| `<section className="… py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh]">` | `<Section size="hero">` |
-| `<div className="mb-16"><h2…>Title</h2><p…>Lede</p></div>` | `<SectionHeader title="Title" lede="Lede" />` |
-| `<h2 className="font-display text-3xl lg:text-4xl text-text mb-4">` | `<h2>` (let the global clamp handle it) |
-| `<h1 className="font-display text-4xl md:text-6xl lg:text-8xl …">` | `<h1>` (clamp handles it) |
-| `<div className="p-6 bg-surface rounded-lg border border-line">` | `<Card>` |
-| Inline button `<Link className="… px-8 py-4 border border-accent …">` | `<Button asChild variant="cta">` |
-| `gap-8`, `mb-16`, `mb-12`, `mt-12` | `gap-cards`, `mb-header`, etc. (utility classes mapped to tokens) |
-
-**Specific fixes during the sweep:**
-- **Home hero**: remove the `text-4xl md:text-6xl lg:text-8xl` triple-jump; rely on global H1. Cap hero min-height at 880 px so 1280×720 laptops don't show empty space.
-- **Services / Work / About**: collapse to one consistent grid recipe — `grid sm:grid-cols-2 lg:grid-cols-4 gap-cards` for 4-up, `lg:grid-cols-3` for 3-up. No more bespoke breakpoints per page.
-- **Discovery**: swap the hardcoded `#0a0f14` for `hsl(var(--base))` and mount inside `<Section size="lg">` so vertical rhythm matches the rest of the site.
-- **Footer & Navigation**: align horizontal padding to the same `--gutter-fluid` as `container-site` (currently uses Tailwind container with different breakpoint padding).
-- **CaseStudyDetail**: long page that currently feels uniform — apply `size="sm"` to the metadata band, `size="md"` to body, `size="lg"` to next-case CTA.
+Skipping in this budget (call out for a future sweep): MultiStepContactForm split, NavigationGuide consolidation, removing the lingering `Portfolio.tsx`/`NavigationGuide.tsx`/`ScrollProgress.tsx` deprecated components flagged in `mem://design/minimalist-refinement-and-noise-reduction`.
 
 ---
 
-## Out of scope
+## Technical notes
 
-- No new color palette, no logo changes, no copywriting changes.
-- No animation rework beyond what falls out of using `<Section>` (which can wrap children in `ScrollReveal` optionally).
-- No new dependencies.
+- Token additions to `index.css`:
+  ```css
+  --accent-tint: hsl(var(--accent) / 0.08);
+  --accent-border: hsl(var(--accent) / 0.20);
+  --accent-border-hover: hsl(var(--accent) / 0.35);
+  --inner-highlight: inset 0 1px 0 hsl(var(--text) / 0.04);
+  ```
+- `.surface-card` recipe centralizes: `bg-surface`, `border border-line`, `rounded-[var(--radius-lg)]`, `shadow-[var(--inner-highlight)]`, hover transitions to accent border + soft glow.
+- `:where(h1,h2,h3).font-display` reset uses `:where()` for 0 specificity so we don't have to ! override anything.
+- AmbientGlow takes `position` (`hero` | `top-right` | `center`) and `intensity` props mapping to the existing gradient stops.
 
-## Acceptance criteria
+## Files touched (estimated)
 
-1. Zero remaining occurrences of hardcoded `py-24`, `py-32`, `mb-16`, `text-4xl md:text-6xl lg:text-8xl` in pages (grep clean).
-2. Every page section uses `<Section>` or `<SectionHeader>` primitives.
-3. Every CTA uses the shared `<Button variant="cta">` or `<Button variant="ghost-link">`.
-4. Site looks visually consistent across viewports: 360, 768, 1024, 1280, 1440, 1920 px — verified by screenshot QA after Pass 2.
-5. Hero on 1280×720 no longer shows a tall empty band below the buttons.
-6. Discovery tool background is identical to the rest of the site (same dot grid + base color).
-7. No regressions to Discovery v3 logic, AdminLeads auth, or backend behavior.
+- Pass 1: `src/index.css`
+- Pass 2: ~12 files via sed + ~8 small manual edits (Home, About, Services, Contact, 4 service pages)
+- Pass 3: `src/components/AmbientGlow.tsx` (new), `src/pages/discovery/steps.ts` (new), `src/pages/discovery/ThanksScreen.tsx` (new), `src/pages/Discovery.tsx` (slim), 6 pages updated to use AmbientGlow
 
-## Risk / rollback
+## Outcome
 
-Pass 1 is purely additive — safe. Pass 2 is mechanical find-and-replace per page, easily reverted page-by-page if a layout breaks. Will commit logically (one page per commit-equivalent edit batch) so individual pages can be rolled back.
+Cards feel embossed and consistent, headings finally trust the fluid scale, accent color reads intentional rather than scattered, motion is unified, and Discovery becomes maintainable — all within the remaining token budget, with no behavioral regressions.

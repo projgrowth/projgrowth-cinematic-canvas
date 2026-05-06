@@ -3,13 +3,13 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const surfaceCardVariants = cva(
-  "rounded-lg border transition-all duration-300 ease-smooth",
+  "surface-card",
   {
     variants: {
       variant: {
-        surface: "bg-surface border-line",
-        outline: "bg-transparent border-line",
-        elevated: "bg-surface border-line shadow-elegant",
+        surface: "",
+        outline: "!bg-transparent",
+        elevated: "shadow-elegant",
       },
       pad: {
         sm: "p-5",
@@ -17,7 +17,7 @@ const surfaceCardVariants = cva(
         lg: "p-7 md:p-9",
       },
       interactive: {
-        true: "hover:border-accent/30 hover:-translate-y-0.5 hover:shadow-glow-accent",
+        true: "hover-lift",
         false: "",
       },
     },

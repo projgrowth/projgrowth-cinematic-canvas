@@ -46,7 +46,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
             <span className="text-xs text-accent uppercase tracking-wider mb-3 block">
               {caseStudy.categories.join(" • ")}
             </span>
-            <SheetTitle className="font-display text-4xl text-text mb-3">
+            <SheetTitle className="font-display text-text mb-3">
               {caseStudy.title}
             </SheetTitle>
             <p className="text-lg text-mute">
@@ -114,7 +114,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
               <Link
                 to="/contact"
                 state={{ service: caseStudy.category }}
-                className="inline-flex items-center gap-2 px-6 py-3 border border-accent text-accent rounded-md hover:bg-accent/10 transition-colors group w-full justify-center"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-accent text-accent rounded-md hover:bg-accent hover:text-primary-foreground transition-colors duration-sm group w-full justify-center font-medium min-h-[44px]"
               >
                 Let's talk
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
