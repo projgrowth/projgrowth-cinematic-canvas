@@ -46,6 +46,16 @@ const AXES: [string,string,string,string,string,string,string][] = [
 const AVOIDS = ["Generic / clip art","Overly complex","Cold / corporate","Too casual","Trendy (dates quickly)","Religious imagery","Political imagery","Too abstract","Overcrowded"];
 const TRUTH = ["Must feel premium","Must feel approachable","Must feel timeless","Must feel distinctive","Must work at any size","Must be bold","Must be subtle","Must age gracefully","Must stand alone from NM"];
 
+const BRAND_VALUES = ["Trust","Growth","Legacy","Independence","Discipline","Clarity","Optimism","Community","Craft","Innovation"];
+const ICON_CONCEPTS = [
+  { v: "geometric",  l: "Geometric / architectural", d: "Structured shapes, clear lines." },
+  { v: "natural",    l: "Natural / organic",          d: "Botanical, leaf, growth motifs." },
+  { v: "abstract",   l: "Abstract symbol",            d: "Distilled, conceptual mark." },
+  { v: "monogram",   l: "Initials / monogram",        d: "Your initials as the icon." },
+  { v: "heritage",   l: "Heritage emblem",            d: "Crest, seal, badge feel." },
+  { v: "open",       l: "Not sure — surprise me",     d: "We'll explore based on your other answers." },
+];
+
 const REFS = [
   { id: "goldman",  label: "Goldman Sachs",   takeaway: "Restrained serif authority — luxury without shouting." },
   { id: "vanguard", label: "VANGUARD",        takeaway: "Single bold word, blood-red gravitas, zero ornament." },
