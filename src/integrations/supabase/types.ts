@@ -112,34 +112,46 @@ export type Database = {
       }
       discovery_submissions: {
         Row: {
+          confidence: string | null
           created_at: string
           email: string
           email_sent: boolean | null
+          engagement_tier: string | null
           full_name: string
           generated_brief: string | null
           id: string
           practice_name: string | null
+          reference_image_urls: string[] | null
           responses: Json
+          services: string[] | null
         }
         Insert: {
+          confidence?: string | null
           created_at?: string
           email: string
           email_sent?: boolean | null
+          engagement_tier?: string | null
           full_name: string
           generated_brief?: string | null
           id?: string
           practice_name?: string | null
+          reference_image_urls?: string[] | null
           responses: Json
+          services?: string[] | null
         }
         Update: {
+          confidence?: string | null
           created_at?: string
           email?: string
           email_sent?: boolean | null
+          engagement_tier?: string | null
           full_name?: string
           generated_brief?: string | null
           id?: string
           practice_name?: string | null
+          reference_image_urls?: string[] | null
           responses?: Json
+          services?: string[] | null
         }
         Relationships: []
       }
