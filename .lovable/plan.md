@@ -1,116 +1,119 @@
 
-## Root cause of the visual chaos
+## What I found in this audit
 
-I found the smoking gun. Look at `tailwind.config.ts` lines 67–80:
+Eight specific systemic noise sources, with counts:
 
-```ts
-spacing: {
-  '2xs': 'var(--space-2xs)',
-  '2': 'var(--space-2)',   // clamp(16px → 24px)
-  '3': 'var(--space-3)',   // clamp(24px → 36px)
-  '4': 'var(--space-4)',   // clamp(32px → 48px)
-  '6': 'var(--space-6)',   // clamp(48px → 80px)  ← !!!
-  '8': 'var(--space-8)',   // clamp(64px → 128px) ← !!!
-}
-```
+1. **25 heading overrides remain.** Most are giant decorative numerals on cards (`text-5xl md:text-8xl`) — those are graphic intentional. But ~10 are structural h3s inside cards that should ride the global clamp: service-page step titles (`font-display text-xl`), CaseStudyCard h3 (`text-xl md:text-2xl`), ProcessTimeline (`text-xl md:text-2xl`), BentoCaseStudyCard h3 (`text-lg md:text-xl lg:text-2xl`).
+2. **23 hand-rolled card divs** still write `bg-surface ... border-line ... rounded-lg` instead of `.surface-card` / `<SurfaceCard>`. Result: subtle radius/shadow differences card-to-card.
+3. **12 inline anchor "buttons"** with `px-8 py-4 bg-accent text-primary-foreground rounded-md` instead of `<Button variant>`. Across Home, NotFound, CaseStudyDetail, GlobalCTA, ErrorBoundary, all 4 service pages, MultiStepContactForm, Work.
+4. **15 different accent/mute opacity tokens** (`/10 /20 /30 /40 /50 /60 /80`). For decorative numerals alone we have `/10 /20 /30 /40 /50` — that single graphic device is rendered 5 different ways.
+5. **`leading-relaxed`, `tracking-tight`** sprinkled in service pages — body text already has line-height baked into the global clamp. These overrides cause subtle vertical-rhythm wobble between sections.
+6. **`font-medium`** added inline 9 times on buttons that already get medium from the Button variant — no-op noise.
+7. **MobileNav SheetTitle** uses `text-2xl font-medium tracking-tight` — h2 in a sheet should match the global h2 clamp.
+8. **Contrast risk:** `text-mute/30`, `text-mute/40` on cards. `--mute` is already 55% lightness on a 6%-lightness base; reducing it to 30% opacity means it's ~22% effective lightness on dark — well below WCAG AA for body text. Safe for graphic numerals (decorative), unsafe if used for actual content.
 
-Tailwind's default scale has `p-6 = 1.5rem (24px)`, `gap-8 = 2rem (32px)`, `mb-3 = 0.75rem (12px)`. **We overrode those numeric keys to point at our fluid section-scale tokens.** That means every single `p-6`, `mb-8`, `gap-4`, `mb-3` written across the codebase is rendering at 2–4× the intended size.
-
-Concrete example from your screenshot (Home services row):
-- `<div className="stack gap-6 md:gap-8">` — author wanted 24px / 32px gap. Actually rendering **48–80px / 64–128px**.
-- `mb-3` on the H2 — author wanted 12px. Actually **24–36px**.
-- `p-6 md:p-8` on cards — author wanted 24/32px padding. Actually **48–80px / 64–128px** padding.
-
-That is why the cards look like they're floating in voids, the section header has a giant gap below it, and the right column starts so far down the page. Every page is affected; you just notice it most where there are dense card grids.
-
-Other systemic interference I confirmed:
-
-1. **Pill/badge styles invented 6 times** with different paddings, opacities, borders. Locations: `Blog.tsx:139`, `BlogPost.tsx:253`, `CaseStudyDetail.tsx:102`, `BentoCaseStudyCard.tsx:131`, `AdminLeads.tsx:202–203`, `Blog.tsx:93` (filter chips). `src/components/ui/badge.tsx` exists but nobody uses it.
-2. **Three competing radii**: `rounded-md` (12px from `--radius-md`), `rounded-lg` (24px from `--radius-lg`), `rounded-2xl`/`rounded-xl` (Tailwind defaults — 16px/12px) used interchangeably. Cards on Home use `rounded-lg`, contact tiles use `rounded-lg` but at totally different sizes than CaseStudyDetail.
-3. **Two duration vocabularies**: `duration-sm/md` (custom) and `duration-200/300/500` (Tailwind defaults) coexist in the same files. Same for easing — `ease-smooth` vs framer-motion bezier vs default `ease`.
-4. **BackToTop arrow** is floating over content in your screenshot (bottom-right). It's appearing too eagerly and overlapping cards.
-5. **Container double-payload**: `tailwind.config.ts` defines a `container` plugin (lines 8–25) we don't use, but its presence pollutes IDE autocomplete and risks a future page using `container` instead of `container-site` and getting different padding.
-6. **Hero CTA on Home** uses `gap-4` between buttons → renders at 32–48px instead of the expected 16px, making the two CTAs feel disconnected.
+The previous passes locked container/section/spacing/pill vocabularies. This pass locks **typography, color, and component recipes** with the same discipline.
 
 ---
 
-## The fix — three surgical changes
+## The unified system (one source of truth)
 
-### 1. Untangle the spacing scale (the big one)
+### Type scale — three sizes only (already in `index.css`)
 
-In `tailwind.config.ts`, **remove the numeric overrides** (`'2'`–`'8'`, `'3xl'`, `'4xl'`) and only expose the fluid tokens under unambiguous semantic names:
-
-```ts
-spacing: {
-  // Restore Tailwind defaults for p-1..p-8, gap-1..gap-8, mb-1..mb-8, etc.
-  // Fluid section/layout tokens — accessed via dedicated names only:
-  'section-sm': 'var(--space-5)',
-  'section':    'var(--space-6)',
-  'section-lg': 'var(--space-8)',
-  'gutter':     'var(--gutter-fluid)',
-  'cards':      'var(--gap-cards)',
-  'header':     'var(--header-mb)',
-}
-```
-
-That single change restores `p-6 = 24px`, `mb-3 = 12px`, `gap-8 = 32px` everywhere — instantly fixing the "floating in a void" look without touching a single page file. The fluid tokens stay reachable as `gap-cards`, `mb-header`, `py-section`, etc., which is how `index.css` already uses them via the `.section` recipes.
-
-### 2. One pill, one badge, one chip
-
-Add three locked recipes to `index.css`:
-
-```css
-.pill-accent  { /* px-3 py-1 text-xs uppercase tracking-wider accent on tint border accent/20 rounded-full */ }
-.pill-neutral { /* same metrics, surface bg, mute text, line border */ }
-.chip-filter  { /* px-4 py-2 text-sm rounded-full, active=accent fill, idle=line border */ }
-```
-
-Then sweep the 6 hand-rolled pill instances to use these classes. Result: every category tag, every "Featured" badge, every engagement-tier label is pixel-identical across pages.
-
-### 3. Lock radius and motion vocabularies
-
-- In `index.css` add `--radius-card: var(--radius-lg)` and update the `.surface-card` recipe (already added in the previous pass) to use it. Standardize all card-like components on `rounded-card` (add as a Tailwind alias).
-- Sweep all `duration-200|300|500` → `duration-sm|md` (custom tokens) and `ease-out|in-out` → `ease-smooth` via `sed` so motion timing reads as one language.
-- Remove the unused `container` plugin block from `tailwind.config.ts` to prevent regression.
-
-### Per-page container/spacing rules (codified)
-
-After the spacing fix, the rules every page already sort-of follows become enforceable:
-
-| Surface | Token / class | Value |
+| Element | Token | Range |
 |---|---|---|
-| Page outer | `container-site` | max 1320px / 92vw, fluid gutter |
-| Section vertical rhythm | `.section` / `.section-sm` / `.section-lg` | fluid clamps |
-| Hero | `.section-hero` | min(86vh, 880px) |
-| Section header bottom margin | `mb-header` | clamp(32→64px) |
-| Card grid gap | `gap-cards` | clamp(24→40px) |
-| Card padding | `p-6 md:p-8` | **24/32px** (after fix) |
-| Card radius | `rounded-card` | 24px |
-| Pills | `.pill-accent` / `.pill-neutral` | one definition |
-| Filter chips | `.chip-filter` | one definition |
-| Buttons | `<Button variant=…>` only | no inline anchors |
-| Heading sizes | global clamp on `h1/h2/h3` | no `text-Xxl` overrides |
-| Motion | `duration-sm|md`, `ease-smooth` | the only allowed values |
+| Display / Hero | `<h1>` | clamp(36 → 68px) |
+| Section | `<h2>` | clamp(26 → 44px) |
+| Card / Subhead | `<h3>` | clamp(18 → 26px) |
+| Lede / Intro | `.lede` | clamp(16 → 20px) |
+| Body | (default) | clamp(14 → 18px) |
+| Eyebrow | `.eyebrow` | clamp(11 → 13px), uppercase, +0.18em |
+| Decorative numeral | `.numeral-display` (new) | clamp(36 → 80px), accent at fixed `--accent-faint` |
 
-### Misc cleanup in same pass
-- BackToTop: add `bottom-8 right-8` and only show after 600px scroll (currently appears too early and overlaps content).
-- Remove dead `tailwind.config` `container` plugin block.
-- Audit `Home.tsx` hero CTA gap `gap-4` → after spacing fix this becomes 16px naturally.
+**Rule:** any `<h1|h2|h3|h4>` with `font-display` MUST NOT carry `text-Xxl`. Decorative giant numbers use the new `.numeral-display` recipe — locked size, locked color, locked weight.
+
+### Color tokens — locked opacity ladder
+
+Add to `:root`:
+```css
+--accent-faint:  hsl(var(--accent) / 0.15);  /* decorative numerals, glows */
+--accent-soft:   hsl(var(--accent) / 0.30);  /* hover hints */
+--accent-strong: hsl(var(--accent) / 0.60);  /* secondary accent text */
+--text-strong:   hsl(var(--text));            /* primary copy */
+--text-muted:    hsl(var(--mute));            /* secondary copy */
+--text-faint:    hsl(var(--mute) / 0.65);     /* min for non-essential meta */
+```
+
+**Rule:** never write `text-accent/27`, `text-mute/40` etc. Pick from `text-text-strong | text-text-muted | text-text-faint | text-accent | text-accent-strong`. Eight Tailwind aliases mapped to those vars.
+
+### Weight, leading, tracking
+
+- Weight: only `font-normal` (default body) and `font-medium` (display/UI). Drop `font-semibold`, `font-bold`, etc. except where shadcn primitives need them.
+- Leading: never inline. Body and headings get correct line-height from global CSS.
+- Tracking: only via `.eyebrow` recipe. No more inline `tracking-tight | tracking-wider`.
+
+### Spacing rhythm (already locked, restating for clarity)
+
+- Section vertical: `<Section size="sm|md|lg|hero">` only.
+- Section header → next element: always `mb-header` (clamp 32→64px). No more raw `mb-12`/`mb-16`.
+- Card grid gap: always `gap-cards` (clamp 24→40px).
+- Inside cards: Tailwind defaults work now (`p-6`, `gap-3`, `mb-2`).
+
+### Components — one of each
+
+| Surface | Use only | Forbidden |
+|---|---|---|
+| Section frame | `<Section>` | raw `<section className="container-site …">` |
+| Card | `<SurfaceCard>` or `.surface-card` | hand-rolled `bg-surface … border-line … rounded-lg` |
+| Button | `<Button variant>` | inline `<a className="px-8 py-4 bg-accent …">` |
+| Pill / Badge | `.pill-accent` `.pill-neutral` | hand-rolled `px-3 py-1 bg-accent/10 rounded-full …` |
+| Filter chip | `.chip-filter` | hand-rolled toggle pills |
+| Page header | `<PageHeader>` | hand-rolled `<div>` with `<h1>` + leaf |
+| Glow | `<AmbientGlow>` | inline `radial-gradient` style attrs |
+
+### Visual hierarchy (per-page contract)
+
+Every content page follows the same vertical rhythm:
+
+```text
+<Section size="hero">  ← H1 + lede + CTA cluster
+<Section>              ← H2 (eyebrow + title + lede via section-header)
+<Section>              ← supporting band (cards, list, or media)
+<LeafDivider />        ← max once per page
+<Section>              ← deeper detail / proof
+<GlobalCTA />          ← always last
+```
+
+H1 once per page, H2 starts every band, H3 inside cards. Decorative numerals never compete with H2 — capped at `--accent-faint`.
 
 ---
 
-## Files touched (estimated 4–6 calls)
+## Implementation passes (4 calls)
 
-1. `tailwind.config.ts` — remove numeric spacing overrides, add semantic names, remove container block, add `rounded-card`.
-2. `src/index.css` — add `.pill-accent`, `.pill-neutral`, `.chip-filter` recipes; add `--radius-card`.
-3. One `sed` sweep — replace 6 hand-rolled pills with `.pill-accent`/`.pill-neutral`; normalize `duration-200|300` → `duration-sm|md`.
-4. `src/components/BackToTop.tsx` — adjust offset + threshold.
-5. Spot-check & manual fix: the ~20 places that currently *intentionally* use `p-6` / `gap-8` expecting fluid behavior (mostly the new `Section` primitive and `index.css` itself — already use the CSS vars directly, so they're unaffected).
+### Pass A — token additions (1 call: `index.css` + `tailwind.config.ts`)
+- Add `--accent-faint/-soft/-strong`, `--text-strong/-muted/-faint` CSS vars.
+- Add `.numeral-display` recipe (locked clamp + `--accent-faint`).
+- Add Tailwind colors `accent-strong`, `accent-faint`, `accent-soft`, `text-strong`, `text-muted`, `text-faint` so they're class-accessible.
 
-## Risk
+### Pass B — sed sweeps (1 call)
+- `font-display text-(lg|xl|2xl)( md:text-(xl|2xl|3xl))?` on h3/h4/SheetTitle → strip the `text-*` portion (keep `font-display`).
+- `text-mute/(30|40|50|60)` on **decorative numeral spans** → `text-accent-faint` or `text-mute-faint`.
+- `text-accent/(10|15|20|30|40|50|60)` on **decorative numeral spans** → `text-accent-faint` (graphic) or `text-accent-strong` (content).
+- Strip `font-medium` from elements that already use Button variant.
+- Strip `leading-relaxed` from body paragraphs that inherit correct leading globally.
 
-The spacing change will cause a brief "things look tighter" moment site-wide — but that's the correct rendering authors intended when they wrote `p-6`. The pages with sections that actually need the giant fluid padding already use `.section` / `--space-*` vars directly in CSS, so they don't regress.
+### Pass C — component adoption (1 call, hand-edit ~8 spots)
+- Convert remaining hand-rolled cards on About, Services, Contact info-tiles → `<SurfaceCard>`.
+- Convert the 12 inline `<a>` button impostors → `<Button variant="default" asChild>` or `variant="cta" asChild`.
+- Replace `MobileNav` SheetTitle override with `<h2 className="font-display">`.
+
+### Pass D — page hierarchy QA (1 call)
+- Verify each page has exactly one `<H1>`, every `<Section>` block opens with H2 + lede via `.section-header`.
+- Verify `<LeafDivider />` appears at most once per page.
+- Verify `<GlobalCTA />` is the last element above `<Footer>` on Home, About, Services, Work, all service sub-pages, CaseStudyDetail.
+
+---
 
 ## Outcome
 
-One spacing scale (Tailwind defaults), one fluid section scale (CSS tokens with semantic names), one pill, one badge, one chip, one card radius, one motion vocabulary. The "everything looks like it's stranded on a giant black void" effect goes away because card padding and section gaps stop being 3× larger than written.
+One type scale (3 sizes), one color ladder (6 named tokens), one weight rule, one leading rule, one component for each role. Pages stop fighting the system and start trusting it — which is what makes the difference between "themed" and "designed."

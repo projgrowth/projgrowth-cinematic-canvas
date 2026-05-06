@@ -21,6 +21,14 @@
     --accent-border-hover: hsl(var(--accent) / 0.35);
     --inner-highlight: inset 0 1px 0 hsl(var(--text) / 0.04);
 
+    /* Locked color ladder — text & accent */
+    --accent-faint:  hsl(var(--accent) / 0.15);
+    --accent-soft:   hsl(var(--accent) / 0.30);
+    --accent-strong: hsl(var(--accent) / 0.60);
+    --text-strong:   hsl(var(--text));
+    --text-muted:    hsl(var(--mute));
+    --text-faint:    hsl(var(--mute) / 0.65);
+
     /* Semantic Tokens */
     --background: var(--base);
     --foreground: var(--text);
@@ -256,6 +264,18 @@
     color: hsl(var(--primary-foreground));
     background-color: hsl(var(--accent));
     border-color: hsl(var(--accent));
+  }
+
+  /* Decorative giant numerals — locked size + faint accent.
+     Use on <span> next to card titles. NEVER on actual headings. */
+  .numeral-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.25rem, 4vw + 1rem, 5rem);
+    line-height: 1;
+    color: var(--accent-faint);
+    user-select: none;
+    pointer-events: none;
   }
 
   /* Text recipes */
