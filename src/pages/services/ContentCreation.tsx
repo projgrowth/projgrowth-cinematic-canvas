@@ -187,7 +187,7 @@ const ContentCreation = () => {
                 <AccordionItem 
                   key={idx} 
                   value={`faq-${idx}`}
-                  className="bg-surface border border-line rounded-lg px-6"
+                  className="surface-card px-6"
                 >
                   <AccordionTrigger className="text-left text-text hover:text-accent">
                     {faq.question}

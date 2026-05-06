@@ -326,7 +326,7 @@ const BlogPost = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
-            <div className="mt-12 p-6 bg-surface border border-line rounded-lg">
+            <div className="mt-12 surface-card p-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
                   <User className="w-6 h-6 text-accent" />
@@ -347,7 +347,7 @@ const BlogPost = () => {
                 <h2 className="text-2xl font-medium text-text mb-8">Related Articles</h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   {relatedPosts.map((related) => (
-                    <Link key={related.id} to={`/blog/${related.slug}`} className="group p-6 bg-surface border border-line rounded-lg hover:border-accent/50 transition-colors">
+                    <Link key={related.id} to={`/blog/${related.slug}`} className="group surface-card p-6">
                       <span className="text-xs text-accent mb-2 block">{related.category}</span>
                       <h3 className="font-medium text-text group-hover:text-accent transition-colors mb-2 line-clamp-2">{related.title}</h3>
                       <span className="text-xs text-mute flex items-center gap-1">
