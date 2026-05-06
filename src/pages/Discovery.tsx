@@ -1090,7 +1090,10 @@ export default function Discovery() {
     if (!canAdvance(id, form)) return;
     const note = HOST_NOTES[id]?.(form);
     if (note && note !== hostNote) setHostNote(note);
-    if (step < plan.length - 1) { setStep(s => s + 1); return; }
+    // skip iconConcept if user picked wordmark-only
+    let next = step + 1;
+    while (next < plan.length && plan[next] === "iconConcept" && form.mark === "wordmark") next++;
+    if (next < plan.length) { setStep(next); return; }
     setPhase("reveal");
   };
 
