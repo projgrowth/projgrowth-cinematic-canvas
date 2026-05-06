@@ -1,144 +1,93 @@
 
-# Discovery v3 — "Vision Session"
+# Site-wide Visual & Responsive Cleanup Plan
 
-Reimagine `/discovery` so it stops feeling like a form and starts feeling like a guided creative session. Three goals:
+## Audit findings
 
-1. **Match the site aesthetic** — cinematic dark canvas, dot-grid texture, soft radial glows, Outfit headings, emerald + NM-blue dual-accent system.
-2. **Cast the vision with high-fidelity mockups** — every aesthetic choice shown rendered onto realistic surfaces (business card, laptop browser, phone, signage, social avatar) with their actual DBA name, in real time.
-3. **Feel personal & interactive** — conversational copy, a named "host," progressive reveals, micro-animations, a running "Vision Board" the prospect builds for themselves, and a closing reveal that sells them on their own answers.
+After reading `index.css`, `tailwind.config.ts`, `Home.tsx`, and scanning every page/component, the system is *almost* there but inconsistent in practice. The fluid tokens exist — they just aren't being used.
 
----
+**Issues found**
 
-## 1. Aesthetic overhaul (whole `Discovery.tsx`)
-
-Replace the white/system-ui look with the site's language:
-
-- Background: `#0a0f14` base + repeating dot grid + two soft radial emerald glows (top-left) and NM-blue glow (bottom-right). Same texture system used elsewhere on the site.
-- Typography: `Outfit` for all headings (already loaded), `Inter` for body. Numbered step labels in muted emerald (`hsl(155 42% 49%)`), question headlines large (text-3xl/4xl on desktop).
-- Surface cards: `rgba(255,255,255,0.03)` with `0.5px` border `rgba(255,255,255,0.08)`, soft inner highlight on selection (NM blue 1.5px ring + faint emerald glow).
-- Accents: NM Blue for "selected / locked / compliance," emerald for "your progress / your vision." Two-color system reinforces *NM-compliant + ProjGrowth-crafted*.
-- Motion: framer-motion route + step transitions (fade + 8px y-rise, 250ms), tile selection scale 0.98→1, progress bar gradient sweep.
-- Mobile: collapse to single column, larger 44px touch targets, sticky bottom Continue button.
-
-A new `DiscoveryShell` wraps every screen with the dot-grid + glow + max-w container, so the experience reads as one continuous canvas instead of a stack of forms.
+1. **Token bypass.** Pages hardcode `py-16 md:py-24 lg:py-32`, `mb-16`, `gap-8`, `px-8 py-4`, `mb-12`, etc., instead of the fluid `--space-*` / `--section-py-*` tokens that already exist in `index.css`. This is why the site feels different at every breakpoint — every page invented its own scale.
+2. **Heading scales duplicated 25+ times.** Variants like `text-3xl md:text-4xl lg:text-7xl`, `text-4xl md:text-6xl lg:text-8xl`, `text-5xl lg:text-7xl` are scattered across pages. Some H1s jump from 32→72→128 px (`text-4xl md:text-6xl lg:text-8xl`) which feels jarring on mid-size laptops (1024–1280). The base `h1`/`h2`/`h3` clamps are already defined but pages override them.
+3. **Button styles re-implemented inline** in nearly every page (Home, Contact, Services, Work, CaseStudyDetail) with slightly different padding (`px-8 py-4` vs `px-6 py-3`) and hover behaviors. There's no shared `<Button>` primitive being used for primary/secondary CTAs even though shadcn `button` exists.
+4. **Card styling repeated.** `p-6 bg-surface rounded-lg border border-line` and `p-8 bg-surface rounded-lg border border-line` are duplicated in Home, Services, About, Contact, Privacy with subtle variations.
+5. **Grid column counts inconsistent.** Some sections use `grid-cols-1 md:grid-cols-2 lg:grid-cols-4`, others `grid grid-cols-1 md:grid-cols-2 gap-8`, others the `.grid-12` system. No rule for when to use which.
+6. **Container too narrow on ultra-wide.** `--container-max: min(1200px, 90vw)` caps content at 1200 except above 1800 px. Between 1400–1800 px the site looks small and floaty.
+7. **Hero min-heights** (`min-h-[80vh] lg:min-h-[90vh]`) cause large empty areas on short laptops (e.g., 1280×720) — content sits awkwardly low.
+8. **Section rhythm.** Long pages use `py-24` for every section, no variation between intro/dense/breather sections, so everything feels equally weighted.
+9. **Discovery v3** uses its own dark token (`#0a0f14`) instead of `hsl(var(--base))` — close but not identical. Should be aligned.
+10. **Mobile gutters** drop to `1rem` (16 px) via Tailwind container, but `.container-site` uses fluid `clamp(1.5rem, 4vw, 6.25rem)` — two containers, two rules.
 
 ---
 
-## 2. Hi-fi mockup system (new `src/pages/discovery/mockups/`)
+## Strategy: Two-Pass Refactor
 
-Replace the small inline 68px tiles with a reusable `<Mockup variant="…" form={form} name={dba} />` component family rendered in **SVG** (crisp, fast, no images needed). Variants:
+### Pass 1 — Foundation (tokens + primitives, no page edits)
 
-- `BusinessCard` — front + back, NM lockup top-left, DBA lockup centered, accent rule.
-- `LaptopBrowser` — Mac-style chrome, hero with DBA wordmark + tagline, NM compliance footer.
-- `Phone` — IG/LinkedIn profile with circular avatar derived from mark + accent, bio uses their pitch.
-- `OfficeSignage` — exterior wall sign on dark concrete photo gradient, dimensional letters.
-- `EmailSignature` — realistic Gmail thread mock with their lockup at the bottom.
-- `SocialPost` — square card with emerald accent bar + DBA wordmark + their actual `vision` line.
+**1.1 Tighten the design tokens in `index.css`**
+- Add a 1440 px container tier: `--container-max: min(1320px, 92vw)` and bump to 1480 px ≥1800.
+- Add semantic section presets: `.section` (default `py-[var(--section-py-md)]`), `.section-sm`, `.section-lg`, `.section-hero` (with min-height capped at `min(90vh, 880px)` to fix short-laptop hero).
+- Add header rhythm helper: `.section-header { margin-bottom: var(--header-mb); max-width: 65ch; }`.
+- Tighten H1 clamp range: from `clamp(2rem, 4vw + 1rem, 4.5rem)` → `clamp(2.25rem, 3.2vw + 1.25rem, 4.25rem)` (smoother mid-range, no giant jump at lg).
+- Add `.eyebrow` (uppercase tracked label) and `.lede` (large intro paragraph) text recipes.
 
-All mockups read from a single `BrandSpec` derived from the form (mood + typo + density + tone + mark + accent + nmLean + dbaName). One source of truth, six surfaces.
+**1.2 Add primitive components**
+- `src/components/ui/Section.tsx` — `<Section size="sm|md|lg|hero" bleed?>` wrapping `container-site` with consistent vertical rhythm + optional radial-glow background slot.
+- `src/components/ui/SectionHeader.tsx` — `<SectionHeader eyebrow title lede align>` — replaces the 15+ duplicated `<div className="mb-16"><h2…><p…></div>` blocks.
+- `src/components/ui/Card.tsx` — `<Card variant="surface|outline|elevated" interactive?>` — replaces all `p-6 bg-surface rounded-lg border border-line` repeats.
+- Adopt shadcn `<Button>` with two project-specific variants: `cta` (outlined emerald, current Home style) and `ghost-link` (text+arrow). Centralize the `min-h-[44px]` touch target there.
 
-These mockups appear in three places:
+**1.3 Tailwind config touch-ups**
+- Add `maxWidth: { prose: '65ch', readable: '72ch', wide: '1480px' }`.
+- Add `screens: { xs: '480px' }` so we stop using arbitrary `min-w-[480px]` checks.
+- No new colors — palette is already correct.
 
-a. **Inside choice tiles** (mood/typo/tone/mark/density/accent/nmLean) — instead of the abstract 68px boxes, show a *miniature business card* per option so the user sees their own name on each option immediately. ~140px tall, still grid-3.
-
-b. **A persistent right-rail "Vision Board"** (desktop only, ≥1024px) that lives next to the form and updates live as they answer — showing card → laptop → phone → signage. They literally watch their brand assemble.
-
-c. **A full-bleed "Reveal" screen** between the form and Submit (see §5).
-
----
-
-## 3. Conversational personalization
-
-Make it feel like Cole (or whoever sent the link) is in the room.
-
-- Landing screen: "Hi {firstName} — I'm Cole at ProjGrowth. Northwestern Mutual sent you here because you're thinking about your brand. Next 6 minutes are about *you*, not a form." Animated typewriter on the headline.
-- Each question gets a short, human one-liner from the host above the question label, e.g. *"Quick gut check — no wrong answer here."* Stored as a `host:` field on each step config so it's easy to tune.
-- Replace the "Step 3 / 14" with a chapter system: **Chapter 01 — Who you are · Chapter 02 — How it should feel · Chapter 03 — What it should look like · Chapter 04 — What it has to do.** Tiny chapter title sits above the progress bar; the bar segments by chapter.
-- A subtle "Cole's note" callout appears 2–3 times during the flow (after big inputs) reflecting back what they said: *"Got it — analytical, local, built to last. That already rules out half the directions."* Pure pattern-matched strings, no AI call needed, but they feel seen.
+**Deliverable of Pass 1:** all primitives compile and are usable. Site is unchanged visually.
 
 ---
 
-## 4. Interaction polish
+### Pass 2 — Apply primitives across every page
 
-- **"This or that" steps** become full-width split panels with the two mockups side-by-side at large size; clicking one slides it forward and dims the other.
-- **Mood step**: 6 mockups in a 2×3 hi-fi grid, each a real business-card render, hover lifts 4px with emerald underglow.
-- **Personality axes**: replace 5 stacked cards with a single **interactive slider per axis** (Head ←→ Heart, etc.) with live label morphing. Faster, more playful, still captures the same data.
-- **Reference logos**: replace the colored text buttons with proper SVG-rendered approximations of each brand mark in a dark gallery; tapping flips the card to show *what we'd take from it*.
-- **Upload references**: drag-and-drop zone styled to match site, thumbnail previews, remove button.
-- **Accent color**: live-updates the right-rail Vision Board the instant they pick.
-- **Keyboard**: Enter to advance, ←/→ to navigate, 1–9 to pick options. Tiny hint shown once.
-- **Save & resume**: keep existing localStorage but add a "We saved your progress — pick up where you left off?" prompt if they return.
+Mechanical sweep, one page at a time, in this order: `Home → Services → Work → CaseStudyDetail → About → Contact → Blog → BlogPost → Privacy → Terms → NotFound → Discovery → AdminLeads → service detail pages`.
 
----
+For each page:
 
-## 5. The Reveal (new screen, before Submit)
+| Replace | With |
+|---|---|
+| `<section className="container-site py-24">` | `<Section size="md">` |
+| `<section className="… py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh]">` | `<Section size="hero">` |
+| `<div className="mb-16"><h2…>Title</h2><p…>Lede</p></div>` | `<SectionHeader title="Title" lede="Lede" />` |
+| `<h2 className="font-display text-3xl lg:text-4xl text-text mb-4">` | `<h2>` (let the global clamp handle it) |
+| `<h1 className="font-display text-4xl md:text-6xl lg:text-8xl …">` | `<h1>` (clamp handles it) |
+| `<div className="p-6 bg-surface rounded-lg border border-line">` | `<Card>` |
+| Inline button `<Link className="… px-8 py-4 border border-accent …">` | `<Button asChild variant="cta">` |
+| `gap-8`, `mb-16`, `mb-12`, `mt-12` | `gap-cards`, `mb-header`, etc. (utility classes mapped to tokens) |
 
-After the last question and before the Submit button, insert a cinematic **"Here's what you just told us"** screen. Single page, full bleed:
-
-- Big Outfit headline: *"This is {DBA}."*
-- Their **business card** mockup centered, large (≈420px wide), with subtle parallax tilt on mouse-move.
-- Below it, three more surfaces in a row (laptop / phone / signage), each labeled.
-- A short generated paragraph using `genBrief()` rewritten into 2nd person: *"You want a brand that feels established but forward, with quiet authority. It lives on serif typography, an icon + wordmark system, and a gold accent on top of NM Blue. Above all, it has to feel timeless."*
-- Two buttons: **"Refine an answer"** (jumps back into the flow at a chosen step) and **"Send this to Cole →"** (Submit).
-
-This is the "sold on their own vision" moment.
-
----
-
-## 6. File structure
-
-```text
-src/pages/Discovery.tsx                 (slim shell + state, ~200 lines)
-src/pages/discovery/
-  DiscoveryShell.tsx                    (bg, glows, dot grid, max-w wrapper)
-  Landing.tsx
-  Reveal.tsx                            (new)
-  Thanks.tsx
-  steps/                                (one file per step id, exports a Step component + canAdvance)
-    DbaName.tsx, Pitch.tsx, Diff.tsx, Audience.tsx, Adjectives.tsx,
-    NmLean.tsx, Touchpoints.tsx, Personality.tsx, Typo.tsx, Density.tsx,
-    Tone.tsx, Mood.tsx, Mark.tsx, Accent.tsx, References.tsx, Avoid.tsx,
-    Vision.tsx, Truth.tsx, SvcWebsite.tsx, SvcContent.tsx, SvcAds.tsx,
-    SvcPrint.tsx, SvcTimeline.tsx
-  mockups/
-    types.ts                            (BrandSpec)
-    deriveSpec.ts                       (Form → BrandSpec)
-    BusinessCard.tsx, LaptopBrowser.tsx, Phone.tsx, OfficeSignage.tsx,
-    EmailSignature.tsx, SocialPost.tsx
-  VisionBoard.tsx                       (right-rail live preview)
-  ChapterBar.tsx                        (chapter-segmented progress)
-  HostNote.tsx                          (Cole callout)
-  ui.tsx                                (OCard, Chip, Q, TA, TxtInput restyled dark)
-```
-
-The current 905-line `Discovery.tsx` is broken up so each step is independently editable and the mockup system is reusable.
+**Specific fixes during the sweep:**
+- **Home hero**: remove the `text-4xl md:text-6xl lg:text-8xl` triple-jump; rely on global H1. Cap hero min-height at 880 px so 1280×720 laptops don't show empty space.
+- **Services / Work / About**: collapse to one consistent grid recipe — `grid sm:grid-cols-2 lg:grid-cols-4 gap-cards` for 4-up, `lg:grid-cols-3` for 3-up. No more bespoke breakpoints per page.
+- **Discovery**: swap the hardcoded `#0a0f14` for `hsl(var(--base))` and mount inside `<Section size="lg">` so vertical rhythm matches the rest of the site.
+- **Footer & Navigation**: align horizontal padding to the same `--gutter-fluid` as `container-site` (currently uses Tailwind container with different breakpoint padding).
+- **CaseStudyDetail**: long page that currently feels uniform — apply `size="sm"` to the metadata band, `size="md"` to body, `size="lg"` to next-case CTA.
 
 ---
 
-## 7. Backend / data
+## Out of scope
 
-No schema changes required — the existing `discovery_submissions` table and `submit-discovery` edge function already capture everything. Two small additions:
+- No new color palette, no logo changes, no copywriting changes.
+- No animation rework beyond what falls out of using `<Section>` (which can wrap children in `ScrollReveal` optionally).
+- No new dependencies.
 
-- Send the rendered Reveal copy (the 2nd-person paragraph) as a new `vision_summary` field in the submission payload so it appears verbatim in the admin email and `/admin/leads`.
-- Add an optional `host_slug` query param (`/discovery?host=cole`) so the landing screen can address the prospect from a specific ProjGrowth contact. Defaults to "the ProjGrowth team."
+## Acceptance criteria
 
-These two are stored inside the existing `responses` JSONB — no migration.
+1. Zero remaining occurrences of hardcoded `py-24`, `py-32`, `mb-16`, `text-4xl md:text-6xl lg:text-8xl` in pages (grep clean).
+2. Every page section uses `<Section>` or `<SectionHeader>` primitives.
+3. Every CTA uses the shared `<Button variant="cta">` or `<Button variant="ghost-link">`.
+4. Site looks visually consistent across viewports: 360, 768, 1024, 1280, 1440, 1920 px — verified by screenshot QA after Pass 2.
+5. Hero on 1280×720 no longer shows a tall empty band below the buttons.
+6. Discovery tool background is identical to the rest of the site (same dot grid + base color).
+7. No regressions to Discovery v3 logic, AdminLeads auth, or backend behavior.
 
----
+## Risk / rollback
 
-## 8. Out of scope (intentionally)
-
-- No new dependencies beyond `framer-motion` (already in the project — confirmed during exploration).
-- No image assets to ship — every mockup is SVG/CSS so it stays crisp and the prospect's name renders in real time on any device.
-- No changes to admin dashboard rendering beyond the new `vision_summary` line.
-
----
-
-## Acceptance
-
-- `/discovery` matches the dark cinematic aesthetic of the rest of the site.
-- Every aesthetic choice shows the prospect's actual DBA name on a realistic surface.
-- Desktop ≥1024px shows a live Vision Board that updates as they answer.
-- A Reveal screen appears before Submit, showing 4 hi-fi mockups + a personalized paragraph.
-- Flow still respects the Confidence Gate (Clear / Guided / Discovery) and service router.
-- All NM compliance constraints (NM Blue locked, NM lockup primary, NM_LEAN options) preserved.
+Pass 1 is purely additive — safe. Pass 2 is mechanical find-and-replace per page, easily reverted page-by-page if a layout breaks. Will commit logically (one page per commit-equivalent edit batch) so individual pages can be rolled back.
