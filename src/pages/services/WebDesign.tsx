@@ -139,7 +139,7 @@ const WebDesign = () => {
         {/* Process */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+            <h2 className="font-display text-text mb-12">
               Our Web Design Process
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -161,7 +161,7 @@ const WebDesign = () => {
         {/* What's Included */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+            <h2 className="font-display text-text mb-12">
               What's Included
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -178,7 +178,7 @@ const WebDesign = () => {
         {/* FAQs */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+            <h2 className="font-display text-text mb-12">
               Frequently Asked Questions
             </h2>
             <Accordion type="single" collapsible className="space-y-4">
@@ -214,7 +214,7 @@ const WebDesign = () => {
         {/* CTA */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line text-center">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-6">
+            <h2 className="font-display text-text mb-6">
               Ready to Build Your Website?
             </h2>
             <p className="text-xl text-mute max-w-2xl mx-auto mb-8">

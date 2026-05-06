@@ -117,7 +117,7 @@ const ContentCreation = () => {
         {/* Services */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+            <h2 className="font-display text-text mb-12">
               Content Services We Offer
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -135,7 +135,7 @@ const ContentCreation = () => {
         {/* Deliverables */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+            <h2 className="font-display text-text mb-12">
               What We Create
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -152,7 +152,7 @@ const ContentCreation = () => {
         {/* Process */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+            <h2 className="font-display text-text mb-12">
               Our Content Creation Process
             </h2>
             <div className="space-y-8">
@@ -178,7 +178,7 @@ const ContentCreation = () => {
         {/* FAQs */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
+            <h2 className="font-display text-text mb-12">
               Frequently Asked Questions
             </h2>
             <Accordion type="single" collapsible className="space-y-4">
@@ -214,7 +214,7 @@ const ContentCreation = () => {
         {/* CTA */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line text-center">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-6">
+            <h2 className="font-display text-text mb-6">
               Ready to Create Amazing Content?
             </h2>
             <p className="text-xl text-mute max-w-2xl mx-auto mb-8">

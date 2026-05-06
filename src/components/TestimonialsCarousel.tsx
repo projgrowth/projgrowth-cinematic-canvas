@@ -57,7 +57,7 @@ const TestimonialsCarousel = () => {
     <section className="container-site section border-t border-line">
       <ScrollReveal variant="fade-up">
         <div className="mb-12">
-          <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
+          <h2 className="font-display text-text mb-4">
             What Our Clients Say
           </h2>
           <p className="text-xl text-mute">

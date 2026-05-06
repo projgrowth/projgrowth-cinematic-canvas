@@ -29,7 +29,7 @@ const Privacy = () => {
 
         <div className="grid-12">
           <div className="col-span-12 lg:col-span-8">
-            <h1 className="font-display text-5xl lg:text-7xl text-text mb-4 animate-fade-in">
+            <h1 className="font-display text-text mb-4 animate-fade-in">
               Privacy Policy
             </h1>
             <p className="text-mute mb-16">Last updated: December 2024</p>

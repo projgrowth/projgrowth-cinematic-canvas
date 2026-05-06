@@ -324,7 +324,7 @@ const CaseStudyDetail = () => {
         <div className="container-site section">
           <ScrollReveal variant="fade-up">
             <div className="text-center max-w-2xl mx-auto">
-              <h2 className="font-display text-3xl md:text-4xl text-text mb-4">
+              <h2 className="font-display text-text mb-4">
                 Ready for similar results?
               </h2>
               <p className="text-mute mb-8">

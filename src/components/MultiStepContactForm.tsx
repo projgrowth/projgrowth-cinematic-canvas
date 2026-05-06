@@ -243,7 +243,7 @@ Company: ${formData.company || "Not provided"}
           </motion.div>
         </motion.div>
 
-        <h2 className="text-3xl md:text-4xl font-display text-foreground mb-4">
+        <h2 className="font-display text-foreground mb-4">
           You're in!
         </h2>
         <p className="text-lg text-muted mb-8 max-w-md mx-auto">
