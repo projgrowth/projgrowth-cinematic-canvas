@@ -487,7 +487,7 @@ function StepRender({ id, form, set, tog, name }: any) {
       );
     case "personality":
       return (
-        <Q label="Brand personality — slide each axis." sub="Five axes that define your brand's emotional fingerprint." why="The most important screen in the intake.">
+        <Q label="Brand personality — pick a side." sub="Five axes. Tap the side that feels closer — no middle ground." why="Forced choice reveals more than a slider ever does." host="Don't overthink. First instinct wins.">
           <div style={{ display: "grid", gap: 10 }}>
             {AXES.map(axis => (
               <AxisSlider key={axis[4]} axis={axis} value={(form as any)[axis[4]]} onSet={(v) => set(axis[4] as keyof Form, v)} />
