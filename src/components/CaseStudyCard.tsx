@@ -54,7 +54,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         transition={{ duration: 0.2 }}
       >
         {/* Index number - hidden on mobile */}
-        <span className="absolute -left-2 top-1/2 -translate-y-1/2 font-display md:text-6xl font-bold text-accent-faint select-none pointer-events-none hidden md:block">
+        <span className="numeral-display absolute -left-2 top-1/2 -translate-y-1/2 hidden md:block select-none pointer-events-none hidden md:block">
           {formattedIndex}
         </span>
 
@@ -129,7 +129,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
       }}
     >
       {/* Large index number behind card - smaller on mobile, hidden on very small screens */}
-      <span className="absolute -top-2 -left-1 md:-top-4 md:-left-2 font-display text-5xl md:text-8xl font-bold text-accent/[0.07] select-none pointer-events-none z-0 transition-all duration-sm group-hover:text-accent/[0.12] group-hover:-translate-y-1 hidden sm:block">
+      <span className="numeral-display absolute -top-2 -left-1 md:-top-4 md:-left-2 z-0 transition-all duration-sm group-hover:-translate-y-1 hidden sm:block">
         {formattedIndex}
       </span>
 

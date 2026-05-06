@@ -224,7 +224,7 @@ const Home = () => {
           <div className="mt-12 text-center">
             <Link
               to="/work"
-              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors duration-sm font-medium"
+              className="inline-flex items-center gap-2 text-accent hover:text-accent-strong transition-colors duration-sm font-medium"
             >
               View All Projects
               <ArrowRight className="w-5 h-5" />
