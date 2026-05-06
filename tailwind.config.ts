@@ -95,6 +95,11 @@ export default {
         normal: "0",
         wide: "0.02em",
       },
+      maxWidth: {
+        prose: "65ch",
+        readable: "72ch",
+        wide: "1480px",
+      },
       transitionDuration: {
         xs: "var(--duration-xs)",
         sm: "var(--duration-sm)",
