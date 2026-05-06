@@ -205,17 +205,24 @@ function genBrief(personName: string, f: Form, services: string[], confidence: s
     : f.nmLean === "equal" ? "an equal-weight lockup co-branded with Northwestern Mutual"
     : "an NM-compliant lockup TBD";
   const truthStr = f.truth[0] || "feel timeless and credible";
-  return `${dba} — ${confidence.toUpperCase()} confidence · scope: ${services.join(", ") || "logo"}. Identity should feel ${moodStr}, ${toneStr} in character, built on ${typoStr} using ${markStr} with ${acStr}. Practice serves ${audStr} and is described as ${adjStr}. Lockup approach: ${nmStr}. Above all, this brand must ${truthStr.toLowerCase()}.`;
+  const valuesStr = (f.brandValues.length || f.brandValuesCustom)
+    ? `Stands for ${[...f.brandValues, f.brandValuesCustom].filter(Boolean).join(", ").toLowerCase()}.`
+    : "";
+  const promiseStr = f.brandPromise ? ` Promise to clients: "${f.brandPromise.trim()}".` : "";
+  return `${dba} — ${confidence.toUpperCase()} confidence · scope: ${services.join(", ") || "logo"}. ${valuesStr}${promiseStr} Identity should feel ${moodStr}, ${toneStr} in character, built on ${typoStr} using ${markStr} with ${acStr}. Practice serves ${audStr} and is described as ${adjStr}. Lockup approach: ${nmStr}. Above all, this brand must ${truthStr.toLowerCase()}.`;
 }
 function visionSummary(name: string, f: Form): string {
   const dba = f.dbaName || `${sn(name)} Financial`;
   const mood = MOODS.find(x => x.id === f.mood)?.name.toLowerCase() || "distinctive";
   const tone = f.tone === "established" ? "established but" : "forward and";
   const typo = f.typo === "serif" ? "classic serif typography" : "modern sans-serif typography";
-  const mark = f.mark === "icon" ? "a paired icon and wordmark" : "a confident wordmark";
+  const mark = f.mark === "icon" ? "a paired icon and wordmark"
+    : f.mark === "monogram" ? "a monogram + wordmark lockup"
+    : "a confident wordmark";
   const ac = ACC.find(a => a.hex === f.accent)?.name.toLowerCase() || "a secondary";
   const truth = (f.truth[0] || "Must feel timeless").replace(/^Must /,"").toLowerCase();
-  return `You want a brand that feels ${mood} — ${tone} ${f.tone === "established" ? "deliberately restrained" : "personal"}. It's built on ${typo}, ${mark}, and ${ac} accent that lives on top of NM blue. It serves ${(f.audience[0] || "your clients").toLowerCase()} and, above all, it has to ${truth}. That's ${dba}.`;
+  const promise = f.brandPromise ? ` Clients walk away with ${f.brandPromise.trim().replace(/[.!]$/,"").toLowerCase()}.` : "";
+  return `You want a brand that feels ${mood} — ${tone} ${f.tone === "established" ? "deliberately restrained" : "personal"}. It's built on ${typo}, ${mark}, and ${ac} accent that lives on top of NM blue. It serves ${(f.audience[0] || "your clients").toLowerCase()} and, above all, it has to ${truth}.${promise} That's ${dba}.`;
 }
 
 // ============================================================
