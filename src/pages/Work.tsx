@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -108,7 +109,7 @@ const Work = () => {
       seoKeywords="portfolio, case studies, brand strategy examples, web design portfolio, content systems, cinematic production, digital projects"
       canonicalUrl="/work"
     >
-      <section className="container-site section relative">
+      <Section>
         <ScrollReveal variant="fade-up">
           <PageHeader className="mb-12 md:mb-16 relative z-10">
             <h1 className="font-display text-text mb-5">
@@ -260,10 +261,10 @@ const Work = () => {
             </AnimatePresence>
           </motion.div>
         )}
-      </section>
+      </Section>
 
       {/* Quick Contact */}
-      <section className="container-site section">
+      <Section>
         <ScrollReveal variant="fade-up">
           <div className="max-w-xl mx-auto text-center">
             <h2 className="font-display text-text mb-2">Like What You See?</h2>
@@ -271,7 +272,7 @@ const Work = () => {
             <QuickContactForm />
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
       <GlobalCTA />
 

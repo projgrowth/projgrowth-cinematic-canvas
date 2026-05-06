@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
@@ -54,7 +55,7 @@ const TestimonialsCarousel = () => {
   };
 
   return (
-    <section className="container-site section border-t border-line">
+    <Section className="border-t border-line">
       <ScrollReveal variant="fade-up">
         <div className="mb-12">
           <h2 className="font-display text-text mb-4">
@@ -146,7 +147,7 @@ const TestimonialsCarousel = () => {
           </div>
         </div>
       </ScrollReveal>
-    </section>
+    </Section>
   );
 };
 

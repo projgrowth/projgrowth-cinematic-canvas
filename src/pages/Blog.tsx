@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -69,7 +70,7 @@ const Blog = () => {
       seoKeywords="Orlando marketing blog, web design tips, branding insights, digital marketing Orlando, content marketing strategies"
       canonicalUrl="/blog"
     >
-      <section className="container-site section">
+      <Section>
         <Breadcrumbs />
 
         <ScrollReveal>
@@ -167,7 +168,7 @@ const Blog = () => {
             <p className="text-mute">No blog posts found.</p>
           </div>
         )}
-      </section>
+      </Section>
     </Layout>
   );
 };

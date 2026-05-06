@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
@@ -92,7 +93,7 @@ const Home = () => {
       </Helmet>
 
       {/* Hero Section — Staggered text reveal */}
-      <section className="relative container-site section-hero">
+      <Section size="hero">
         <AmbientGlow variant="hero" />
         <GrowthLines />
         <div className="grid-12 relative z-10">
@@ -143,10 +144,10 @@ const Home = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Services Overview */}
-      <section className="container-site section">
+      <Section>
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-10">
             <div className="col-span-12 lg:col-span-4">
@@ -178,11 +179,11 @@ const Home = () => {
             </div>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
       {/* Why Choose Us */}
       <LeafDivider />
-      <section className="container-site section">
+      <Section>
         <ScrollReveal variant="fade-up">
           <div className="section-header">
             <h2 className="font-display text-text mb-3">
@@ -204,10 +205,10 @@ const Home = () => {
             </ScrollReveal>
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* Featured Work Section */}
-      <section className="container-site section">
+      <Section>
         <ScrollReveal variant="fade-up">
           <div className="section-header">
             <h2 className="font-display text-text mb-3">Our Recent Work</h2>
@@ -230,7 +231,7 @@ const Home = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
 
       {/* Client Logos Section */}
       <ClientLogos />

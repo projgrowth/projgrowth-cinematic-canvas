@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Share2, Linkedin, Twitter } from "lucide-react";
@@ -119,7 +120,7 @@ const CaseStudyDetail = () => {
 
 
       {/* Main Content */}
-      <section className="container-site section">
+      <Section>
         <div className="grid md:grid-cols-12 gap-12 md:gap-16">
           {/* Sidebar */}
           <aside className="md:col-span-4 lg:col-span-3">
@@ -317,12 +318,11 @@ const CaseStudyDetail = () => {
             )}
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* CTA Section */}
-      <section className="border-t border-line">
-        <div className="container-site section">
-          <ScrollReveal variant="fade-up">
+      <Section className="border-t border-line">
+        <ScrollReveal variant="fade-up">
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="font-display text-text mb-4">
                 Ready for similar results?
@@ -339,13 +339,11 @@ const CaseStudyDetail = () => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-          </ScrollReveal>
-        </div>
-      </section>
+        </ScrollReveal>
+      </Section>
 
       {/* Navigation */}
-      <section className="border-t border-line">
-        <div className="container-site py-8">
+      <Section size="sm" className="border-t border-line">
           <div className="flex justify-between items-center">
             {prevStudy ? (
               <Link
@@ -377,8 +375,7 @@ const CaseStudyDetail = () => {
               <div />
             )}
           </div>
-        </div>
-      </section>
+      </Section>
     </Layout>
   );
 };

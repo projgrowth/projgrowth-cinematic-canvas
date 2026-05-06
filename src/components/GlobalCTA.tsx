@@ -1,11 +1,11 @@
+import { Section } from "@/components/ui/section";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
 const GlobalCTA = () => {
   return (
-    <section className="border-t border-line">
-      <div className="container-site section-lg">
+    <Section size="lg" className="border-t border-line">
         <ScrollReveal variant="fade-up">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="font-display text-text mb-5">
@@ -24,8 +24,7 @@ const GlobalCTA = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </div>
-    </section>
+    </Section>
   );
 };
 

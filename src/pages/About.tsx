@@ -2,6 +2,7 @@
  * About Page
  */
 
+import { Section } from "@/components/ui/section";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
@@ -38,7 +39,7 @@ const About = () => {
       seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
     >
-      <section className="container-site section relative">
+      <Section>
         <ScrollReveal variant="fade-up">
           <PageHeader className="mb-12 md:mb-16">
             <h1 className="font-display text-text mb-5">
@@ -102,7 +103,7 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-      </section>
+      </Section>
     </Layout>
   );
 };

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import AmbientGlow from "@/components/AmbientGlow";
 
 type SectionSize = "sm" | "md" | "lg" | "hero";
 
@@ -31,16 +32,7 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
         )}
         {...rest}
       >
-        {glow && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-0"
-            style={{
-              background:
-                "radial-gradient(ellipse at 15% 30%, hsl(var(--accent) / 0.05), transparent 55%), radial-gradient(ellipse at 85% 70%, hsl(var(--accent) / 0.025), transparent 50%)",
-            }}
-          />
-        )}
+        {glow && <AmbientGlow variant={size === "hero" ? "hero" : "page"} className="-z-0" />}
         <div className="relative z-10">{children}</div>
       </Tag>
     );

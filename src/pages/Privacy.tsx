@@ -5,6 +5,7 @@
  * Consider consulting a legal professional for compliance with GDPR, CCPA, etc.
  */
 
+import { Section } from "@/components/ui/section";
 import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -17,7 +18,7 @@ const Privacy = () => {
       seoKeywords="privacy policy, data protection, personal information"
       canonicalUrl="/privacy"
     >
-      <section className="container-site section">
+      <Section>
         {/* Back Link */}
         <Link 
           to="/"
@@ -100,7 +101,7 @@ const Privacy = () => {
             </div>
           </div>
         </div>
-      </section>
+      </Section>
     </Layout>
   );
 };

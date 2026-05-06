@@ -2,6 +2,7 @@
  * Branding Service Page
  */
 
+import { Section } from "@/components/ui/section";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -98,7 +99,7 @@ const Branding = () => {
         </script>
       </Helmet>
 
-      <section className="container-site section">
+      <Section>
         <Breadcrumbs />
         
         <ScrollReveal variant="fade-up">
@@ -229,7 +230,7 @@ const Branding = () => {
             </Link>
           </div>
         </ScrollReveal>
-      </section>
+      </Section>
     </Layout>
   );
 };

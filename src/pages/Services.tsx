@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
@@ -104,7 +105,7 @@ const Services = () => {
       </Helmet>
       
       <TooltipProvider>
-        <section className="container-site section relative">
+        <Section>
           <ScrollReveal variant="fade-up">
             <PageHeader className="mb-12 md:mb-16">
               <h1 className="font-display text-text mb-5">
@@ -227,7 +228,7 @@ const Services = () => {
           <ScrollReveal variant="fade-up">
             <ProcessTimeline />
           </ScrollReveal>
-        </section>
+        </Section>
       </TooltipProvider>
     </Layout>
   );
