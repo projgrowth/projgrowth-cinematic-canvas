@@ -204,7 +204,7 @@ const Work = () => {
 
         {filteredAndSortedCaseStudies.length === 0 ? (
           <ScrollReveal variant="fade-up">
-            <div className="text-center py-24 space-y-6">
+            <div className="text-center section space-y-6">
               <div className="w-16 h-16 mx-auto rounded-full bg-surface border border-line flex items-center justify-center">
                 <span className="text-2xl text-mute">∅</span>
               </div>

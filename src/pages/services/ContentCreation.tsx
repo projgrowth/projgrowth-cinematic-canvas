@@ -116,7 +116,7 @@ const ContentCreation = () => {
 
         {/* Services */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Content Services We Offer
             </h2>
@@ -134,7 +134,7 @@ const ContentCreation = () => {
 
         {/* Deliverables */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               What We Create
             </h2>
@@ -151,7 +151,7 @@ const ContentCreation = () => {
 
         {/* Process */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Our Content Creation Process
             </h2>
@@ -177,7 +177,7 @@ const ContentCreation = () => {
 
         {/* FAQs */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Frequently Asked Questions
             </h2>
@@ -202,7 +202,7 @@ const ContentCreation = () => {
 
         {/* Quick Contact */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <div className="max-w-xl mx-auto text-center">
               <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Interested in Content Creation?</h2>
               <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
@@ -213,7 +213,7 @@ const ContentCreation = () => {
 
         {/* CTA */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line text-center">
+          <div className="section border-t border-line text-center">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-6">
               Ready to Create Amazing Content?
             </h2>

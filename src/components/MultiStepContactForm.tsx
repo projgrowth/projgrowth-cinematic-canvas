@@ -197,7 +197,7 @@ Company: ${formData.company || "Not provided"}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative py-16 text-center"
+        className="relative section-sm text-center"
       >
         {/* Confetti */}
         {showConfetti && (

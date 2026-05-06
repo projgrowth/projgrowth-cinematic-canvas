@@ -112,7 +112,7 @@ const DigitalMarketing = () => {
 
         {/* Services */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Our Digital Marketing Services
             </h2>
@@ -133,7 +133,7 @@ const DigitalMarketing = () => {
 
         {/* Our Approach */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Our Approach
             </h2>
@@ -154,7 +154,7 @@ const DigitalMarketing = () => {
 
         {/* Deliverables */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               What's Included
             </h2>
@@ -171,7 +171,7 @@ const DigitalMarketing = () => {
 
         {/* FAQs */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Frequently Asked Questions
             </h2>
@@ -196,7 +196,7 @@ const DigitalMarketing = () => {
 
         {/* Quick Contact */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <div className="max-w-xl mx-auto text-center">
               <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Interested in Digital Marketing?</h2>
               <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
@@ -207,7 +207,7 @@ const DigitalMarketing = () => {
 
         {/* CTA */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line text-center">
+          <div className="section border-t border-line text-center">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-6">
               Ready to Grow Your Business?
             </h2>

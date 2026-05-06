@@ -120,7 +120,7 @@ const WebDesign = () => {
 
         {/* Key Benefits */}
         <ScrollReveal variant="fade-up">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-16 border-t border-line">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 section border-t border-line">
             {[
               { icon: Monitor, title: "Custom Design", desc: "Unique to your brand" },
               { icon: Smartphone, title: "Mobile-First", desc: "Perfect on every device" },
@@ -138,7 +138,7 @@ const WebDesign = () => {
 
         {/* Process */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Our Web Design Process
             </h2>
@@ -160,7 +160,7 @@ const WebDesign = () => {
 
         {/* What's Included */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               What's Included
             </h2>
@@ -177,7 +177,7 @@ const WebDesign = () => {
 
         {/* FAQs */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-12">
               Frequently Asked Questions
             </h2>
@@ -202,7 +202,7 @@ const WebDesign = () => {
 
         {/* Quick Contact */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line">
+          <div className="section border-t border-line">
             <div className="max-w-xl mx-auto text-center">
               <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Interested in Web Design?</h2>
               <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
@@ -213,7 +213,7 @@ const WebDesign = () => {
 
         {/* CTA */}
         <ScrollReveal variant="fade-up">
-          <div className="py-16 border-t border-line text-center">
+          <div className="section border-t border-line text-center">
             <h2 className="font-display text-3xl lg:text-4xl text-text mb-6">
               Ready to Build Your Website?
             </h2>
