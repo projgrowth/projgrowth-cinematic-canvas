@@ -718,6 +718,10 @@ function canAdvance(id: string, f: Form): boolean {
     case "tone": return f.tone !== null;
     case "mood": return f.mood !== null;
     case "mark": return f.mark !== null;
+    case "iconConcept": return f.iconConcept !== null;
+    case "brandValues": return f.brandValues.length > 0 || f.brandValuesCustom.trim().length > 1;
+    case "brandPromise": return f.brandPromise.trim().length > 8;
+    case "brandStory": return true;
     case "accent": return f.accent !== null;
     case "references": return true;
     case "avoid": return true;
