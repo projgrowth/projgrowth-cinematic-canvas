@@ -15,6 +15,10 @@ const schema = z.object({
   practice_name: z.string().trim().max(200).optional().nullable(),
   responses: z.record(z.any()),
   generated_brief: z.string().max(5000).optional(),
+  confidence: z.string().max(40).optional(),
+  services: z.array(z.string().max(40)).max(20).optional(),
+  engagement_tier: z.string().max(40).optional(),
+  reference_image_urls: z.array(z.string().max(500)).max(10).optional(),
 });
 
 function esc(s: string) {
@@ -31,7 +35,8 @@ serve(async (req: Request) => {
       return new Response(JSON.stringify({ error: "Invalid input", details: parsed.error.flatten() }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } });
     }
-    const { full_name, email, practice_name, responses, generated_brief } = parsed.data;
+    const { full_name, email, practice_name, responses, generated_brief,
+      confidence, services, engagement_tier, reference_image_urls } = parsed.data;
 
     const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const { data: row, error: dbError } = await supabase
@@ -42,6 +47,10 @@ serve(async (req: Request) => {
         practice_name: practice_name?.trim() || null,
         responses,
         generated_brief: generated_brief || null,
+        confidence: confidence || null,
+        services: services || [],
+        engagement_tier: engagement_tier || null,
+        reference_image_urls: reference_image_urls || [],
         email_sent: false,
       })
       .select("id")
@@ -61,10 +70,14 @@ serve(async (req: Request) => {
         <p><strong>Name:</strong> ${esc(full_name)}</p>
         <p><strong>Email:</strong> ${esc(email)}</p>
         ${practice_name ? `<p><strong>Practice:</strong> ${esc(practice_name)}</p>` : ""}
+        ${confidence ? `<p><strong>Confidence:</strong> ${esc(confidence)}</p>` : ""}
+        ${services && services.length ? `<p><strong>Services:</strong> ${esc(services.join(", "))}</p>` : ""}
+        ${engagement_tier ? `<p><strong>Suggested tier:</strong> ${esc(engagement_tier)}</p>` : ""}
         ${responses.dbaName ? `<p><strong>DBA name:</strong> ${esc(String(responses.dbaName))}</p>` : ""}
         ${generated_brief ? `<h3>Generated Brief</h3><p>${esc(generated_brief)}</p>` : ""}
         ${adjectives ? `<p><strong>Adjectives:</strong> ${esc(adjectives)}</p>` : ""}
         ${responses.vision ? `<p><strong>5-year vision:</strong> ${esc(String(responses.vision))}</p>` : ""}
+        ${reference_image_urls && reference_image_urls.length ? `<p><strong>${reference_image_urls.length} reference image(s) uploaded</strong> — view in admin</p>` : ""}
         <p><a href="https://projgrowth.com/admin/leads">View in admin</a></p>
       `;
       await resend.emails.send({
