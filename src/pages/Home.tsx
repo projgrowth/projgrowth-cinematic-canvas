@@ -12,6 +12,8 @@ import { Helmet } from "react-helmet-async";
 import { caseStudies } from "@/data/caseStudies";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { SurfaceCard } from "@/components/ui/card-surface";
 
 // Select featured projects from real case studies
 const featuredProjects = caseStudies.slice(0, 3);
@@ -135,20 +137,15 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              <Link 
-                to="/contact"
-                className="group inline-flex items-center justify-center gap-2 h-12 px-8 border border-accent text-accent rounded-md font-medium transition-all duration-sm hover:bg-accent hover:text-primary-foreground"
-              >
-                Get Your Free Consultation
-                <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
-              </Link>
-              
-              <Link 
-                to="/work"
-                className="inline-flex items-center justify-center gap-2 h-12 px-6 text-mute rounded-md font-medium transition-all duration-sm hover:text-text"
-              >
-                View Our Work
-              </Link>
+              <Button asChild variant="cta" size="lg" className="group">
+                <Link to="/contact">
+                  Get Your Free Consultation
+                  <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
+                </Link>
+              </Button>
+              <Button asChild variant="ghost-link" size="lg">
+                <Link to="/work">View Our Work</Link>
+              </Button>
             </motion.div>
           </div>
         </div>
@@ -170,20 +167,17 @@ const Home = () => {
             <div className="col-span-12 lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-cards">
               {services.map((service, idx) => (
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
-                  <Link
-                    to={service.path}
-                    className={`group relative block p-6 md:p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden ${
-                      idx === 0 ? "border-t-2 border-t-accent" : ""
-                    }`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span className="relative font-display text-2xl md:text-3xl text-accent/30 mb-4 block">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                    <h3 className="relative font-display text-text mb-2 transition-colors duration-sm group-hover:text-accent">
-                      {service.title}
-                    </h3>
-                    <p className="relative text-mute">{service.description}</p>
+                  <Link to={service.path} className="group block h-full">
+                    <SurfaceCard pad="md" interactive className={`relative overflow-hidden h-full ${idx === 0 ? "border-t-2 border-t-accent" : ""}`}>
+                      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <span className="relative font-display text-2xl md:text-3xl text-accent/30 mb-4 block">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="relative font-display text-text mb-2 transition-colors duration-sm group-hover:text-accent">
+                        {service.title}
+                      </h3>
+                      <p className="relative text-mute">{service.description}</p>
+                    </SurfaceCard>
                   </Link>
                 </ScrollReveal>
               ))}
@@ -209,10 +203,10 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-cards">
           {differentiators.map((item, idx) => (
             <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
-              <div className="p-6 bg-surface rounded-lg border border-line h-full transition-all duration-sm hover:border-accent/30">
+              <SurfaceCard pad="md" interactive className="h-full">
                 <h3 className="font-display text-accent mb-2">{item.title}</h3>
                 <p className="text-mute text-sm leading-relaxed">{item.description}</p>
-              </div>
+              </SurfaceCard>
             </ScrollReveal>
           ))}
         </div>
