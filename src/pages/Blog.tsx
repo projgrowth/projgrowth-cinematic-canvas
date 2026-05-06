@@ -90,7 +90,7 @@ const Blog = () => {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-sm ${
                   selectedCategory === category
                     ? "bg-accent text-primary-foreground"
                     : "bg-surface text-mute hover:text-text hover:bg-surface"
@@ -117,7 +117,7 @@ const Blog = () => {
               <ScrollReveal key={post.id} delay={index * 0.1}>
                 <motion.article 
                   layout
-                  className="group bg-surface border border-line rounded-lg overflow-hidden hover:border-accent/50 transition-all duration-300"
+                  className="group bg-surface border border-line rounded-lg overflow-hidden hover:border-accent/50 transition-all duration-sm"
                 >
                   <Link to={`/blog/${post.slug}`}>
                     <div className="aspect-video bg-base relative overflow-hidden">
@@ -125,7 +125,7 @@ const Blog = () => {
                         <img
                           src={post.featured_image}
                           alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-md"
                           loading="lazy"
                         />
                       ) : (
@@ -136,7 +136,7 @@ const Blog = () => {
                         </div>
                       )}
                       <div className="absolute top-4 left-4">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-base/80 backdrop-blur-sm rounded-full text-xs font-medium text-accent">
+                        <span className="pill-accent">
                           <Tag className="w-3 h-3" />
                           {post.category}
                         </span>
