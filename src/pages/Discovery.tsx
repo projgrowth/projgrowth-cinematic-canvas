@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
-
-const NM = "#0E497B";
-const NMbg = "#e8f0f8";
+import { DiscoveryShell } from "./discovery/Shell";
+import { BusinessCard, LaptopBrowser, Phone, Signage, MiniCard, deriveSpec, NM_BLUE, EMERALD, fontFor, weightFor } from "./discovery/mockups";
 
 // ============================================================
 // Constants
@@ -15,79 +15,20 @@ const ACC = [
   { name: "Blue only", hex: "#0E497B", vibe: "Classic & Authoritative" }
 ];
 
-// Tile previews now key on the DBA name (falls back to person's first name, then placeholder).
-const wm = (n: string) => (n?.trim().split(/\s+/)[0] || "YOUR DBA").toUpperCase();
-const sn = (n: string) => n?.trim().split(/\s+/)[0] || "Your DBA";
+const sn = (n: string) => n?.trim().split(/\s+/)[0] || "you";
 
 const MOODS = [
-  { id: "classic", name: "Classic authority", desc: "Established, commanding, trusted",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#0E497B", borderRadius: 6, padding: "10px 12px", height: 72, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: 7 }}>
-          <div style={{ fontFamily: "Georgia,serif", fontSize: 11, fontWeight: 700, color: "#F5F0E8", letterSpacing: "1.5px" }}>{wm(n)}</div>
-          <div style={{ fontFamily: "Georgia,serif", fontSize: 7, color: "rgba(245,240,232,.5)", letterSpacing: "2px", marginTop: 2 }}>FINANCIAL</div>
-        </div>
-      </div>
-    ) },
-  { id: "modern", name: "Modern precision", desc: "Clean, geometric, sophisticated",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "10px 12px", height: 72, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div style={{ width: 16, height: 1.5, background: "#0E497B", marginBottom: 7 }} />
-        <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 10, fontWeight: 300, color: "#111", letterSpacing: "4px" }}>{wm(n)}</div>
-        <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 6.5, color: "#999", letterSpacing: "2px", marginTop: 2 }}>FINANCIAL</div>
-      </div>
-    ) },
-  { id: "warm", name: "Warm advisor", desc: "Approachable, human, partner-first",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#FDF8F0", border: "0.5px solid #E8D5B0", borderRadius: 6, padding: "10px 12px", height: 72, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div style={{ fontFamily: "Georgia,serif", fontSize: 14, color: "#2C4A6E", marginBottom: 2 }}>{sn(n)}</div>
-        <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 7, color: "#FFB81C", letterSpacing: "2px", fontWeight: 600 }}>FINANCIAL</div>
-      </div>
-    ) },
-  { id: "luxury", name: "Understated luxury", desc: "Quiet, refined, deliberately restrained",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#FAFAF8", border: "0.5px solid #DDDDD8", borderRadius: 6, padding: "10px 12px", height: 72, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-        <div style={{ fontFamily: "Georgia,serif", fontSize: 9, color: "#3a3a3a", letterSpacing: "5px", fontWeight: 300 }}>{wm(n)}</div>
-        <div style={{ width: 22, height: 0.5, background: "#bbb", margin: "4px 0" }} />
-        <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 6.5, color: "#bbb", letterSpacing: "3px" }}>FINANCIAL</div>
-      </div>
-    ) },
-  { id: "bold", name: "Bold statement", desc: "Confident, forward, impossible to ignore",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#141824", borderRadius: 6, padding: "10px 12px", height: 72, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.5px" }}>{wm(n)}</div>
-        <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 7, color: "#FFB81C", letterSpacing: "3px", marginTop: 4 }}>FINANCIAL</div>
-      </div>
-    ) },
-  { id: "heritage", name: "Trusted heritage", desc: "Balanced, enduring, credentialed",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#F5F5F2", border: "0.5px solid #C8C8C4", borderRadius: 6, padding: "10px 12px", height: 72, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}>
-        <div style={{ fontFamily: "Georgia,serif", fontSize: 12, fontWeight: 700, color: "#1a3a5c" }}>{sn(n)}</div>
-        <div style={{ width: "100%", height: 0.5, background: "#1a3a5c", opacity: .2, margin: "3px 0" }} />
-        <div style={{ fontFamily: "Georgia,serif", fontSize: 7, color: "#1a3a5c", letterSpacing: "2px", opacity: .55 }}>FINANCIAL ADVISORS</div>
-      </div>
-    ) }
+  { id: "classic", name: "Classic authority", desc: "Established, commanding, trusted", patch: { typo: "serif", tone: "established", density: "minimal" } },
+  { id: "modern", name: "Modern precision", desc: "Clean, geometric, sophisticated", patch: { typo: "sans", tone: "forward", density: "minimal" } },
+  { id: "warm", name: "Warm advisor", desc: "Approachable, human, partner-first", patch: { typo: "serif", tone: "forward", density: "minimal" } },
+  { id: "luxury", name: "Understated luxury", desc: "Quiet, refined, deliberately restrained", patch: { typo: "serif", tone: "established", density: "minimal" } },
+  { id: "bold", name: "Bold statement", desc: "Confident, forward, impossible to ignore", patch: { typo: "sans", tone: "established", density: "rich" } },
+  { id: "heritage", name: "Trusted heritage", desc: "Balanced, enduring, credentialed", patch: { typo: "serif", tone: "established", density: "rich" } },
 ];
 
-// NM-compliant lockup options. Per NM brand guidelines the NM lockup must remain primary;
-// these two control your DBA's relative visual weight inside that constraint.
 const NM_LEAN = [
-  { v: "nm_lead", l: "NM-led lockup", d: "Northwestern Mutual primary, your DBA presented as a named sub-brand.",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "8px 10px", height: 56, display: "flex", alignItems: "center", gap: 8 }}>
-        <div style={{ fontSize: 9, fontWeight: 700, color: "#0E497B", lineHeight: 1.3 }}>Northwestern<br />Mutual</div>
-        <div style={{ width: 0.5, height: 28, background: "#ccc" }} />
-        <div style={{ fontSize: 7.5, color: "#aaa", lineHeight: 1.3 }}>{sn(n)}<br />Financial</div>
-      </div>
-    ) },
-  { v: "equal", l: "Equal-weight lockup", d: "Both identities carry similar visual weight inside the NM-approved system.",
-    Preview: ({ n }: { n: string }) => (
-      <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "8px 10px", height: 56, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-        <div style={{ fontSize: 8.5, fontWeight: 600, color: "#0E497B", textAlign: "center", lineHeight: 1.3 }}>Northwestern<br />Mutual</div>
-        <div style={{ width: 0.5, height: 28, background: "#ccc" }} />
-        <div style={{ fontSize: 8.5, fontWeight: 600, color: "#0E497B", textAlign: "center", lineHeight: 1.3 }}>{sn(n)}<br />Financial</div>
-      </div>
-    ) }
+  { v: "nm_lead", l: "NM-led lockup", d: "Northwestern Mutual primary, your DBA presented as a named sub-brand." },
+  { v: "equal",   l: "Equal-weight lockup", d: "Both identities carry similar visual weight inside the NM-approved system." },
 ];
 
 const DIFF = ["Depth of planning","Long-term relationships","Niche expertise","Proactive communication","Multi-discipline approach","Community presence","Team-based service","Technology-forward","White-glove experience","Speed & responsiveness"];
@@ -104,35 +45,48 @@ const AXES: [string,string,string,string,string,string,string][] = [
 const AVOIDS = ["Generic / clip art","Overly complex","Cold / corporate","Too casual","Trendy (dates quickly)","Religious imagery","Political imagery","Too abstract","Overcrowded"];
 const TRUTH = ["Must feel premium","Must feel approachable","Must feel timeless","Must feel distinctive","Must work at any size","Must be bold","Must be subtle","Must age gracefully","Must stand alone from NM"];
 
-// Curated reference logos prospects can react to.
 const REFS = [
-  { id: "goldman", label: "Goldman Sachs", style: { fontFamily: "Georgia,serif", color: "#7A6A4F", fontWeight: 700, letterSpacing: "1px" } },
-  { id: "vanguard", label: "VANGUARD", style: { fontFamily: "system-ui", color: "#96151D", fontWeight: 700, letterSpacing: "2px" } },
-  { id: "fidelity", label: "Fidelity", style: { fontFamily: "Georgia,serif", color: "#3F8C2F", fontWeight: 600 } },
-  { id: "morgan", label: "J.P. MORGAN", style: { fontFamily: "Georgia,serif", color: "#0E1F3D", fontWeight: 700, letterSpacing: "1.5px" } },
-  { id: "apple", label: "", style: { fontFamily: "system-ui", color: "#000", fontWeight: 500 }, glyph: "" },
-  { id: "rolex", label: "ROLEX", style: { fontFamily: "Georgia,serif", color: "#127749", fontWeight: 700, letterSpacing: "3px" } },
-  { id: "edward", label: "Edward Jones", style: { fontFamily: "system-ui", color: "#005DAA", fontWeight: 600 } },
-  { id: "blackrock", label: "BlackRock", style: { fontFamily: "system-ui", color: "#000", fontWeight: 700 } },
-  { id: "ms", label: "Morgan Stanley", style: { fontFamily: "Georgia,serif", color: "#0066B2", fontWeight: 600, letterSpacing: ".5px" } },
-  { id: "raymond", label: "RAYMOND JAMES", style: { fontFamily: "Georgia,serif", color: "#FFB81C", fontWeight: 700, letterSpacing: "1.5px" } },
-  { id: "patek", label: "PATEK PHILIPPE", style: { fontFamily: "Georgia,serif", color: "#1a1a1a", fontWeight: 400, letterSpacing: "2px", fontSize: 10 } },
-  { id: "stripe", label: "stripe", style: { fontFamily: "system-ui", color: "#635BFF", fontWeight: 700, letterSpacing: "-1px" } }
+  { id: "goldman", label: "Goldman Sachs", takeaway: "Restrained serif authority — luxury without shouting." },
+  { id: "vanguard", label: "VANGUARD", takeaway: "Single bold word, blood-red gravitas, zero ornament." },
+  { id: "fidelity", label: "Fidelity", takeaway: "Friendly serif + green — trustworthy without being cold." },
+  { id: "morgan",   label: "J.P. MORGAN", takeaway: "Deep navy + serif tradition. Old-world institutional." },
+  { id: "rolex",    label: "ROLEX", takeaway: "Tight letterspacing + iconic green crown — premium signal." },
+  { id: "edward",   label: "Edward Jones", takeaway: "Approachable sans, bright blue — 'your neighbor advisor'." },
+  { id: "blackrock",label: "BlackRock", takeaway: "Heavy modern sans. Pure institutional weight." },
+  { id: "ms",       label: "Morgan Stanley", takeaway: "Mid-blue serif — corporate but not cold." },
+  { id: "raymond",  label: "RAYMOND JAMES", takeaway: "Wide spacing + amber accent — premium financial heritage." },
+  { id: "patek",    label: "PATEK PHILIPPE", takeaway: "Hairline serif, generous whitespace — old wealth, quiet." },
+  { id: "stripe",   label: "stripe", takeaway: "Lowercase + indigo — modern, fast, builder-friendly." },
+  { id: "apple",    label: "Apple", takeaway: "Iconic single mark — earned through decades of restraint." }
 ];
+const REF_STYLE: Record<string, React.CSSProperties> = {
+  goldman:   { fontFamily: "Georgia,serif", color: "#c9b27d", fontWeight: 700, letterSpacing: "1px" },
+  vanguard:  { fontFamily: "system-ui",     color: "#d8474f", fontWeight: 700, letterSpacing: "2px" },
+  fidelity:  { fontFamily: "Georgia,serif", color: "#5fb74e", fontWeight: 600 },
+  morgan:    { fontFamily: "Georgia,serif", color: "#a3b8d6", fontWeight: 700, letterSpacing: "1.5px" },
+  rolex:     { fontFamily: "Georgia,serif", color: "#3fb374", fontWeight: 700, letterSpacing: "3px" },
+  edward:    { fontFamily: "system-ui",     color: "#4d9ce8", fontWeight: 600 },
+  blackrock: { fontFamily: "system-ui",     color: "#f5f0e8", fontWeight: 700 },
+  ms:        { fontFamily: "Georgia,serif", color: "#5fa3d4", fontWeight: 600 },
+  raymond:   { fontFamily: "Georgia,serif", color: "#FFB81C", fontWeight: 700, letterSpacing: "1.5px" },
+  patek:     { fontFamily: "Georgia,serif", color: "#e8e0d0", fontWeight: 400, letterSpacing: "2px", fontSize: 11 },
+  stripe:    { fontFamily: "system-ui",     color: "#a896ff", fontWeight: 700, letterSpacing: "-1px" },
+  apple:     { fontFamily: "system-ui",     color: "#f5f0e8", fontWeight: 500 },
+};
 
 const SERVICES = [
-  { v: "logo", l: "Logo & brand identity" },
-  { v: "website", l: "Website" },
-  { v: "content", l: "Content (video / photo)" },
-  { v: "ads", l: "Paid ads & social" },
-  { v: "print", l: "Print collateral / signage" },
-  { v: "unsure", l: "Not sure yet — let's talk" }
+  { v: "logo", l: "Logo & brand identity", d: "The wordmark, lockup, color, type system." },
+  { v: "website", l: "Website", d: "A site that converts, not a brochure." },
+  { v: "content", l: "Content (video / photo)", d: "Brand video, headshots, story-driven media." },
+  { v: "ads", l: "Paid ads & social", d: "Meta + LinkedIn that fills your calendar." },
+  { v: "print", l: "Print collateral / signage", d: "Stationery, decks, office presence." },
+  { v: "unsure", l: "Not sure yet — let's talk", d: "We'll help you map it." }
 ];
 
 const CONFIDENCE = [
-  { v: "clear", l: "I know exactly what I want", d: "Just need someone to build it. Short path." },
-  { v: "guided", l: "I have a direction but want guidance", d: "Medium path with the key strategic questions." },
-  { v: "discovery", l: "I'm starting from scratch", d: "Walk me through the full discovery." }
+  { v: "clear", l: "I know exactly what I want", d: "Just need someone to build it. Short path (~3 min)." },
+  { v: "guided", l: "I have a direction but want guidance", d: "Medium path with the key strategic questions (~5 min)." },
+  { v: "discovery", l: "I'm starting from scratch", d: "Walk me through the full discovery (~8 min)." }
 ];
 
 // ============================================================
@@ -146,12 +100,8 @@ type Form = {
   mark: string | null; accent: string | null;
   inspiration: string; refLikes: string[]; refUploads: string[];
   avoid: string[]; vision: string; truth: string[];
-  // service-specific
   websiteCurrent: string; websiteGoals: string;
-  contentNeeds: string;
-  adsBudget: string;
-  printNeeds: string;
-  timeline: string;
+  contentNeeds: string; adsBudget: string; printNeeds: string; timeline: string;
 };
 const blank = (): Form => ({
   dbaStatus: null, dbaName: "", pitch: "", diff: [], diffCustom: "",
@@ -164,30 +114,46 @@ const blank = (): Form => ({
   websiteCurrent: "", websiteGoals: "", contentNeeds: "", adsBudget: "", printNeeds: "", timeline: ""
 });
 
-// ============================================================
-// Step plan based on confidence + services
-// Each step is a string id; we render a switch on the id below.
-// ============================================================
-const LOGO_STEPS_FULL = [
-  "dbaName", "pitch", "diff", "audience", "adjectives", "nmLean", "touchpoints",
-  "personality", "typo", "density", "tone", "mood", "mark", "accent",
-  "references", "avoid", "vision", "truth"
+// step plan
+const LOGO_STEPS_FULL = ["dbaName","pitch","diff","audience","adjectives","nmLean","touchpoints","personality","typo","density","tone","mood","mark","accent","references","avoid","vision","truth"];
+const LOGO_STEPS_GUIDED = ["dbaName","diff","audience","adjectives","nmLean","touchpoints","mood","mark","accent","references","vision","truth"];
+const LOGO_STEPS_CLEAR = ["dbaName","nmLean","mark","accent","touchpoints","references","vision","truth"];
+
+// chapter assignment per step id
+const CHAPTER: Record<string, number> = {
+  dbaName: 0, pitch: 0, diff: 0, audience: 0, adjectives: 0,
+  personality: 1, mood: 1, tone: 1, vision: 1, truth: 1,
+  nmLean: 2, typo: 2, density: 2, mark: 2, accent: 2, references: 2, avoid: 2,
+  touchpoints: 3, svc_website: 3, svc_content: 3, svc_ads: 3, svc_print: 3, svc_timeline: 3,
+};
+const CHAPTERS = [
+  { n: "01", t: "Who you are" },
+  { n: "02", t: "How it should feel" },
+  { n: "03", t: "What it looks like" },
+  { n: "04", t: "Where it lives" },
 ];
-const LOGO_STEPS_GUIDED = [
-  "dbaName", "diff", "audience", "adjectives", "nmLean", "touchpoints",
-  "mood", "mark", "accent", "references", "vision", "truth"
-];
-const LOGO_STEPS_CLEAR = [
-  "dbaName", "nmLean", "mark", "accent", "touchpoints", "references", "vision", "truth"
-];
+
+// host notes — appear after answering certain steps
+const HOST_NOTES: Record<string, (f: Form) => string | null> = {
+  adjectives: (f) => f.adjectives.length >= 2 ? `Got it — ${f.adjectives.slice(0,3).join(", ").toLowerCase()}. That already rules out half the directions.` : null,
+  mood: (f) => {
+    const m = MOODS.find(x => x.id === f.mood);
+    return m ? `${m.name} it is. We'll keep checking every choice against that.` : null;
+  },
+  vision: (f) => f.vision.length > 20 ? `That's the line we'll design against.` : null,
+  personality: (f) => {
+    const t = [f.pHH, f.pQB, f.pLN].filter(Boolean);
+    return t.length === 3 ? `That's a clear fingerprint. Onto the visuals.` : null;
+  },
+};
 
 function buildPlan(confidence: string, services: string[]): string[] {
   const wantsLogo = services.includes("logo") || services.includes("unsure");
   let steps: string[] = [];
   if (wantsLogo) {
-    steps = confidence === "clear" ? LOGO_STEPS_CLEAR
-          : confidence === "guided" ? LOGO_STEPS_GUIDED
-          : LOGO_STEPS_FULL;
+    steps = confidence === "clear" ? [...LOGO_STEPS_CLEAR]
+          : confidence === "guided" ? [...LOGO_STEPS_GUIDED]
+          : [...LOGO_STEPS_FULL];
   }
   if (services.includes("website")) steps.push("svc_website");
   if (services.includes("content")) steps.push("svc_content");
@@ -196,14 +162,12 @@ function buildPlan(confidence: string, services: string[]): string[] {
   steps.push("svc_timeline");
   return steps;
 }
-
-function engagementTier(confidence: string, services: string[]): string {
-  const n = services.filter(s => s !== "unsure").length;
-  if (confidence === "clear" && n <= 1) return "Light";
-  if (confidence === "discovery" || n >= 3) return "Full Studio";
+function engagementTier(c: string, s: string[]) {
+  const n = s.filter(x => x !== "unsure").length;
+  if (c === "clear" && n <= 1) return "Light";
+  if (c === "discovery" || n >= 3) return "Full Studio";
   return "Standard";
 }
-
 function genBrief(personName: string, f: Form, services: string[], confidence: string) {
   const dba = f.dbaName || `${sn(personName)} Financial`;
   const mood1 = MOODS.find(x => x.id === f.mood);
@@ -212,161 +176,112 @@ function genBrief(personName: string, f: Form, services: string[], confidence: s
   const markStr = f.mark === "icon" ? "an icon-plus-wordmark system" : f.mark === "wordmark" ? "a clean wordmark" : "mark structure TBD";
   const acStr = f.accent ? (ACC.find(a => a.hex === f.accent)?.name.toLowerCase() || "NM blue") + " accent on top of NM blue primary" : "secondary accent TBD";
   const toneStr = f.tone === "established" ? "established and authoritative" : f.tone === "forward" ? "contemporary and forward-looking" : "tonally balanced";
-  const adjStr = f.adjectives.length ? f.adjectives.join(", ") : "professional and trustworthy";
-  const audStr = f.audience.length ? f.audience.join(" and ") : "a broad client base";
+  const adjStr = f.adjectives.length ? f.adjectives.join(", ").toLowerCase() : "professional and trustworthy";
+  const audStr = f.audience.length ? f.audience.join(" and ").toLowerCase() : "a broad client base";
   const nmStr = f.nmLean === "nm_lead" ? "an NM-led lockup with the DBA presented as a named sub-brand"
     : f.nmLean === "equal" ? "an equal-weight lockup co-branded with Northwestern Mutual"
     : "an NM-compliant lockup TBD";
   const truthStr = f.truth[0] || "feel timeless and credible";
-  const svcStr = services.length ? services.join(", ") : "logo";
-  return `${dba} — ${confidence.toUpperCase()} confidence · scope: ${svcStr}. Identity should feel ${moodStr}, ${toneStr} in character, built on ${typoStr} using ${markStr} with ${acStr}. Practice serves ${audStr} and is described as ${adjStr}. Lockup approach: ${nmStr}. Above all, this brand must ${truthStr.toLowerCase()}.`;
+  return `${dba} — ${confidence.toUpperCase()} confidence · scope: ${services.join(", ") || "logo"}. Identity should feel ${moodStr}, ${toneStr} in character, built on ${typoStr} using ${markStr} with ${acStr}. Practice serves ${audStr} and is described as ${adjStr}. Lockup approach: ${nmStr}. Above all, this brand must ${truthStr.toLowerCase()}.`;
+}
+function visionSummary(name: string, f: Form): string {
+  const dba = f.dbaName || `${sn(name)} Financial`;
+  const mood = MOODS.find(x => x.id === f.mood)?.name.toLowerCase() || "distinctive";
+  const tone = f.tone === "established" ? "established but" : "forward and";
+  const typo = f.typo === "serif" ? "classic serif typography" : "modern sans-serif typography";
+  const mark = f.mark === "icon" ? "a paired icon and wordmark" : "a confident wordmark";
+  const ac = ACC.find(a => a.hex === f.accent)?.name.toLowerCase() || "a secondary";
+  const truth = (f.truth[0] || "Must feel timeless").replace(/^Must /,"").toLowerCase();
+  return `You want a brand that feels ${mood} — ${tone} ${f.tone === "established" ? "deliberately restrained" : "personal"}. It's built on ${typo}, ${mark}, and ${ac} accent that lives on top of NM blue. It serves ${(f.audience[0] || "your clients").toLowerCase()} and, above all, it has to ${truth}. That's ${dba}.`;
 }
 
 // ============================================================
-// UI primitives
+// UI primitives — dark theme
 // ============================================================
+const C = {
+  surface: "rgba(255,255,255,0.025)",
+  surfaceHi: "rgba(255,255,255,0.05)",
+  border: "rgba(255,255,255,0.08)",
+  borderHi: "rgba(255,255,255,0.18)",
+  ring: "rgba(255,184,28,0.35)",
+  text: "hsl(40 10% 94%)",
+  mute: "hsl(240 4% 60%)",
+  faint: "hsl(240 4% 40%)",
+};
+
 function OCard({ sel, onClick, children, style = {} }: any) {
   return (
     <button onClick={onClick} style={{
-      background: sel ? NMbg : "#f7f8fa",
-      border: `${sel ? "1.5px" : "0.5px"} solid ${sel ? NM : "#d0d5dd"}`,
-      borderRadius: 10, padding: "12px 16px", cursor: "pointer",
+      background: sel ? "rgba(14,73,123,0.18)" : C.surface,
+      border: `1px solid ${sel ? NM_BLUE : C.border}`,
+      boxShadow: sel ? `0 0 0 4px rgba(14,73,123,0.12), 0 8px 30px -10px rgba(68,160,120,0.25)` : "none",
+      borderRadius: 12, padding: "14px 18px", cursor: "pointer",
       width: "100%", textAlign: "left", fontFamily: "inherit",
-      color: "#111", marginBottom: 8, display: "block", ...style
+      color: C.text, marginBottom: 10, display: "block", transition: "all .2s ease", ...style
     }}>{children}</button>
   );
 }
 function Chip({ on, onClick, children, danger = false }: any) {
   return (
     <button onClick={onClick} style={{
-      display: "inline-block", padding: "6px 12px", borderRadius: 100,
-      border: `0.5px solid ${on ? (danger ? "#7a1f1f" : NM) : "#d0d5dd"}`,
+      display: "inline-block", padding: "8px 14px", borderRadius: 100,
+      border: `1px solid ${on ? (danger ? "#9c3e3e" : NM_BLUE) : C.border}`,
       cursor: "pointer", fontSize: 13, margin: 3, fontFamily: "inherit",
-      color: on ? "#fff" : "#666",
-      background: on ? (danger ? "#7a1f1f" : NM) : "transparent"
+      color: on ? "#fff" : C.mute,
+      background: on ? (danger ? "rgba(156,62,62,0.4)" : "rgba(14,73,123,0.5)") : "transparent",
+      transition: "all .2s ease",
     }}>{children}</button>
   );
 }
-function Q({ label, sub, why, children }: any) {
+function Q({ label, sub, why, host, children }: any) {
   return (
-    <div>
-      <h2 style={{ fontSize: 19, fontWeight: 400, color: "#111", marginBottom: 7, lineHeight: 1.35 }}>{label}</h2>
-      {sub && <p style={{ fontSize: 13, color: "#666", marginBottom: why ? 5 : 20, lineHeight: 1.6 }}>{sub}</p>}
-      {why && <p style={{ fontSize: 11, color: "#888", marginBottom: 18, fontStyle: "italic" }}>Why we ask: {why}</p>}
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+      {host && (
+        <div style={{ fontSize: 12, color: EMERALD, marginBottom: 14, fontStyle: "italic", letterSpacing: ".02em", opacity: .9 }}>
+          — {host}
+        </div>
+      )}
+      <h2 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 28, fontWeight: 300, color: C.text, marginBottom: 10, lineHeight: 1.2, letterSpacing: "-0.01em" }}>{label}</h2>
+      {sub && <p style={{ fontSize: 14, color: C.mute, marginBottom: why ? 6 : 24, lineHeight: 1.6 }}>{sub}</p>}
+      {why && <p style={{ fontSize: 11, color: C.faint, marginBottom: 22, fontStyle: "italic", letterSpacing: ".02em" }}>Why we ask: {why}</p>}
       {children}
-    </div>
+    </motion.div>
   );
 }
 const TA = (props: any) => (
-  <textarea {...props} style={{ width: "100%", background: "#f7f8fa", border: "0.5px solid #d0d5dd", borderRadius: 8, padding: "12px 14px", fontSize: 14, fontFamily: "inherit", color: "#111", resize: "none", outline: "none", lineHeight: 1.6, ...props.style }} />
+  <textarea {...props} style={{ width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, padding: "14px 16px", fontSize: 14, fontFamily: "inherit", color: C.text, resize: "none", outline: "none", lineHeight: 1.6, ...props.style }} />
 );
 const TxtInput = (props: any) => (
-  <input {...props} style={{ width: "100%", background: "#f7f8fa", border: "0.5px solid #d0d5dd", borderRadius: 8, padding: "10px 13px", fontSize: 14, fontFamily: "inherit", color: "#111", outline: "none", ...props.style }} />
+  <input {...props} style={{ width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 15px", fontSize: 14, fontFamily: "inherit", color: C.text, outline: "none", ...props.style }} />
 );
-function TotCard({ sel, onClick, Preview, label, n, recommended }: any) {
+
+// Mockup-tile button — used everywhere a choice has a visual
+function MockTile({ sel, onClick, label, sub, children, recommended }: any) {
   return (
-    <button onClick={onClick} style={{ borderRadius: 10, cursor: "pointer", border: `${sel ? "2px" : "1.5px"} solid ${sel ? NM : "#e0e4ea"}`, background: "#f7f8fa", padding: 13, textAlign: "left", fontFamily: "inherit", flex: 1, position: "relative" }}>
-      {recommended && <div style={{ position: "absolute", top: 6, right: 6, background: NM, color: "#fff", fontSize: 9, padding: "2px 6px", borderRadius: 4, letterSpacing: ".05em" }}>RECOMMENDED</div>}
-      <Preview n={n} />
-      <div style={{ fontSize: 13, fontWeight: 500, color: "#111", marginTop: 9 }}>{label}</div>
+    <button onClick={onClick} style={{
+      borderRadius: 14, cursor: "pointer",
+      border: `1px solid ${sel ? NM_BLUE : C.border}`,
+      background: sel ? "rgba(14,73,123,0.12)" : C.surface,
+      boxShadow: sel ? `0 0 0 3px rgba(14,73,123,0.18), 0 12px 40px -12px rgba(68,160,120,0.3)` : "none",
+      padding: 14, textAlign: "left", fontFamily: "inherit", flex: 1, position: "relative",
+      transition: "all .2s ease", color: C.text,
+    }}>
+      {recommended && <div style={{ position: "absolute", top: 8, right: 8, background: EMERALD, color: "#0a0d11", fontSize: 9, padding: "3px 7px", borderRadius: 4, letterSpacing: ".06em", fontWeight: 600 }}>RECOMMENDED</div>}
+      {children}
+      <div style={{ fontSize: 14, fontWeight: 500, color: C.text, marginTop: 12 }}>{label}</div>
+      {sub && <div style={{ fontSize: 11, color: C.mute, marginTop: 3, lineHeight: 1.4 }}>{sub}</div>}
     </button>
   );
 }
 
-// Tile previews for typo/density/tone/mark
-const TypoSerif = ({ n }: { n: string }) => (
-  <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <div style={{ fontFamily: "Georgia,serif", fontSize: 17, color: NM, fontWeight: 700 }}>{sn(n)}</div>
-    <div style={{ fontFamily: "Georgia,serif", fontSize: 9, color: "#777", letterSpacing: "2px", marginTop: 3 }}>FINANCIAL ADVISORS</div>
-  </div>
-);
-const TypoSans = ({ n }: { n: string }) => (
-  <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 14, color: NM, fontWeight: 300, letterSpacing: "4px" }}>{wm(n)}</div>
-    <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 8, color: "#aaa", letterSpacing: "3px", marginTop: 4 }}>FINANCIAL</div>
-  </div>
-);
-const DensMin = ({ n }: { n: string }) => (
-  <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", alignItems: "center", justifyContent: "center" }}>
-    <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 13, fontWeight: 300, color: NM, letterSpacing: "5px" }}>{wm(n)}</div>
-  </div>
-);
-const DensRich = ({ n }: { n: string }) => (
-  <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 3 }}>
-      <div style={{ width: 13, height: 13, background: NM, borderRadius: 2, opacity: .7 }} />
-      <div style={{ fontFamily: "Georgia,serif", fontSize: 11, fontWeight: 700, color: NM }}>{wm(n)} FINANCIAL</div>
-    </div>
-    <div style={{ fontSize: 8, color: "#999", letterSpacing: "1px", paddingLeft: 20 }}>Wealth Management & Advisory</div>
-    <div style={{ height: 0.5, background: "#ccc", marginTop: 5 }} />
-  </div>
-);
-const ToneEst = ({ n }: { n: string }) => (
-  <div style={{ background: NM, borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
-    <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: 7 }}>
-      <div style={{ fontFamily: "Georgia,serif", fontSize: 11, fontWeight: 700, color: "#F5F0E8", letterSpacing: "1px" }}>{wm(n)} FINANCIAL</div>
-    </div>
-  </div>
-);
-const ToneFwd = ({ n }: { n: string }) => (
-  <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", alignItems: "center", gap: 10 }}>
-    <div style={{ width: 3, height: 32, background: NM, borderRadius: 2, flexShrink: 0 }} />
-    <div>
-      <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 13, fontWeight: 300, color: NM, letterSpacing: "3px" }}>{wm(n)}</div>
-      <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 7.5, color: "#aaa", letterSpacing: "2px", marginTop: 3 }}>FINANCIAL</div>
-    </div>
-  </div>
-);
-const MarkWord = ({ n }: { n: string }) => (
-  <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-    <div style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 700, color: NM }}>{wm(n)}</div>
-    <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 8, letterSpacing: "2.5px", color: "#aaa", marginTop: 3 }}>FINANCIAL</div>
-  </div>
-);
-const MarkIcon = ({ n }: { n: string }) => (
-  <div style={{ background: "#f8f9fb", border: "0.5px solid #dde3ea", borderRadius: 6, padding: "13px 15px", height: 68, display: "flex", alignItems: "center", gap: 10 }}>
-    <div style={{ width: 28, height: 28, position: "relative", flexShrink: 0 }}>
-      <div style={{ position: "absolute", inset: 0, background: NM, borderRadius: 3, opacity: .12 }} />
-      <div style={{ position: "absolute", inset: 4, background: NM, borderRadius: 2, opacity: .4 }} />
-      <div style={{ position: "absolute", inset: 9, background: NM, borderRadius: 1 }} />
-    </div>
-    <div>
-      <div style={{ fontFamily: "Georgia,serif", fontSize: 13, fontWeight: 700, color: NM }}>{wm(n)}</div>
-      <div style={{ fontFamily: "system-ui,sans-serif", fontSize: 7.5, letterSpacing: "2px", color: "#aaa", marginTop: 2 }}>FINANCIAL</div>
-    </div>
-  </div>
-);
-
-// NM Guidelines tooltip
-function NMBadge() {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ position: "relative", display: "inline-block" }}>
-      <button onClick={() => setOpen(o => !o)} style={{ background: NMbg, border: `0.5px solid ${NM}`, color: NM, fontSize: 10, padding: "3px 8px", borderRadius: 100, cursor: "pointer", fontFamily: "inherit", letterSpacing: ".05em" }}>
-        NM GUIDELINES ✓
-      </button>
-      {open && (
-        <div style={{ position: "absolute", top: "100%", left: 0, marginTop: 6, background: "#fff", border: `0.5px solid ${NM}`, borderRadius: 8, padding: 12, fontSize: 11, color: "#333", width: 260, zIndex: 10, boxShadow: "0 4px 16px rgba(0,0,0,.06)", lineHeight: 1.5 }}>
-          <strong style={{ color: NM }}>What this tool enforces:</strong>
-          <ul style={{ paddingLeft: 16, margin: "6px 0 0", listStyle: "disc" }}>
-            <li>NM lockup is always primary — never replaced.</li>
-            <li>NM Blue is the primary color; you choose a secondary accent only.</li>
-            <li>Mark structure must work co-branded with NM at small sizes.</li>
-            <li>Final logo files require NM compliance review before use.</li>
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ============================================================
-// Reference upload step
+// Reference step
 // ============================================================
 function ReferenceStep({ form, set, tog }: any) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [flipped, setFlipped] = useState<string | null>(null);
 
   const onUpload = async (e: any) => {
     const files = Array.from(e.target.files as FileList).slice(0, 3 - form.refUploads.length);
@@ -386,31 +301,74 @@ function ReferenceStep({ form, set, tog }: any) {
   };
 
   return (
-    <Q label="Logos that resonate with you." sub="Tap any below that catch your eye, upload references, or describe brands you admire." why="Your gut reaction to existing brands tells us more than any description.">
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginBottom: 16 }}>
+    <Q label="Logos that resonate with you." sub="Tap any below that catch your eye, or upload references. Tap a second time to see what we'd take from each." why="Your gut reaction tells us more than any description." host="No wrong answers — just what you can't look away from.">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 18 }}>
         {REFS.map(r => {
           const on = form.refLikes.includes(r.id);
+          const flip = flipped === r.id;
           return (
-            <button key={r.id} onClick={() => tog("refLikes", r.id)} style={{ background: on ? NMbg : "#f7f8fa", border: `${on ? "1.5px" : "0.5px"} solid ${on ? NM : "#d0d5dd"}`, borderRadius: 8, padding: "16px 8px", height: 64, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontFamily: "inherit", fontSize: 13, ...r.style }}>
-              {(r as any).glyph || r.label}
+            <button key={r.id} onClick={() => { if (!on) tog("refLikes", r.id); else setFlipped(flip ? null : r.id); }} style={{
+              background: on ? "rgba(14,73,123,0.18)" : "rgba(255,255,255,0.03)",
+              border: `1px solid ${on ? NM_BLUE : C.border}`,
+              borderRadius: 10, padding: 12, height: 80,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", fontFamily: "inherit", fontSize: 14,
+              transition: "all .2s ease", textAlign: "center", lineHeight: 1.3,
+              ...(flip ? { fontFamily: "'Outfit',sans-serif", color: EMERALD, fontSize: 11, fontWeight: 400 } : REF_STYLE[r.id] || {}),
+            }}>
+              {flip ? r.takeaway : r.label}
             </button>
           );
         })}
       </div>
-
-      <div style={{ background: "#f7f8fa", border: "0.5px dashed #c0c8d2", borderRadius: 8, padding: 14, marginBottom: 12 }}>
-        <div style={{ fontSize: 12, color: "#666", marginBottom: 8 }}>Or upload up to 3 reference images (PNG/JPG, &lt; 5MB each)</div>
-        <input ref={fileRef} type="file" accept="image/*" multiple onChange={onUpload} disabled={busy || form.refUploads.length >= 3} style={{ fontSize: 12 }} />
+      <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16 }}>
+        <div style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>Or upload your own references</div>
+        <div onClick={() => fileRef.current?.click()} style={{
+          border: `1.5px dashed ${C.border}`, borderRadius: 10, padding: "20px", textAlign: "center",
+          cursor: "pointer", color: C.mute, fontSize: 13, background: C.surface,
+        }}>
+          {busy ? "Uploading…" : `Drop or click to upload (max 3 · 5MB each) — ${form.refUploads.length}/3 used`}
+        </div>
+        <input ref={fileRef} type="file" accept="image/*" multiple style={{ display: "none" }} onChange={onUpload} />
+        {err && <div style={{ color: "#e8a4a4", fontSize: 12, marginTop: 6 }}>{err}</div>}
         {form.refUploads.length > 0 && (
-          <div style={{ marginTop: 10, fontSize: 11, color: "#444" }}>
-            ✓ {form.refUploads.length} file{form.refUploads.length === 1 ? "" : "s"} attached
+          <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
+            {form.refUploads.map((p: string) => (
+              <div key={p} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", fontSize: 11, color: C.mute, display: "flex", alignItems: "center", gap: 8 }}>
+                {p.split("-").slice(1).join("-").slice(0, 24)}…
+                <button onClick={() => set("refUploads", form.refUploads.filter((x: string) => x !== p))} style={{ background: "transparent", border: "none", color: C.faint, cursor: "pointer", fontSize: 14 }}>×</button>
+              </div>
+            ))}
           </div>
         )}
-        {err && <div style={{ marginTop: 6, fontSize: 11, color: "#c0392b" }}>{err}</div>}
       </div>
-
-      <TA value={form.inspiration} onChange={(e: any) => set("inspiration", e.target.value)} rows={3} placeholder="Optional: anything else worth noting? e.g. 'Apple's restraint, Vanguard's clarity'..." />
     </Q>
+  );
+}
+
+// ============================================================
+// Personality slider axis
+// ============================================================
+function AxisSlider({ axis, value, onSet }: { axis: typeof AXES[number]; value: string | null; onSet: (v: string) => void }) {
+  const [l, lv, rv, r, , ld, rd] = axis;
+  // 0 = left, 1 = right, 0.5 = unset
+  const pos = value === lv ? 0 : value === rv ? 1 : 0.5;
+  return (
+    <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "16px 18px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+        <button onClick={() => onSet(lv)} style={{ background: "transparent", border: "none", color: value === lv ? EMERALD : C.mute, fontSize: 13, fontFamily: "inherit", cursor: "pointer", textAlign: "left", padding: 0, fontWeight: value === lv ? 500 : 400 }}>
+          <div>{l}</div>
+          <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{ld}</div>
+        </button>
+        <button onClick={() => onSet(rv)} style={{ background: "transparent", border: "none", color: value === rv ? EMERALD : C.mute, fontSize: 13, fontFamily: "inherit", cursor: "pointer", textAlign: "right", padding: 0, fontWeight: value === rv ? 500 : 400 }}>
+          <div>{r}</div>
+          <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{rd}</div>
+        </button>
+      </div>
+      <div style={{ position: "relative", height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 100 }}>
+        <div style={{ position: "absolute", top: -6, left: `calc(${pos * 100}% - 8px)`, width: 16, height: 16, borderRadius: "50%", background: value ? EMERALD : "#444", transition: "left .25s ease, background .25s ease", boxShadow: value ? `0 0 0 6px rgba(68,160,120,0.15)` : "none" }} />
+      </div>
+    </div>
   );
 }
 
@@ -419,40 +377,34 @@ function ReferenceStep({ form, set, tog }: any) {
 // ============================================================
 function StepRender({ id, form, set, tog, name }: any) {
   const dbaPreview = form.dbaName || sn(name);
-  // Recommendation logic for mark structure
-  const rec = form.density === "rich" || form.tone === "established" || form.mood === "heritage";
+  const rec = (form.audience.includes("Business owners") || form.audience.includes("High-net-worth families")) && form.touchpoints.length >= 3;
+  const spec = deriveSpec(form, dbaPreview);
 
   switch (id) {
     case "dbaName":
       return (
-        <Q label="Your DBA name" sub="The name your practice will operate under. We'll use this in every preview going forward." why="Different exercises if we're naming vs. just designing.">
-          <div style={{ marginBottom: 12 }}>
-            {[["approved","✓","It's been approved"],["considering","◎","Still deciding / in progress"],["none","○","Not yet — help me think about it"]].map(([v, ic, l]: any) => (
-              <OCard key={v} sel={form.dbaStatus === v} onClick={() => set("dbaStatus", v)}>
-                <span style={{ marginRight: 10, color: form.dbaStatus === v ? NM : "#aaa" }}>{ic}</span>{l}
-              </OCard>
+        <Q label="What's your DBA?" sub="Your practice name as it should appear in the lockup." host="Most important answer — everything renders against this in real time." why="Anchors all preview tiles to your real brand.">
+          <div style={{ marginBottom: 16 }}>
+            {[{ v: "have", l: "I have a name" }, { v: "few", l: "I have a few I'm considering" }, { v: "none", l: "Help me name it" }].map(o => (
+              <OCard key={o.v} sel={form.dbaStatus === o.v} onClick={() => set("dbaStatus", o.v)}>{o.l}</OCard>
             ))}
           </div>
-          <TxtInput value={form.dbaName} onChange={(e: any) => set("dbaName", e.target.value)} placeholder={form.dbaStatus === "none" ? "Type a working name (we'll refine it)" : "Enter your DBA name..."} />
-          {form.dbaName && <div style={{ marginTop: 14, fontSize: 11, color: "#888" }}>↓ Live preview · all design tiles will use this name</div>}
-          {form.dbaName && (
-            <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-              {(() => { const A = MOODS[0].Preview; const B = MOODS[1].Preview; return <><A n={form.dbaName} /><B n={form.dbaName} /></>; })()}
-            </div>
+          {form.dbaStatus && (
+            <TxtInput value={form.dbaName} onChange={(e: any) => set("dbaName", e.target.value)} placeholder={form.dbaStatus === "none" ? "Working name (we'll refine it)" : "Doe Wealth Strategies"} />
           )}
         </Q>
       );
     case "pitch":
       return (
-        <Q label="Describe your practice in 1–2 sentences." sub="Not your elevator pitch. The raw truth about what you do." why="Your language often surfaces the emotional core of the brand.">
-          <TA value={form.pitch} onChange={(e: any) => set("pitch", e.target.value)} rows={4} maxLength={300} placeholder="e.g. We work with business owners who need a financial partner, not a product salesperson..." />
-          <div style={{ textAlign: "right", fontSize: 11, color: "#aaa", marginTop: 4 }}>{form.pitch.length}/300</div>
+        <Q label="In one sentence — what do you actually do?" sub="No NM script. Talk like you'd talk to a friend at a dinner." why="Tells us the voice, not just the offering." host="Imagine someone asks at a dinner party. That answer.">
+          <TA value={form.pitch} onChange={(e: any) => set("pitch", e.target.value)} rows={4} maxLength={240} placeholder="I help business owners in Central Florida design the second half of their financial life so it actually feels intentional." />
+          <div style={{ textAlign: "right", fontSize: 11, color: C.faint, marginTop: 4 }}>{form.pitch.length}/240</div>
         </Q>
       );
     case "diff":
       return (
         <Q label="What makes your practice different?" sub="Select all that apply." why="Differentiators often become the emotional anchor of the brand.">
-          <div style={{ marginBottom: 10 }}>{DIFF.map(d => <Chip key={d} on={form.diff.includes(d)} onClick={() => tog("diff", d)}>{d}</Chip>)}</div>
+          <div style={{ marginBottom: 12 }}>{DIFF.map(d => <Chip key={d} on={form.diff.includes(d)} onClick={() => tog("diff", d)}>{d}</Chip>)}</div>
           <TxtInput value={form.diffCustom} onChange={(e: any) => set("diffCustom", e.target.value)} placeholder="Anything not listed..." />
         </Q>
       );
@@ -466,121 +418,128 @@ function StepRender({ id, form, set, tog, name }: any) {
       return (
         <Q label="How do clients describe working with you?" sub="Pick up to 3. Should feel true — not aspirational." why="These become the vocabulary we test every logo decision against.">
           <div style={{ marginBottom: 10 }}>{ADJ.map(a => <Chip key={a} on={form.adjectives.includes(a)} onClick={() => { if (form.adjectives.includes(a) || form.adjectives.length < 3) tog("adjectives", a); }}>{a}</Chip>)}</div>
-          <div style={{ fontSize: 12, color: "#aaa" }}>{form.adjectives.length}/3 selected</div>
+          <div style={{ fontSize: 12, color: C.faint }}>{form.adjectives.length}/3 selected</div>
         </Q>
       );
     case "nmLean":
       return (
-        <Q label="Choose your NM-compliant lockup approach." sub="Per NM brand guidelines, the Northwestern Mutual lockup must remain primary. These options control your DBA's relative visual weight inside that constraint." why="Sets the visual hierarchy we'll design within.">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        <Q label="Choose your NM-compliant lockup approach." sub="Per NM brand guidelines, the Northwestern Mutual lockup must remain primary." why="Sets the visual hierarchy.">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {NM_LEAN.map(o => (
-              <button key={o.v} onClick={() => set("nmLean", o.v)} style={{ background: form.nmLean === o.v ? NMbg : "#f7f8fa", border: `${form.nmLean === o.v ? "1.5px" : "0.5px"} solid ${form.nmLean === o.v ? NM : "#d0d5dd"}`, borderRadius: 10, padding: 10, cursor: "pointer", textAlign: "left", fontFamily: "inherit" }}>
-                <o.Preview n={dbaPreview} />
-                <div style={{ fontSize: 12, fontWeight: 500, color: "#111", marginTop: 8 }}>{o.l}</div>
-                <div style={{ fontSize: 11, color: "#888", marginTop: 3, lineHeight: 1.4 }}>{o.d}</div>
-              </button>
+              <MockTile key={o.v} sel={form.nmLean === o.v} onClick={() => set("nmLean", o.v)} label={o.l} sub={o.d}>
+                <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 8, padding: "14px 12px", height: 86, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+                  <div style={{ fontFamily: "'Outfit',sans-serif", fontSize: o.v === "nm_lead" ? 11 : 9, fontWeight: 600, color: "#f5f0e8", letterSpacing: ".05em", lineHeight: 1.2 }}>NORTHWESTERN<br/>MUTUAL</div>
+                  <div style={{ width: 1, height: 30, background: "rgba(255,255,255,.18)" }} />
+                  <div style={{ fontFamily: fontFor(spec), fontSize: o.v === "equal" ? 11 : 9, color: o.v === "equal" ? "#f5f0e8" : "rgba(245,240,232,.5)", fontWeight: weightFor(spec), letterSpacing: spec.typo === "sans" ? ".15em" : "0" }}>{spec.typo === "sans" ? spec.word : spec.short}</div>
+                </div>
+              </MockTile>
             ))}
           </div>
         </Q>
       );
     case "touchpoints":
       return (
-        <Q label="Where will this logo primarily live?" sub="Select all that apply." why="A logo for a 40px social avatar is designed differently than one built for letterhead.">
+        <Q label="Where will this primarily live?" sub="Select all that apply." why="A logo for a 40px social avatar is designed differently than one built for letterhead.">
           <div>{TOUCH.map(t => <Chip key={t} on={form.touchpoints.includes(t)} onClick={() => tog("touchpoints", t)}>{t}</Chip>)}</div>
         </Q>
       );
-    case "personality": {
-      const answered = [form.pHH, form.pLM, form.pQB, form.pII, form.pLN].filter(Boolean).length;
+    case "personality":
       return (
-        <Q label="Brand personality — pick one from each pair." sub="Five axes that define your brand's emotional fingerprint." why="The most important screen in the intake.">
-          <div style={{ display: "grid", gap: 8 }}>
-            {AXES.map(([l, lv, rv, r, field, ld, rd]) => (
-              <div key={field} style={{ background: "#f7f8fa", borderRadius: 8, padding: "10px 12px" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
-                  {[[l, lv, ld], [r, rv, rd]].map(([label, val, desc]) => (
-                    <button key={val} onClick={() => set(field, val)} style={{ background: (form as any)[field] === val ? NMbg : "#fff", border: `${(form as any)[field] === val ? "1.5px" : "0.5px"} solid ${(form as any)[field] === val ? NM : "#d0d5dd"}`, borderRadius: 8, padding: "9px 12px", cursor: "pointer", fontFamily: "inherit", textAlign: "center" }}>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: "#111", marginBottom: 2 }}>{label}</div>
-                      <div style={{ fontSize: 10, color: "#888" }}>{desc}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
+        <Q label="Brand personality — slide each axis." sub="Five axes that define your brand's emotional fingerprint." why="The most important screen in the intake.">
+          <div style={{ display: "grid", gap: 10 }}>
+            {AXES.map(axis => (
+              <AxisSlider key={axis[4]} axis={axis} value={(form as any)[axis[4]]} onSet={(v) => set(axis[4] as keyof Form, v)} />
             ))}
           </div>
-          <div style={{ fontSize: 12, color: "#aaa", textAlign: "right", marginTop: 6 }}>{answered}/5 answered</div>
         </Q>
       );
-    }
     case "typo":
       return (
         <Q label="Typography — this or that." sub="Which feels more like you?" why="Serif feels authoritative; sans feels modern.">
-          <div style={{ display: "flex", gap: 12 }}>
-            <TotCard n={dbaPreview} sel={form.typo === "serif"} onClick={() => set("typo", "serif")} Preview={TypoSerif} label="Serif / classic" />
-            <TotCard n={dbaPreview} sel={form.typo === "sans"} onClick={() => set("typo", "sans")} Preview={TypoSans} label="Sans / modern" />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <MockTile sel={form.typo === "serif"} onClick={() => set("typo", "serif")} label="Serif / classic" sub="Heritage, weight, considered.">
+              <MiniCard s={{ ...spec, typo: "serif" }} />
+            </MockTile>
+            <MockTile sel={form.typo === "sans"} onClick={() => set("typo", "sans")} label="Sans / modern" sub="Open, contemporary, geometric.">
+              <MiniCard s={{ ...spec, typo: "sans" }} />
+            </MockTile>
           </div>
         </Q>
       );
     case "density":
       return (
         <Q label="Design density — this or that." sub="How should your brand use space?" why="Minimal feels confident; layered feels comprehensive.">
-          <div style={{ display: "flex", gap: 12 }}>
-            <TotCard n={dbaPreview} sel={form.density === "minimal"} onClick={() => set("density", "minimal")} Preview={DensMin} label="Minimal / open" />
-            <TotCard n={dbaPreview} sel={form.density === "rich"} onClick={() => set("density", "rich")} Preview={DensRich} label="Layered / rich" />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <MockTile sel={form.density === "minimal"} onClick={() => set("density", "minimal")} label="Minimal / open" sub="Confident silence around the mark.">
+              <MiniCard s={{ ...spec, density: "minimal" }} />
+            </MockTile>
+            <MockTile sel={form.density === "rich"} onClick={() => set("density", "rich")} label="Layered / rich" sub="More information, more presence.">
+              <MiniCard s={{ ...spec, density: "rich" }} />
+            </MockTile>
           </div>
         </Q>
       );
     case "tone":
       return (
         <Q label="Overall tone — this or that." sub="If your brand walked into a room, how would it carry itself?" why="Both are professional — they project differently.">
-          <div style={{ display: "flex", gap: 12 }}>
-            <TotCard n={dbaPreview} sel={form.tone === "established"} onClick={() => set("tone", "established")} Preview={ToneEst} label="Established / traditional" />
-            <TotCard n={dbaPreview} sel={form.tone === "forward"} onClick={() => set("tone", "forward")} Preview={ToneFwd} label="Forward / contemporary" />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <MockTile sel={form.tone === "established"} onClick={() => set("tone", "established")} label="Established / traditional">
+              <MiniCard s={{ ...spec, tone: "established" }} />
+            </MockTile>
+            <MockTile sel={form.tone === "forward"} onClick={() => set("tone", "forward")} label="Forward / contemporary">
+              <MiniCard s={{ ...spec, tone: "forward" }} />
+            </MockTile>
           </div>
         </Q>
       );
     case "mood":
       return (
-        <Q label="Which aesthetic direction resonates most?" sub="Pick the one that feels closest. Directions, not final logos." why="Your gut reaction is more honest than any description.">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-            {MOODS.map(m => (
-              <button key={m.id} onClick={() => set("mood", m.id)} style={{ background: form.mood === m.id ? NMbg : "#f7f8fa", border: `${form.mood === m.id ? "1.5px" : "0.5px"} solid ${form.mood === m.id ? NM : "#d0d5dd"}`, borderRadius: 10, padding: 10, cursor: "pointer", textAlign: "left", fontFamily: "inherit" }}>
-                <m.Preview n={dbaPreview} />
-                <div style={{ fontSize: 12, fontWeight: 500, color: "#111", marginTop: 7 }}>{m.name}</div>
-                <div style={{ fontSize: 10, color: "#888", marginTop: 2, lineHeight: 1.4 }}>{m.desc}</div>
-              </button>
-            ))}
+        <Q label="Which aesthetic resonates most?" sub="Pick the one that feels closest. Each shows your name on a real card." why="Your gut reaction is more honest than any description.">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+            {MOODS.map(m => {
+              const moodSpec = { ...spec, ...m.patch as any };
+              return (
+                <MockTile key={m.id} sel={form.mood === m.id} onClick={() => set("mood", m.id)} label={m.name} sub={m.desc}>
+                  <MiniCard s={moodSpec} />
+                </MockTile>
+              );
+            })}
           </div>
         </Q>
       );
     case "mark":
       return (
         <Q label="Mark structure — this or that." sub="Wordmark only or icon + wordmark?" why="An icon adds versatility; a wordmark is timeless.">
-          <div style={{ display: "flex", gap: 12 }}>
-            <TotCard n={dbaPreview} sel={form.mark === "wordmark"} onClick={() => set("mark", "wordmark")} Preview={MarkWord} label="Wordmark only" />
-            <TotCard n={dbaPreview} sel={form.mark === "icon"} onClick={() => set("mark", "icon")} Preview={MarkIcon} label="Icon + wordmark" recommended={rec} />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <MockTile sel={form.mark === "wordmark"} onClick={() => set("mark", "wordmark")} label="Wordmark only">
+              <MiniCard s={{ ...spec, mark: "wordmark" }} />
+            </MockTile>
+            <MockTile sel={form.mark === "icon"} onClick={() => set("mark", "icon")} label="Icon + wordmark" recommended={rec}>
+              <MiniCard s={{ ...spec, mark: "icon" }} />
+            </MockTile>
           </div>
-          {rec && <div style={{ fontSize: 11, color: NM, marginTop: 10, fontStyle: "italic" }}>Based on your other answers, an icon + wordmark will give your brand the depth it needs.</div>}
+          {rec && <div style={{ fontSize: 11, color: EMERALD, marginTop: 12, fontStyle: "italic" }}>Based on your other answers, an icon + wordmark gives the depth you need.</div>}
         </Q>
       );
     case "accent":
       return (
-        <Q label="Choose your secondary accent color." sub="NM Blue is locked as your primary — these are NM-approved secondary accents that personalize your identity." why="Differentiates you from other NM advisors within compliance.">
-          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: NMbg, border: `1px solid ${NM}`, borderRadius: 10, marginBottom: 14 }}>
-            <div style={{ width: 26, height: 26, borderRadius: 5, background: NM, flexShrink: 0 }} />
+        <Q label="Choose your secondary accent." sub="NM Blue is locked as primary — these are NM-approved secondary accents that personalize you." why="Differentiates you from other NM advisors within compliance." host="Watch the card update live as you tap.">
+          <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", background: "rgba(14,73,123,0.18)", border: `1px solid ${NM_BLUE}`, borderRadius: 10, marginBottom: 16 }}>
+            <div style={{ width: 28, height: 28, borderRadius: 6, background: NM_BLUE, flexShrink: 0 }} />
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, color: NM, fontWeight: 600 }}>NM Blue · Primary (locked)</div>
-              <div style={{ fontSize: 11, color: "#666" }}>Required by NM brand guidelines</div>
+              <div style={{ fontSize: 13, color: "#cfdfee", fontWeight: 600 }}>NM Blue · Primary (locked)</div>
+              <div style={{ fontSize: 11, color: C.mute }}>Required by NM brand guidelines</div>
             </div>
-            <span style={{ fontSize: 10, color: NM, background: "#fff", padding: "2px 6px", borderRadius: 4, border: `0.5px solid ${NM}` }}>FIXED</span>
+            <span style={{ fontSize: 10, color: "#cfdfee", background: "rgba(0,0,0,.3)", padding: "3px 8px", borderRadius: 4, letterSpacing: ".05em" }}>FIXED</span>
           </div>
-          {ACC.filter(a => a.hex !== NM).map(a => (
+          {ACC.filter(a => a.hex !== NM_BLUE).map(a => (
             <OCard key={a.hex} sel={form.accent === a.hex} onClick={() => set("accent", a.hex)} style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ width: 26, height: 26, borderRadius: 5, background: a.hex, flexShrink: 0, border: "0.5px solid #ccc" }} />
+              <div style={{ width: 28, height: 28, borderRadius: 6, background: a.hex, flexShrink: 0, border: "0.5px solid rgba(255,255,255,.1)" }} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, color: "#111" }}>{a.name}</div>
-                <div style={{ fontSize: 11, color: "#888" }}>{a.vibe}</div>
+                <div style={{ fontSize: 14, color: C.text }}>{a.name}</div>
+                <div style={{ fontSize: 11, color: C.mute }}>{a.vibe}</div>
               </div>
-              {form.accent === a.hex && <span style={{ color: NM }}>✓</span>}
+              {form.accent === a.hex && <span style={{ color: EMERALD }}>✓</span>}
             </OCard>
           ))}
         </Q>
@@ -595,9 +554,9 @@ function StepRender({ id, form, set, tog, name }: any) {
       );
     case "vision":
       return (
-        <Q label="Five years from now — what do you want people to say when they see your logo?" sub="One sentence. Future tense. Be ambitious." why="Reveals what the brand needs to grow into.">
+        <Q label="Five years from now — what do you want people to say when they see this logo?" sub="One sentence. Future tense. Be ambitious." why="Reveals what the brand needs to grow into." host="This is the line we'll design against.">
           <TA value={form.vision} onChange={(e: any) => set("vision", e.target.value)} rows={4} maxLength={200} placeholder={`"That logo tells you everything — serious, local, and built to last."`} />
-          <div style={{ textAlign: "right", fontSize: 11, color: "#aaa", marginTop: 4 }}>{form.vision.length}/200</div>
+          <div style={{ textAlign: "right", fontSize: 11, color: C.faint, marginTop: 4 }}>{form.vision.length}/200</div>
         </Q>
       );
     case "truth":
@@ -606,48 +565,27 @@ function StepRender({ id, form, set, tog, name }: any) {
           <div>{TRUTH.map(t => <Chip key={t} on={form.truth.includes(t)} onClick={() => tog("truth", t)}>{t}</Chip>)}</div>
         </Q>
       );
-
     case "svc_website":
       return (
-        <Q label="Tell us about your website needs." sub="Even a few sentences gives us a real starting point.">
-          <label style={{ fontSize: 11, color: "#888", letterSpacing: ".08em", textTransform: "uppercase" }}>Current site (URL or "none")</label>
+        <Q label="Tell us about the website." sub="Even a few sentences gives us a real starting point.">
+          <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Current site (URL or "none")</label>
           <TxtInput value={form.websiteCurrent} onChange={(e: any) => set("websiteCurrent", e.target.value)} placeholder="https://..." style={{ marginTop: 6, marginBottom: 14 }} />
-          <label style={{ fontSize: 11, color: "#888", letterSpacing: ".08em", textTransform: "uppercase" }}>Goals & must-haves</label>
-          <TA value={form.websiteGoals} onChange={(e: any) => set("websiteGoals", e.target.value)} rows={4} placeholder="e.g. Lead capture, team bios, scheduling, content hub..." style={{ marginTop: 6 }} />
+          <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Goals & must-haves</label>
+          <TA value={form.websiteGoals} onChange={(e: any) => set("websiteGoals", e.target.value)} rows={4} placeholder="Lead capture, team bios, scheduling, content hub..." style={{ marginTop: 6 }} />
         </Q>
       );
     case "svc_content":
-      return (
-        <Q label="What kind of content do you need?" sub="Photo, video, social, website copy — anything you're already thinking about.">
-          <TA value={form.contentNeeds} onChange={(e: any) => set("contentNeeds", e.target.value)} rows={5} placeholder="e.g. Quarterly brand video, headshots for the team, weekly LinkedIn post copy..." />
-        </Q>
-      );
+      return <Q label="What kind of content?" sub="Photo, video, social, website copy."><TA value={form.contentNeeds} onChange={(e: any) => set("contentNeeds", e.target.value)} rows={5} placeholder="Quarterly brand video, headshots, weekly LinkedIn..." /></Q>;
     case "svc_ads":
-      return (
-        <Q label="Paid ads & social — what's the goal?" sub="Approximate monthly budget range and what you'd want it to drive.">
-          <TA value={form.adsBudget} onChange={(e: any) => set("adsBudget", e.target.value)} rows={5} placeholder="e.g. ~$2k/mo, primarily Meta + LinkedIn, goal is qualified leads from business owners 40+..." />
-        </Q>
-      );
+      return <Q label="Paid ads & social — what's the goal?" sub="Approximate monthly budget and what it should drive."><TA value={form.adsBudget} onChange={(e: any) => set("adsBudget", e.target.value)} rows={5} placeholder="~$2k/mo, Meta + LinkedIn, qualified business-owner leads..." /></Q>;
     case "svc_print":
-      return (
-        <Q label="Print & physical collateral?" sub="Stationery, signage, presentation decks, event materials.">
-          <TA value={form.printNeeds} onChange={(e: any) => set("printNeeds", e.target.value)} rows={5} placeholder="e.g. New office signage, refreshed business cards, client-meeting folders..." />
-        </Q>
-      );
+      return <Q label="Print & physical collateral?" sub="Stationery, signage, decks, event materials."><TA value={form.printNeeds} onChange={(e: any) => set("printNeeds", e.target.value)} rows={5} placeholder="Office signage, business cards, client folders..." /></Q>;
     case "svc_timeline":
-      return (
-        <Q label="When are you hoping to launch?" sub="Honest timeline helps us scope the engagement properly.">
-          <TxtInput value={form.timeline} onChange={(e: any) => set("timeline", e.target.value)} placeholder="e.g. End of Q1, no rush, ASAP for an event on..." />
-        </Q>
-      );
-
+      return <Q label="When are you hoping to launch?" sub="Honest timeline helps us scope the engagement properly."><TxtInput value={form.timeline} onChange={(e: any) => set("timeline", e.target.value)} placeholder="End of Q1, no rush, ASAP for an event on..." /></Q>;
     default: return null;
   }
 }
 
-// ============================================================
-// Validation per step id
-// ============================================================
 function canAdvance(id: string, f: Form): boolean {
   switch (id) {
     case "dbaName": return f.dbaStatus !== null && f.dbaName.trim().length > 1;
@@ -664,7 +602,7 @@ function canAdvance(id: string, f: Form): boolean {
     case "mood": return f.mood !== null;
     case "mark": return f.mark !== null;
     case "accent": return f.accent !== null;
-    case "references": return true; // optional
+    case "references": return true;
     case "avoid": return true;
     case "vision": return f.vision.trim().length > 5;
     case "truth": return f.truth.length > 0;
@@ -678,9 +616,29 @@ function canAdvance(id: string, f: Form): boolean {
 }
 
 // ============================================================
-// Landing — name → services → confidence
+// Vision Board (right rail, desktop only)
 // ============================================================
-function Landing({ onStart }: { onStart: (n: string, e: string, p: string, services: string[], confidence: string) => void }) {
+function VisionBoard({ spec, name }: { spec: ReturnType<typeof deriveSpec>; name: string }) {
+  return (
+    <div style={{ position: "sticky", top: 40 }}>
+      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 14 }}>Live preview · your vision</div>
+      <motion.div key={`bc-${spec.dba}-${spec.tone}-${spec.typo}-${spec.accent}-${spec.mark}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} style={{ marginBottom: 26 }}>
+        <BusinessCard s={spec} size={0.85} name={name} />
+      </motion.div>
+      <motion.div key={`pn-${spec.dba}-${spec.accent}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }} style={{ display: "flex", justifyContent: "center" }}>
+        <Phone s={spec} size={0.55} name={name} />
+      </motion.div>
+      <div style={{ fontSize: 11, color: C.faint, marginTop: 18, lineHeight: 1.5, fontStyle: "italic", textAlign: "center" }}>
+        These render with your real DBA. Choices update them live.
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// Landing
+// ============================================================
+function Landing({ host, onStart }: { host: string; onStart: (n: string, e: string, p: string, s: string[], c: string) => void }) {
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -692,114 +650,220 @@ function Landing({ onStart }: { onStart: (n: string, e: string, p: string, servi
   const wantsLogo = services.includes("logo") || services.includes("unsure");
   const ok0 = name.trim().length > 1 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim());
   const ok1 = services.length > 0;
+  const first = sn(name);
 
   return (
-    <div style={{ maxWidth: 480, margin: "0 auto", padding: "52px 24px 40px", background: "#fff", minHeight: "100vh" }}>
-      <div style={{ textAlign: "center", marginBottom: 32 }}>
-        <div style={{ fontSize: 10, letterSpacing: ".18em", color: "#888", textTransform: "uppercase", marginBottom: 14 }}>NM ADVISOR DISCOVERY</div>
-        <div style={{ fontSize: 24, fontWeight: 400, color: "#111", marginBottom: 6 }}>Northwestern Mutual</div>
-        <div style={{ fontSize: 13, color: "#666" }}>Brand & marketing intake · 3–8 minutes</div>
-      </div>
+    <DiscoveryShell>
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <div style={{ fontSize: 11, letterSpacing: ".22em", color: EMERALD, textTransform: "uppercase", marginBottom: 18 }}>NM Advisor · Brand Discovery</div>
+          <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 42, fontWeight: 200, color: C.text, marginBottom: 14, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
+            {step === 0 && first ? <>Hi {first}.</> : "A short session about your brand."}
+          </h1>
+          <p style={{ fontSize: 15, color: C.mute, lineHeight: 1.6, maxWidth: 460, margin: "0 auto" }}>
+            {step === 0
+              ? <>{host} sent you here because you're thinking about your brand. The next 6 minutes are about <em>you</em> — not a form. You'll watch your brand take shape as you answer.</>
+              : "Your answers shape what we recommend — and what we don't."}
+          </p>
+        </div>
 
-      {step === 0 && (
-        <>
-          <div style={{ background: "#f7f8fa", borderRadius: 10, padding: "14px 18px", fontSize: 13, color: "#666", lineHeight: 1.7, marginBottom: 20 }}>
-            Before we recommend anything, we need a real picture of you and what you're trying to build. Your answers shape the proposal directly.
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 20 }}>
-            <div>
-              <label style={{ fontSize: 11, color: "#888", letterSpacing: ".08em", textTransform: "uppercase" }}>Your full name</label>
-              <TxtInput value={name} onChange={(e: any) => setName(e.target.value)} placeholder="Jane Doe" style={{ marginTop: 6 }} />
+        {step === 0 && (
+          <>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 24 }}>
+              <div>
+                <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Your full name</label>
+                <TxtInput value={name} onChange={(e: any) => setName(e.target.value)} placeholder="Jane Doe" style={{ marginTop: 6 }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Email</label>
+                <TxtInput type="email" value={email} onChange={(e: any) => setEmail(e.target.value)} placeholder="jane@nm.com" style={{ marginTop: 6 }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Practice or DBA name (optional)</label>
+                <TxtInput value={practice} onChange={(e: any) => setPractice(e.target.value)} placeholder="Doe Wealth Strategies" style={{ marginTop: 6 }} />
+              </div>
             </div>
-            <div>
-              <label style={{ fontSize: 11, color: "#888", letterSpacing: ".08em", textTransform: "uppercase" }}>Email</label>
-              <TxtInput type="email" value={email} onChange={(e: any) => setEmail(e.target.value)} placeholder="jane@nm.com" style={{ marginTop: 6 }} />
+            <PrimaryButton disabled={!ok0} onClick={() => setStep(1)}>Continue →</PrimaryButton>
+          </>
+        )}
+
+        {step === 1 && (
+          <>
+            <h2 style={{ fontSize: 22, color: C.text, marginBottom: 6, fontWeight: 300 }}>What can we help with?</h2>
+            <p style={{ fontSize: 13, color: C.mute, marginBottom: 4 }}>Pick everything you're considering — even loosely.</p>
+            <p style={{ fontSize: 11, color: EMERALD, fontStyle: "italic", marginBottom: 20 }}>Most NM advisors who refresh a logo find they need 1–2 other pieces within 6 months. Better to map it now.</p>
+            <div style={{ marginBottom: 24 }}>
+              {SERVICES.map(s => (
+                <OCard key={s.v} sel={services.includes(s.v)} onClick={() => tog(s.v)}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <span style={{ color: services.includes(s.v) ? EMERALD : C.faint, fontSize: 16 }}>{services.includes(s.v) ? "●" : "○"}</span>
+                    <div>
+                      <div style={{ color: C.text, fontSize: 14 }}>{s.l}</div>
+                      <div style={{ color: C.mute, fontSize: 12, marginTop: 2 }}>{s.d}</div>
+                    </div>
+                  </div>
+                </OCard>
+              ))}
             </div>
-            <div>
-              <label style={{ fontSize: 11, color: "#888", letterSpacing: ".08em", textTransform: "uppercase" }}>Practice or DBA name (optional)</label>
-              <TxtInput value={practice} onChange={(e: any) => setPractice(e.target.value)} placeholder="Doe Wealth Strategies" style={{ marginTop: 6 }} />
+            <div style={{ display: "flex", gap: 10 }}>
+              <BackButton onClick={() => setStep(0)} />
+              <PrimaryButton disabled={!ok1} onClick={() => wantsLogo ? setStep(2) : onStart(name.trim(), email.trim(), practice.trim(), services, "guided")}>{wantsLogo ? "Continue →" : "Begin →"}</PrimaryButton>
             </div>
-          </div>
-          <button disabled={!ok0} onClick={() => setStep(1)} style={{ width: "100%", background: ok0 ? NM : "#ccc", color: "#fff", border: "none", padding: "14px", borderRadius: 8, fontSize: 14, fontFamily: "inherit", fontWeight: 500, cursor: ok0 ? "pointer" : "default" }}>Continue →</button>
-        </>
-      )}
+          </>
+        )}
 
-      {step === 1 && (
-        <>
-          <div style={{ marginBottom: 18 }}>
-            <h2 style={{ fontSize: 19, color: "#111", marginBottom: 6 }}>What can we help with?</h2>
-            <p style={{ fontSize: 13, color: "#666", marginBottom: 4 }}>Pick everything you're considering — even loosely.</p>
-            <p style={{ fontSize: 11, color: "#888", fontStyle: "italic" }}>Most NM advisors who refresh a logo find they need 1–2 other pieces within 6 months. Better to map it now.</p>
-          </div>
-          <div style={{ marginBottom: 24 }}>
-            {SERVICES.map(s => (
-              <OCard key={s.v} sel={services.includes(s.v)} onClick={() => tog(s.v)}>
-                <span style={{ marginRight: 10, color: services.includes(s.v) ? NM : "#aaa" }}>{services.includes(s.v) ? "✓" : "○"}</span>{s.l}
-              </OCard>
-            ))}
-          </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => setStep(0)} style={{ flex: "0 0 auto", background: "transparent", border: "0.5px solid #ccc", color: "#666", padding: "12px 18px", borderRadius: 8, fontFamily: "inherit", fontSize: 13, cursor: "pointer" }}>← Back</button>
-            <button disabled={!ok1} onClick={() => wantsLogo ? setStep(2) : onStart(name.trim(), email.trim(), practice.trim(), services, "guided")} style={{ flex: 1, background: ok1 ? NM : "#ccc", color: "#fff", border: "none", padding: "14px", borderRadius: 8, fontSize: 14, fontFamily: "inherit", fontWeight: 500, cursor: ok1 ? "pointer" : "default" }}>
-              {wantsLogo ? "Continue →" : "Begin →"}
-            </button>
-          </div>
-        </>
-      )}
+        {step === 2 && (
+          <>
+            <h2 style={{ fontSize: 22, color: C.text, marginBottom: 6, fontWeight: 300 }}>How clear is your vision for the logo?</h2>
+            <p style={{ fontSize: 13, color: C.mute, marginBottom: 24 }}>Honest answers shorten or lengthen what comes next.</p>
+            <div style={{ marginBottom: 24 }}>
+              {CONFIDENCE.map(c => (
+                <OCard key={c.v} sel={confidence === c.v} onClick={() => setConfidence(c.v)}>
+                  <div style={{ fontSize: 14, color: C.text, fontWeight: 500 }}>{c.l}</div>
+                  <div style={{ fontSize: 12, color: C.mute, marginTop: 3 }}>{c.d}</div>
+                </OCard>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <BackButton onClick={() => setStep(1)} />
+              <PrimaryButton disabled={!confidence} onClick={() => onStart(name.trim(), email.trim(), practice.trim(), services, confidence)}>Begin discovery →</PrimaryButton>
+            </div>
+          </>
+        )}
 
-      {step === 2 && (
-        <>
-          <div style={{ marginBottom: 18 }}>
-            <h2 style={{ fontSize: 19, color: "#111", marginBottom: 6 }}>How clear is your vision for the logo?</h2>
-            <p style={{ fontSize: 13, color: "#666" }}>Honest answers shorten or lengthen what comes next.</p>
-          </div>
-          <div style={{ marginBottom: 24 }}>
-            {CONFIDENCE.map(c => (
-              <OCard key={c.v} sel={confidence === c.v} onClick={() => setConfidence(c.v)}>
-                <div style={{ fontSize: 14, color: "#111", fontWeight: 500 }}>{c.l}</div>
-                <div style={{ fontSize: 12, color: "#888", marginTop: 3 }}>{c.d}</div>
-              </OCard>
-            ))}
-          </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => setStep(1)} style={{ flex: "0 0 auto", background: "transparent", border: "0.5px solid #ccc", color: "#666", padding: "12px 18px", borderRadius: 8, fontFamily: "inherit", fontSize: 13, cursor: "pointer" }}>← Back</button>
-            <button disabled={!confidence} onClick={() => onStart(name.trim(), email.trim(), practice.trim(), services, confidence)} style={{ flex: 1, background: confidence ? NM : "#ccc", color: "#fff", border: "none", padding: "14px", borderRadius: 8, fontSize: 14, fontFamily: "inherit", fontWeight: 500, cursor: confidence ? "pointer" : "default" }}>Begin discovery →</button>
-          </div>
-        </>
-      )}
+        <div style={{ textAlign: "center", marginTop: 40, fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase" }}>
+          A ProjGrowth × Northwestern Mutual session
+        </div>
+      </motion.div>
+    </DiscoveryShell>
+  );
+}
 
-      <div style={{ textAlign: "center", marginTop: 32, fontSize: 10, color: "#aaa", letterSpacing: ".12em", textTransform: "uppercase" }}>Prepared by ProjGrowth</div>
+function PrimaryButton({ children, disabled, onClick }: any) {
+  return (
+    <button disabled={disabled} onClick={onClick} style={{
+      width: "100%", background: disabled ? "rgba(255,255,255,.06)" : EMERALD,
+      color: disabled ? C.faint : "#0a0d11",
+      border: "none", padding: "16px", borderRadius: 10,
+      fontSize: 14, fontFamily: "'Outfit',sans-serif", fontWeight: 600, letterSpacing: ".02em",
+      cursor: disabled ? "default" : "pointer",
+      boxShadow: disabled ? "none" : "0 12px 30px -10px rgba(68,160,120,0.5)",
+      transition: "all .2s ease",
+    }}>{children}</button>
+  );
+}
+function BackButton({ onClick }: any) {
+  return (
+    <button onClick={onClick} style={{ flex: "0 0 auto", background: "transparent", border: `1px solid ${C.border}`, color: C.mute, padding: "14px 20px", borderRadius: 10, fontFamily: "inherit", fontSize: 13, cursor: "pointer" }}>← Back</button>
+  );
+}
+
+// ============================================================
+// Reveal screen
+// ============================================================
+function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
+  const dba = form.dbaName || `${sn(name)} Financial`;
+  const spec = deriveSpec(form, dba);
+  const summary = visionSummary(name, form);
+
+  return (
+    <DiscoveryShell wide>
+      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <div style={{ fontSize: 11, letterSpacing: ".22em", color: EMERALD, textTransform: "uppercase", marginBottom: 14 }}>The Reveal · Chapter 05</div>
+          <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 56, fontWeight: 200, letterSpacing: "-0.025em", lineHeight: 1.05, marginBottom: 18 }}>
+            This is <span style={{ fontStyle: "italic", color: EMERALD }}>{dba}</span>.
+          </h1>
+          <p style={{ fontSize: 15, color: C.mute, maxWidth: 640, margin: "0 auto", lineHeight: 1.7 }}>
+            {summary}
+          </p>
+        </div>
+
+        {/* Hero card */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 50 }}>
+          <motion.div whileHover={{ rotateX: 4, rotateY: -4, scale: 1.02 }} transition={{ type: "spring", stiffness: 200, damping: 18 }} style={{ transformStyle: "preserve-3d", perspective: 1200 }}>
+            <BusinessCard s={spec} size={1.3} name={name} />
+          </motion.div>
+        </div>
+
+        {/* surface row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 30, alignItems: "end", marginBottom: 50 }}>
+          <SurfaceLabel label="Your website">
+            <LaptopBrowser s={spec} size={0.55} vision={form.vision} />
+          </SurfaceLabel>
+          <SurfaceLabel label="Your social presence" centered>
+            <Phone s={spec} size={0.7} name={name} />
+          </SurfaceLabel>
+          <SurfaceLabel label="Your office signage">
+            <Signage s={spec} size={0.55} />
+          </SurfaceLabel>
+        </div>
+
+        <div style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`, borderRadius: 16, padding: "26px 28px", marginBottom: 30, maxWidth: 720, margin: "0 auto 30px" }}>
+          <div style={{ fontSize: 11, color: EMERALD, letterSpacing: ".15em", textTransform: "uppercase", marginBottom: 10 }}>{host}'s read</div>
+          <p style={{ fontSize: 15, color: C.text, lineHeight: 1.7, fontStyle: "italic" }}>
+            "{form.adjectives.length ? form.adjectives.slice(0,3).join(", ").toLowerCase() : "thoughtful"}, {form.tone === "established" ? "established" : "forward"}, and {form.audience[0] ? `built for ${form.audience[0].toLowerCase()}` : "specific"}. That's a brand we can actually build — and one most NM advisors don't earn the right to wear."
+          </p>
+        </div>
+
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", maxWidth: 520, margin: "0 auto" }}>
+          <button onClick={onRefine} style={{ flex: 1, background: "transparent", border: `1px solid ${C.borderHi}`, color: C.text, padding: "16px", borderRadius: 10, fontSize: 14, fontFamily: "'Outfit',sans-serif", fontWeight: 500, cursor: "pointer" }}>
+            ← Refine an answer
+          </button>
+          <button onClick={onSubmit} style={{ flex: 1.4, background: EMERALD, color: "#0a0d11", border: "none", padding: "16px", borderRadius: 10, fontSize: 14, fontFamily: "'Outfit',sans-serif", fontWeight: 600, cursor: "pointer", boxShadow: "0 12px 30px -10px rgba(68,160,120,0.5)" }}>
+            Send this to {host} →
+          </button>
+        </div>
+      </motion.div>
+    </DiscoveryShell>
+  );
+}
+
+function SurfaceLabel({ label, children, centered }: any) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div style={{ display: "flex", justifyContent: centered ? "center" : "flex-start" }}>{children}</div>
+      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginTop: 16 }}>{label}</div>
     </div>
   );
 }
 
-function Thanks({ name, form, services }: { name: string; form: Form; services: string[] }) {
-  const mood = MOODS.find(x => x.id === form.mood);
-  const traits: string[] = [];
-  if (form.pHH) traits.push(form.pHH === "head" ? "analytical" : "relational");
-  if (form.pQB) traits.push(form.pQB === "bold" ? "boldly confident" : "quietly authoritative");
+// ============================================================
+// Thanks
+// ============================================================
+function Thanks({ name, form }: any) {
+  const dba = form.dbaName || `${sn(name)} Financial`;
+  const spec = deriveSpec(form, dba);
   return (
-    <div style={{ maxWidth: 480, margin: "0 auto", padding: "60px 24px", textAlign: "center", background: "#fff", minHeight: "100vh" }}>
-      <div style={{ fontSize: 28, color: "#2d7a2d", marginBottom: 14 }}>✓</div>
-      <div style={{ fontSize: 22, fontWeight: 400, color: "#111", marginBottom: 8 }}>Thank you, {sn(name)}.</div>
-      <p style={{ color: "#666", fontSize: 13, lineHeight: 1.7, marginBottom: 24 }}>Your submission is in. Here's what your answers are already telling us.</p>
-      <div style={{ background: "#f7f8fa", borderRadius: 10, padding: "18px 22px", marginBottom: 24, textAlign: "left" }}>
-        {services.length > 0 && <div style={{ marginBottom: 9, fontSize: 13, color: "#666" }}>→ Scope: <strong>{services.join(", ")}</strong></div>}
-        {mood && <div style={{ marginBottom: 9, fontSize: 13, color: "#666" }}>→ Aesthetic direction: <strong>{mood.name}</strong></div>}
-        {form.adjectives.length > 0 && <div style={{ marginBottom: 9, fontSize: 13, color: "#666" }}>→ Clients describe you as: <strong>{form.adjectives.join(", ")}</strong></div>}
-        {traits.length > 0 && <div style={{ marginBottom: 9, fontSize: 13, color: "#666" }}>→ Brand personality: <strong>{traits.join(", ")}</strong></div>}
-        {form.truth[0] && <div style={{ marginBottom: 9, fontSize: 13, color: "#666" }}>→ Non-negotiable: <strong>{form.truth[0]}</strong></div>}
-        {form.vision && <div style={{ borderTop: "0.5px solid #e0e4ea", paddingTop: 10, marginTop: 4, fontSize: 13, color: "#666", fontStyle: "italic" }}>"{form.vision}"</div>}
-      </div>
-      <p style={{ color: "#666", fontSize: 13, lineHeight: 1.7 }}>We'll review your responses and reach out within 24–48 hours.</p>
-    </div>
+    <DiscoveryShell>
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ textAlign: "center", paddingTop: 20 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 56, height: 56, borderRadius: "50%", background: "rgba(68,160,120,0.15)", border: `1px solid ${EMERALD}`, color: EMERALD, fontSize: 24, marginBottom: 22 }}>✓</div>
+        <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 36, fontWeight: 200, marginBottom: 14, letterSpacing: "-0.02em" }}>
+          Thank you, {sn(name)}.
+        </h1>
+        <p style={{ color: C.mute, fontSize: 15, lineHeight: 1.7, marginBottom: 32, maxWidth: 460, margin: "0 auto 32px" }}>
+          We'll review and come back within 24–48 hours with the proposal — built directly off the answers you just gave.
+        </p>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+          <BusinessCard s={spec} size={0.9} name={name} />
+        </div>
+        <div style={{ fontSize: 11, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase" }}>Save this preview · we already did</div>
+      </motion.div>
+    </DiscoveryShell>
   );
 }
 
-const STORE = "nm_discovery_v2";
+// ============================================================
+// Main
+// ============================================================
+const STORE = "nm_discovery_v3";
 
 export default function Discovery() {
-  const [phase, setPhase] = useState<"landing" | "form" | "submitting" | "done">("landing");
+  const url = new URL(typeof window !== "undefined" ? window.location.href : "https://x");
+  const hostSlug = url.searchParams.get("host") || "";
+  const host = hostSlug === "cole" ? "Cole" : hostSlug ? hostSlug.charAt(0).toUpperCase() + hostSlug.slice(1) : "the ProjGrowth team";
+
+  const [phase, setPhase] = useState<"landing" | "form" | "reveal" | "submitting" | "done">("landing");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [practice, setPractice] = useState("");
@@ -809,6 +873,7 @@ export default function Discovery() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<Form>(blank());
   const [err, setErr] = useState("");
+  const [hostNote, setHostNote] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -839,7 +904,6 @@ export default function Discovery() {
     setName(n); setEmail(e); setPractice(p); setServices(svcs); setConfidence(conf);
     const newPlan = buildPlan(conf, svcs);
     setPlan(newPlan);
-    // Pre-fill DBA name from practice if provided
     setForm({ ...blank(), dbaName: p });
     setStep(0); setPhase("form");
   };
@@ -849,10 +913,12 @@ export default function Discovery() {
     try {
       const brief = genBrief(name, form, services, confidence);
       const tier = engagementTier(confidence, services);
+      const summary = visionSummary(name, form);
       const { error } = await supabase.functions.invoke("submit-discovery", {
         body: {
           full_name: name, email, practice_name: practice,
-          responses: form, generated_brief: brief,
+          responses: { ...form, vision_summary: summary, host: host },
+          generated_brief: brief,
           confidence, services, engagement_tier: tier,
           reference_image_urls: form.refUploads
         },
@@ -862,44 +928,102 @@ export default function Discovery() {
       setPhase("done");
     } catch (e: any) {
       setErr(e?.message || "Submission failed. Please try again.");
-      setPhase("form");
+      setPhase("reveal");
     }
   };
 
   const onNext = () => {
-    if (!canAdvance(plan[step], form)) return;
+    const id = plan[step];
+    if (!canAdvance(id, form)) return;
+    const note = HOST_NOTES[id]?.(form);
+    if (note && note !== hostNote) setHostNote(note);
     if (step < plan.length - 1) { setStep(s => s + 1); return; }
-    submit();
+    setPhase("reveal");
   };
 
-  if (phase === "landing") return <Landing onStart={startForm} />;
-  if (phase === "done") return <Thanks name={name} form={form} services={services} />;
+  const dbaPreview = form.dbaName || sn(name);
+  const spec = useMemo(() => deriveSpec(form, dbaPreview), [form, dbaPreview]);
+
+  if (phase === "landing") return <Landing host={host} onStart={startForm} />;
+  if (phase === "done") return <Thanks name={name} form={form} />;
   if (phase === "submitting") {
-    return <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#fff", color: "#666", fontFamily: "system-ui" }}>Submitting your responses…</div>;
+    return <DiscoveryShell><div style={{ textAlign: "center", padding: 80, color: C.mute }}>Sending your vision to {host}…</div></DiscoveryShell>;
+  }
+  if (phase === "reveal") {
+    return <Reveal name={name} form={form} services={services} host={host} onRefine={() => { setPhase("form"); setStep(plan.length - 1); }} onSubmit={submit} />;
   }
 
   const TOTAL = plan.length;
   const pct = ((step + 1) / TOTAL) * 100;
   const cn = canAdvance(plan[step], form);
+  const chapter = CHAPTER[plan[step]] ?? 0;
+  const showVisionBoard = ["mood","mark","accent","tone","typo","density","nmLean","references"].includes(plan[step]);
+
   return (
-    <div style={{ background: "#fff", minHeight: "100vh", paddingTop: 24 }}>
-      <div style={{ maxWidth: 540, margin: "0 auto", padding: "0 24px 40px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-          <NMBadge />
-          <span style={{ fontSize: 11, color: "#888" }}>Step {step + 1} / {TOTAL}</span>
+    <DiscoveryShell wide={showVisionBoard}>
+      <div style={{ display: "grid", gridTemplateColumns: showVisionBoard ? "minmax(0,1fr) 360px" : "1fr", gap: 60, alignItems: "start" }}>
+        <div style={{ maxWidth: 600, width: "100%" }}>
+          {/* chapter + progress */}
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+              <div style={{ fontSize: 10, color: EMERALD, letterSpacing: ".22em", textTransform: "uppercase" }}>
+                Chapter {CHAPTERS[chapter].n} · {CHAPTERS[chapter].t}
+              </div>
+              <span style={{ fontSize: 11, color: C.faint, letterSpacing: ".05em" }}>Step {step + 1} / {TOTAL}</span>
+            </div>
+            <div style={{ display: "flex", gap: 4 }}>
+              {CHAPTERS.map((c, i) => {
+                const stepsInCh = plan.filter(s => CHAPTER[s] === i).length;
+                const completedInCh = plan.slice(0, step + 1).filter(s => CHAPTER[s] === i).length;
+                const w = stepsInCh / plan.length;
+                const fill = stepsInCh > 0 ? (completedInCh / stepsInCh) * 100 : 0;
+                return (
+                  <div key={i} style={{ flex: w, height: 3, background: "rgba(255,255,255,0.05)", borderRadius: 2, overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${fill}%`, background: i === chapter ? EMERALD : NM_BLUE, transition: "width .35s ease" }} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div key={plan[step]} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25 }}>
+              <StepRender id={plan[step]} form={form} set={set} tog={tog} name={name} />
+            </motion.div>
+          </AnimatePresence>
+
+          {hostNote && (
+            <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 24, padding: "12px 16px", background: "rgba(68,160,120,0.08)", border: `1px solid rgba(68,160,120,0.25)`, borderRadius: 10, fontSize: 13, color: EMERALD, fontStyle: "italic", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span>{host}: {hostNote}</span>
+              <button onClick={() => setHostNote(null)} style={{ background: "transparent", border: "none", color: EMERALD, cursor: "pointer", fontSize: 16, opacity: 0.6 }}>×</button>
+            </motion.div>
+          )}
+
+          {err && <p style={{ color: "#e8a4a4", fontSize: 13, marginTop: 16 }}>{err}</p>}
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 36 }}>
+            <button onClick={() => step > 0 && setStep(s => s - 1)} style={{ background: "transparent", border: "none", color: C.mute, fontSize: 14, fontFamily: "inherit", cursor: "pointer", padding: "10px 0", opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? "none" : "auto" }}>← Back</button>
+            <button onClick={onNext} disabled={!cn} style={{
+              background: cn ? EMERALD : "rgba(255,255,255,0.06)",
+              color: cn ? "#0a0d11" : C.faint, border: "none",
+              padding: "13px 28px", borderRadius: 10, fontSize: 14, fontFamily: "'Outfit',sans-serif",
+              fontWeight: 600, letterSpacing: ".02em",
+              cursor: cn ? "pointer" : "default",
+              boxShadow: cn ? "0 12px 30px -10px rgba(68,160,120,0.5)" : "none",
+              transition: "all .2s ease",
+            }}>
+              {step === TOTAL - 1 ? "See the reveal →" : "Continue →"}
+            </button>
+          </div>
         </div>
-        <div style={{ height: 2, background: "#e0e4ea", marginBottom: 24, borderRadius: 2 }}>
-          <div style={{ height: "100%", width: `${pct}%`, background: NM, borderRadius: 2, transition: "width .3s ease" }} />
-        </div>
-        <StepRender id={plan[step]} form={form} set={set} tog={tog} name={name} />
-        {err && <p style={{ color: "#c0392b", fontSize: 13, marginTop: 16 }}>{err}</p>}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 32 }}>
-          <button onClick={() => step > 0 && setStep(s => s - 1)} style={{ background: "transparent", border: "none", color: "#888", fontSize: 14, fontFamily: "inherit", cursor: "pointer", padding: "10px 0", opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? "none" : "auto" }}>← Back</button>
-          <button onClick={onNext} disabled={!cn} style={{ background: cn ? NM : "#ccc", color: "#fff", border: "none", padding: "10px 24px", borderRadius: 8, fontSize: 14, fontFamily: "inherit", fontWeight: 500, cursor: cn ? "pointer" : "default" }}>
-            {step === TOTAL - 1 ? "Submit →" : "Continue →"}
-          </button>
-        </div>
+
+        {showVisionBoard && (
+          <div style={{ display: "none" }} className="vision-board-rail">
+            <VisionBoard spec={spec} name={name} />
+          </div>
+        )}
       </div>
-    </div>
+      <style>{`@media (min-width: 1100px){ .vision-board-rail{ display:block !important; } }`}</style>
+    </DiscoveryShell>
   );
 }
