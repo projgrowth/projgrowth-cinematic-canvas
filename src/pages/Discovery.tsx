@@ -1095,6 +1095,25 @@ export default function Discovery() {
     setPhase("reveal");
   };
 
+  // ⌨️ Keyboard nav: Enter = next, ← / → = back / next
+  useEffect(() => {
+    if (phase !== "form") return;
+    const handler = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      const inField = t && (t.tagName === "TEXTAREA" || (t.tagName === "INPUT" && (t as HTMLInputElement).type !== "button"));
+      if (e.key === "Enter" && !e.shiftKey && !inField) { e.preventDefault(); onNext(); }
+      else if (e.key === "ArrowRight" && !inField) { e.preventDefault(); onNext(); }
+      else if (e.key === "ArrowLeft" && !inField && step > 0) {
+        e.preventDefault();
+        let prev = step - 1;
+        while (prev >= 0 && plan[prev] === "iconConcept" && form.mark === "wordmark") prev--;
+        if (prev >= 0) setStep(prev);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [phase, step, plan, form, hostNote]);
+
   const dbaPreview = form.dbaName || sn(name);
   const spec = useMemo(() => deriveSpec(form, dbaPreview), [form, dbaPreview]);
 
