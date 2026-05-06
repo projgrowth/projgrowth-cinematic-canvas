@@ -107,7 +107,7 @@ const ContentCreation = () => {
             <h1 className="font-display text-text mb-6">
               Content Creation Services in Orlando
             </h1>
-            <p className="text-xl text-mute max-w-3xl leading-relaxed">
+            <p className="text-xl text-mute max-w-3xl">
               Great content tells your story, builds trust, and drives action. We create compelling 
               content—from words to video to imagery—that helps Orlando businesses connect with 
               their audience and achieve their goals.
@@ -125,8 +125,8 @@ const ContentCreation = () => {
               {services.map((service, idx) => (
                 <div key={idx} className="p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30">
                   <service.icon className="w-10 h-10 text-accent mb-4" />
-                  <h3 className="font-display text-xl text-text mb-3">{service.title}</h3>
-                  <p className="text-mute leading-relaxed">{service.description}</p>
+                  <h3 className="font-display text-text mb-3">{service.title}</h3>
+                  <p className="text-mute">{service.description}</p>
                 </div>
               ))}
             </div>
@@ -165,9 +165,9 @@ const ContentCreation = () => {
                 { step: "05", title: "Delivery & Distribution", desc: "Receive final assets optimized for all platforms, plus guidance on best practices for publishing." }
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-6 items-start">
-                  <span className="text-3xl font-display text-accent/50 flex-shrink-0 w-12">{item.step}</span>
+                  <span className="text-3xl font-display text-accent-faint flex-shrink-0 w-12">{item.step}</span>
                   <div>
-                    <h3 className="font-display text-xl text-text mb-2">{item.title}</h3>
+                    <h3 className="font-display text-text mb-2">{item.title}</h3>
                     <p className="text-mute">{item.desc}</p>
                   </div>
                 </div>

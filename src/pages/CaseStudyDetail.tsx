@@ -238,7 +238,7 @@ const CaseStudyDetail = () => {
             <ScrollReveal variant="fade-up" delay={0.2}>
               <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-xl border border-accent/20">
                 <h2 className="font-display text-text mb-4">Why It Matters</h2>
-                <p className="text-lg md:text-xl text-mute leading-relaxed">
+                <p className="text-lg md:text-xl text-mute">
                   {caseStudy.whyItMatters}
                 </p>
               </div>
@@ -259,7 +259,7 @@ const CaseStudyDetail = () => {
                         viewport={{ once: true }}
                         transition={{ delay: idx * 0.1 }}
                       >
-                        <span className="font-display text-3xl text-accent/40 group-hover:text-accent transition-colors">
+                        <span className="font-display text-accent-faint group-hover:text-accent transition-colors">
                           {String(idx + 1).padStart(2, '0')}
                         </span>
                         <div>

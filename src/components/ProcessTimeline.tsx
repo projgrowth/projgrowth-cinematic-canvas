@@ -54,12 +54,12 @@ const ProcessTimeline = () => {
           >
             <div className="py-6 flex items-center gap-6 md:gap-12">
               {/* Number */}
-              <span className="font-display text-4xl md:text-5xl text-accent/30 w-16 md:w-20 shrink-0">
+              <span className="font-display text-accent-faint w-16 md:w-20 shrink-0">
                 {String(idx + 1).padStart(2, '0')}
               </span>
               
               {/* Title */}
-              <span className="font-display text-xl md:text-2xl text-text flex-1 transition-colors duration-sm group-hover:text-accent">
+              <span className="font-display text-text flex-1 transition-colors duration-sm group-hover:text-accent">
                 {step.title}
               </span>
               
@@ -84,7 +84,7 @@ const ProcessTimeline = () => {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="overflow-hidden"
                 >
-                  <p className="pb-6 pl-[88px] md:pl-[128px] pr-12 text-mute leading-relaxed max-w-2xl">
+                  <p className="pb-6 pl-[88px] md:pl-[128px] pr-12 text-mute max-w-2xl">
                     {step.description}
                   </p>
                 </motion.div>

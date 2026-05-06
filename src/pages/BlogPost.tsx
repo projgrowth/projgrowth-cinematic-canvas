@@ -101,7 +101,7 @@ const renderContent = (content: string) => {
       elements.push(
         <p 
           key={index} 
-          className="text-mute leading-relaxed mb-6"
+          className="text-mute mb-6"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseInlineMarkdown(trimmed)) }}
         />
       );

@@ -125,7 +125,7 @@ const Services = () => {
                     <div className="col-span-12 lg:col-span-2">
                       <button
                         onClick={() => toggleService(idx)}
-                        className="font-display text-3xl md:text-4xl lg:text-5xl text-accent/30 transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform min-h-[44px]"
+                        className="font-display text-accent-faint transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform min-h-[44px]"
                         aria-label={`Expand ${service.title}`}
                       >
                         {service.number}
@@ -190,7 +190,7 @@ const Services = () => {
                           <div className="grid lg:grid-cols-2 gap-8">
                             <div>
                               <h3 className="text-xl font-display text-text mb-4">What We Do</h3>
-                              <p className="text-mute leading-relaxed">
+                              <p className="text-mute">
                                 {service.details}
                               </p>
                             </div>

@@ -111,7 +111,7 @@ const WebDesign = () => {
             <h1 className="font-display text-text mb-6">
               Web Design Services in Orlando
             </h1>
-            <p className="text-xl text-mute max-w-3xl leading-relaxed">
+            <p className="text-xl text-mute max-w-3xl">
               We create stunning, high-performance websites that help Orlando businesses 
               stand out, engage visitors, and drive conversions. From small business sites 
               to complex web applications, we deliver digital experiences that work.
@@ -130,7 +130,7 @@ const WebDesign = () => {
             ].map((item, idx) => (
               <div key={idx} className="p-6 bg-surface rounded-lg border border-line text-center">
                 <item.icon className="w-10 h-10 text-accent mx-auto mb-4" />
-                <h3 className="font-display text-lg text-text mb-2">{item.title}</h3>
+                <h3 className="font-display text-text mb-2">{item.title}</h3>
                 <p className="text-sm text-mute">{item.desc}</p>
               </div>
             ))}
@@ -146,12 +146,12 @@ const WebDesign = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {process.map((step, idx) => (
                 <div key={idx} className="relative">
-                  <span className="text-6xl font-display text-accent/20 absolute -top-4 -left-2">
+                  <span className="text-6xl font-display text-accent-faint absolute -top-4 -left-2">
                     {step.step}
                   </span>
                   <div className="pt-8">
-                    <h3 className="font-display text-xl text-text mb-3">{step.title}</h3>
-                    <p className="text-mute text-sm leading-relaxed">{step.description}</p>
+                    <h3 className="font-display text-text mb-3">{step.title}</h3>
+                    <p className="text-mute text-sm">{step.description}</p>
                   </div>
                 </div>
               ))}

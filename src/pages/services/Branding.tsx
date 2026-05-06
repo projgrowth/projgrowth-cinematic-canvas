@@ -107,7 +107,7 @@ const Branding = () => {
             <h1 className="font-display text-text mb-6">
               Orlando Branding & Identity Design
             </h1>
-            <p className="text-xl text-mute max-w-3xl leading-relaxed">
+            <p className="text-xl text-mute max-w-3xl">
               Your brand is more than a logo—it's the complete experience people have with your business. 
               We create strategic brand identities that differentiate Orlando businesses and build lasting 
               connections with customers.
@@ -125,8 +125,8 @@ const Branding = () => {
               {services.map((service, idx) => (
                 <div key={idx} className="p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30">
                   <service.icon className="w-10 h-10 text-accent mb-4" />
-                  <h3 className="font-display text-xl text-text mb-3">{service.title}</h3>
-                  <p className="text-mute leading-relaxed">{service.description}</p>
+                  <h3 className="font-display text-text mb-3">{service.title}</h3>
+                  <p className="text-mute">{service.description}</p>
                 </div>
               ))}
             </div>
@@ -165,9 +165,9 @@ const Branding = () => {
                 { step: "05", title: "Delivery", desc: "Receive your complete brand package with all files, guidelines, and templates ready for implementation." }
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-6 items-start">
-                  <span className="text-3xl font-display text-accent/50 flex-shrink-0 w-12">{item.step}</span>
+                  <span className="text-3xl font-display text-accent-faint flex-shrink-0 w-12">{item.step}</span>
                   <div>
-                    <h3 className="font-display text-xl text-text mb-2">{item.title}</h3>
+                    <h3 className="font-display text-text mb-2">{item.title}</h3>
                     <p className="text-mute">{item.desc}</p>
                   </div>
                 </div>

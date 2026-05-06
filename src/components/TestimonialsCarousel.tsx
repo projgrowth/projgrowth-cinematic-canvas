@@ -74,7 +74,7 @@ const TestimonialsCarousel = () => {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Quote Icon */}
-          <Quote className="w-12 h-12 text-accent/20 mb-8" />
+          <Quote className="w-12 h-12 text-accent-faint mb-8" />
 
           {/* Testimonial Content */}
           <div className="min-h-[200px] relative">
@@ -87,12 +87,12 @@ const TestimonialsCarousel = () => {
                 transition={{ duration: 0.4 }}
                 className="space-y-6"
               >
-                <p className="text-2xl md:text-3xl text-text leading-relaxed font-light">
+                <p className="text-2xl md:text-3xl text-text font-light">
                   "{testimonials[currentIndex].quote}"
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                    <span className="text-accent font-display text-lg">
+                    <span className="text-accent font-display">
                       {testimonials[currentIndex].author.charAt(0)}
                     </span>
                   </div>

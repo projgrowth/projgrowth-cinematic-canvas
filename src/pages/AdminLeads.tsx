@@ -219,7 +219,7 @@ const AdminLeads = () => {
                       {d.generated_brief && (
                         <div>
                           <div className="text-xs uppercase tracking-wide text-mute mb-2">Generated brief</div>
-                          <div className="text-text leading-relaxed bg-base p-4 rounded border border-line">{d.generated_brief}</div>
+                          <div className="text-text bg-base p-4 rounded border border-line">{d.generated_brief}</div>
                           <button
                             onClick={() => navigator.clipboard.writeText(d.generated_brief || "")}
                             className="text-xs text-accent hover:underline mt-2"

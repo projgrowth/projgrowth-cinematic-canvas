@@ -103,7 +103,7 @@ const DigitalMarketing = () => {
             <h1 className="font-display text-text mb-6">
               Digital Marketing Services in Orlando
             </h1>
-            <p className="text-xl text-mute max-w-3xl leading-relaxed">
+            <p className="text-xl text-mute max-w-3xl">
               Drive growth with data-driven digital marketing strategies. We help Orlando businesses 
               reach their ideal customers, generate leads, and increase revenue through SEO, 
               paid advertising, social media, and email marketing.
@@ -121,11 +121,11 @@ const DigitalMarketing = () => {
               {services.map((service, idx) => (
                 <div key={idx} className="group relative p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
-                  <span className="font-display text-3xl text-accent/30 mb-4 block">
+                  <span className="font-display text-accent-faint mb-4 block">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-display text-xl text-text mb-3">{service.title}</h3>
-                  <p className="text-mute leading-relaxed">{service.description}</p>
+                  <h3 className="font-display text-text mb-3">{service.title}</h3>
+                  <p className="text-mute">{service.description}</p>
                 </div>
               ))}
             </div>
@@ -145,7 +145,7 @@ const DigitalMarketing = () => {
                 { title: "Transparent", desc: "Clear reporting, honest communication, and full visibility into what's working and what's not." }
               ].map((item, idx) => (
                 <div key={idx} className="p-8 bg-surface rounded-lg border border-line text-center">
-                  <h3 className="font-display text-xl text-accent mb-4">{item.title}</h3>
+                  <h3 className="font-display text-accent mb-4">{item.title}</h3>
                   <p className="text-mute">{item.desc}</p>
                 </div>
               ))}

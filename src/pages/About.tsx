@@ -57,7 +57,7 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-cards py-10 md:py-12 border-t border-b border-line mb-16">
             {stats.map((stat, idx) => (
               <div key={idx} className="text-center">
-                <div className="font-display text-3xl md:text-4xl text-accent mb-2">
+                <div className="font-display text-accent mb-2">
                   <AnimatedCounter value={stat.value} />
                 </div>
                 <p className="text-sm text-mute">{stat.label}</p>
@@ -73,7 +73,7 @@ const About = () => {
               <h2 className="font-display text-text">Our Mission</h2>
             </div>
             <div className="col-span-12 lg:col-span-8">
-              <p className="text-xl md:text-2xl text-text leading-relaxed max-w-readable">
+              <p className="text-xl md:text-2xl text-text max-w-readable">
                 To empower businesses with digital solutions that are not only visually stunning 
                 but also strategically sound and technically excellent.
               </p>

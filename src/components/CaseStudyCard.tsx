@@ -54,7 +54,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         transition={{ duration: 0.2 }}
       >
         {/* Index number - hidden on mobile */}
-        <span className="absolute -left-2 top-1/2 -translate-y-1/2 font-display text-4xl md:text-6xl font-bold text-accent/10 select-none pointer-events-none hidden md:block">
+        <span className="absolute -left-2 top-1/2 -translate-y-1/2 font-display md:text-6xl font-bold text-accent-faint select-none pointer-events-none hidden md:block">
           {formattedIndex}
         </span>
 
@@ -70,7 +70,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
               className="h-10 md:h-14 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-sm"
             />
           ) : (
-            <span className="font-display text-lg md:text-xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-sm">
+            <span className="font-display font-medium text-text-faint group-hover:text-text-faint transition-all duration-sm">
               {caseStudy.title.split(' ').map(word => word[0]).join('')}
             </span>
           )}
@@ -81,10 +81,10 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
           <span className="text-xs text-mute uppercase tracking-wider mb-1 block">
             {caseStudy.category}
           </span>
-          <h3 className="font-display text-lg md:text-xl text-text mb-1 md:mb-2 transition-colors duration-sm group-hover:text-accent truncate">
+          <h3 className="font-display text-text mb-1 md:mb-2 transition-colors duration-sm group-hover:text-accent truncate">
             {caseStudy.title}
           </h3>
-          <p className="text-sm text-mute leading-relaxed line-clamp-2">
+          <p className="text-sm text-mute line-clamp-2">
             {caseStudy.subtitle}
           </p>
           
@@ -189,7 +189,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
               transition={{ duration: 0.3 }}
             />
           ) : (
-            <span className="font-display text-2xl md:text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-sm">
+            <span className="font-display font-medium text-text-faint group-hover:text-text-faint transition-all duration-sm">
               {caseStudy.title.split(' ').map(word => word[0]).join('')}
             </span>
           )}
@@ -236,11 +236,11 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         {caseStudy.category}
       </span>
       
-      <h3 className="font-display text-xl md:text-2xl text-text mb-2 transition-colors duration-sm group-hover:text-accent">
+      <h3 className="font-display text-text mb-2 transition-colors duration-sm group-hover:text-accent">
         {caseStudy.title}
       </h3>
       
-      <p className="text-sm text-mute leading-relaxed">
+      <p className="text-sm text-mute">
         {caseStudy.subtitle}
       </p>
 
