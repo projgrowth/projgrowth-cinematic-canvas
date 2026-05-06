@@ -46,7 +46,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
             <span className="text-xs text-accent uppercase tracking-wider mb-3 block">
               {caseStudy.categories.join(" • ")}
             </span>
-            <SheetTitle className="font-display text-4xl text-text mb-3">
+            <SheetTitle className="font-display text-text mb-3">
               {caseStudy.title}
             </SheetTitle>
             <p className="text-lg text-mute">

@@ -84,7 +84,7 @@ const AdminLeads = () => {
             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-surface border border-line flex items-center justify-center">
               <Lock className="w-5 h-5 text-mute" />
             </div>
-            <h1 className="font-display text-2xl text-text">Admin Access</h1>
+            <h1 className="font-display text-text">Admin Access</h1>
             <p className="text-sm text-mute mt-1">Enter your admin password to view leads</p>
           </div>
           <input
@@ -113,7 +113,7 @@ const AdminLeads = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-display text-3xl text-text">Submissions</h1>
+            <h1 className="font-display text-text">Submissions</h1>
             <p className="text-sm text-mute mt-1">
               {submissions.length} contact · {discovery.length} discovery
             </p>

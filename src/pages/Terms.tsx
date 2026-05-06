@@ -38,7 +38,7 @@ const Terms = () => {
               {/* PLACEHOLDER: Replace all content below with your actual terms of service */}
               
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">1. Acceptance of Terms</h2>
+                <h2 className="font-display text-text mb-4">1. Acceptance of Terms</h2>
                 <p className="text-mute leading-relaxed">
                   By accessing and using this website, you accept and agree to be bound by the terms and 
                   provisions of this agreement. If you do not agree to these terms, please do not use our services.
@@ -46,7 +46,7 @@ const Terms = () => {
               </section>
 
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">2. Services</h2>
+                <h2 className="font-display text-text mb-4">2. Services</h2>
                 <p className="text-mute leading-relaxed">
                   ProjGrowth provides digital design, development, and creative services. 
                   The specific deliverables, timelines, and pricing for any engagement will be outlined 
@@ -55,7 +55,7 @@ const Terms = () => {
               </section>
 
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">3. Intellectual Property</h2>
+                <h2 className="font-display text-text mb-4">3. Intellectual Property</h2>
                 <p className="text-mute leading-relaxed">
                   All content on this website, including text, graphics, logos, and images, is the property 
                   of ProjGrowth and is protected by copyright laws. For client projects, intellectual property 
@@ -64,7 +64,7 @@ const Terms = () => {
               </section>
 
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">4. User Conduct</h2>
+                <h2 className="font-display text-text mb-4">4. User Conduct</h2>
                 <p className="text-mute leading-relaxed">
                   You agree not to use our website or services for any unlawful purpose or in any way that 
                   could damage, disable, or impair our services. You also agree not to attempt to gain 
@@ -73,7 +73,7 @@ const Terms = () => {
               </section>
 
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">5. Limitation of Liability</h2>
+                <h2 className="font-display text-text mb-4">5. Limitation of Liability</h2>
                 <p className="text-mute leading-relaxed">
                   ProjGrowth shall not be liable for any indirect, incidental, special, consequential, 
                   or punitive damages arising out of your use of our website or services. Our total liability 
@@ -82,7 +82,7 @@ const Terms = () => {
               </section>
 
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">6. Modifications</h2>
+                <h2 className="font-display text-text mb-4">6. Modifications</h2>
                 <p className="text-mute leading-relaxed">
                   We reserve the right to modify these terms at any time. Changes will be effective immediately 
                   upon posting to this page. Your continued use of our services after any changes indicates 
@@ -91,7 +91,7 @@ const Terms = () => {
               </section>
 
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">7. Governing Law</h2>
+                <h2 className="font-display text-text mb-4">7. Governing Law</h2>
                 <p className="text-mute leading-relaxed">
                   These terms shall be governed by and construed in accordance with the laws of the jurisdiction 
                   in which ProjGrowth operates, without regard to its conflict of law provisions.
@@ -99,7 +99,7 @@ const Terms = () => {
               </section>
 
               <section className="py-8 border-t border-line">
-                <h2 className="font-display text-2xl text-text mb-4">8. Contact</h2>
+                <h2 className="font-display text-text mb-4">8. Contact</h2>
                 <p className="text-mute leading-relaxed">
                   For any questions regarding these terms, please contact us at{" "}
                   <a href="mailto:hello@projgrowth.com" className="text-accent hover:underline">

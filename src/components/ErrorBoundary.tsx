@@ -32,7 +32,7 @@ class ErrorBoundary extends Component<Props, State> {
             <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface border border-line">
               <AlertCircle className="w-8 h-8 text-accent" />
             </div>
-            <h1 className="font-display text-3xl text-text mb-4">
+            <h1 className="font-display text-text mb-4">
               Something went wrong
             </h1>
             <p className="text-mute mb-8">

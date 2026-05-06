@@ -198,7 +198,7 @@ const DigitalMarketing = () => {
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
             <div className="max-w-xl mx-auto text-center">
-              <h2 className="font-display text-2xl md:text-3xl text-text mb-2">Interested in Digital Marketing?</h2>
+              <h2 className="font-display text-text mb-2">Interested in Digital Marketing?</h2>
               <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
               <QuickContactForm />
             </div>

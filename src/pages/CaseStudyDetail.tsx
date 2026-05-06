@@ -186,7 +186,7 @@ const CaseStudyDetail = () => {
                   <div className="w-10 h-10 rounded-full bg-destructive/10 border border-destructive/20 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-destructive" />
                   </div>
-                  <h2 className="font-display text-2xl md:text-3xl text-text">The Challenge</h2>
+                  <h2 className="font-display text-text">The Challenge</h2>
                 </div>
                 <ul className="space-y-4 pl-2">
                   {caseStudy.theirIssues.map((issue, idx) => (
@@ -213,7 +213,7 @@ const CaseStudyDetail = () => {
                   <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
                     <Lightbulb className="w-5 h-5 text-accent" />
                   </div>
-                  <h2 className="font-display text-2xl md:text-3xl text-text">The Solution</h2>
+                  <h2 className="font-display text-text">The Solution</h2>
                 </div>
                 <ul className="space-y-4 pl-2">
                   {caseStudy.howWeHelped.map((help, idx) => (
@@ -236,7 +236,7 @@ const CaseStudyDetail = () => {
             {/* The Impact */}
             <ScrollReveal variant="fade-up" delay={0.2}>
               <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-xl border border-accent/20">
-                <h2 className="font-display text-2xl md:text-3xl text-text mb-4">Why It Matters</h2>
+                <h2 className="font-display text-text mb-4">Why It Matters</h2>
                 <p className="text-lg md:text-xl text-mute leading-relaxed">
                   {caseStudy.whyItMatters}
                 </p>
@@ -247,7 +247,7 @@ const CaseStudyDetail = () => {
             {caseStudy.processSteps && caseStudy.processSteps.length > 0 && (
               <ScrollReveal variant="fade-up" delay={0.3}>
                 <div className="space-y-6">
-                  <h2 className="font-display text-2xl md:text-3xl text-text">Our Process</h2>
+                  <h2 className="font-display text-text">Our Process</h2>
                   <div className="grid gap-4">
                     {caseStudy.processSteps.map((step, idx) => (
                       <motion.div
@@ -276,7 +276,7 @@ const CaseStudyDetail = () => {
             {caseStudy.gallery && caseStudy.gallery.length > 0 && (
               <ScrollReveal variant="fade-up" delay={0.4}>
                 <div className="space-y-6">
-                  <h2 className="font-display text-2xl md:text-3xl text-text">The Work</h2>
+                  <h2 className="font-display text-text">The Work</h2>
                   <div className="grid md:grid-cols-2 gap-4">
                     {caseStudy.gallery.map((item, idx) => (
                       <motion.div

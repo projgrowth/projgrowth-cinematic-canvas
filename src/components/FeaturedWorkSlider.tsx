@@ -50,7 +50,7 @@ const FeaturedWorkSlider = ({ projects }: FeaturedWorkSliderProps) => {
         {/* Content */}
         <div className="mb-8 md:mb-10">
           <span className="text-sm text-accent mb-2 block">{currentProject.category}</span>
-          <h3 className="font-display text-2xl md:text-3xl lg:text-4xl text-text mb-3 md:mb-4">
+          <h3 className="font-display text-text mb-3 md:mb-4">
             {currentProject.title}
           </h3>
           <p className="text-base md:text-lg text-mute max-w-2xl">
