@@ -132,15 +132,16 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              <Button asChild variant="cta" size="lg" className="group">
-                <Link to="/contact">
-                  Get Your Free Consultation
-                  <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              <Button asChild variant="ghost-link" size="lg">
-                <Link to="/work">View Our Work</Link>
-              </Button>
+              <Link to="/contact" className="btn-outline-cta group">
+                Get Your Free Consultation
+                <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/work"
+                className="inline-flex items-center justify-center min-h-[44px] px-6 text-mute hover:text-text transition-colors duration-sm font-medium"
+              >
+                View Our Work
+              </Link>
             </motion.div>
           </div>
         </div>
