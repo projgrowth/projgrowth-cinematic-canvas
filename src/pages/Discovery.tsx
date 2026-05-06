@@ -550,16 +550,59 @@ function StepRender({ id, form, set, tog, name }: any) {
       );
     case "mark":
       return (
-        <Q label="Mark structure — this or that." sub="Wordmark only or icon + wordmark?" why="An icon adds versatility; a wordmark is timeless.">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <Q label="Mark structure — pick a direction." sub="Three approaches. Each renders your real DBA so you can see the difference." why="An icon adds versatility, a monogram adds personality, a wordmark is timeless.">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             <MockTile sel={form.mark === "wordmark"} onClick={() => set("mark", "wordmark")} label="Wordmark only">
               <MiniCard s={{ ...spec, mark: "wordmark" }} />
             </MockTile>
             <MockTile sel={form.mark === "icon"} onClick={() => set("mark", "icon")} label="Icon + wordmark" recommended={rec}>
               <MiniCard s={{ ...spec, mark: "icon" }} />
             </MockTile>
+            <MockTile sel={form.mark === "monogram"} onClick={() => set("mark", "monogram")} label="Monogram + wordmark" sub="Your initials as the mark.">
+              <MiniCard s={{ ...spec, mark: "monogram" as any }} />
+            </MockTile>
           </div>
-          {rec && <div style={{ fontSize: 11, color: EMERALD, marginTop: 12, fontStyle: "italic" }}>Based on your other answers, an icon + wordmark gives the depth you need.</div>}
+          <div style={{ fontSize: 11, color: C.faint, marginTop: 12, fontStyle: "italic" }}>This guides direction — your final icon is hand-crafted.</div>
+          {rec && <div style={{ fontSize: 11, color: EMERALD, marginTop: 6, fontStyle: "italic" }}>Based on your other answers, an icon + wordmark gives the depth you need.</div>}
+        </Q>
+      );
+    case "iconConcept":
+      return (
+        <Q label="What should the icon evoke?" sub="Pick a direction. We'll explore inside it." why="A short list of references for the design phase.">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            {ICON_CONCEPTS.map(o => (
+              <OCard key={o.v} sel={form.iconConcept === o.v} onClick={() => set("iconConcept", o.v)}>
+                <div style={{ fontSize: 14, color: C.text, fontWeight: 500 }}>{o.l}</div>
+                <div style={{ fontSize: 11, color: C.mute, marginTop: 3 }}>{o.d}</div>
+              </OCard>
+            ))}
+          </div>
+        </Q>
+      );
+    case "brandValues":
+      return (
+        <Q label="What does your brand stand for?" sub="Pick up to 3. These become the moral compass for every design choice." why="Visual decisions need values to test against." host="Pick what's true today — not aspirational.">
+          <div style={{ marginBottom: 12 }}>
+            {BRAND_VALUES.map(v => (
+              <Chip key={v} on={form.brandValues.includes(v)} onClick={() => { if (form.brandValues.includes(v) || form.brandValues.length < 3) tog("brandValues", v); }}>{v}</Chip>
+            ))}
+          </div>
+          <TxtInput value={form.brandValuesCustom} onChange={(e: any) => set("brandValuesCustom", e.target.value)} placeholder="Anything not listed..." />
+          <div style={{ fontSize: 12, color: C.faint, marginTop: 8 }}>{form.brandValues.length}/3 selected</div>
+        </Q>
+      );
+    case "brandPromise":
+      return (
+        <Q label="Finish the sentence." sub={`"When a client works with us, they walk away with ___."`} why="One line. We'll quote it back to you in the brief." host="Concrete is better than poetic.">
+          <TA value={form.brandPromise} onChange={(e: any) => set("brandPromise", e.target.value)} rows={3} maxLength={140} placeholder="...a plan they actually understand and a partner who picks up the phone." />
+          <div style={{ textAlign: "right", fontSize: 11, color: C.faint, marginTop: 4 }}>{form.brandPromise.length}/140</div>
+        </Q>
+      );
+    case "brandStory":
+      return (
+        <Q label="What's the one belief that drives your practice?" sub="Optional. The conviction underneath the work." why="Often becomes the heart of the brand voice.">
+          <TA value={form.brandStory} onChange={(e: any) => set("brandStory", e.target.value)} rows={4} maxLength={240} placeholder="Most advisors sell products. I think planning is closer to therapy — you can't shortcut the trust." />
+          <div style={{ textAlign: "right", fontSize: 11, color: C.faint, marginTop: 4 }}>{form.brandStory.length}/240</div>
         </Q>
       );
     case "accent":
