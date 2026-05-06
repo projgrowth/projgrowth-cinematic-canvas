@@ -1,60 +1,97 @@
+## NM DBA Brand Discovery Portal
 
+A private, link-shareable discovery tool you send to NM advisor prospects. They enter their own name (no preset list), walk through an 18-question intake across 9 sections, and on submit you get the full structured response in your existing `/admin/leads` area — plus an auto-generated creative brief.
 
-# Lead Capture Hardening Plan
+### Where it lives
 
-## Problem
-Multiple points where leads can slip through: non-delivering emails, no visibility into submissions, dead-end UI elements, and missing capture points on high-intent pages.
+- New route: **`/discovery`** (unlinked from nav/footer — only people with the link find it)
+- Admin view: extend **`/admin/leads`** with a "Discovery Submissions" tab
 
-## Changes
+No login for the prospect. The URL itself is the gate. (We can add a passphrase later if you want.)
 
-### 1. Remove dead-end elements
-- **Remove AIChatbotPlaceholder** entirely from Contact page and codebase. A "coming soon" chatbot actively discourages real contact.
-- **Remove fake Calendly CTA** from MultiStepContactForm success state. Replace with a simple "We'll be in touch within 24 hours" message and a mailto fallback.
+### Flow
 
-### 2. Add inline QuickContactForm to Footer
-- Embed the existing QuickContactForm component in the Footer's "Get in Touch" column, giving every page a persistent low-friction capture point beyond just a mailto link.
-
-### 3. Add QuickContactForm to high-intent pages
-- Embed a QuickContactForm at the bottom of each **Service subpage** (Branding, Web Design, Content Creation, Digital Marketing) and the **Work** page, just above the GlobalCTA. These are where intent is highest.
-
-### 4. Fix the email delivery issue
-- Update the edge function `from` address. The current `onboarding@resend.dev` is Resend's shared sandbox domain and likely gets filtered or blocked. Change it to use a verified domain or at minimum surface a clear log when email send fails vs succeeds, so you can diagnose delivery.
-- Add a `status` and `email_sent` column to `contact_submissions` so you can see at a glance which leads got email confirmation and which didn't.
-
-### 5. Build a simple admin submissions viewer
-- Create a `/admin/leads` page (protected by a simple password or hidden route) that reads from `contact_submissions` and displays all leads in a table with name, email, message, date, and email delivery status. This gives immediate visibility without needing direct database access.
-
-### 6. Surface contact capture errors clearly
-- In the edge function, if the Resend email call fails, still return success to the user (their submission is saved) but log the failure distinctly and mark `email_sent = false` in the DB so you can follow up manually.
-
----
-
-## Technical Details
-
-### Database migration
-```sql
-ALTER TABLE contact_submissions
-  ADD COLUMN email_sent boolean DEFAULT false,
-  ADD COLUMN source text DEFAULT 'quick',
-  ADD COLUMN service_interest text,
-  ADD COLUMN budget text,
-  ADD COLUMN timeline text;
+```text
+/discovery
+  ├─ Landing  → "Enter your name to begin"  (single text input, not a list)
+  ├─ Form     → 18 steps, progress rail, back/next, autosave to localStorage
+  └─ Thanks   → "We'll be in touch. Here's what your answers tell us."
+                 (shows the same lightweight bullet recap from the artifact)
 ```
-This lets you track which form they used (quick vs multi-step), what they're interested in, and whether the notification email actually sent.
 
-### Files to create
-- `src/pages/AdminLeads.tsx` — simple table view of all submissions
+The "feels like more than they thought" effect is built into the questions themselves — personality axes, NM lean, touchpoints, non-negotiables, vision statement, mood boards, etc. By question 8 they realize this is a real strategic exercise, not a form.
 
-### Files to modify
-- `supabase/functions/send-contact-email/index.ts` — mark `email_sent` on success, `false` on failure; store structured multi-step data
-- `src/components/Footer.tsx` — embed QuickContactForm
-- `src/pages/Contact.tsx` — remove AIChatbotPlaceholder import and usage
-- `src/components/MultiStepContactForm.tsx` — remove fake Calendly CTA from success state
-- `src/pages/services/Branding.tsx`, `WebDesign.tsx`, `ContentCreation.tsx`, `DigitalMarketing.tsx` — add QuickContactForm above GlobalCTA
-- `src/pages/Work.tsx` — add QuickContactForm section
-- `src/App.tsx` — add route for `/admin/leads`
-- `src/components/AIChatbotPlaceholder.tsx` — delete file
+### Adapted from the artifact
 
-### Route protection for admin
-A simple approach: the `/admin/leads` route checks for a query param or prompts for a password stored as a backend secret. No full auth system needed — just enough to keep it from being publicly browsable.
+Keeping all 18 questions, all visual previews (mood tiles, NM lean tiles, typo/density/tone tiles, accent swatches, personality axes), the auto-generated creative brief, and the progress rail.
 
+**Removed from the artifact:**
+- The two-advisor flow (Michael Ramos / Richard Nese landing tiles)
+- The "Between" reconciliation screen and "Summary" comparison view (those compare two advisors — not relevant for one prospect)
+- "Dan's session notes" textarea
+
+**Added:**
+- Free-text name + email + practice name on the landing screen (so submissions are attributable)
+- Single-prospect submit → posts to backend
+- Per-step localStorage autosave keyed by email so a refresh doesn't lose progress
+
+### Backend
+
+New table **`discovery_submissions`** (separate from `contact_submissions` so the leads table stays clean):
+
+```sql
+create table discovery_submissions (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz default now(),
+  full_name text not null,
+  email text not null,
+  practice_name text,
+  responses jsonb not null,        -- the full form object
+  generated_brief text,            -- output of genBrief()
+  email_sent boolean default false
+);
+-- RLS: deny all SELECT (service role only, same pattern as contact_submissions)
+-- Public INSERT allowed via edge function only (no direct client insert)
+```
+
+New edge function **`submit-discovery`**:
+- Validates name/email/responses with zod
+- Inserts row
+- Sends you a notification email via existing Resend setup (subject: "New discovery: {name} — {practice}")
+- Returns success even if email fails (mirrors the hardened pattern already in `send-contact-email`)
+
+Extend **`admin-leads`** edge function (or add `admin-discovery`) to also return discovery rows for the `/admin/leads` page.
+
+### Admin view changes
+
+`/admin/leads` gets a tab switcher: **Quick Leads** | **Discovery Submissions**
+
+Discovery tab shows a list; clicking a row opens a detail panel with:
+- Contact info
+- The auto-generated creative brief (copy button)
+- Full structured responses grouped by the 9 sections (Foundation, Your client, Positioning, Personality, Direction, Aesthetic, Your mark, Reference, Vision)
+- Visual recap: chosen mood tile, accent swatch, NM lean tile, personality axes positions
+
+### Files
+
+**New**
+- `src/pages/Discovery.tsx` — landing + step controller + thanks screen
+- `src/components/discovery/` — `Steps.tsx`, `Tiles.tsx` (MOODS/NM_LEAN/TOTCard previews), `constants.ts` (ACC, DIFF, AUD, ADJ, AXES, etc.), `genBrief.ts`
+- `src/pages/DiscoveryDetail.tsx` (or inline panel inside AdminLeads)
+- `supabase/functions/submit-discovery/index.ts`
+- Migration: `discovery_submissions` table + RLS
+
+**Modified**
+- `src/App.tsx` — add `/discovery` route
+- `src/pages/AdminLeads.tsx` — add tab + discovery list/detail
+- `supabase/functions/admin-leads/index.ts` — also fetch discovery rows (or add sibling function)
+
+### Styling
+
+The artifact uses inline NM-blue styling. We'll port it to the project's Tailwind tokens so it matches your site's design system (still NM-blue accented since it's NM-targeted, but using your fonts and component primitives — Button, Input, Textarea, Card).
+
+### Open questions (proceeding with defaults unless you object)
+
+1. **Gate**: shareable URL only (no passphrase). Add a passphrase later if needed.
+2. **Notification**: email to the same address your contact form uses.
+3. **Prospect name entry**: free text — `full_name`, `email`, `practice_name` on the landing screen before question 1.
