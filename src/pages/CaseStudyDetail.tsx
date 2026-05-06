@@ -321,9 +321,8 @@ const CaseStudyDetail = () => {
       </Section>
 
       {/* CTA Section */}
-      <section className="border-t border-line">
-        <div className="container-site section">
-          <ScrollReveal variant="fade-up">
+      <Section className="border-t border-line">
+        <ScrollReveal variant="fade-up">
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="font-display text-text mb-4">
                 Ready for similar results?
@@ -340,13 +339,11 @@ const CaseStudyDetail = () => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-          </ScrollReveal>
-        </div>
-      </section>
+        </ScrollReveal>
+      </Section>
 
       {/* Navigation */}
-      <section className="border-t border-line">
-        <div className="container-site py-8">
+      <Section size="sm" className="border-t border-line">
           <div className="flex justify-between items-center">
             {prevStudy ? (
               <Link
@@ -378,8 +375,7 @@ const CaseStudyDetail = () => {
               <div />
             )}
           </div>
-        </div>
-      </section>
+      </Section>
     </Layout>
   );
 };
