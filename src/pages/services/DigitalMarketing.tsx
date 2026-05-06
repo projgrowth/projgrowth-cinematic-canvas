@@ -103,7 +103,7 @@ const DigitalMarketing = () => {
             <h1 className="font-display text-text mb-6">
               Digital Marketing Services in Orlando
             </h1>
-            <p className="text-xl text-mute max-w-3xl leading-relaxed">
+            <p className="text-xl text-mute max-w-3xl">
               Drive growth with data-driven digital marketing strategies. We help Orlando businesses 
               reach their ideal customers, generate leads, and increase revenue through SEO, 
               paid advertising, social media, and email marketing.
@@ -121,11 +121,11 @@ const DigitalMarketing = () => {
               {services.map((service, idx) => (
                 <div key={idx} className="group relative p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
-                  <span className="font-display text-3xl text-accent/30 mb-4 block">
+                  <span className="font-display text-accent-faint mb-4 block">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-display text-xl text-text mb-3">{service.title}</h3>
-                  <p className="text-mute leading-relaxed">{service.description}</p>
+                  <h3 className="font-display text-text mb-3">{service.title}</h3>
+                  <p className="text-mute">{service.description}</p>
                 </div>
               ))}
             </div>
@@ -145,7 +145,7 @@ const DigitalMarketing = () => {
                 { title: "Transparent", desc: "Clear reporting, honest communication, and full visibility into what's working and what's not." }
               ].map((item, idx) => (
                 <div key={idx} className="p-8 bg-surface rounded-lg border border-line text-center">
-                  <h3 className="font-display text-xl text-accent mb-4">{item.title}</h3>
+                  <h3 className="font-display text-accent mb-4">{item.title}</h3>
                   <p className="text-mute">{item.desc}</p>
                 </div>
               ))}
@@ -181,7 +181,7 @@ const DigitalMarketing = () => {
                 <AccordionItem 
                   key={idx} 
                   value={`faq-${idx}`}
-                  className="bg-surface border border-line rounded-lg px-6"
+                  className="surface-card px-6"
                 >
                   <AccordionTrigger className="text-left text-text hover:text-accent">
                     {faq.question}
@@ -217,7 +217,7 @@ const DigitalMarketing = () => {
             </p>
             <Link
               to="/contact?service=digital-marketing"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-sm hover:bg-accent/90"
+              className="btn-solid group "
             >
               Get Your Free Marketing Audit
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

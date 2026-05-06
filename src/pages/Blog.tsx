@@ -25,7 +25,7 @@ interface BlogPost {
 }
 
 const BlogCardSkeleton = () => (
-  <div className="bg-surface border border-line rounded-lg overflow-hidden">
+  <div className="surface-card overflow-hidden">
     <Skeleton className="aspect-video w-full" />
     <div className="p-6 space-y-4">
       <Skeleton className="h-4 w-24" />
@@ -115,7 +115,7 @@ const Blog = () => {
               <ScrollReveal key={post.id} delay={index * 0.1}>
                 <motion.article 
                   layout
-                  className="group bg-surface border border-line rounded-lg overflow-hidden hover:border-accent/50 transition-all duration-sm"
+                  className="group surface-card overflow-hidden"
                 >
                   <Link to={`/blog/${post.slug}`}>
                     <div className="aspect-video bg-base relative overflow-hidden">

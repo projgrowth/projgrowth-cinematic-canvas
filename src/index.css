@@ -21,6 +21,14 @@
     --accent-border-hover: hsl(var(--accent) / 0.35);
     --inner-highlight: inset 0 1px 0 hsl(var(--text) / 0.04);
 
+    /* Locked color ladder — text & accent */
+    --accent-faint:  hsl(var(--accent) / 0.15);
+    --accent-soft:   hsl(var(--accent) / 0.30);
+    --accent-strong: hsl(var(--accent) / 0.60);
+    --text-strong:   hsl(var(--text));
+    --text-muted:    hsl(var(--mute));
+    --text-faint:    hsl(var(--mute) / 0.65);
+
     /* Semantic Tokens */
     --background: var(--base);
     --foreground: var(--text);
@@ -257,6 +265,37 @@
     background-color: hsl(var(--accent));
     border-color: hsl(var(--accent));
   }
+
+  /* Decorative giant numerals — locked size + faint accent.
+     Use on <span> next to card titles. NEVER on actual headings. */
+  .numeral-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.25rem, 4vw + 1rem, 5rem);
+    line-height: 1;
+    color: var(--accent-faint);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Locked button recipes for inline anchors / form submits.
+     Use <Button> in React when possible; these exist for Link/anchor parity. */
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-family: var(--font-body);
+    transition: all var(--duration-sm) var(--ease);
+  }
+  .btn-solid  { @apply btn-base; background-color: hsl(var(--accent)); color: hsl(var(--primary-foreground)); }
+  .btn-solid:hover  { background-color: hsl(var(--accent) / 0.9); box-shadow: var(--shadow-glow-accent); }
+  .btn-outline-cta { @apply btn-base; background: transparent; color: hsl(var(--accent)); border: 1px solid hsl(var(--accent)); }
+  .btn-outline-cta:hover { background-color: hsl(var(--accent)); color: hsl(var(--primary-foreground)); }
 
   /* Text recipes */
   .eyebrow {

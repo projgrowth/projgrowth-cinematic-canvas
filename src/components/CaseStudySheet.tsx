@@ -37,7 +37,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
         <div className="relative h-48 w-full overflow-hidden bg-surface border-b border-line">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <Icon className="w-24 h-24 text-accent/20" />
+            <Icon className="w-24 h-24 text-accent-faint" />
           </div>
         </div>
 
@@ -59,7 +59,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
               <h4 className="text-sm uppercase tracking-wider text-accent mb-3">
                 What They Do
               </h4>
-              <p className="text-text leading-relaxed">
+              <p className="text-text">
                 {caseStudy.whatTheyDo}
               </p>
             </section>
@@ -96,7 +96,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
               <h4 className="text-sm uppercase tracking-wider text-accent mb-3">
                 Why It Matters
               </h4>
-              <p className="text-text text-lg leading-relaxed">
+              <p className="text-text text-lg">
                 {caseStudy.whyItMatters}
               </p>
             </section>
@@ -105,7 +105,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
             <section className="pt-8 border-t border-line">
               <Link
                 to={`/work/${caseStudy.id}`}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-primary-foreground rounded-md font-medium hover:bg-accent/90 transition-colors group mb-4 w-full justify-center"
+                className="btn-solid  transition-colors group mb-4 w-full justify-center"
               >
                 View Full Case Study
                 <ExternalLink className="w-4 h-4" />

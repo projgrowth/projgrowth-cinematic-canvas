@@ -165,7 +165,7 @@ const Home = () => {
                   <Link to={service.path} className="group block h-full">
                     <SurfaceCard pad="md" interactive className={`relative overflow-hidden h-full ${idx === 0 ? "border-t-2 border-t-accent" : ""}`}>
                       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
-                      <span className="relative font-display text-2xl md:text-3xl text-accent/30 mb-4 block">
+                      <span className="relative font-display text-accent-faint mb-4 block">
                         {String(idx + 1).padStart(2, "0")}
                       </span>
                       <h3 className="relative font-display text-text mb-2 transition-colors duration-sm group-hover:text-accent">
@@ -200,7 +200,7 @@ const Home = () => {
             <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
               <SurfaceCard pad="md" interactive className="h-full">
                 <h3 className="font-display text-accent mb-2">{item.title}</h3>
-                <p className="text-mute text-sm leading-relaxed">{item.description}</p>
+                <p className="text-mute text-sm">{item.description}</p>
               </SurfaceCard>
             </ScrollReveal>
           ))}
@@ -224,7 +224,7 @@ const Home = () => {
           <div className="mt-12 text-center">
             <Link
               to="/work"
-              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors duration-sm font-medium"
+              className="inline-flex items-center gap-2 text-accent hover:text-accent-strong transition-colors duration-sm font-medium"
             >
               View All Projects
               <ArrowRight className="w-5 h-5" />

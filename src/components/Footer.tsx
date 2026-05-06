@@ -31,7 +31,7 @@ const Footer = () => {
               <img src={pgLogo} alt="" className="h-6 w-auto logo-accent-hover" />
               ProjGrowth
             </Link>
-            <p className="text-sm text-mute leading-relaxed">
+            <p className="text-sm text-mute">
               Orlando's boutique digital marketing agency focused on web design, branding, and growth.
             </p>
           </div>

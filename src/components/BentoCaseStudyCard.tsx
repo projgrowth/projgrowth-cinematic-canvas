@@ -118,7 +118,7 @@ const BentoCaseStudyCard = ({
             className="h-12 md:h-16 lg:h-20 max-w-[80%] object-contain opacity-70 group-hover:opacity-90 transition-opacity duration-sm"
           />
         ) : (
-          <span className="font-display text-3xl md:text-4xl font-medium text-mute/30 group-hover:text-mute/50 transition-colors">
+          <span className="font-display font-medium text-text-faint group-hover:text-text-faint transition-colors">
             {caseStudy.title.split(' ').map(word => word[0]).join('')}
           </span>
         )}
@@ -135,7 +135,7 @@ const BentoCaseStudyCard = ({
           {caseStudy.category}
         </motion.span>
 
-        <h3 className="font-display text-lg md:text-xl lg:text-2xl text-text mb-1 group-hover:text-accent transition-colors duration-sm">
+        <h3 className="font-display text-text mb-1 group-hover:text-accent transition-colors duration-sm">
           {caseStudy.title}
         </h3>
         
@@ -155,7 +155,7 @@ const BentoCaseStudyCard = ({
               <div key={idx} className="flex flex-col">
                 <AnimatedCounter 
                   value={metric.value} 
-                  className="font-display text-lg md:text-xl text-accent font-medium"
+                  className="font-display text-accent font-medium"
                   delay={idx * 0.1}
                 />
                 <span className="text-[10px] md:text-xs text-mute uppercase tracking-wider">

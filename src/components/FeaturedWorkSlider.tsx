@@ -44,7 +44,7 @@ const FeaturedWorkSlider = ({ projects }: FeaturedWorkSliderProps) => {
       <div className={`bg-gradient-to-br ${gradientClass} border border-line rounded-lg p-6 md:p-8 lg:p-12 transition-all duration-md`}>
         {/* Icon */}
         <div className="mb-6">
-          <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-accent/60" />
+          <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-accent-strong" />
         </div>
 
         {/* Content */}
