@@ -2,7 +2,8 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { DiscoveryShell } from "./discovery/Shell";
-import { BusinessCard, LaptopBrowser, Phone, Signage, MiniCard, deriveSpec, NM_BLUE, EMERALD, fontFor, weightFor } from "./discovery/mockups";
+import { BusinessCard, LaptopBrowser, Phone, Signage, Storefront, MockupDisclaimer, MiniCard, deriveSpec, NM_BLUE, EMERALD, fontFor, weightFor } from "./discovery/mockups";
+import { downloadBrandBriefPdf } from "./discovery/brandBriefPdf";
 
 // ============================================================
 // Constants
@@ -672,15 +673,16 @@ function canAdvance(id: string, f: Form): boolean {
 function VisionBoard({ spec, name }: { spec: ReturnType<typeof deriveSpec>; name: string }) {
   return (
     <div style={{ position: "sticky", top: 40 }}>
-      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 14 }}>Live preview · your vision</div>
-      <motion.div key={`bc-${spec.dba}-${spec.tone}-${spec.typo}-${spec.accent}-${spec.mark}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} style={{ marginBottom: 26 }}>
+      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Live preview · your vision</div>
+      <div style={{ marginBottom: 16 }}><MockupDisclaimer compact /></div>
+      <motion.div key={`bc-${spec.dba}-${spec.tone}-${spec.typo}-${spec.accent}-${spec.mark}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} style={{ marginBottom: 22 }}>
         <BusinessCard s={spec} size={0.85} name={name} />
       </motion.div>
-      <motion.div key={`pn-${spec.dba}-${spec.accent}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }} style={{ display: "flex", justifyContent: "center" }}>
-        <Phone s={spec} size={0.55} name={name} />
+      <motion.div key={`sf-${spec.dba}-${spec.accent}-${spec.typo}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }}>
+        <Storefront s={spec} size={0.7} />
       </motion.div>
       <div style={{ fontSize: 11, color: C.faint, marginTop: 18, lineHeight: 1.5, fontStyle: "italic", textAlign: "center" }}>
-        These render with your real DBA. Choices update them live.
+        Renders with your real DBA. These are visual references — your final logo is hand-crafted in the next phase.
       </div>
     </div>
   );
@@ -830,6 +832,10 @@ function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
           </p>
         </div>
 
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}>
+          <MockupDisclaimer />
+        </div>
+
         {/* Hero card */}
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 50 }}>
           <motion.div whileHover={{ rotateX: 4, rotateY: -4, scale: 1.02 }} transition={{ type: "spring", stiffness: 200, damping: 18 }} style={{ transformStyle: "preserve-3d", perspective: 1200 }}>
@@ -842,11 +848,11 @@ function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
           <SurfaceLabel label="Your website">
             <LaptopBrowser s={spec} size={0.55} vision={form.vision} />
           </SurfaceLabel>
-          <SurfaceLabel label="Your social presence" centered>
-            <Phone s={spec} size={0.7} name={name} />
+          <SurfaceLabel label="Your storefront" centered>
+            <Storefront s={spec} size={0.55} />
           </SurfaceLabel>
-          <SurfaceLabel label="Your office signage">
-            <Signage s={spec} size={0.55} />
+          <SurfaceLabel label="Your social presence">
+            <Phone s={spec} size={0.55} name={name} />
           </SurfaceLabel>
         </div>
 
@@ -882,23 +888,50 @@ function SurfaceLabel({ label, children, centered }: any) {
 // ============================================================
 // Thanks
 // ============================================================
-function Thanks({ name, form }: any) {
+function Thanks({ name, email, practice, form, services, confidence, host }: any) {
   const dba = form.dbaName || `${sn(name)} Financial`;
   const spec = deriveSpec(form, dba);
+  const summary = visionSummary(name, form);
+  const brief = genBrief(name, form, services, confidence);
+  const tier = engagementTier(confidence, services);
+
+  const onDownload = () => {
+    downloadBrandBriefPdf({
+      name, email, practice: practice || dba, dba,
+      visionSummary: summary, brief, responses: form,
+      services, confidence, tier,
+    });
+  };
+
   return (
     <DiscoveryShell>
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ textAlign: "center", paddingTop: 20 }}>
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ textAlign: "center", paddingTop: 12 }}>
         <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 56, height: 56, borderRadius: "50%", background: "rgba(68,160,120,0.15)", border: `1px solid ${EMERALD}`, color: EMERALD, fontSize: 24, marginBottom: 22 }}>✓</div>
+        <div style={{ fontSize: 11, letterSpacing: ".22em", color: EMERALD, textTransform: "uppercase", marginBottom: 12 }}>Brief received</div>
         <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 36, fontWeight: 200, marginBottom: 14, letterSpacing: "-0.02em" }}>
           Thank you, {sn(name)}.
         </h1>
-        <p style={{ color: C.mute, fontSize: 15, lineHeight: 1.7, marginBottom: 32, maxWidth: 460, margin: "0 auto 32px" }}>
-          We'll review and come back within 24–48 hours with the proposal — built directly off the answers you just gave.
+        <p style={{ color: C.mute, fontSize: 15, lineHeight: 1.7, marginBottom: 14, maxWidth: 520, margin: "0 auto 14px" }}>
+          We'll be in touch within <strong style={{ color: C.text, fontWeight: 500 }}>24–48 hours</strong> with a short, written read on what we heard — plus the smallest version of the engagement that gets you what you actually need.
         </p>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+        <p style={{ color: C.faint, fontSize: 13, lineHeight: 1.6, marginBottom: 28, maxWidth: 460, margin: "0 auto 28px", fontStyle: "italic" }}>
+          In the meantime, here's your brand brief — in your own words.
+        </p>
+
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", marginBottom: 36, flexWrap: "wrap" }}>
+          <button onClick={onDownload} style={{ background: EMERALD, color: "#0a0d11", border: "none", padding: "14px 26px", borderRadius: 10, fontSize: 14, fontFamily: "'Outfit',sans-serif", fontWeight: 600, cursor: "pointer", boxShadow: "0 12px 30px -10px rgba(68,160,120,0.5)", display: "inline-flex", alignItems: "center", gap: 8 }}>
+            ↓ Download your brief (PDF)
+          </button>
+          <a href="/" style={{ background: "transparent", border: `1px solid ${C.borderHi}`, color: C.text, padding: "14px 26px", borderRadius: 10, fontSize: 14, fontFamily: "'Outfit',sans-serif", fontWeight: 500, textDecoration: "none", display: "inline-flex", alignItems: "center" }}>
+            Back to ProjGrowth
+          </a>
+        </div>
+
+        <div style={{ marginBottom: 14 }}><MockupDisclaimer compact /></div>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
           <BusinessCard s={spec} size={0.9} name={name} />
         </div>
-        <div style={{ fontSize: 11, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase" }}>Save this preview · we already did</div>
+        <div style={{ fontSize: 11, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase" }}>A keepsake from your session</div>
       </motion.div>
     </DiscoveryShell>
   );
@@ -996,7 +1029,7 @@ export default function Discovery() {
   const spec = useMemo(() => deriveSpec(form, dbaPreview), [form, dbaPreview]);
 
   if (phase === "landing") return <Landing host={host} onStart={startForm} />;
-  if (phase === "done") return <Thanks name={name} form={form} />;
+  if (phase === "done") return <Thanks name={name} email={email} practice={practice} form={form} services={services} confidence={confidence} host={host} />;
   if (phase === "submitting") {
     return <DiscoveryShell><div style={{ textAlign: "center", padding: 80, color: C.mute }}>Sending your vision to {host}…</div></DiscoveryShell>;
   }
