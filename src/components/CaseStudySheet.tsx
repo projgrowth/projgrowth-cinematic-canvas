@@ -105,7 +105,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
             <section className="pt-8 border-t border-line">
               <Link
                 to={`/work/${caseStudy.id}`}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-primary-foreground rounded-md font-medium hover:bg-accent/90 transition-colors group mb-4 w-full justify-center"
+                className="btn-solid  transition-colors group mb-4 w-full justify-center"
               >
                 View Full Case Study
                 <ExternalLink className="w-4 h-4" />

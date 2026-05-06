@@ -223,7 +223,7 @@ const WebDesign = () => {
             </p>
             <Link
               to="/contact?service=web-design"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-sm hover:bg-accent/90"
+              className="btn-solid group "
             >
               Get Your Free Consultation
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

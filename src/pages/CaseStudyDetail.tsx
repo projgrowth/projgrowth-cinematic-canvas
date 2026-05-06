@@ -333,7 +333,7 @@ const CaseStudyDetail = () => {
               <Link
                 to="/contact"
                 state={{ service: caseStudy.category }}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-primary-foreground rounded-md font-medium hover:bg-accent/90 transition-colors group"
+                className="btn-solid  transition-colors group"
               >
                 Start a Conversation
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

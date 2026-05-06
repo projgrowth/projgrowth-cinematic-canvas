@@ -550,7 +550,7 @@ Company: ${formData.company || "Not provided"}
           <button
             onClick={nextStep}
             disabled={!canProceed()}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-sm hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-solid "
           >
             Continue
             <ArrowRight className="w-4 h-4" />
@@ -559,7 +559,7 @@ Company: ${formData.company || "Not provided"}
           <button
             onClick={handleSubmit}
             disabled={isSubmitting || !canProceed()}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-sm hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-solid "
           >
             {isSubmitting ? (
               <>
