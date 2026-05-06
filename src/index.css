@@ -278,6 +278,25 @@
     pointer-events: none;
   }
 
+  /* Locked button recipes for inline anchors / form submits.
+     Use <Button> in React when possible; these exist for Link/anchor parity. */
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-family: var(--font-body);
+    transition: all var(--duration-sm) var(--ease);
+  }
+  .btn-solid  { @apply btn-base; background-color: hsl(var(--accent)); color: hsl(var(--primary-foreground)); }
+  .btn-solid:hover  { background-color: hsl(var(--accent) / 0.9); box-shadow: var(--shadow-glow-accent); }
+  .btn-outline-cta { @apply btn-base; background: transparent; color: hsl(var(--accent)); border: 1px solid hsl(var(--accent)); }
+  .btn-outline-cta:hover { background-color: hsl(var(--accent)); color: hsl(var(--primary-foreground)); }
+
   /* Text recipes */
   .eyebrow {
     font-family: var(--font-display);
