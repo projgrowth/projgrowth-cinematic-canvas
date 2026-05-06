@@ -7,6 +7,7 @@ import FeaturedWorkSkeleton from "@/components/FeaturedWorkSkeleton";
 import ClientLogos from "@/components/ClientLogos";
 import GrowthLines from "@/components/GrowthLines";
 import LeafDivider from "@/components/LeafDivider";
+import AmbientGlow from "@/components/AmbientGlow";
 import { Helmet } from "react-helmet-async";
 
 import { caseStudies } from "@/data/caseStudies";
@@ -92,14 +93,7 @@ const Home = () => {
 
       {/* Hero Section — Staggered text reveal */}
       <section className="relative container-site section-hero">
-        {/* Atmospheric radial glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          aria-hidden="true"
-          style={{
-            background: "radial-gradient(ellipse at 15% 40%, hsl(155 42% 49% / 0.04), transparent 55%), radial-gradient(ellipse at 80% 70%, hsl(155 42% 49% / 0.02), transparent 50%)",
-          }}
-        />
+        <AmbientGlow variant="hero" />
         <GrowthLines />
         <div className="grid-12 relative z-10">
           <div className="col-span-12 lg:col-span-10 stack gap-6 md:gap-8">
