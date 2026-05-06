@@ -124,6 +124,18 @@ export function buildBrandBriefPdf(input: BriefPdfInput): jsPDF {
   y = sectionTitle(doc, "Strategic Brief", y);
   y = paragraph(doc, brief, y, { size: 10.5, lh: 15 });
 
+  // What it stands for
+  const values = [...((responses?.brandValues as string[]) || []), responses?.brandValuesCustom].filter(Boolean).join(", ");
+  const promise = (responses?.brandPromise as string) || "";
+  const story = (responses?.brandStory as string) || "";
+  if (values || promise || story) {
+    y += 14;
+    y = sectionTitle(doc, "What it stands for", y);
+    if (values)  y = kv(doc, "Values", values, y);
+    if (promise) y = kv(doc, "Promise", `"${promise}"`, y);
+    if (story)   y = kv(doc, "Belief", story, y);
+  }
+
   // Footer note
   doc.setFont("helvetica", "italic");
   doc.setFontSize(8);
@@ -141,10 +153,14 @@ export function buildBrandBriefPdf(input: BriefPdfInput): jsPDF {
     ["dbaName", "DBA name"],
     ["audience", "Audience"],
     ["adjectives", "Brand adjectives"],
+    ["brandValues", "Brand values"],
+    ["brandPromise", "Brand promise"],
+    ["brandStory", "Driving belief"],
     ["tone", "Tone"],
     ["mood", "Mood direction"],
     ["typo", "Typography"],
     ["mark", "Mark structure"],
+    ["iconConcept", "Icon direction"],
     ["accent", "Accent color"],
     ["density", "Density"],
     ["nmLean", "NM lockup approach"],
