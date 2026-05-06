@@ -374,23 +374,24 @@ function ReferenceStep({ form, set, tog }: any) {
 // ============================================================
 function AxisSlider({ axis, value, onSet }: { axis: typeof AXES[number]; value: string | null; onSet: (v: string) => void }) {
   const [l, lv, rv, r, , ld, rd] = axis;
-  // 0 = left, 1 = right, 0.5 = unset
-  const pos = value === lv ? 0 : value === rv ? 1 : 0.5;
+  const sel = (v: string, on: boolean) => ({
+    flex: 1, padding: "14px 16px", fontFamily: "inherit", cursor: "pointer",
+    border: "none", textAlign: v === lv ? "left" as const : "right" as const,
+    background: on ? "rgba(68,160,120,0.18)" : "transparent",
+    color: on ? EMERALD : C.mute,
+    fontWeight: on ? 600 : 400, transition: "all .18s ease",
+  });
   return (
-    <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "16px 18px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-        <button onClick={() => onSet(lv)} style={{ background: "transparent", border: "none", color: value === lv ? EMERALD : C.mute, fontSize: 13, fontFamily: "inherit", cursor: "pointer", textAlign: "left", padding: 0, fontWeight: value === lv ? 500 : 400 }}>
-          <div>{l}</div>
-          <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{ld}</div>
-        </button>
-        <button onClick={() => onSet(rv)} style={{ background: "transparent", border: "none", color: value === rv ? EMERALD : C.mute, fontSize: 13, fontFamily: "inherit", cursor: "pointer", textAlign: "right", padding: 0, fontWeight: value === rv ? 500 : 400 }}>
-          <div>{r}</div>
-          <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{rd}</div>
-        </button>
-      </div>
-      <div style={{ position: "relative", height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 100 }}>
-        <div style={{ position: "absolute", top: -6, left: `calc(${pos * 100}% - 8px)`, width: 16, height: 16, borderRadius: "50%", background: value ? EMERALD : "#444", transition: "left .25s ease, background .25s ease", boxShadow: value ? `0 0 0 6px rgba(68,160,120,0.15)` : "none" }} />
-      </div>
+    <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", display: "flex", alignItems: "stretch" }}>
+      <button onClick={() => onSet(lv)} style={sel(lv, value === lv)}>
+        <div style={{ fontSize: 13 }}>{value === lv ? "✓ " : ""}{l}</div>
+        <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{ld}</div>
+      </button>
+      <div style={{ width: 1, background: C.border }} />
+      <button onClick={() => onSet(rv)} style={sel(rv, value === rv)}>
+        <div style={{ fontSize: 13 }}>{r}{value === rv ? " ✓" : ""}</div>
+        <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{rd}</div>
+      </button>
     </div>
   );
 }
