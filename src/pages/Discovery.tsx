@@ -750,16 +750,13 @@ function canAdvance(id: string, f: Form): boolean {
 function VisionBoard({ spec, name }: { spec: ReturnType<typeof deriveSpec>; name: string }) {
   return (
     <div style={{ position: "sticky", top: 40 }}>
-      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Live preview · your vision</div>
+      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Live preview · business card</div>
       <div style={{ marginBottom: 16 }}><MockupDisclaimer compact /></div>
-      <motion.div key={`bc-${spec.dba}-${spec.tone}-${spec.typo}-${spec.accent}-${spec.mark}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} style={{ marginBottom: 22 }}>
-        <BusinessCard s={spec} size={0.85} name={name} />
-      </motion.div>
-      <motion.div key={`sf-${spec.dba}-${spec.accent}-${spec.typo}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }}>
-        <Storefront s={spec} size={0.7} />
+      <motion.div key={`bc-${spec.dba}-${spec.tone}-${spec.typo}-${spec.accent}-${spec.mark}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+        <BusinessCard s={spec} size={1.0} name={name} />
       </motion.div>
       <div style={{ fontSize: 11, color: C.faint, marginTop: 18, lineHeight: 1.5, fontStyle: "italic", textAlign: "center" }}>
-        Renders with your real DBA. These are visual references — your final logo is hand-crafted in the next phase.
+        Directional preview using your real DBA. Your final identity is hand-crafted in design phase.
       </div>
     </div>
   );
