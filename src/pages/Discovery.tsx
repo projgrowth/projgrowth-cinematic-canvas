@@ -1047,6 +1047,14 @@ export default function Discovery() {
     }
   }, [name, email, practice, services, confidence, plan, step, form, phase]);
 
+  // auto-skip iconConcept when user picked wordmark
+  useEffect(() => {
+    if (phase !== "form") return;
+    if (plan[step] === "iconConcept" && form.mark === "wordmark") {
+      setStep(s => Math.min(s + 1, plan.length - 1));
+    }
+  }, [step, plan, form.mark, phase]);
+
   const set = (k: keyof Form, v: any) => setForm(f => ({ ...f, [k]: v }));
   const tog = (k: keyof Form, v: any) => setForm(f => {
     const a = (f[k] as string[]) || [];
