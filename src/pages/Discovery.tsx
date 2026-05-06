@@ -917,17 +917,9 @@ function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
           </motion.div>
         </div>
 
-        {/* surface row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 30, alignItems: "end", marginBottom: 50 }}>
-          <SurfaceLabel label="Your website">
-            <LaptopBrowser s={spec} size={0.55} vision={form.vision} />
-          </SurfaceLabel>
-          <SurfaceLabel label="Your storefront" centered>
-            <Storefront s={spec} size={0.55} />
-          </SurfaceLabel>
-          <SurfaceLabel label="Your social presence">
-            <Phone s={spec} size={0.55} name={name} />
-          </SurfaceLabel>
+        {/* surfaces this extends to */}
+        <div style={{ textAlign: "center", marginBottom: 50, fontSize: 12, color: C.faint, letterSpacing: ".15em", textTransform: "uppercase" }}>
+          This system extends to · website · signage · social · stationery
         </div>
 
         <div style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`, borderRadius: 16, padding: "26px 28px", marginBottom: 30, maxWidth: 720, margin: "0 auto 30px" }}>
