@@ -253,3 +253,63 @@ export function MiniCard({ s, label, sub, accentOverride, fontOverride, weightOv
     </div>
   );
 }
+
+// ============================================================
+// Storefront — exterior building signage with realistic depth
+// ============================================================
+export function Storefront({ s, size = 1 }: { s: BrandSpec; size?: number }) {
+  const W = 480 * size, H = 280 * size;
+  return (
+    <div style={{
+      width: W, height: H, borderRadius: 8 * size, position: "relative", overflow: "hidden",
+      boxShadow: "0 30px 60px -20px rgba(0,0,0,.55)",
+    }}>
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, #1a2330 0%, #2a3442 35%, #3a4452 60%, #1a1d22 100%)" }} />
+      <div style={{ position: "absolute", right: 0, top: "55%", bottom: 0, left: "55%", background: "linear-gradient(180deg, rgba(255,184,28,0.12), rgba(255,184,28,0.04))", filter: "blur(2px)" }} />
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "55%", background: "linear-gradient(180deg, #1c2128 0%, #14181d 100%)" }} />
+      {[0.15, 0.4, 0.65, 0.9].map((x, i) => (
+        <div key={i} style={{ position: "absolute", left: `${x * 100}%`, bottom: 0, top: "45%", width: 1, background: "rgba(255,255,255,0.04)" }} />
+      ))}
+      <div style={{ position: "absolute", left: 0, right: 0, top: "38%", height: 64 * size, background: "linear-gradient(180deg, #0d1015, #060709)", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "inset 0 6px 20px rgba(0,0,0,0.6)" }}>
+        <div style={{
+          fontFamily: fontFor(s),
+          fontWeight: weightFor(s),
+          fontSize: 30 * size,
+          color: "#f5f0e8",
+          letterSpacing: s.typo === "sans" ? "0.18em" : "0.03em",
+          textShadow: `0 0 12px ${s.accent}66, 0 0 30px ${s.accent}33, 1px 1px 0 rgba(0,0,0,0.8), 2px 2px 4px rgba(0,0,0,0.6)`,
+          display: "flex", alignItems: "center", gap: 14 * size,
+        }}>
+          <span>{s.typo === "sans" ? s.word : s.short}</span>
+          <span style={{ width: 1, height: 28 * size, background: "rgba(245,240,232,0.25)" }} />
+          <span style={{ fontFamily: "'Outfit',sans-serif", fontSize: 9 * size, color: "rgba(245,240,232,0.65)", letterSpacing: "0.28em", lineHeight: 1.2, textShadow: "none" }}>NORTHWESTERN<br />MUTUAL</span>
+        </div>
+      </div>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 24 * size, background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.5))" }} />
+    </div>
+  );
+}
+
+// ============================================================
+// Disclaimer banner — used above all mockups
+// ============================================================
+export function MockupDisclaimer({ compact = false, style = {} }: { compact?: boolean; style?: React.CSSProperties }) {
+  return (
+    <div style={{
+      display: "inline-flex", alignItems: "center", gap: 8,
+      padding: compact ? "6px 10px" : "8px 14px",
+      borderRadius: 100,
+      background: "rgba(255,184,28,0.06)",
+      border: "1px solid rgba(255,184,28,0.18)",
+      fontFamily: "'Outfit',sans-serif",
+      fontSize: compact ? 9.5 : 10.5,
+      letterSpacing: "0.16em",
+      textTransform: "uppercase",
+      color: "rgba(255,184,28,0.85)",
+      ...style,
+    }}>
+      <span style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(255,184,28,0.7)" }} />
+      Visual reference · not your final logo
+    </div>
+  );
+}
