@@ -90,11 +90,8 @@ const Blog = () => {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-sm ${
-                  selectedCategory === category
-                    ? "bg-accent text-primary-foreground"
-                    : "bg-surface text-mute hover:text-text hover:bg-surface"
-                }`}
+                className="chip-filter"
+                data-active={selectedCategory === category}
               >
                 {category}
               </button>
