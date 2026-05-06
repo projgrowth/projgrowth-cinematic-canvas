@@ -437,8 +437,7 @@ function StepRender({ id, form, set, tog, name }: any) {
           {form.dbaName && <div style={{ marginTop: 14, fontSize: 11, color: "#888" }}>↓ Live preview · all design tiles will use this name</div>}
           {form.dbaName && (
             <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-              <MOODS[0].Preview n={form.dbaName} />
-              <MOODS[1].Preview n={form.dbaName} />
+              {(() => { const A = MOODS[0].Preview; const B = MOODS[1].Preview; return <><A n={form.dbaName} /><B n={form.dbaName} /></>; })()}
             </div>
           )}
         </Q>
