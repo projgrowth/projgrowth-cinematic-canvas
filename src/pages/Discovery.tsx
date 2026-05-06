@@ -1107,10 +1107,13 @@ export default function Discovery() {
   }
 
   const TOTAL = plan.length;
-  const pct = ((step + 1) / TOTAL) * 100;
-  const cn = canAdvance(plan[step], form);
-  const chapter = CHAPTER[plan[step]] ?? 0;
-  const showVisionBoard = ["mood","mark","accent","tone","typo","density","nmLean","references"].includes(plan[step]);
+  // Dynamically skip iconConcept if user picked wordmark-only
+  const activePlan = plan.filter(id => !(id === "iconConcept" && form.mark === "wordmark"));
+  const safeStep = Math.min(step, activePlan.length - 1);
+  const currentId = activePlan[safeStep];
+  const cn = canAdvance(currentId, form);
+  const chapter = CHAPTER[currentId] ?? 0;
+  const showVisionBoard = ["mood","mark","iconConcept","accent","tone","typo","density","nmLean","references"].includes(currentId);
 
   return (
     <DiscoveryShell wide={showVisionBoard}>
