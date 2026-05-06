@@ -5,6 +5,7 @@
  * Consider consulting a legal professional to ensure compliance with applicable laws.
  */
 
+import { Section } from "@/components/ui/section";
 import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -17,7 +18,7 @@ const Terms = () => {
       seoKeywords="terms of service, terms and conditions, user agreement"
       canonicalUrl="/terms"
     >
-      <section className="container-site section">
+      <Section>
         {/* Back Link */}
         <Link 
           to="/"

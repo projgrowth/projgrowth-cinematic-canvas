@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";

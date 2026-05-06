@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Share2, Linkedin, Twitter } from "lucide-react";
@@ -119,7 +120,7 @@ const CaseStudyDetail = () => {
 
 
       {/* Main Content */}
-      <section className="container-site section">
+      <Section>
         <div className="grid md:grid-cols-12 gap-12 md:gap-16">
           {/* Sidebar */}
           <aside className="md:col-span-4 lg:col-span-3">

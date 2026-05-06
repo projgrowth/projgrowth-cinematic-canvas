@@ -1,3 +1,4 @@
+import { Section } from "@/components/ui/section";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -130,7 +131,7 @@ const Contact = () => {
       </section>
 
       {/* Quick Contact */}
-      <section className="container-site section">
+      <Section>
         <ScrollReveal>
           <div className="max-w-xl mx-auto">
             <h2 className="font-display text-text mb-2 text-center">Quick Message</h2>
@@ -142,7 +143,7 @@ const Contact = () => {
 
       {/* Multi-Step Form Section */}
       <LeafDivider />
-      <section className="container-site section">
+      <Section>
         <ScrollReveal>
           <div className="text-center mb-8">
             <h2 className="font-display text-text mb-2">Start a Project</h2>
@@ -153,7 +154,7 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="container-site section">
+      <Section>
         <ScrollReveal variant="fade-up">
           <div className="max-w-3xl mx-auto">
             <h2 className="font-display text-text mb-10 md:mb-12 text-center">

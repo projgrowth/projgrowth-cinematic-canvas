@@ -2,6 +2,7 @@
  * Web Design Service Page
  */
 
+import { Section } from "@/components/ui/section";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -102,7 +103,7 @@ const WebDesign = () => {
         </script>
       </Helmet>
 
-      <section className="container-site section">
+      <Section>
         <Breadcrumbs />
         
         <ScrollReveal variant="fade-up">
