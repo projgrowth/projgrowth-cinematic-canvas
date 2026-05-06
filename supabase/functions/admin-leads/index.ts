@@ -28,14 +28,13 @@ serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const { data, error } = await supabase
-      .from("contact_submissions")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
+    const [{ data: submissions, error: e1 }, { data: discovery, error: e2 }] = await Promise.all([
+      supabase.from("contact_submissions").select("*").order("created_at", { ascending: false }).limit(200),
+      supabase.from("discovery_submissions").select("*").order("created_at", { ascending: false }).limit(200),
+    ]);
 
-    if (error) {
-      console.error("DB error:", error);
+    if (e1 || e2) {
+      console.error("DB error:", e1 || e2);
       return new Response(
         JSON.stringify({ error: "Failed to fetch submissions" }),
         { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -43,7 +42,7 @@ serve(async (req: Request) => {
     }
 
     return new Response(
-      JSON.stringify({ submissions: data }),
+      JSON.stringify({ submissions, discovery }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch {
