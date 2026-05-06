@@ -23,6 +23,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import AdminLeads from "./pages/AdminLeads";
+import Discovery from "./pages/Discovery";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -220,6 +221,7 @@ const AnimatedRoutes = () => {
             <AdminLeads />
           </motion.div>
         } />
+        <Route path="/discovery" element={<Discovery />} />
         <Route path="*" element={
           <motion.div
             initial="initial"
