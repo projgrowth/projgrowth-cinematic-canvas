@@ -12,7 +12,7 @@ export type BrandSpec = {
   density: "minimal" | "rich";
   tone: "established" | "forward";
   mood: string | null;
-  mark: "wordmark" | "icon";
+  mark: "wordmark" | "icon" | "monogram";
   accent: string;       // hex
   nmLean: "nm_lead" | "equal";
 };
@@ -52,6 +52,8 @@ export function letterFor(s: BrandSpec) {
 export function Lockup({ s, color = "#fff", size = 1, hideNM = false }: { s: BrandSpec; color?: string; size?: number; hideNM?: boolean }) {
   const fs = 18 * size;
   const showIcon = s.mark === "icon";
+  const showMono = s.mark === "monogram";
+  const mono = (s.short || "").charAt(0).toUpperCase();
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10 * size }}>
       {showIcon && (
@@ -59,6 +61,11 @@ export function Lockup({ s, color = "#fff", size = 1, hideNM = false }: { s: Bra
           <div style={{ position: "absolute", inset: 0, background: s.accent, borderRadius: 3 * size, opacity: .25 }} />
           <div style={{ position: "absolute", inset: 4 * size, background: s.accent, borderRadius: 2 * size, opacity: .55 }} />
           <div style={{ position: "absolute", inset: 9 * size, background: s.accent, borderRadius: 1 }} />
+        </div>
+      )}
+      {showMono && (
+        <div style={{ width: 26 * size, height: 26 * size, flexShrink: 0, border: `1.5px solid ${s.accent}`, borderRadius: 3 * size, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: fontFor(s), fontSize: 14 * size, fontWeight: weightFor(s), color: s.accent }}>
+          {mono}
         </div>
       )}
       <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>

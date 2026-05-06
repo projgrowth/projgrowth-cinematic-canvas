@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { DiscoveryShell } from "./discovery/Shell";
-import { BusinessCard, LaptopBrowser, Phone, Signage, Storefront, MockupDisclaimer, MiniCard, deriveSpec, NM_BLUE, EMERALD, fontFor, weightFor } from "./discovery/mockups";
+import { BusinessCard, MockupDisclaimer, MiniCard, deriveSpec, NM_BLUE, EMERALD, fontFor, weightFor } from "./discovery/mockups";
 import { downloadBrandBriefPdf } from "./discovery/brandBriefPdf";
 
 // ============================================================
@@ -46,33 +46,47 @@ const AXES: [string,string,string,string,string,string,string][] = [
 const AVOIDS = ["Generic / clip art","Overly complex","Cold / corporate","Too casual","Trendy (dates quickly)","Religious imagery","Political imagery","Too abstract","Overcrowded"];
 const TRUTH = ["Must feel premium","Must feel approachable","Must feel timeless","Must feel distinctive","Must work at any size","Must be bold","Must be subtle","Must age gracefully","Must stand alone from NM"];
 
+const BRAND_VALUES = ["Trust","Growth","Legacy","Independence","Discipline","Clarity","Optimism","Community","Craft","Innovation"];
+const ICON_CONCEPTS = [
+  { v: "geometric",  l: "Geometric / architectural", d: "Structured shapes, clear lines." },
+  { v: "natural",    l: "Natural / organic",          d: "Botanical, leaf, growth motifs." },
+  { v: "abstract",   l: "Abstract symbol",            d: "Distilled, conceptual mark." },
+  { v: "monogram",   l: "Initials / monogram",        d: "Your initials as the icon." },
+  { v: "heritage",   l: "Heritage emblem",            d: "Crest, seal, badge feel." },
+  { v: "open",       l: "Not sure — surprise me",     d: "We'll explore based on your other answers." },
+];
+
 const REFS = [
-  { id: "goldman", label: "Goldman Sachs", takeaway: "Restrained serif authority — luxury without shouting." },
-  { id: "vanguard", label: "VANGUARD", takeaway: "Single bold word, blood-red gravitas, zero ornament." },
-  { id: "fidelity", label: "Fidelity", takeaway: "Friendly serif + green — trustworthy without being cold." },
-  { id: "morgan",   label: "J.P. MORGAN", takeaway: "Deep navy + serif tradition. Old-world institutional." },
-  { id: "rolex",    label: "ROLEX", takeaway: "Tight letterspacing + iconic green crown — premium signal." },
-  { id: "edward",   label: "Edward Jones", takeaway: "Approachable sans, bright blue — 'your neighbor advisor'." },
-  { id: "blackrock",label: "BlackRock", takeaway: "Heavy modern sans. Pure institutional weight." },
-  { id: "ms",       label: "Morgan Stanley", takeaway: "Mid-blue serif — corporate but not cold." },
-  { id: "raymond",  label: "RAYMOND JAMES", takeaway: "Wide spacing + amber accent — premium financial heritage." },
-  { id: "patek",    label: "PATEK PHILIPPE", takeaway: "Hairline serif, generous whitespace — old wealth, quiet." },
-  { id: "stripe",   label: "stripe", takeaway: "Lowercase + indigo — modern, fast, builder-friendly." },
-  { id: "apple",    label: "Apple", takeaway: "Iconic single mark — earned through decades of restraint." }
+  { id: "goldman",  label: "Goldman Sachs",   takeaway: "Restrained serif authority — luxury without shouting." },
+  { id: "vanguard", label: "VANGUARD",        takeaway: "Single bold word, blood-red gravitas, zero ornament." },
+  { id: "fidelity", label: "Fidelity",        takeaway: "Friendly serif + green — trustworthy without being cold." },
+  { id: "blackrock",label: "BlackRock",       takeaway: "Heavy modern sans. Pure institutional weight." },
+  { id: "edward",   label: "Edward Jones",    takeaway: "Approachable sans, bright blue — 'your neighbor advisor'." },
+  { id: "raymond",  label: "RAYMOND JAMES",   takeaway: "Wide spacing + amber accent — premium financial heritage." },
+  { id: "patek",    label: "PATEK PHILIPPE",  takeaway: "Hairline serif, generous whitespace — old wealth, quiet." },
+  { id: "stripe",   label: "stripe",          takeaway: "Lowercase + indigo — modern, fast, builder-friendly." },
+  { id: "monocle",  label: "MONOCLE",         takeaway: "Editorial slab + tight tracking — curated and considered." },
+  { id: "aesop",    label: "Aesop.",          takeaway: "All-lowercase sans on cream — quiet craftsmanship." },
+  { id: "muji",     label: "MUJI",            takeaway: "Brick-red box + sans — radical simplicity as identity." },
+  { id: "hermes",   label: "Hermès",          takeaway: "Italic script + orange — heritage with personality." },
+  { id: "nike",     label: "✓",               takeaway: "Pure symbol — earned through decades of consistency." },
+  { id: "carter",   label: "Carter Signature", takeaway: "Handwritten script — bespoke, founder-led, personal." },
 ];
 const REF_STYLE: Record<string, React.CSSProperties> = {
   goldman:   { fontFamily: "Georgia,serif", color: "#c9b27d", fontWeight: 700, letterSpacing: "1px" },
   vanguard:  { fontFamily: "system-ui",     color: "#d8474f", fontWeight: 700, letterSpacing: "2px" },
   fidelity:  { fontFamily: "Georgia,serif", color: "#5fb74e", fontWeight: 600 },
-  morgan:    { fontFamily: "Georgia,serif", color: "#a3b8d6", fontWeight: 700, letterSpacing: "1.5px" },
-  rolex:     { fontFamily: "Georgia,serif", color: "#3fb374", fontWeight: 700, letterSpacing: "3px" },
   edward:    { fontFamily: "system-ui",     color: "#4d9ce8", fontWeight: 600 },
-  blackrock: { fontFamily: "system-ui",     color: "#f5f0e8", fontWeight: 700 },
-  ms:        { fontFamily: "Georgia,serif", color: "#5fa3d4", fontWeight: 600 },
+  blackrock: { fontFamily: "system-ui",     color: "#f5f0e8", fontWeight: 800, letterSpacing: "-0.5px" },
   raymond:   { fontFamily: "Georgia,serif", color: "#FFB81C", fontWeight: 700, letterSpacing: "1.5px" },
-  patek:     { fontFamily: "Georgia,serif", color: "#e8e0d0", fontWeight: 400, letterSpacing: "2px", fontSize: 11 },
-  stripe:    { fontFamily: "system-ui",     color: "#a896ff", fontWeight: 700, letterSpacing: "-1px" },
-  apple:     { fontFamily: "system-ui",     color: "#f5f0e8", fontWeight: 500 },
+  patek:     { fontFamily: "Georgia,serif", color: "#e8e0d0", fontWeight: 300, letterSpacing: "3px", fontSize: 11 },
+  stripe:    { fontFamily: "system-ui",     color: "#a896ff", fontWeight: 700, letterSpacing: "-1px", textTransform: "lowercase" },
+  monocle:   { fontFamily: "'Courier New',monospace", color: "#e8e0d0", fontWeight: 700, letterSpacing: "2px", fontSize: 13 },
+  aesop:     { fontFamily: "'Helvetica Neue',sans-serif", color: "#3a3a3a", fontWeight: 400, background: "#efe9dc", padding: "6px 10px", borderRadius: 4 },
+  muji:      { fontFamily: "system-ui", color: "#f5f0e8", fontWeight: 700, background: "#a8362c", padding: "6px 12px", letterSpacing: "1px" },
+  hermes:    { fontFamily: "Georgia,serif", color: "#e87421", fontWeight: 400, fontStyle: "italic", fontSize: 18 },
+  nike:      { fontFamily: "system-ui", color: "#f5f0e8", fontWeight: 900, fontSize: 28 },
+  carter:    { fontFamily: "'Brush Script MT', cursive", color: "#cfdfee", fontWeight: 400, fontSize: 20 },
 };
 
 const SERVICES = [
@@ -103,6 +117,9 @@ type Form = {
   avoid: string[]; vision: string; truth: string[];
   websiteCurrent: string; websiteGoals: string;
   contentNeeds: string; adsBudget: string; printNeeds: string; timeline: string;
+  brandValues: string[]; brandValuesCustom: string;
+  brandPromise: string; brandStory: string;
+  iconConcept: string | null;
 };
 const blank = (): Form => ({
   dbaStatus: null, dbaName: "", pitch: "", diff: [], diffCustom: "",
@@ -112,26 +129,31 @@ const blank = (): Form => ({
   mark: null, accent: null,
   inspiration: "", refLikes: [], refUploads: [],
   avoid: [], vision: "", truth: [],
-  websiteCurrent: "", websiteGoals: "", contentNeeds: "", adsBudget: "", printNeeds: "", timeline: ""
+  websiteCurrent: "", websiteGoals: "", contentNeeds: "", adsBudget: "", printNeeds: "", timeline: "",
+  brandValues: [], brandValuesCustom: "",
+  brandPromise: "", brandStory: "",
+  iconConcept: null,
 });
 
 // step plan
-const LOGO_STEPS_FULL = ["dbaName","pitch","diff","audience","adjectives","nmLean","touchpoints","personality","typo","density","tone","mood","mark","accent","references","avoid","vision","truth"];
-const LOGO_STEPS_GUIDED = ["dbaName","diff","audience","adjectives","nmLean","touchpoints","mood","mark","accent","references","vision","truth"];
-const LOGO_STEPS_CLEAR = ["dbaName","nmLean","mark","accent","touchpoints","references","vision","truth"];
+const LOGO_STEPS_FULL = ["dbaName","pitch","diff","audience","adjectives","brandValues","brandPromise","brandStory","nmLean","touchpoints","personality","typo","density","tone","mood","mark","iconConcept","accent","references","avoid","vision","truth"];
+const LOGO_STEPS_GUIDED = ["dbaName","diff","audience","adjectives","brandValues","brandPromise","nmLean","touchpoints","mood","mark","iconConcept","accent","references","vision","truth"];
+const LOGO_STEPS_CLEAR = ["dbaName","brandPromise","nmLean","mark","iconConcept","accent","touchpoints","references","vision","truth"];
 
 // chapter assignment per step id
 const CHAPTER: Record<string, number> = {
   dbaName: 0, pitch: 0, diff: 0, audience: 0, adjectives: 0,
-  personality: 1, mood: 1, tone: 1, vision: 1, truth: 1,
-  nmLean: 2, typo: 2, density: 2, mark: 2, accent: 2, references: 2, avoid: 2,
-  touchpoints: 3, svc_website: 3, svc_content: 3, svc_ads: 3, svc_print: 3, svc_timeline: 3,
+  brandValues: 1, brandPromise: 1, brandStory: 1,
+  personality: 2, mood: 2, tone: 2, vision: 2, truth: 2,
+  nmLean: 3, typo: 3, density: 3, mark: 3, iconConcept: 3, accent: 3, references: 3, avoid: 3,
+  touchpoints: 4, svc_website: 4, svc_content: 4, svc_ads: 4, svc_print: 4, svc_timeline: 4,
 };
 const CHAPTERS = [
   { n: "01", t: "Who you are" },
-  { n: "02", t: "How it should feel" },
-  { n: "03", t: "What it looks like" },
-  { n: "04", t: "Where it lives" },
+  { n: "02", t: "What you stand for" },
+  { n: "03", t: "How it should feel" },
+  { n: "04", t: "What it looks like" },
+  { n: "05", t: "Where it lives" },
 ];
 
 // host notes — appear after answering certain steps
@@ -183,17 +205,24 @@ function genBrief(personName: string, f: Form, services: string[], confidence: s
     : f.nmLean === "equal" ? "an equal-weight lockup co-branded with Northwestern Mutual"
     : "an NM-compliant lockup TBD";
   const truthStr = f.truth[0] || "feel timeless and credible";
-  return `${dba} — ${confidence.toUpperCase()} confidence · scope: ${services.join(", ") || "logo"}. Identity should feel ${moodStr}, ${toneStr} in character, built on ${typoStr} using ${markStr} with ${acStr}. Practice serves ${audStr} and is described as ${adjStr}. Lockup approach: ${nmStr}. Above all, this brand must ${truthStr.toLowerCase()}.`;
+  const valuesStr = (f.brandValues.length || f.brandValuesCustom)
+    ? `Stands for ${[...f.brandValues, f.brandValuesCustom].filter(Boolean).join(", ").toLowerCase()}.`
+    : "";
+  const promiseStr = f.brandPromise ? ` Promise to clients: "${f.brandPromise.trim()}".` : "";
+  return `${dba} — ${confidence.toUpperCase()} confidence · scope: ${services.join(", ") || "logo"}. ${valuesStr}${promiseStr} Identity should feel ${moodStr}, ${toneStr} in character, built on ${typoStr} using ${markStr} with ${acStr}. Practice serves ${audStr} and is described as ${adjStr}. Lockup approach: ${nmStr}. Above all, this brand must ${truthStr.toLowerCase()}.`;
 }
 function visionSummary(name: string, f: Form): string {
   const dba = f.dbaName || `${sn(name)} Financial`;
   const mood = MOODS.find(x => x.id === f.mood)?.name.toLowerCase() || "distinctive";
   const tone = f.tone === "established" ? "established but" : "forward and";
   const typo = f.typo === "serif" ? "classic serif typography" : "modern sans-serif typography";
-  const mark = f.mark === "icon" ? "a paired icon and wordmark" : "a confident wordmark";
+  const mark = f.mark === "icon" ? "a paired icon and wordmark"
+    : f.mark === "monogram" ? "a monogram + wordmark lockup"
+    : "a confident wordmark";
   const ac = ACC.find(a => a.hex === f.accent)?.name.toLowerCase() || "a secondary";
   const truth = (f.truth[0] || "Must feel timeless").replace(/^Must /,"").toLowerCase();
-  return `You want a brand that feels ${mood} — ${tone} ${f.tone === "established" ? "deliberately restrained" : "personal"}. It's built on ${typo}, ${mark}, and ${ac} accent that lives on top of NM blue. It serves ${(f.audience[0] || "your clients").toLowerCase()} and, above all, it has to ${truth}. That's ${dba}.`;
+  const promise = f.brandPromise ? ` Clients walk away with ${f.brandPromise.trim().replace(/[.!]$/,"").toLowerCase()}.` : "";
+  return `You want a brand that feels ${mood} — ${tone} ${f.tone === "established" ? "deliberately restrained" : "personal"}. It's built on ${typo}, ${mark}, and ${ac} accent that lives on top of NM blue. It serves ${(f.audience[0] || "your clients").toLowerCase()} and, above all, it has to ${truth}.${promise} That's ${dba}.`;
 }
 
 // ============================================================
@@ -352,23 +381,24 @@ function ReferenceStep({ form, set, tog }: any) {
 // ============================================================
 function AxisSlider({ axis, value, onSet }: { axis: typeof AXES[number]; value: string | null; onSet: (v: string) => void }) {
   const [l, lv, rv, r, , ld, rd] = axis;
-  // 0 = left, 1 = right, 0.5 = unset
-  const pos = value === lv ? 0 : value === rv ? 1 : 0.5;
+  const sel = (v: string, on: boolean) => ({
+    flex: 1, padding: "14px 16px", fontFamily: "inherit", cursor: "pointer",
+    border: "none", textAlign: v === lv ? "left" as const : "right" as const,
+    background: on ? "rgba(68,160,120,0.18)" : "transparent",
+    color: on ? EMERALD : C.mute,
+    fontWeight: on ? 600 : 400, transition: "all .18s ease",
+  });
   return (
-    <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "16px 18px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-        <button onClick={() => onSet(lv)} style={{ background: "transparent", border: "none", color: value === lv ? EMERALD : C.mute, fontSize: 13, fontFamily: "inherit", cursor: "pointer", textAlign: "left", padding: 0, fontWeight: value === lv ? 500 : 400 }}>
-          <div>{l}</div>
-          <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{ld}</div>
-        </button>
-        <button onClick={() => onSet(rv)} style={{ background: "transparent", border: "none", color: value === rv ? EMERALD : C.mute, fontSize: 13, fontFamily: "inherit", cursor: "pointer", textAlign: "right", padding: 0, fontWeight: value === rv ? 500 : 400 }}>
-          <div>{r}</div>
-          <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{rd}</div>
-        </button>
-      </div>
-      <div style={{ position: "relative", height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 100 }}>
-        <div style={{ position: "absolute", top: -6, left: `calc(${pos * 100}% - 8px)`, width: 16, height: 16, borderRadius: "50%", background: value ? EMERALD : "#444", transition: "left .25s ease, background .25s ease", boxShadow: value ? `0 0 0 6px rgba(68,160,120,0.15)` : "none" }} />
-      </div>
+    <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", display: "flex", alignItems: "stretch" }}>
+      <button onClick={() => onSet(lv)} style={sel(lv, value === lv)}>
+        <div style={{ fontSize: 13 }}>{value === lv ? "✓ " : ""}{l}</div>
+        <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{ld}</div>
+      </button>
+      <div style={{ width: 1, background: C.border }} />
+      <button onClick={() => onSet(rv)} style={sel(rv, value === rv)}>
+        <div style={{ fontSize: 13 }}>{r}{value === rv ? " ✓" : ""}</div>
+        <div style={{ fontSize: 10, color: C.faint, marginTop: 2 }}>{rd}</div>
+      </button>
     </div>
   );
 }
@@ -464,7 +494,7 @@ function StepRender({ id, form, set, tog, name }: any) {
       );
     case "personality":
       return (
-        <Q label="Brand personality — slide each axis." sub="Five axes that define your brand's emotional fingerprint." why="The most important screen in the intake.">
+        <Q label="Brand personality — pick a side." sub="Five axes. Tap the side that feels closer — no middle ground." why="Forced choice reveals more than a slider ever does." host="Don't overthink. First instinct wins.">
           <div style={{ display: "grid", gap: 10 }}>
             {AXES.map(axis => (
               <AxisSlider key={axis[4]} axis={axis} value={(form as any)[axis[4]]} onSet={(v) => set(axis[4] as keyof Form, v)} />
@@ -528,16 +558,59 @@ function StepRender({ id, form, set, tog, name }: any) {
       );
     case "mark":
       return (
-        <Q label="Mark structure — this or that." sub="Wordmark only or icon + wordmark?" why="An icon adds versatility; a wordmark is timeless.">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        <Q label="Mark structure — pick a direction." sub="Three approaches. Each renders your real DBA so you can see the difference." why="An icon adds versatility, a monogram adds personality, a wordmark is timeless.">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             <MockTile sel={form.mark === "wordmark"} onClick={() => set("mark", "wordmark")} label="Wordmark only">
               <MiniCard s={{ ...spec, mark: "wordmark" }} />
             </MockTile>
             <MockTile sel={form.mark === "icon"} onClick={() => set("mark", "icon")} label="Icon + wordmark" recommended={rec}>
               <MiniCard s={{ ...spec, mark: "icon" }} />
             </MockTile>
+            <MockTile sel={form.mark === "monogram"} onClick={() => set("mark", "monogram")} label="Monogram + wordmark" sub="Your initials as the mark.">
+              <MiniCard s={{ ...spec, mark: "monogram" as any }} />
+            </MockTile>
           </div>
-          {rec && <div style={{ fontSize: 11, color: EMERALD, marginTop: 12, fontStyle: "italic" }}>Based on your other answers, an icon + wordmark gives the depth you need.</div>}
+          <div style={{ fontSize: 11, color: C.faint, marginTop: 12, fontStyle: "italic" }}>This guides direction — your final icon is hand-crafted.</div>
+          {rec && <div style={{ fontSize: 11, color: EMERALD, marginTop: 6, fontStyle: "italic" }}>Based on your other answers, an icon + wordmark gives the depth you need.</div>}
+        </Q>
+      );
+    case "iconConcept":
+      return (
+        <Q label="What should the icon evoke?" sub="Pick a direction. We'll explore inside it." why="A short list of references for the design phase.">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            {ICON_CONCEPTS.map(o => (
+              <OCard key={o.v} sel={form.iconConcept === o.v} onClick={() => set("iconConcept", o.v)}>
+                <div style={{ fontSize: 14, color: C.text, fontWeight: 500 }}>{o.l}</div>
+                <div style={{ fontSize: 11, color: C.mute, marginTop: 3 }}>{o.d}</div>
+              </OCard>
+            ))}
+          </div>
+        </Q>
+      );
+    case "brandValues":
+      return (
+        <Q label="What does your brand stand for?" sub="Pick up to 3. These become the moral compass for every design choice." why="Visual decisions need values to test against." host="Pick what's true today — not aspirational.">
+          <div style={{ marginBottom: 12 }}>
+            {BRAND_VALUES.map(v => (
+              <Chip key={v} on={form.brandValues.includes(v)} onClick={() => { if (form.brandValues.includes(v) || form.brandValues.length < 3) tog("brandValues", v); }}>{v}</Chip>
+            ))}
+          </div>
+          <TxtInput value={form.brandValuesCustom} onChange={(e: any) => set("brandValuesCustom", e.target.value)} placeholder="Anything not listed..." />
+          <div style={{ fontSize: 12, color: C.faint, marginTop: 8 }}>{form.brandValues.length}/3 selected</div>
+        </Q>
+      );
+    case "brandPromise":
+      return (
+        <Q label="Finish the sentence." sub={`"When a client works with us, they walk away with ___."`} why="One line. We'll quote it back to you in the brief." host="Concrete is better than poetic.">
+          <TA value={form.brandPromise} onChange={(e: any) => set("brandPromise", e.target.value)} rows={3} maxLength={140} placeholder="...a plan they actually understand and a partner who picks up the phone." />
+          <div style={{ textAlign: "right", fontSize: 11, color: C.faint, marginTop: 4 }}>{form.brandPromise.length}/140</div>
+        </Q>
+      );
+    case "brandStory":
+      return (
+        <Q label="What's the one belief that drives your practice?" sub="Optional. The conviction underneath the work." why="Often becomes the heart of the brand voice.">
+          <TA value={form.brandStory} onChange={(e: any) => set("brandStory", e.target.value)} rows={4} maxLength={240} placeholder="Most advisors sell products. I think planning is closer to therapy — you can't shortcut the trust." />
+          <div style={{ textAlign: "right", fontSize: 11, color: C.faint, marginTop: 4 }}>{form.brandStory.length}/240</div>
         </Q>
       );
     case "accent":
@@ -653,6 +726,10 @@ function canAdvance(id: string, f: Form): boolean {
     case "tone": return f.tone !== null;
     case "mood": return f.mood !== null;
     case "mark": return f.mark !== null;
+    case "iconConcept": return f.iconConcept !== null;
+    case "brandValues": return f.brandValues.length > 0 || f.brandValuesCustom.trim().length > 1;
+    case "brandPromise": return f.brandPromise.trim().length > 8;
+    case "brandStory": return true;
     case "accent": return f.accent !== null;
     case "references": return true;
     case "avoid": return true;
@@ -673,16 +750,13 @@ function canAdvance(id: string, f: Form): boolean {
 function VisionBoard({ spec, name }: { spec: ReturnType<typeof deriveSpec>; name: string }) {
   return (
     <div style={{ position: "sticky", top: 40 }}>
-      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Live preview · your vision</div>
+      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 12 }}>Live preview · business card</div>
       <div style={{ marginBottom: 16 }}><MockupDisclaimer compact /></div>
-      <motion.div key={`bc-${spec.dba}-${spec.tone}-${spec.typo}-${spec.accent}-${spec.mark}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} style={{ marginBottom: 22 }}>
-        <BusinessCard s={spec} size={0.85} name={name} />
-      </motion.div>
-      <motion.div key={`sf-${spec.dba}-${spec.accent}-${spec.typo}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }}>
-        <Storefront s={spec} size={0.7} />
+      <motion.div key={`bc-${spec.dba}-${spec.tone}-${spec.typo}-${spec.accent}-${spec.mark}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+        <BusinessCard s={spec} size={1.0} name={name} />
       </motion.div>
       <div style={{ fontSize: 11, color: C.faint, marginTop: 18, lineHeight: 1.5, fontStyle: "italic", textAlign: "center" }}>
-        Renders with your real DBA. These are visual references — your final logo is hand-crafted in the next phase.
+        Directional preview using your real DBA. Your final identity is hand-crafted in design phase.
       </div>
     </div>
   );
@@ -843,17 +917,9 @@ function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
           </motion.div>
         </div>
 
-        {/* surface row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 30, alignItems: "end", marginBottom: 50 }}>
-          <SurfaceLabel label="Your website">
-            <LaptopBrowser s={spec} size={0.55} vision={form.vision} />
-          </SurfaceLabel>
-          <SurfaceLabel label="Your storefront" centered>
-            <Storefront s={spec} size={0.55} />
-          </SurfaceLabel>
-          <SurfaceLabel label="Your social presence">
-            <Phone s={spec} size={0.55} name={name} />
-          </SurfaceLabel>
+        {/* surfaces this extends to */}
+        <div style={{ textAlign: "center", marginBottom: 50, fontSize: 12, color: C.faint, letterSpacing: ".15em", textTransform: "uppercase" }}>
+          This system extends to · website · signage · social · stationery
         </div>
 
         <div style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`, borderRadius: 16, padding: "26px 28px", marginBottom: 30, maxWidth: 720, margin: "0 auto 30px" }}>
@@ -876,14 +942,7 @@ function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
   );
 }
 
-function SurfaceLabel({ label, children, centered }: any) {
-  return (
-    <div style={{ textAlign: "center" }}>
-      <div style={{ display: "flex", justifyContent: centered ? "center" : "flex-start" }}>{children}</div>
-      <div style={{ fontSize: 10, color: C.faint, letterSpacing: ".18em", textTransform: "uppercase", marginTop: 16 }}>{label}</div>
-    </div>
-  );
-}
+
 
 // ============================================================
 // Thanks
@@ -978,6 +1037,14 @@ export default function Discovery() {
     }
   }, [name, email, practice, services, confidence, plan, step, form, phase]);
 
+  // auto-skip iconConcept when user picked wordmark
+  useEffect(() => {
+    if (phase !== "form") return;
+    if (plan[step] === "iconConcept" && form.mark === "wordmark") {
+      setStep(s => Math.min(s + 1, plan.length - 1));
+    }
+  }, [step, plan, form.mark, phase]);
+
   const set = (k: keyof Form, v: any) => setForm(f => ({ ...f, [k]: v }));
   const tog = (k: keyof Form, v: any) => setForm(f => {
     const a = (f[k] as string[]) || [];
@@ -1021,7 +1088,10 @@ export default function Discovery() {
     if (!canAdvance(id, form)) return;
     const note = HOST_NOTES[id]?.(form);
     if (note && note !== hostNote) setHostNote(note);
-    if (step < plan.length - 1) { setStep(s => s + 1); return; }
+    // skip iconConcept if user picked wordmark-only
+    let next = step + 1;
+    while (next < plan.length && plan[next] === "iconConcept" && form.mark === "wordmark") next++;
+    if (next < plan.length) { setStep(next); return; }
     setPhase("reveal");
   };
 
@@ -1038,10 +1108,9 @@ export default function Discovery() {
   }
 
   const TOTAL = plan.length;
-  const pct = ((step + 1) / TOTAL) * 100;
   const cn = canAdvance(plan[step], form);
   const chapter = CHAPTER[plan[step]] ?? 0;
-  const showVisionBoard = ["mood","mark","accent","tone","typo","density","nmLean","references"].includes(plan[step]);
+  const showVisionBoard = ["mood","mark","iconConcept","accent","tone","typo","density","nmLean","references"].includes(plan[step]);
 
   return (
     <DiscoveryShell wide={showVisionBoard}>
@@ -1086,7 +1155,11 @@ export default function Discovery() {
           {err && <p style={{ color: "#e8a4a4", fontSize: 13, marginTop: 16 }}>{err}</p>}
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 36 }}>
-            <button onClick={() => step > 0 && setStep(s => s - 1)} style={{ background: "transparent", border: "none", color: C.mute, fontSize: 14, fontFamily: "inherit", cursor: "pointer", padding: "10px 0", opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? "none" : "auto" }}>← Back</button>
+            <button onClick={() => {
+              let prev = step - 1;
+              while (prev >= 0 && plan[prev] === "iconConcept" && form.mark === "wordmark") prev--;
+              if (prev >= 0) setStep(prev);
+            }} style={{ background: "transparent", border: "none", color: C.mute, fontSize: 14, fontFamily: "inherit", cursor: "pointer", padding: "10px 0", opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? "none" : "auto" }}>← Back</button>
             <button onClick={onNext} disabled={!cn} style={{
               background: cn ? EMERALD : "rgba(255,255,255,0.06)",
               color: cn ? "#0a0d11" : C.faint, border: "none",
