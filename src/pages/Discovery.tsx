@@ -372,6 +372,24 @@ function AxisSlider({ axis, value, onSet }: { axis: typeof AXES[number]; value: 
   );
 }
 
+
+// "Not sure yet" pill for service detail steps — lets prospects move on without writing copy.
+function SvcSkip({ field, value, set }: { field: string; value: string; set: (k: any, v: any) => void }) {
+  const skipped = value === "__exploring__";
+  return (
+    <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
+      <button onClick={() => set(field, skipped ? "" : "__exploring__")} style={{
+        padding: "8px 14px", borderRadius: 100, fontSize: 12, fontFamily: "inherit",
+        border: `1px solid ${skipped ? EMERALD : C.border}`,
+        background: skipped ? "rgba(68,160,120,0.15)" : "transparent",
+        color: skipped ? EMERALD : C.mute, cursor: "pointer",
+      }}>
+        {skipped ? "✓ Just exploring — skip details" : "Not sure yet — just put me on your radar"}
+      </button>
+    </div>
+  );
+}
+
 // ============================================================
 // Step renderer
 // ============================================================
@@ -565,23 +583,56 @@ function StepRender({ id, form, set, tog, name }: any) {
           <div>{TRUTH.map(t => <Chip key={t} on={form.truth.includes(t)} onClick={() => tog("truth", t)}>{t}</Chip>)}</div>
         </Q>
       );
-    case "svc_website":
+    case "svc_website": {
+      const sk = form.websiteGoals === "__exploring__";
       return (
-        <Q label="Tell us about the website." sub="Even a few sentences gives us a real starting point.">
-          <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Current site (URL or "none")</label>
-          <TxtInput value={form.websiteCurrent} onChange={(e: any) => set("websiteCurrent", e.target.value)} placeholder="https://..." style={{ marginTop: 6, marginBottom: 14 }} />
-          <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Goals & must-haves</label>
-          <TA value={form.websiteGoals} onChange={(e: any) => set("websiteGoals", e.target.value)} rows={4} placeholder="Lead capture, team bios, scheduling, content hub..." style={{ marginTop: 6 }} />
+        <Q label="Tell us about the website." sub="A few sentences is enough — or skip it if you're just exploring." host="No need to have it figured out. We can shape it together later.">
+          <SvcSkip field="websiteGoals" value={form.websiteGoals} set={set} />
+          {!sk && (<>
+            <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Current site (URL or "none")</label>
+            <TxtInput value={form.websiteCurrent} onChange={(e: any) => set("websiteCurrent", e.target.value)} placeholder="https://..." style={{ marginTop: 6, marginBottom: 14 }} />
+            <label style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase" }}>Goals & must-haves</label>
+            <TA value={form.websiteGoals} onChange={(e: any) => set("websiteGoals", e.target.value)} rows={4} placeholder="Lead capture, team bios, scheduling, content hub..." style={{ marginTop: 6 }} />
+          </>)}
         </Q>
       );
-    case "svc_content":
-      return <Q label="What kind of content?" sub="Photo, video, social, website copy."><TA value={form.contentNeeds} onChange={(e: any) => set("contentNeeds", e.target.value)} rows={5} placeholder="Quarterly brand video, headshots, weekly LinkedIn..." /></Q>;
-    case "svc_ads":
-      return <Q label="Paid ads & social — what's the goal?" sub="Approximate monthly budget and what it should drive."><TA value={form.adsBudget} onChange={(e: any) => set("adsBudget", e.target.value)} rows={5} placeholder="~$2k/mo, Meta + LinkedIn, qualified business-owner leads..." /></Q>;
-    case "svc_print":
-      return <Q label="Print & physical collateral?" sub="Stationery, signage, decks, event materials."><TA value={form.printNeeds} onChange={(e: any) => set("printNeeds", e.target.value)} rows={5} placeholder="Office signage, business cards, client folders..." /></Q>;
-    case "svc_timeline":
-      return <Q label="When are you hoping to launch?" sub="Honest timeline helps us scope the engagement properly."><TxtInput value={form.timeline} onChange={(e: any) => set("timeline", e.target.value)} placeholder="End of Q1, no rush, ASAP for an event on..." /></Q>;
+    }
+    case "svc_content": {
+      const sk = form.contentNeeds === "__exploring__";
+      return (
+        <Q label="What kind of content?" sub="Photo, video, social, website copy — or skip if you're not sure." host="Even 'I don't know yet' is a useful answer here.">
+          <SvcSkip field="contentNeeds" value={form.contentNeeds} set={set} />
+          {!sk && <TA value={form.contentNeeds} onChange={(e: any) => set("contentNeeds", e.target.value)} rows={5} placeholder="Quarterly brand video, headshots, weekly LinkedIn..." />}
+        </Q>
+      );
+    }
+    case "svc_ads": {
+      const sk = form.adsBudget === "__exploring__";
+      return (
+        <Q label="Paid ads & social — what's the goal?" sub="Approximate budget and what it should drive — or skip and we'll discuss." host="Numbers can come later. Just flag if it's on your mind.">
+          <SvcSkip field="adsBudget" value={form.adsBudget} set={set} />
+          {!sk && <TA value={form.adsBudget} onChange={(e: any) => set("adsBudget", e.target.value)} rows={5} placeholder="~$2k/mo, Meta + LinkedIn, qualified business-owner leads..." />}
+        </Q>
+      );
+    }
+    case "svc_print": {
+      const sk = form.printNeeds === "__exploring__";
+      return (
+        <Q label="Print & physical collateral?" sub="Stationery, signage, decks, events — or skip if it's just on your radar." host="Plenty of advisors don't think about print until the brand lands. That's fine.">
+          <SvcSkip field="printNeeds" value={form.printNeeds} set={set} />
+          {!sk && <TA value={form.printNeeds} onChange={(e: any) => set("printNeeds", e.target.value)} rows={5} placeholder="Office signage, business cards, client folders..." />}
+        </Q>
+      );
+    }
+    case "svc_timeline": {
+      const sk = form.timeline === "__exploring__";
+      return (
+        <Q label="When are you hoping to launch?" sub="Approximate is fine. Or tell us you're still figuring it out.">
+          <SvcSkip field="timeline" value={form.timeline} set={set} />
+          {!sk && <TxtInput value={form.timeline} onChange={(e: any) => set("timeline", e.target.value)} placeholder="End of Q1, no rush, ASAP for an event on..." />}
+        </Q>
+      );
+    }
     default: return null;
   }
 }
@@ -606,11 +657,11 @@ function canAdvance(id: string, f: Form): boolean {
     case "avoid": return true;
     case "vision": return f.vision.trim().length > 5;
     case "truth": return f.truth.length > 0;
-    case "svc_website": return f.websiteGoals.trim().length > 5 || f.websiteCurrent.trim().length > 3;
-    case "svc_content": return f.contentNeeds.trim().length > 5;
-    case "svc_ads": return f.adsBudget.trim().length > 5;
-    case "svc_print": return f.printNeeds.trim().length > 5;
-    case "svc_timeline": return f.timeline.trim().length > 1;
+    case "svc_website": return f.websiteGoals === "__exploring__" || f.websiteGoals.trim().length > 5 || f.websiteCurrent.trim().length > 3;
+    case "svc_content": return f.contentNeeds === "__exploring__" || f.contentNeeds.trim().length > 5;
+    case "svc_ads": return f.adsBudget === "__exploring__" || f.adsBudget.trim().length > 5;
+    case "svc_print": return f.printNeeds === "__exploring__" || f.printNeeds.trim().length > 5;
+    case "svc_timeline": return f.timeline === "__exploring__" || f.timeline.trim().length > 1;
     default: return true;
   }
 }
