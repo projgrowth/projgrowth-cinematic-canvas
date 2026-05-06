@@ -89,7 +89,7 @@ const Home = () => {
       </Helmet>
 
       {/* Hero Section — Staggered text reveal */}
-      <section className="relative container-site py-16 md:py-24 lg:py-32 min-h-[80vh] lg:min-h-[90vh] flex items-center">
+      <section className="relative container-site section-hero">
         {/* Atmospheric radial glow */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -101,7 +101,7 @@ const Home = () => {
         <GrowthLines />
         <div className="grid-12 relative z-10">
           <div className="col-span-12 lg:col-span-10 stack gap-6 md:gap-8">
-            <h1 className="font-display text-4xl md:text-6xl lg:text-8xl leading-tight text-text">
+            <h1 className="font-display text-text">
               {heroWords.map((word, i) => (
                 <motion.span
                   key={i}
@@ -120,7 +120,7 @@ const Home = () => {
             </h1>
             
             <motion.p
-              className="text-base md:text-xl text-mute max-w-2xl leading-relaxed"
+              className="lede max-w-2xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.55 }}
@@ -137,7 +137,7 @@ const Home = () => {
             >
               <Link 
                 to="/contact"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-accent text-accent rounded-md font-medium transition-all duration-sm hover:bg-accent hover:text-primary-foreground min-h-[44px]"
+                className="group inline-flex items-center justify-center gap-2 h-12 px-8 border border-accent text-accent rounded-md font-medium transition-all duration-sm hover:bg-accent hover:text-primary-foreground"
               >
                 Get Your Free Consultation
                 <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
@@ -145,7 +145,7 @@ const Home = () => {
               
               <Link 
                 to="/work"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-mute rounded-md font-medium transition-all duration-sm hover:text-text min-h-[44px]"
+                className="inline-flex items-center justify-center gap-2 h-12 px-6 text-mute rounded-md font-medium transition-all duration-sm hover:text-text"
               >
                 View Our Work
               </Link>
@@ -155,32 +155,32 @@ const Home = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="container-site py-24">
+      <section className="container-site section">
         <ScrollReveal variant="fade-up">
-          <div className="grid-12 gap-y-12">
+          <div className="grid-12 gap-y-10">
             <div className="col-span-12 lg:col-span-4">
-              <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
+              <h2 className="font-display text-text mb-3">
                 Digital Marketing Services in Orlando
               </h2>
-              <p className="text-xl text-mute">
+              <p className="lede">
                 Comprehensive solutions for Central Florida businesses
               </p>
             </div>
 
-            <div className="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="col-span-12 lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-cards">
               {services.map((service, idx) => (
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                   <Link
                     to={service.path}
-                    className={`group relative block p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden ${
+                    className={`group relative block p-6 md:p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden ${
                       idx === 0 ? "border-t-2 border-t-accent" : ""
                     }`}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span className="relative font-display text-3xl text-accent/30 mb-4 block">
+                    <span className="relative font-display text-2xl md:text-3xl text-accent/30 mb-4 block">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="relative font-display text-2xl text-text mb-3 transition-colors duration-sm group-hover:text-accent">
+                    <h3 className="relative font-display text-text mb-2 transition-colors duration-sm group-hover:text-accent">
                       {service.title}
                     </h3>
                     <p className="relative text-mute">{service.description}</p>
@@ -194,23 +194,23 @@ const Home = () => {
 
       {/* Why Choose Us */}
       <LeafDivider />
-      <section className="container-site py-24">
+      <section className="container-site section">
         <ScrollReveal variant="fade-up">
-          <div className="mb-16">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">
+          <div className="section-header">
+            <h2 className="font-display text-text mb-3">
               Why Orlando Businesses Choose ProjGrowth
             </h2>
-            <p className="text-xl text-mute max-w-2xl">
+            <p className="lede">
               We're not just another agency. We're your partners in growth.
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-cards">
           {differentiators.map((item, idx) => (
             <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
-              <div className="p-6 bg-surface rounded-lg border border-line h-full">
-                <h3 className="font-display text-xl text-accent mb-3">{item.title}</h3>
+              <div className="p-6 bg-surface rounded-lg border border-line h-full transition-all duration-sm hover:border-accent/30">
+                <h3 className="font-display text-accent mb-2">{item.title}</h3>
                 <p className="text-mute text-sm leading-relaxed">{item.description}</p>
               </div>
             </ScrollReveal>
@@ -219,11 +219,11 @@ const Home = () => {
       </section>
 
       {/* Featured Work Section */}
-      <section className="container-site py-24">
+      <section className="container-site section">
         <ScrollReveal variant="fade-up">
-          <div className="mb-16">
-            <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">Our Recent Work</h2>
-            <p className="text-xl text-mute">Projects we're proud of from Orlando and beyond</p>
+          <div className="section-header">
+            <h2 className="font-display text-text mb-3">Our Recent Work</h2>
+            <p className="lede">Projects we're proud of from Orlando and beyond</p>
           </div>
         </ScrollReveal>
 

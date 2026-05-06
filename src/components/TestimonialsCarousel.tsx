@@ -54,7 +54,7 @@ const TestimonialsCarousel = () => {
   };
 
   return (
-    <section className="container-site py-24 border-t border-line">
+    <section className="container-site section border-t border-line">
       <ScrollReveal variant="fade-up">
         <div className="mb-12">
           <h2 className="font-display text-3xl lg:text-4xl text-text mb-4">

@@ -98,12 +98,12 @@ const ContentCreation = () => {
         </script>
       </Helmet>
 
-      <section className="container-site py-24">
+      <section className="container-site section">
         <Breadcrumbs />
         
         <ScrollReveal variant="fade-up">
           <div className="mb-16">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-7xl text-text mb-6">
+            <h1 className="font-display text-text mb-6">
               Content Creation Services in Orlando
             </h1>
             <p className="text-xl text-mute max-w-3xl leading-relaxed">
