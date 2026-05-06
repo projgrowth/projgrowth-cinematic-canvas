@@ -163,6 +163,36 @@
     width: 100%;
   }
 
+  /* Section rhythm primitives — use these instead of arbitrary py-* */
+  .section { padding-top: var(--section-py-md); padding-bottom: var(--section-py-md); }
+  .section-sm { padding-top: var(--section-py-sm); padding-bottom: var(--section-py-sm); }
+  .section-lg { padding-top: var(--section-py-lg); padding-bottom: var(--section-py-lg); }
+  .section-hero {
+    padding-top: var(--section-py-lg);
+    padding-bottom: var(--section-py-md);
+    min-height: min(86vh, 880px);
+    display: flex;
+    align-items: center;
+  }
+  .section-header { margin-bottom: var(--header-mb); max-width: 65ch; }
+  .stack-cards { display: grid; gap: var(--gap-cards); }
+
+  /* Text recipes */
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: clamp(0.7rem, 0.4vw + 0.6rem, 0.8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: hsl(var(--accent));
+    font-weight: 500;
+  }
+  .lede {
+    font-size: clamp(1rem, 0.6vw + 0.85rem, 1.25rem);
+    line-height: 1.55;
+    color: hsl(var(--mute));
+    max-width: 60ch;
+  }
+
   /* Ultra-wide Support */
   @media (min-width: 1800px) {
     .container-site {
