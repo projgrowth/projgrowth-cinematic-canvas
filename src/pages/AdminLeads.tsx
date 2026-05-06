@@ -23,6 +23,9 @@ interface Discovery {
   practice_name: string | null;
   responses: Record<string, any>;
   generated_brief: string | null;
+  polished_brief?: string | null;
+  quality_score?: number | null;
+  quality_flags?: string[] | null;
   email_sent: boolean | null;
   confidence?: string | null;
   services?: string[] | null;
@@ -201,6 +204,14 @@ const AdminLeads = () => {
                       {d.full_name}
                       {d.engagement_tier && <span className="pill-accent">{d.engagement_tier}</span>}
                       {d.confidence && <span className="pill-neutral">{d.confidence}</span>}
+                      {typeof d.quality_score === "number" && (
+                        <span className={`text-xs px-2 py-0.5 rounded border ${d.quality_score >= 75 ? "border-green-500/40 text-green-400" : d.quality_score >= 50 ? "border-yellow-500/40 text-yellow-400" : "border-red-500/40 text-red-400"}`}>
+                          {d.quality_score}/100
+                        </span>
+                      )}
+                      {d.quality_flags && d.quality_flags.length > 0 && (
+                        <span className="text-xs text-mute">⚑ {d.quality_flags.join(", ")}</span>
+                      )}
                     </div>
                       <div className="text-mute text-xs mt-1">
                         {d.practice_name || "—"} · <a href={`mailto:${d.email}`} className="text-accent hover:underline">{d.email}</a>
@@ -216,6 +227,18 @@ const AdminLeads = () => {
                   </button>
                   {isOpen && (
                     <div className="border-t border-line bg-surface/30 p-5 space-y-4 text-sm">
+                      {d.polished_brief && (
+                        <div>
+                          <div className="text-xs uppercase tracking-wide text-accent mb-2">Polished brief (AI)</div>
+                          <div className="text-text bg-base p-4 rounded border border-accent/30 whitespace-pre-wrap">{d.polished_brief}</div>
+                          <button
+                            onClick={() => navigator.clipboard.writeText(d.polished_brief || "")}
+                            className="text-xs text-accent hover:underline mt-2"
+                          >
+                            Copy polished brief
+                          </button>
+                        </div>
+                      )}
                       {d.generated_brief && (
                         <div>
                           <div className="text-xs uppercase tracking-wide text-mute mb-2">Generated brief</div>

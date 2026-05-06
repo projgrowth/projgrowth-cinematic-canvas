@@ -1095,6 +1095,25 @@ export default function Discovery() {
     setPhase("reveal");
   };
 
+  // ⌨️ Keyboard nav: Enter = next, ← / → = back / next
+  useEffect(() => {
+    if (phase !== "form") return;
+    const handler = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      const inField = t && (t.tagName === "TEXTAREA" || (t.tagName === "INPUT" && (t as HTMLInputElement).type !== "button"));
+      if (e.key === "Enter" && !e.shiftKey && !inField) { e.preventDefault(); onNext(); }
+      else if (e.key === "ArrowRight" && !inField) { e.preventDefault(); onNext(); }
+      else if (e.key === "ArrowLeft" && !inField && step > 0) {
+        e.preventDefault();
+        let prev = step - 1;
+        while (prev >= 0 && plan[prev] === "iconConcept" && form.mark === "wordmark") prev--;
+        if (prev >= 0) setStep(prev);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [phase, step, plan, form, hostNote]);
+
   const dbaPreview = form.dbaName || sn(name);
   const spec = useMemo(() => deriveSpec(form, dbaPreview), [form, dbaPreview]);
 
@@ -1122,7 +1141,13 @@ export default function Discovery() {
               <div style={{ fontSize: 10, color: EMERALD, letterSpacing: ".22em", textTransform: "uppercase" }}>
                 Chapter {CHAPTERS[chapter].n} · {CHAPTERS[chapter].t}
               </div>
-              <span style={{ fontSize: 11, color: C.faint, letterSpacing: ".05em" }}>Step {step + 1} / {TOTAL}</span>
+              <span style={{ fontSize: 11, color: C.faint, letterSpacing: ".05em" }}>
+                {(() => {
+                  const remaining = Math.max(1, TOTAL - step - 1);
+                  const mins = Math.max(1, Math.round(remaining * 0.4));
+                  return step >= TOTAL - 1 ? "Last step" : `~${mins} min left · ${remaining} step${remaining === 1 ? "" : "s"}`;
+                })()}
+              </span>
             </div>
             <div style={{ display: "flex", gap: 4 }}>
               {CHAPTERS.map((c, i) => {
@@ -1171,6 +1196,9 @@ export default function Discovery() {
             }}>
               {step === TOTAL - 1 ? "See the reveal →" : "Continue →"}
             </button>
+          </div>
+          <div style={{ marginTop: 10, textAlign: "right", fontSize: 10, color: C.faint, letterSpacing: ".06em" }}>
+            tip: <kbd style={{ background: "rgba(255,255,255,.06)", padding: "1px 5px", borderRadius: 3 }}>Enter</kbd> or <kbd style={{ background: "rgba(255,255,255,.06)", padding: "1px 5px", borderRadius: 3 }}>→</kbd> to advance
           </div>
         </div>
 
