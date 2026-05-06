@@ -36,7 +36,7 @@ const AnimatedCounter = ({ value, className = "", delay = 0 }: AnimatedCounterPr
         const elapsed = Date.now() - startTime - delayMs;
         const progress = Math.min(elapsed / duration, 1);
         
-        // Easing function (ease-out cubic)
+        // Easing function (ease-smooth cubic)
         const eased = 1 - Math.pow(1 - progress, 3);
         const current = targetNum * eased;
 

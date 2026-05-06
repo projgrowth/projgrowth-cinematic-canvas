@@ -119,7 +119,7 @@ const Services = () => {
           <div className="stack gap-0">
             {services.map((service, idx) => (
               <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
-                <div className="group border-t border-line py-12 transition-all duration-md ease-smooth hover:bg-surface/30 relative before:absolute before:left-0 before:top-12 before:bottom-12 before:w-[2px] before:bg-accent before:scale-y-0 before:transition-transform before:duration-300 hover:before:scale-y-100 before:origin-top">
+                <div className="group border-t border-line py-12 transition-all duration-md ease-smooth hover:bg-surface/30 relative before:absolute before:left-0 before:top-12 before:bottom-12 before:w-[2px] before:bg-accent before:scale-y-0 before:transition-transform before:duration-sm hover:before:scale-y-100 before:origin-top">
                   <div className="grid-12 gap-y-8">
                     <div className="col-span-12 lg:col-span-2">
                       <button

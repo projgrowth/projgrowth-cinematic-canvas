@@ -99,7 +99,7 @@ const CaseStudyDetail = () => {
               {caseStudy.categories.map((cat) => (
                 <span 
                   key={cat}
-                  className="px-3 py-1 text-xs uppercase tracking-wider text-accent bg-accent/10 rounded-full border border-accent/20"
+                  className="pill-accent"
                 >
                   {cat}
                 </span>
@@ -301,7 +301,7 @@ const CaseStudyDetail = () => {
                           <img
                             src={item.url}
                             alt={item.caption || `Project gallery ${idx + 1}`}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-md"
                           />
                         )}
                         {item.caption && (

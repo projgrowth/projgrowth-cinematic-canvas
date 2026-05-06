@@ -298,7 +298,7 @@ Company: ${formData.company || "Not provided"}
                 <motion.button
                   key={service.id}
                   onClick={() => handleSelect("service", service.id)}
-                  className={`group p-6 text-left rounded-lg border-2 transition-all duration-300 ${
+                  className={`group p-6 text-left rounded-lg border-2 transition-all duration-sm ${
                     formData.service === service.id
                       ? "border-accent bg-accent/10"
                       : "border-line bg-surface hover:border-accent/50"
@@ -344,7 +344,7 @@ Company: ${formData.company || "Not provided"}
               onChange={(e) => setFormData(prev => ({ ...prev, serviceDetail: e.target.value }))}
               placeholder={serviceQuestions[formData.service]?.placeholder || "Share any details..."}
               rows={5}
-              className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300 resize-none"
+              className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm resize-none"
             />
           </motion.div>
         )}
@@ -367,7 +367,7 @@ Company: ${formData.company || "Not provided"}
                 <motion.button
                   key={timeline.id}
                   onClick={() => handleSelect("timeline", timeline.id)}
-                  className={`group p-6 text-left rounded-lg border-2 transition-all duration-300 relative ${
+                  className={`group p-6 text-left rounded-lg border-2 transition-all duration-sm relative ${
                     formData.timeline === timeline.id
                       ? "border-accent bg-accent/10"
                       : "border-line bg-surface hover:border-accent/50"
@@ -413,7 +413,7 @@ Company: ${formData.company || "Not provided"}
                 <motion.button
                   key={budget.id}
                   onClick={() => handleSelect("budget", budget.id)}
-                  className={`group p-6 text-left rounded-lg border-2 transition-all duration-300 relative ${
+                  className={`group p-6 text-left rounded-lg border-2 transition-all duration-sm relative ${
                     formData.budget === budget.id
                       ? "border-accent bg-accent/10"
                       : "border-line bg-surface hover:border-accent/50"
@@ -471,7 +471,7 @@ Company: ${formData.company || "Not provided"}
                     setFormData(prev => ({ ...prev, name: e.target.value }));
                     if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
                   }}
-                  className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300 ${
+                  className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm ${
                     errors.name ? "border-red-500" : "border-line"
                   }`}
                   placeholder="Your name"
@@ -491,7 +491,7 @@ Company: ${formData.company || "Not provided"}
                     setFormData(prev => ({ ...prev, email: e.target.value }));
                     if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
                   }}
-                  className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300 ${
+                  className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm ${
                     errors.email ? "border-red-500" : "border-line"
                   }`}
                   placeholder="your@email.com"
@@ -508,7 +508,7 @@ Company: ${formData.company || "Not provided"}
                   type="text"
                   value={formData.company}
                   onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
-                  className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-300"
+                  className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm"
                   placeholder="Your company"
                 />
               </div>
@@ -536,7 +536,7 @@ Company: ${formData.company || "Not provided"}
         <button
           onClick={prevStep}
           disabled={step === 1}
-          className={`inline-flex items-center gap-2 px-6 py-3 rounded-md font-medium transition-all duration-300 ${
+          className={`inline-flex items-center gap-2 px-6 py-3 rounded-md font-medium transition-all duration-sm ${
             step === 1
               ? "opacity-0 pointer-events-none"
               : "text-muted hover:text-foreground"
@@ -550,7 +550,7 @@ Company: ${formData.company || "Not provided"}
           <button
             onClick={nextStep}
             disabled={!canProceed()}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-300 hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-sm hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Continue
             <ArrowRight className="w-4 h-4" />
@@ -559,7 +559,7 @@ Company: ${formData.company || "Not provided"}
           <button
             onClick={handleSubmit}
             disabled={isSubmitting || !canProceed()}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-300 hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-accent text-primary-foreground rounded-md font-medium transition-all duration-sm hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>

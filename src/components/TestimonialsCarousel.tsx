@@ -116,7 +116,7 @@ const TestimonialsCarousel = () => {
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
+                  className={`h-2 rounded-full transition-all duration-sm ${
                     idx === currentIndex 
                       ? "w-8 bg-accent" 
                       : "w-2 bg-line hover:bg-mute"

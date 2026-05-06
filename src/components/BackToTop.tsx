@@ -6,7 +6,7 @@ const BackToTop = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 500) {
+      if (window.scrollY > 800) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -28,7 +28,7 @@ const BackToTop = () => {
     <button
       onClick={scrollToTop}
       className={`
-        btn-interactive fixed bottom-6 right-6 z-50 rounded-full
+        btn-interactive fixed bottom-8 right-8 z-50 rounded-full w-11 h-11
         border border-line/50 bg-surface/60 backdrop-blur-sm text-mute
         ${isVisible ? "opacity-60 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
         hover:opacity-100 hover:border-accent/50 hover:text-accent

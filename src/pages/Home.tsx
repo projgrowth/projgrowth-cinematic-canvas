@@ -163,7 +163,7 @@ const Home = () => {
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                   <Link to={service.path} className="group block h-full">
                     <SurfaceCard pad="md" interactive className={`relative overflow-hidden h-full ${idx === 0 ? "border-t-2 border-t-accent" : ""}`}>
-                      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
                       <span className="relative font-display text-2xl md:text-3xl text-accent/30 mb-4 block">
                         {String(idx + 1).padStart(2, "0")}
                       </span>

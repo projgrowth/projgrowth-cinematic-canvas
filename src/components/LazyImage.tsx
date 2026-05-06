@@ -51,7 +51,7 @@ const LazyImage = ({
       {/* Placeholder skeleton */}
       <div
         className={cn(
-          "absolute inset-0 bg-surface animate-pulse transition-opacity duration-500",
+          "absolute inset-0 bg-surface animate-pulse transition-opacity duration-md",
           isLoaded ? "opacity-0" : "opacity-100",
           placeholderClassName
         )}
@@ -65,7 +65,7 @@ const LazyImage = ({
           loading="lazy"
           onLoad={handleLoad}
           className={cn(
-            "w-full h-full object-cover transition-opacity duration-500",
+            "w-full h-full object-cover transition-opacity duration-md",
             isLoaded ? "opacity-100" : "opacity-0"
           )}
         />

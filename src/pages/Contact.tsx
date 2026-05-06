@@ -106,7 +106,7 @@ const Contact = () => {
               <ScrollReveal variant="scale" delay={0.2}>
                 <a
                   href="mailto:info@projgrowth.com"
-                  className="flex items-center gap-3 p-4 bg-surface/80 rounded-lg border border-line hover:border-accent/50 transition-all duration-300 group"
+                  className="flex items-center gap-3 p-4 bg-surface/80 rounded-lg border border-line hover:border-accent/50 transition-all duration-sm group"
                 >
                   <Mail className="w-5 h-5 text-accent flex-shrink-0" />
                   <div>

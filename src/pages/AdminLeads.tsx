@@ -199,8 +199,8 @@ const AdminLeads = () => {
                     <div>
                     <div className="text-text font-medium flex items-center gap-2 flex-wrap">
                       {d.full_name}
-                      {d.engagement_tier && <span className="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/30">{d.engagement_tier}</span>}
-                      {d.confidence && <span className="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full bg-surface text-mute border border-line">{d.confidence}</span>}
+                      {d.engagement_tier && <span className="pill-accent">{d.engagement_tier}</span>}
+                      {d.confidence && <span className="pill-neutral">{d.confidence}</span>}
                     </div>
                       <div className="text-mute text-xs mt-1">
                         {d.practice_name || "—"} · <a href={`mailto:${d.email}`} className="text-accent hover:underline">{d.email}</a>

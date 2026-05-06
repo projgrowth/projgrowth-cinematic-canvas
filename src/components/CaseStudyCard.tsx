@@ -67,10 +67,10 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
               loading="lazy"
-              className="h-10 md:h-14 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300"
+              className="h-10 md:h-14 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-sm"
             />
           ) : (
-            <span className="font-display text-lg md:text-xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
+            <span className="font-display text-lg md:text-xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-sm">
               {caseStudy.title.split(' ').map(word => word[0]).join('')}
             </span>
           )}
@@ -81,7 +81,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
           <span className="text-xs text-mute uppercase tracking-wider mb-1 block">
             {caseStudy.category}
           </span>
-          <h3 className="font-display text-lg md:text-xl text-text mb-1 md:mb-2 transition-colors duration-200 group-hover:text-accent truncate">
+          <h3 className="font-display text-lg md:text-xl text-text mb-1 md:mb-2 transition-colors duration-sm group-hover:text-accent truncate">
             {caseStudy.title}
           </h3>
           <p className="text-sm text-mute leading-relaxed line-clamp-2">
@@ -129,12 +129,12 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
       }}
     >
       {/* Large index number behind card - smaller on mobile, hidden on very small screens */}
-      <span className="absolute -top-2 -left-1 md:-top-4 md:-left-2 font-display text-5xl md:text-8xl font-bold text-accent/[0.07] select-none pointer-events-none z-0 transition-all duration-300 group-hover:text-accent/[0.12] group-hover:-translate-y-1 hidden sm:block">
+      <span className="absolute -top-2 -left-1 md:-top-4 md:-left-2 font-display text-5xl md:text-8xl font-bold text-accent/[0.07] select-none pointer-events-none z-0 transition-all duration-sm group-hover:text-accent/[0.12] group-hover:-translate-y-1 hidden sm:block">
         {formattedIndex}
       </span>
 
       <motion.div 
-        className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4 transition-all duration-300 ease-out z-10"
+        className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line bg-surface mb-4 transition-all duration-sm ease-smooth z-10"
         style={isTouchDevice ? {} : {
           rotateX,
           rotateY,
@@ -161,10 +161,10 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         />
 
         {/* Gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 group-hover:from-accent/10 group-hover:to-accent/20 transition-all duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 group-hover:from-accent/10 group-hover:to-accent/20 transition-all duration-sm" />
         
         {/* Subtle dot pattern */}
-        <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-300" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
+        <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-sm" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
         
         {/* Glow effect behind logo */}
         <motion.div 
@@ -184,12 +184,12 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
               src={caseStudy.logo} 
               alt={`${caseStudy.title} logo`}
               loading="lazy"
-              className="h-12 md:h-16 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-300"
+              className="h-12 md:h-16 max-w-[85%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-sm"
               animate={{ scale: isHovered && !isTouchDevice ? 1.1 : 1 }}
               transition={{ duration: 0.3 }}
             />
           ) : (
-            <span className="font-display text-2xl md:text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-300">
+            <span className="font-display text-2xl md:text-3xl font-medium text-mute/40 group-hover:text-mute/60 transition-all duration-sm">
               {caseStudy.title.split(' ').map(word => word[0]).join('')}
             </span>
           )}
@@ -236,7 +236,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         {caseStudy.category}
       </span>
       
-      <h3 className="font-display text-xl md:text-2xl text-text mb-2 transition-colors duration-200 group-hover:text-accent">
+      <h3 className="font-display text-xl md:text-2xl text-text mb-2 transition-colors duration-sm group-hover:text-accent">
         {caseStudy.title}
       </h3>
       

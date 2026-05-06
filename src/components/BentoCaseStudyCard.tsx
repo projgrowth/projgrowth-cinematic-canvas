@@ -57,11 +57,11 @@ const BentoCaseStudyCard = ({
       transition={{ duration: 0.3 }}
     >
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 transition-all duration-500 group-hover:from-accent/10 group-hover:to-accent/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 transition-all duration-md group-hover:from-accent/10 group-hover:to-accent/20" />
       
       {/* Subtle pattern */}
       <div 
-        className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500"
+        className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-md"
         style={{ 
           backgroundImage: 'radial-gradient(circle, hsl(var(--text)) 1px, transparent 1px)', 
           backgroundSize: '16px 16px' 
@@ -115,7 +115,7 @@ const BentoCaseStudyCard = ({
             src={caseStudy.logo} 
             alt={`${caseStudy.title} logo`}
             loading="lazy"
-            className="h-12 md:h-16 lg:h-20 max-w-[80%] object-contain opacity-70 group-hover:opacity-90 transition-opacity duration-300"
+            className="h-12 md:h-16 lg:h-20 max-w-[80%] object-contain opacity-70 group-hover:opacity-90 transition-opacity duration-sm"
           />
         ) : (
           <span className="font-display text-3xl md:text-4xl font-medium text-mute/30 group-hover:text-mute/50 transition-colors">
@@ -128,14 +128,14 @@ const BentoCaseStudyCard = ({
       <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 z-30">
         {/* Category pill */}
         <motion.span 
-          className="inline-block px-2 py-1 text-[10px] md:text-xs uppercase tracking-wider text-accent bg-accent/10 rounded-full mb-2 md:mb-3 border border-accent/20"
+          className="pill-accent mb-2 md:mb-3"
           animate={{ y: isHovered ? 0 : 4, opacity: isHovered ? 1 : 0.8 }}
           transition={{ duration: 0.3 }}
         >
           {caseStudy.category}
         </motion.span>
 
-        <h3 className="font-display text-lg md:text-xl lg:text-2xl text-text mb-1 group-hover:text-accent transition-colors duration-300">
+        <h3 className="font-display text-lg md:text-xl lg:text-2xl text-text mb-1 group-hover:text-accent transition-colors duration-sm">
           {caseStudy.title}
         </h3>
         
@@ -174,7 +174,7 @@ const BentoCaseStudyCard = ({
         onClick={(e) => e.stopPropagation()}
       >
         <motion.div 
-          className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface/80 backdrop-blur-sm border border-line flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all duration-300"
+          className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface/80 backdrop-blur-sm border border-line flex items-center justify-center group-hover:border-accent group-hover:bg-accent/10 transition-all duration-sm"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >

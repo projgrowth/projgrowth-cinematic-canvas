@@ -250,7 +250,7 @@ const BlogPost = () => {
 
           <ScrollReveal>
             <header className="mb-10">
-              <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-sm font-medium rounded-full mb-4">
+              <span className="pill-accent mb-4">
                 {post.category}
               </span>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-text mb-6 leading-tight">

@@ -59,7 +59,7 @@ const LogoMarquee = () => {
               loading="lazy"
               width={144}
               height={80}
-              className="max-w-full max-h-full object-contain opacity-40 hover:opacity-80 transition-opacity duration-300 grayscale hover:grayscale-0"
+              className="max-w-full max-h-full object-contain opacity-40 hover:opacity-80 transition-opacity duration-sm grayscale hover:grayscale-0"
             />
           </div>
         ))}

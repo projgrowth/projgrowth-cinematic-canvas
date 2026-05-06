@@ -1,68 +1,116 @@
 
-## What a senior designer/engineer would flag
+## Root cause of the visual chaos
 
-After auditing `src/index.css`, all 14 pages, and 35+ components, the foundation is genuinely solid (fluid type scale, section primitives, semantic tokens). The issues that read as "almost-premium" rather than premium are:
+I found the smoking gun. Look at `tailwind.config.ts` lines 67–80:
 
-1. **Heading scale is inconsistent.** The global clamp gives every `h2`/`h3` a tasteful size, but ~20 components still hard-override with `text-2xl md:text-3xl`, `text-4xl md:text-5xl`, `text-5xl md:text-8xl`. CaseStudyCard, BentoCaseStudyCard, FeaturedWorkSlider, TestimonialsCarousel, ProcessTimeline, CaseStudySheet, ErrorBoundary, two service pages — they all fight the design system.
-2. **Two competing card styles.** `SurfaceCard` exists, but Home/About/Services still hand-roll `bg-surface rounded-lg border border-line p-6 md:p-8 hover:border-accent/30`. Cards have ~3 different border-radii (`rounded-md`, `rounded-lg`, `rounded-2xl`) and 4 different hover treatments across the site.
-3. **Hero CTA pattern is duplicated raw.** Home, Services, Contact, service sub-pages each inline the same `h-12 px-8 border border-accent ...` link instead of using the new `<Button variant="cta">`. Visual drift is guaranteed.
-4. **Atmospheric glow is copy-pasted ~6 times** with slightly different stops/opacity. It should be one `<AmbientGlow variant="..." />` so the lighting reads consistent across pages.
-5. **Discovery.tsx is 1,113 lines.** It's a single monolithic file holding state machine, copy, mockup composition, PDF trigger, and UI for every step. Hard to evolve. Needs a light split, not a rewrite.
-6. **MultiStepContactForm.tsx is 582 lines** with inline validation, step UI, and submit logic mixed together. Same problem, smaller scope.
-7. **Spacing micro-inconsistencies.** A handful of pages still use `mb-12`, `mb-16`, `mt-12`, `gap-y-10` instead of the `--header-mb`/`--gap-cards` tokens — small but visible at 1440px+.
-8. **Color polish.** Accent is used at 5+ opacities (`/5`, `/10`, `/20`, `/30`, `/40`) ad-hoc. A senior would lock to 3 (`/10` surface tint, `/20` border, `/30` hover-border) and remove the rest.
-9. **Borders read flat.** `--line` at `240 5% 16%` against `--surface` at `240 5% 10%` is only 6% delta. On a 4K display the cards look like floating rectangles with no edge. A 1px inner highlight (`box-shadow: inset 0 1px 0 hsl(var(--text)/0.04)`) would add the "expensive" glass quality the rest of the site is reaching for.
-10. **No real motion language.** Components mix `duration-200`, `duration-300`, `duration-sm`, `duration-md`, custom `framer-motion` easings. Should be one easing curve, three durations, used everywhere.
+```ts
+spacing: {
+  '2xs': 'var(--space-2xs)',
+  '2': 'var(--space-2)',   // clamp(16px → 24px)
+  '3': 'var(--space-3)',   // clamp(24px → 36px)
+  '4': 'var(--space-4)',   // clamp(32px → 48px)
+  '6': 'var(--space-6)',   // clamp(48px → 80px)  ← !!!
+  '8': 'var(--space-8)',   // clamp(64px → 128px) ← !!!
+}
+```
 
-Given a ~10-call budget, I'm proposing three surgical passes, not a refactor.
+Tailwind's default scale has `p-6 = 1.5rem (24px)`, `gap-8 = 2rem (32px)`, `mb-3 = 0.75rem (12px)`. **We overrode those numeric keys to point at our fluid section-scale tokens.** That means every single `p-6`, `mb-8`, `gap-4`, `mb-3` written across the codebase is rendering at 2–4× the intended size.
 
----
+Concrete example from your screenshot (Home services row):
+- `<div className="stack gap-6 md:gap-8">` — author wanted 24px / 32px gap. Actually rendering **48–80px / 64–128px**.
+- `mb-3` on the H2 — author wanted 12px. Actually **24–36px**.
+- `p-6 md:p-8` on cards — author wanted 24/32px padding. Actually **48–80px / 64–128px** padding.
 
-## Pass 1 — Visual polish (1 call, global)
+That is why the cards look like they're floating in voids, the section header has a giant gap below it, and the right column starts so far down the page. Every page is affected; you just notice it most where there are dense card grids.
 
-Edit `src/index.css` only:
+Other systemic interference I confirmed:
 
-- Add `--line` lift: bump from `240 5% 16%` to `240 5% 18%` and add a global `.surface-card` recipe with the 1px inner highlight + standardized hover state (border to accent/25, subtle accent glow).
-- Tighten accent opacity scale: define `--accent-tint`, `--accent-border`, `--accent-border-hover` CSS vars so future code references one token.
-- Lock motion: redefine `--duration-sm`/`--duration-md` values, ensure `--ease` is the single curve. Add `.hover-lift` utility used by all interactive cards.
-- Standardize radii usage by aliasing `.card { border-radius: var(--radius-lg); }`.
-- Fix the heading override problem at the source: add `.font-display` resets so a heading inside `.font-display` inherits the global clamp instead of being shrunk by sibling text-* classes (use `:where()` to keep specificity low, then we strip the overrides in Pass 2).
-
-## Pass 2 — Strip overrides + adopt primitives (1 call, sed + targeted edits)
-
-- One `sed` sweep across `src/components` and `src/pages` to remove the 20 remaining `text-2xl md:text-3xl`, `text-3xl md:text-4xl`, `text-4xl md:text-5xl`, `text-5xl md:text-8xl`, `text-6xl` overrides from elements that already carry `font-display` or are `<h1>`–`<h3>`. (Decorative giant numerals on CaseStudyCard/BentoCard keep their size — those are graphic, not text.)
-- Replace the inline hero CTA pattern in `Home.tsx`, `Services.tsx`, `Contact.tsx`, and the four service pages with `<Button variant="cta">`. ~7 small edits.
-- Convert remaining hand-rolled card divs in `Home.tsx` (services + differentiators), `About.tsx`, `Services.tsx` to `<SurfaceCard>`.
-- Replace ad-hoc `mb-12`/`mb-16`/`gap-y-10` instances with `section-header` / `gap-cards` tokens.
-
-## Pass 3 — Structural tidy (1 call)
-
-- Extract one tiny `<AmbientGlow />` component and swap the 6 inline radial-gradient `<div>`s for it (Home hero, About, Services, Contact, Work, Discovery shell).
-- Split `Discovery.tsx` minimally: pull the step copy/data array into `src/pages/discovery/steps.ts` and the success/thanks screen into `src/pages/discovery/ThanksScreen.tsx`. Don't touch state logic. Drops the file from 1,113 to ~500 lines without behavior change.
-
-Skipping in this budget (call out for a future sweep): MultiStepContactForm split, NavigationGuide consolidation, removing the lingering `Portfolio.tsx`/`NavigationGuide.tsx`/`ScrollProgress.tsx` deprecated components flagged in `mem://design/minimalist-refinement-and-noise-reduction`.
+1. **Pill/badge styles invented 6 times** with different paddings, opacities, borders. Locations: `Blog.tsx:139`, `BlogPost.tsx:253`, `CaseStudyDetail.tsx:102`, `BentoCaseStudyCard.tsx:131`, `AdminLeads.tsx:202–203`, `Blog.tsx:93` (filter chips). `src/components/ui/badge.tsx` exists but nobody uses it.
+2. **Three competing radii**: `rounded-md` (12px from `--radius-md`), `rounded-lg` (24px from `--radius-lg`), `rounded-2xl`/`rounded-xl` (Tailwind defaults — 16px/12px) used interchangeably. Cards on Home use `rounded-lg`, contact tiles use `rounded-lg` but at totally different sizes than CaseStudyDetail.
+3. **Two duration vocabularies**: `duration-sm/md` (custom) and `duration-200/300/500` (Tailwind defaults) coexist in the same files. Same for easing — `ease-smooth` vs framer-motion bezier vs default `ease`.
+4. **BackToTop arrow** is floating over content in your screenshot (bottom-right). It's appearing too eagerly and overlapping cards.
+5. **Container double-payload**: `tailwind.config.ts` defines a `container` plugin (lines 8–25) we don't use, but its presence pollutes IDE autocomplete and risks a future page using `container` instead of `container-site` and getting different padding.
+6. **Hero CTA on Home** uses `gap-4` between buttons → renders at 32–48px instead of the expected 16px, making the two CTAs feel disconnected.
 
 ---
 
-## Technical notes
+## The fix — three surgical changes
 
-- Token additions to `index.css`:
-  ```css
-  --accent-tint: hsl(var(--accent) / 0.08);
-  --accent-border: hsl(var(--accent) / 0.20);
-  --accent-border-hover: hsl(var(--accent) / 0.35);
-  --inner-highlight: inset 0 1px 0 hsl(var(--text) / 0.04);
-  ```
-- `.surface-card` recipe centralizes: `bg-surface`, `border border-line`, `rounded-[var(--radius-lg)]`, `shadow-[var(--inner-highlight)]`, hover transitions to accent border + soft glow.
-- `:where(h1,h2,h3).font-display` reset uses `:where()` for 0 specificity so we don't have to ! override anything.
-- AmbientGlow takes `position` (`hero` | `top-right` | `center`) and `intensity` props mapping to the existing gradient stops.
+### 1. Untangle the spacing scale (the big one)
 
-## Files touched (estimated)
+In `tailwind.config.ts`, **remove the numeric overrides** (`'2'`–`'8'`, `'3xl'`, `'4xl'`) and only expose the fluid tokens under unambiguous semantic names:
 
-- Pass 1: `src/index.css`
-- Pass 2: ~12 files via sed + ~8 small manual edits (Home, About, Services, Contact, 4 service pages)
-- Pass 3: `src/components/AmbientGlow.tsx` (new), `src/pages/discovery/steps.ts` (new), `src/pages/discovery/ThanksScreen.tsx` (new), `src/pages/Discovery.tsx` (slim), 6 pages updated to use AmbientGlow
+```ts
+spacing: {
+  // Restore Tailwind defaults for p-1..p-8, gap-1..gap-8, mb-1..mb-8, etc.
+  // Fluid section/layout tokens — accessed via dedicated names only:
+  'section-sm': 'var(--space-5)',
+  'section':    'var(--space-6)',
+  'section-lg': 'var(--space-8)',
+  'gutter':     'var(--gutter-fluid)',
+  'cards':      'var(--gap-cards)',
+  'header':     'var(--header-mb)',
+}
+```
+
+That single change restores `p-6 = 24px`, `mb-3 = 12px`, `gap-8 = 32px` everywhere — instantly fixing the "floating in a void" look without touching a single page file. The fluid tokens stay reachable as `gap-cards`, `mb-header`, `py-section`, etc., which is how `index.css` already uses them via the `.section` recipes.
+
+### 2. One pill, one badge, one chip
+
+Add three locked recipes to `index.css`:
+
+```css
+.pill-accent  { /* px-3 py-1 text-xs uppercase tracking-wider accent on tint border accent/20 rounded-full */ }
+.pill-neutral { /* same metrics, surface bg, mute text, line border */ }
+.chip-filter  { /* px-4 py-2 text-sm rounded-full, active=accent fill, idle=line border */ }
+```
+
+Then sweep the 6 hand-rolled pill instances to use these classes. Result: every category tag, every "Featured" badge, every engagement-tier label is pixel-identical across pages.
+
+### 3. Lock radius and motion vocabularies
+
+- In `index.css` add `--radius-card: var(--radius-lg)` and update the `.surface-card` recipe (already added in the previous pass) to use it. Standardize all card-like components on `rounded-card` (add as a Tailwind alias).
+- Sweep all `duration-200|300|500` → `duration-sm|md` (custom tokens) and `ease-out|in-out` → `ease-smooth` via `sed` so motion timing reads as one language.
+- Remove the unused `container` plugin block from `tailwind.config.ts` to prevent regression.
+
+### Per-page container/spacing rules (codified)
+
+After the spacing fix, the rules every page already sort-of follows become enforceable:
+
+| Surface | Token / class | Value |
+|---|---|---|
+| Page outer | `container-site` | max 1320px / 92vw, fluid gutter |
+| Section vertical rhythm | `.section` / `.section-sm` / `.section-lg` | fluid clamps |
+| Hero | `.section-hero` | min(86vh, 880px) |
+| Section header bottom margin | `mb-header` | clamp(32→64px) |
+| Card grid gap | `gap-cards` | clamp(24→40px) |
+| Card padding | `p-6 md:p-8` | **24/32px** (after fix) |
+| Card radius | `rounded-card` | 24px |
+| Pills | `.pill-accent` / `.pill-neutral` | one definition |
+| Filter chips | `.chip-filter` | one definition |
+| Buttons | `<Button variant=…>` only | no inline anchors |
+| Heading sizes | global clamp on `h1/h2/h3` | no `text-Xxl` overrides |
+| Motion | `duration-sm|md`, `ease-smooth` | the only allowed values |
+
+### Misc cleanup in same pass
+- BackToTop: add `bottom-8 right-8` and only show after 600px scroll (currently appears too early and overlaps content).
+- Remove dead `tailwind.config` `container` plugin block.
+- Audit `Home.tsx` hero CTA gap `gap-4` → after spacing fix this becomes 16px naturally.
+
+---
+
+## Files touched (estimated 4–6 calls)
+
+1. `tailwind.config.ts` — remove numeric spacing overrides, add semantic names, remove container block, add `rounded-card`.
+2. `src/index.css` — add `.pill-accent`, `.pill-neutral`, `.chip-filter` recipes; add `--radius-card`.
+3. One `sed` sweep — replace 6 hand-rolled pills with `.pill-accent`/`.pill-neutral`; normalize `duration-200|300` → `duration-sm|md`.
+4. `src/components/BackToTop.tsx` — adjust offset + threshold.
+5. Spot-check & manual fix: the ~20 places that currently *intentionally* use `p-6` / `gap-8` expecting fluid behavior (mostly the new `Section` primitive and `index.css` itself — already use the CSS vars directly, so they're unaffected).
+
+## Risk
+
+The spacing change will cause a brief "things look tighter" moment site-wide — but that's the correct rendering authors intended when they wrote `p-6`. The pages with sections that actually need the giant fluid padding already use `.section` / `--space-*` vars directly in CSS, so they don't regress.
 
 ## Outcome
 
-Cards feel embossed and consistent, headings finally trust the fluid scale, accent color reads intentional rather than scattered, motion is unified, and Discovery becomes maintainable — all within the remaining token budget, with no behavioral regressions.
+One spacing scale (Tailwind defaults), one fluid section scale (CSS tokens with semantic names), one pill, one badge, one chip, one card radius, one motion vocabulary. The "everything looks like it's stranded on a giant black void" effect goes away because card padding and section gaps stop being 3× larger than written.

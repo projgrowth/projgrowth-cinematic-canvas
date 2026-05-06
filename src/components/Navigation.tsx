@@ -51,7 +51,7 @@ const Navigation = () => {
       <nav 
         className={`
           fixed top-0 left-0 right-0 z-50 
-          transition-all duration-300 ease-smooth
+          transition-all duration-sm ease-smooth
           ${isHidden ? "-translate-y-full" : "translate-y-0"}
           ${isScrolled 
             ? "bg-base/95 backdrop-blur-md border-b border-line/50 shadow-[0_1px_3px_rgba(0,0,0,0.3)]" 
