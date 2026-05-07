@@ -468,6 +468,28 @@ const AdminLeads = () => {
                   </button>
                   {isOpen && (
                     <div className="border-t border-line bg-surface/30 p-5 space-y-4 text-sm">
+                      <div className="flex gap-2 flex-wrap">
+                        <button
+                          onClick={() => navigator.clipboard.writeText(buildDiscoveryProfile(d))}
+                          className="text-xs px-3 py-1.5 border border-accent/40 rounded text-accent hover:bg-accent/10 transition-colors"
+                        >
+                          Copy full profile (AI-ready)
+                        </button>
+                        <button
+                          onClick={() => {
+                            const blob = new Blob([buildDiscoveryProfile(d)], { type: "text/plain;charset=utf-8" });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = url;
+                            a.download = `${(d.full_name || "submission").replace(/\W+/g, "-").toLowerCase()}-profile.txt`;
+                            a.click();
+                            URL.revokeObjectURL(url);
+                          }}
+                          className="text-xs px-3 py-1.5 border border-line rounded text-mute hover:text-text hover:border-accent/40 transition-colors"
+                        >
+                          Download profile (.txt)
+                        </button>
+                      </div>
                       {d.polished_brief && (
                         <div>
                           <div className="text-xs uppercase tracking-wide text-accent mb-2">Polished brief (AI)</div>
