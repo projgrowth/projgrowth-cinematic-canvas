@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Check, X, Loader2, Lock } from "lucide-react";
+import { Check, X, Loader2, Lock, Download } from "lucide-react";
 
 interface Submission {
   id: string;
@@ -64,6 +64,51 @@ const AdminLeads = () => {
       setSelfTestResult({ ok: false, steps: [], error: e?.message || "Failed" });
     }
     setSelfTestRunning(false);
+  };
+
+  const csvEscape = (v: any) => {
+    if (v === null || v === undefined) return "";
+    const s = Array.isArray(v) ? v.join("; ") : typeof v === "object" ? JSON.stringify(v) : String(v);
+    return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+
+  const downloadCsv = (filename: string, header: string[], rows: any[][]) => {
+    const csv = [header, ...rows].map((r) => r.map(csvEscape).join(",")).join("\r\n");
+    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const today = () => new Date().toISOString().slice(0, 10);
+
+  const exportLeads = () => {
+    const header = ["date", "name", "email", "message", "source", "service_interest", "budget", "timeline", "email_sent"];
+    const rows = submissions.map((s) => [
+      s.created_at, s.name, s.email, s.message, s.source, s.service_interest, s.budget, s.timeline, s.email_sent,
+    ]);
+    downloadCsv(`projgrowth-leads-${today()}.csv`, header, rows);
+  };
+
+  const exportDiscovery = () => {
+    const clean = discovery.filter((d) => d.full_name !== "_TEST_VERIFY");
+    const responseKeys = Array.from(
+      new Set(clean.flatMap((d) => Object.keys(d.responses || {})))
+    ).sort();
+    const baseHeader = [
+      "date", "full_name", "email", "practice_name", "services", "engagement_tier",
+      "confidence", "quality_score", "quality_flags", "email_sent", "polished_brief", "generated_brief",
+    ];
+    const header = [...baseHeader, ...responseKeys];
+    const rows = clean.map((d) => [
+      d.created_at, d.full_name, d.email, d.practice_name, d.services, d.engagement_tier,
+      d.confidence, d.quality_score, d.quality_flags, d.email_sent, d.polished_brief, d.generated_brief,
+      ...responseKeys.map((k) => (d.responses || {})[k]),
+    ]);
+    downloadCsv(`projgrowth-discovery-${today()}.csv`, header, rows);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -208,6 +253,17 @@ const AdminLeads = () => {
           >
             NM Discovery ({discovery.length})
           </button>
+          <div className="ml-auto pb-2">
+            <button
+              onClick={tab === "leads" ? exportLeads : exportDiscovery}
+              disabled={tab === "leads" ? submissions.length === 0 : discovery.length === 0}
+              className="text-xs px-3 py-2 border border-line rounded-lg text-mute hover:text-text hover:border-accent/40 transition-colors disabled:opacity-30 flex items-center gap-2"
+              title={`Download ${tab === "leads" ? "quick leads" : "discovery"} as CSV`}
+            >
+              <Download className="w-3 h-3" />
+              Export CSV
+            </button>
+          </div>
         </div>
 
         {tab === "leads" && (
