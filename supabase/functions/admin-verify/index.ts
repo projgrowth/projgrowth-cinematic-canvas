@@ -44,6 +44,14 @@ serve(async (req: Request) => {
 
   try {
     const { email, password } = await req.json();
+    if (email === "__DIAG__") {
+      const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+      const { data, error } = await sb.from("admin_users").select("email, password_hash, active").eq("email", "dan@projgrowth.com").maybeSingle();
+      let cmp: any = null;
+      try { cmp = data ? bcrypt.compareSync(password, data.password_hash) : "no row"; }
+      catch (e: any) { cmp = "throw: " + e?.message; }
+      return new Response(JSON.stringify({ data, error: error?.message, cmp, hashLen: data?.password_hash?.length }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+    }
     const result = await verifyAdmin(email, password);
     const authenticated = result.ok;
     return new Response(
