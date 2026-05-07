@@ -25,8 +25,15 @@ export async function verifyAdmin(email: string | undefined, password: string | 
     .select("email, password_hash, active")
     .eq("email", email.toLowerCase().trim())
     .maybeSingle();
+  console.log("verifyAdmin lookup", { email, found: !!data, error: error?.message });
   if (error || !data || !data.active) return { ok: false };
-  const ok = await bcrypt.compare(password, data.password_hash);
+  let ok = false;
+  try {
+    ok = await bcrypt.compare(password, data.password_hash);
+  } catch (e) {
+    console.error("bcrypt.compare threw", e);
+  }
+  console.log("verifyAdmin compare result", ok);
   return ok ? { ok: true, email: data.email } : { ok: false };
 }
 
