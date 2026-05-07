@@ -34,6 +34,7 @@ interface Discovery {
 }
 
 const AdminLeads = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -53,7 +54,7 @@ const AdminLeads = () => {
     setSelfTestResult(null);
     try {
       const { data, error } = await supabase.functions.invoke("admin-self-test", {
-        body: { password },
+        body: { email, password },
       });
       if (error) {
         setSelfTestResult({ ok: false, steps: [], error: error.message });
@@ -119,11 +120,11 @@ const AdminLeads = () => {
     try {
       // Verify password via edge function
       const { data, error: fnError } = await supabase.functions.invoke("admin-verify", {
-        body: { password },
+        body: { email, password },
       });
 
       if (fnError || !data?.authenticated) {
-        setError("Invalid password");
+        setError("Invalid email or password");
         setLoading(false);
         return;
       }
@@ -131,7 +132,7 @@ const AdminLeads = () => {
       setAuthenticated(true);
       // Fetch submissions via edge function (service role)
       const { data: leadsData, error: leadsError } = await supabase.functions.invoke("admin-leads", {
-        body: { password },
+        body: { email, password },
       });
 
       if (leadsError) {
@@ -156,13 +157,22 @@ const AdminLeads = () => {
               <Lock className="w-5 h-5 text-mute" />
             </div>
             <h1 className="font-display text-text">Admin Access</h1>
-            <p className="text-sm text-mute mt-1">Enter your admin password to view leads</p>
+            <p className="text-sm text-mute mt-1">Sign in to view leads</p>
           </div>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            autoComplete="email"
+            className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+          />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            autoComplete="current-password"
             className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
             required
           />
