@@ -120,7 +120,10 @@ export type Database = {
           full_name: string
           generated_brief: string | null
           id: string
+          polished_brief: string | null
           practice_name: string | null
+          quality_flags: string[] | null
+          quality_score: number | null
           reference_image_urls: string[] | null
           responses: Json
           services: string[] | null
@@ -134,7 +137,10 @@ export type Database = {
           full_name: string
           generated_brief?: string | null
           id?: string
+          polished_brief?: string | null
           practice_name?: string | null
+          quality_flags?: string[] | null
+          quality_score?: number | null
           reference_image_urls?: string[] | null
           responses: Json
           services?: string[] | null
@@ -148,7 +154,10 @@ export type Database = {
           full_name?: string
           generated_brief?: string | null
           id?: string
+          polished_brief?: string | null
           practice_name?: string | null
+          quality_flags?: string[] | null
+          quality_score?: number | null
           reference_image_urls?: string[] | null
           responses?: Json
           services?: string[] | null
