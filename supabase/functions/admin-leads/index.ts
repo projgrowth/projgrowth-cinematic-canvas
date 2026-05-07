@@ -19,7 +19,7 @@ async function verifyAdmin(email: string | undefined, password: string | undefin
     .eq("email", email.toLowerCase().trim())
     .maybeSingle();
   if (!data || !data.active) return false;
-  return await bcrypt.compare(password, data.password_hash);
+  return bcrypt.compareSync(password, data.password_hash);
 }
 
 serve(async (req: Request) => {

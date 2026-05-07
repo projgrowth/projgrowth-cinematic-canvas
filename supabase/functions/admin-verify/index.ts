@@ -29,7 +29,7 @@ export async function verifyAdmin(email: string | undefined, password: string | 
   if (error || !data || !data.active) return { ok: false };
   let ok = false;
   try {
-    ok = await bcrypt.compare(password, data.password_hash);
+    ok = bcrypt.compareSync(password, data.password_hash);
   } catch (e) {
     console.error("bcrypt.compare threw", e);
   }
