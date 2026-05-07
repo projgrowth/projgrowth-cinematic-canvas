@@ -42,6 +42,29 @@ const AdminLeads = () => {
   const [openId, setOpenId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selfTestRunning, setSelfTestRunning] = useState(false);
+  const [selfTestResult, setSelfTestResult] = useState<
+    | { ok: boolean; steps: { step: string; ok: boolean; detail?: string }[]; error?: string }
+    | null
+  >(null);
+
+  const runSelfTest = async () => {
+    setSelfTestRunning(true);
+    setSelfTestResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-self-test", {
+        body: { password },
+      });
+      if (error) {
+        setSelfTestResult({ ok: false, steps: [], error: error.message });
+      } else {
+        setSelfTestResult(data);
+      }
+    } catch (e: any) {
+      setSelfTestResult({ ok: false, steps: [], error: e?.message || "Failed" });
+    }
+    setSelfTestRunning(false);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,7 +144,56 @@ const AdminLeads = () => {
               {submissions.length} contact · {discovery.length} discovery
             </p>
           </div>
+          <button
+            onClick={runSelfTest}
+            disabled={selfTestRunning}
+            className="text-xs px-3 py-2 border border-line rounded-lg text-mute hover:text-text hover:border-accent/40 transition-colors disabled:opacity-50 flex items-center gap-2"
+            title="Insert a synthetic _TEST_VERIFY row, check the new columns are present, and clean it up."
+          >
+            {selfTestRunning ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
+            {selfTestRunning ? "Running self-test…" : "Run submission self-test"}
+          </button>
         </div>
+
+        {selfTestResult && (
+          <div
+            className={`mb-6 p-4 rounded-lg border text-sm ${
+              selfTestResult.ok
+                ? "border-green-500/40 bg-green-500/5"
+                : "border-red-500/40 bg-red-500/5"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <div className="font-medium text-text">
+                {selfTestResult.ok ? "✓ Self-test passed" : "✗ Self-test failed"}
+              </div>
+              <button
+                onClick={() => setSelfTestResult(null)}
+                className="text-xs text-mute hover:text-text"
+              >
+                Dismiss
+              </button>
+            </div>
+            {selfTestResult.error && (
+              <div className="text-red-400 text-xs mb-2">{selfTestResult.error}</div>
+            )}
+            <ul className="space-y-1 text-xs">
+              {selfTestResult.steps.map((s, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  {s.ok ? (
+                    <Check className="w-3 h-3 text-green-400 mt-0.5 flex-shrink-0" />
+                  ) : (
+                    <X className="w-3 h-3 text-red-400 mt-0.5 flex-shrink-0" />
+                  )}
+                  <span className={s.ok ? "text-mute" : "text-red-400"}>
+                    {s.step}
+                    {s.detail ? <span className="text-mute/60"> — {s.detail}</span> : null}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="flex gap-2 mb-6 border-b border-line">
           <button
