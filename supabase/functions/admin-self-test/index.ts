@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.84.0";
+import bcrypt from "https://esm.sh/bcryptjs@2.4.3";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -7,6 +8,20 @@ const corsHeaders = {
 };
 
 const TEST_MARKER = "_TEST_VERIFY";
+
+async function verifyAdmin(email: string | undefined, password: string | undefined, sb: any): Promise<boolean> {
+  if (!password) return false;
+  const adminPassword = Deno.env.get("ADMIN_PASSWORD");
+  if (!email && adminPassword && password === adminPassword) return true;
+  if (!email) return false;
+  const { data } = await sb
+    .from("admin_users")
+    .select("password_hash, active")
+    .eq("email", email.toLowerCase().trim())
+    .maybeSingle();
+  if (!data || !data.active) return false;
+  return bcrypt.compareSync(password, data.password_hash);
+}
 
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -19,19 +34,17 @@ serve(async (req: Request) => {
     });
 
   try {
-    const { password } = await req.json();
-    const adminPassword = Deno.env.get("ADMIN_PASSWORD");
-    if (!adminPassword || password !== adminPassword) {
+    const { email, password } = await req.json();
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+    if (!(await verifyAdmin(email, password, supabase))) {
       return new Response(JSON.stringify({ ok: false, error: "Unauthorized" }), {
         status: 401,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
-
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
 
     // 1) Cleanup any leftover test rows first
     await supabase.from("discovery_submissions").delete().eq("full_name", TEST_MARKER);
