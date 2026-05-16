@@ -8,7 +8,7 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageHeader from "@/components/PageHeader";
 import LeafDivider from "@/components/LeafDivider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
 const Services = () => {
@@ -97,9 +97,9 @@ const Services = () => {
 
   return (
     <Layout
-      seoTitle="Services - ProjGrowth | Brand Strategy, Design & Development"
-      seoDescription="Transform your digital presence with our comprehensive services: brand strategy, UI/UX design, web development, and growth marketing. Get a free consultation."
-      seoKeywords="brand strategy services, UI/UX design agency, web development company, digital design studio, growth marketing services, creative agency"
+      seoTitle="Services | Orlando Web Design, Branding & Marketing"
+      seoDescription="Web design, branding, content creation, and digital marketing for Orlando businesses. One Central Florida team, end-to-end."
+      seoKeywords="web design Orlando, branding Orlando, content creation Orlando, digital marketing Orlando, creative agency Orlando"
       canonicalUrl="/services"
     >
       <Helmet>
@@ -138,28 +138,32 @@ const Services = () => {
 
                     <div className="col-span-12 lg:col-span-6">
                       <h2 className="font-display text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
-                        {service.title}
+                        <Link to={service.path} className="hover:text-accent">{service.title}</Link>
                       </h2>
                       <p className="text-base md:text-lg text-mute mb-4 md:mb-6">
                         {service.description}
                       </p>
 
-                      <button
-                        onClick={() => toggleService(idx)}
-                        className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
-                      >
-                        {expandedService === idx ? (
-                          <>
-                            <span>Show less</span>
-                            <ChevronUp className="w-4 h-4" />
-                          </>
-                        ) : (
-                          <>
-                            <span>Learn more</span>
-                            <ChevronDown className="w-4 h-4" />
-                          </>
-                        )}
-                      </button>
+                      <div className="flex flex-wrap items-center gap-4">
+                        <button
+                          onClick={() => toggleService(idx)}
+                          className="inline-flex items-center gap-2 text-sm font-medium text-mute hover:text-accent transition-colors min-h-[44px]"
+                          aria-expanded={expandedService === idx}
+                        >
+                          {expandedService === idx ? (
+                            <><span>Show less</span><ChevronUp className="w-4 h-4" /></>
+                          ) : (
+                            <><span>Quick view</span><ChevronDown className="w-4 h-4" /></>
+                          )}
+                        </button>
+                        <Link
+                          to={service.path}
+                          className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
+                        >
+                          See full page
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
                     </div>
 
                     <div className="col-span-12 lg:col-span-4">
