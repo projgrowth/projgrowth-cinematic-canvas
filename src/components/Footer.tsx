@@ -21,7 +21,7 @@ const Footer = () => {
   return (
     <footer className="border-t border-line bg-base">
       <div className="container-site py-section">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-3 mb-8 md:mb-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-cards mb-12">
           {/* Brand */}
           <div className="space-y-4">
             <Link 
@@ -31,7 +31,7 @@ const Footer = () => {
               <img src={pgLogo} alt="" className="h-6 w-auto logo-accent-hover" />
               ProjGrowth
             </Link>
-            <p className="text-sm text-text/70">
+            <p className="text-sm text-mute">
               Orlando's boutique digital marketing agency focused on web design, branding, and growth.
             </p>
           </div>
@@ -50,7 +50,7 @@ const Footer = () => {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-sm text-text/70 hover:text-accent transition-colors duration-sm"
+                    className="text-sm text-mute hover:text-accent transition-colors duration-sm"
                   >
                     {link.label}
                   </Link>
@@ -72,7 +72,7 @@ const Footer = () => {
                 <li key={service.path}>
                   <Link
                     to={service.path}
-                    className="text-sm text-text/70 hover:text-accent transition-colors duration-sm"
+                    className="text-sm text-mute hover:text-accent transition-colors duration-sm"
                   >
                     {service.label}
                   </Link>
@@ -88,7 +88,7 @@ const Footer = () => {
               <QuickContactForm />
               <a
                 href={`mailto:${contactEmail}`}
-                className="flex items-center gap-2 text-sm text-text/70 hover:text-accent transition-colors duration-sm"
+                className="flex items-center gap-2 text-sm text-mute hover:text-accent transition-colors duration-sm"
               >
                 <Mail className="w-4 h-4" />
                 {contactEmail}
@@ -101,7 +101,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="btn-interactive p-2 rounded-md border border-line bg-surface text-text/80 hover:text-accent hover:border-accent hover:bg-accent/10"
+                    className="btn-interactive p-2 rounded-md border border-line bg-surface text-mute hover:text-accent hover:border-accent hover:bg-accent/10"
                   >
                     <social.icon className="w-4 h-4" />
                   </a>
@@ -113,19 +113,19 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-6 md:pt-8 border-t border-line flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
-          <p className="text-xs md:text-sm text-text/60 text-center md:text-left">
+          <p className="text-xs md:text-sm text-mute text-center md:text-left">
             © {currentYear} ProjGrowth. All rights reserved.
           </p>
           <div className="flex gap-4 md:gap-6">
             <Link
               to="/privacy"
-              className="text-xs md:text-sm text-text/70 hover:text-accent transition-colors duration-sm"
+              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
-              className="text-xs md:text-sm text-text/70 hover:text-accent transition-colors duration-sm"
+              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
             >
               Terms of Service
             </Link>
