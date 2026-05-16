@@ -1,7 +1,10 @@
 import { ReactNode } from "react";
+import { Helmet } from "react-helmet-async";
 
 export function DiscoveryShell({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   return (
+    <>
+    <Helmet><meta name="robots" content="noindex,nofollow" /></Helmet>
     <div style={{
       minHeight: "100vh",
       background: "hsl(240 6% 5%)",
