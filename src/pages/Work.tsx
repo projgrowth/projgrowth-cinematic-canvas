@@ -105,7 +105,7 @@ const Work = () => {
   return (
     <Layout
       seoTitle="Our Work - ProjGrowth | Portfolio & Case Studies"
-      seoDescription="Explore our portfolio of successful brand strategy, web design, and content system projects. See how we've helped businesses like GFG Solutions, Smart Financial, and more grow their digital presence."
+      seoDescription="Explore our portfolio of brand strategy, web design, and content projects helping businesses like GFG Solutions and Smart Financial grow."
       seoKeywords="portfolio, case studies, brand strategy examples, web design portfolio, content systems, cinematic production, digital projects"
       canonicalUrl="/work"
     >
