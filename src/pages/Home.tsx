@@ -81,8 +81,8 @@ const Home = () => {
 
   return (
     <Layout
-      seoTitle="ProjGrowth | Orlando Digital Marketing Agency | Web Design & Branding"
-      seoDescription="Orlando's boutique digital marketing agency. We create stunning websites, powerful brands, and strategic content that helps businesses grow. Get a free consultation today."
+      seoTitle="ProjGrowth | Orlando Digital Marketing Agency"
+      seoDescription="Orlando's boutique digital marketing agency. Websites, branding, and content strategy that helps businesses grow."
       seoKeywords="digital marketing agency Orlando, web design Orlando, branding agency Orlando, content creation Orlando, Orlando marketing company, SEO Orlando"
       canonicalUrl="/"
     >
