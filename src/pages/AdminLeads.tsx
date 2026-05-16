@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Check, X, Loader2, Lock, Download } from "lucide-react";
 
@@ -254,6 +255,7 @@ const AdminLeads = () => {
   if (!authenticated) {
     return (
       <div className="min-h-screen bg-base flex items-center justify-center p-4">
+        <Helmet><meta name="robots" content="noindex,nofollow" /></Helmet>
         <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4">
           <div className="text-center mb-8">
             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-surface border border-line flex items-center justify-center">
