@@ -13,31 +13,43 @@ User-agent: Googlebot
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /discovery
+Disallow: /portfolio
 
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /discovery
+Disallow: /portfolio
 
 User-agent: Slurp
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /discovery
+Disallow: /portfolio
 
 User-agent: DuckDuckBot
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /discovery
+Disallow: /portfolio
 
 User-agent: Baiduspider
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /discovery
+Disallow: /portfolio
 
 User-agent: YandexBot
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /discovery
+Disallow: /portfolio
 
 
 # ============================================================
@@ -117,6 +129,8 @@ Disallow: /functions/
 
 # --- Admin & internal areas ---
 Disallow: /admin/
+Disallow: /discovery
+Disallow: /portfolio
 Disallow: /dashboard/
 
 # --- Private user data ---
