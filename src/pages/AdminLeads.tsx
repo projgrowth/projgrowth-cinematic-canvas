@@ -279,7 +279,7 @@ const AdminLeads = () => {
             className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
             required
           />
-          {error && <p className="text-sm text-red-400">{error}</p>}
+          {error && <p className="text-sm text-destructive">{error}</p>}
           <button
             type="submit"
             disabled={loading}
@@ -317,8 +317,8 @@ const AdminLeads = () => {
           <div
             className={`mb-6 p-4 rounded-lg border text-sm ${
               selfTestResult.ok
-                ? "border-green-500/40 bg-green-500/5"
-                : "border-red-500/40 bg-red-500/5"
+                ? "border-success/40 bg-success/5"
+                : "border-destructive/40 bg-destructive/5"
             }`}
           >
             <div className="flex items-center justify-between mb-2">
@@ -333,17 +333,17 @@ const AdminLeads = () => {
               </button>
             </div>
             {selfTestResult.error && (
-              <div className="text-red-400 text-xs mb-2">{selfTestResult.error}</div>
+              <div className="text-destructive text-xs mb-2">{selfTestResult.error}</div>
             )}
             <ul className="space-y-1 text-xs">
               {selfTestResult.steps.map((s, i) => (
                 <li key={i} className="flex items-start gap-2">
                   {s.ok ? (
-                    <Check className="w-3 h-3 text-green-400 mt-0.5 flex-shrink-0" />
+                    <Check className="w-3 h-3 text-success mt-0.5 flex-shrink-0" />
                   ) : (
-                    <X className="w-3 h-3 text-red-400 mt-0.5 flex-shrink-0" />
+                    <X className="w-3 h-3 text-destructive mt-0.5 flex-shrink-0" />
                   )}
-                  <span className={s.ok ? "text-mute" : "text-red-400"}>
+                  <span className={s.ok ? "text-mute" : "text-destructive"}>
                     {s.step}
                     {s.detail ? <span className="text-mute/60"> — {s.detail}</span> : null}
                   </span>
@@ -409,9 +409,9 @@ const AdminLeads = () => {
                   <td className="p-3 text-mute">{sub.source || "—"}</td>
                   <td className="p-3">
                     {sub.email_sent ? (
-                      <Check className="w-4 h-4 text-green-400" />
+                      <Check className="w-4 h-4 text-success" />
                     ) : (
-                      <X className="w-4 h-4 text-red-400" />
+                      <X className="w-4 h-4 text-destructive" />
                     )}
                   </td>
                 </tr>
@@ -446,7 +446,7 @@ const AdminLeads = () => {
                       {d.engagement_tier && <span className="pill-accent">{d.engagement_tier}</span>}
                       {d.confidence && <span className="pill-neutral">{d.confidence}</span>}
                       {typeof d.quality_score === "number" && (
-                        <span className={`text-xs px-2 py-0.5 rounded border ${d.quality_score >= 75 ? "border-green-500/40 text-green-400" : d.quality_score >= 50 ? "border-yellow-500/40 text-yellow-400" : "border-red-500/40 text-red-400"}`}>
+                        <span className={`text-xs px-2 py-0.5 rounded border ${d.quality_score >= 75 ? "border-success/40 text-success" : d.quality_score >= 50 ? "border-warning/40 text-warning" : "border-destructive/40 text-destructive"}`}>
                           {d.quality_score}/100
                         </span>
                       )}
@@ -463,7 +463,7 @@ const AdminLeads = () => {
                       <span className="text-mute text-xs">
                         {new Date(d.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                       </span>
-                      {d.email_sent ? <Check className="w-4 h-4 text-green-400" /> : <X className="w-4 h-4 text-red-400" />}
+                      {d.email_sent ? <Check className="w-4 h-4 text-success" /> : <X className="w-4 h-4 text-destructive" />}
                     </div>
                   </button>
                   {isOpen && (

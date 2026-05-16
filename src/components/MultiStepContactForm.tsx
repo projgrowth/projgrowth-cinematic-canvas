@@ -472,11 +472,11 @@ Company: ${formData.company || "Not provided"}
                     if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
                   }}
                   className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm ${
-                    errors.name ? "border-red-500" : "border-line"
+                    errors.name ? "border-destructive" : "border-line"
                   }`}
                   placeholder="Your name"
                 />
-                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+                {errors.name && <p className="mt-1 text-sm text-destructive">{errors.name}</p>}
               </div>
 
               <div>
@@ -492,11 +492,11 @@ Company: ${formData.company || "Not provided"}
                     if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
                   }}
                   className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm ${
-                    errors.email ? "border-red-500" : "border-line"
+                    errors.email ? "border-destructive" : "border-line"
                   }`}
                   placeholder="your@email.com"
                 />
-                {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+                {errors.email && <p className="mt-1 text-sm text-destructive">{errors.email}</p>}
               </div>
 
               <div>
