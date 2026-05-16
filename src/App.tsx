@@ -3,237 +3,70 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { lazy, Suspense } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import PageTransition from "@/components/PageTransition";
+import PageLoader from "@/components/PageLoader";
 import useAnalytics from "@/hooks/useAnalytics";
-import Home from "./pages/Home";
-import Work from "./pages/Work";
-import CaseStudyDetail from "./pages/CaseStudyDetail";
-import Portfolio from "./pages/Portfolio";
-import Services from "./pages/Services";
-import WebDesign from "./pages/services/WebDesign";
-import Branding from "./pages/services/Branding";
-import ContentCreation from "./pages/services/ContentCreation";
-import DigitalMarketing from "./pages/services/DigitalMarketing";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-import NotFound from "./pages/NotFound";
-import AdminLeads from "./pages/AdminLeads";
-import Discovery from "./pages/Discovery";
 
-const pageVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 }
-};
+const Home = lazy(() => import("./pages/Home"));
+const Work = lazy(() => import("./pages/Work"));
+const CaseStudyDetail = lazy(() => import("./pages/CaseStudyDetail"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const Services = lazy(() => import("./pages/Services"));
+const WebDesign = lazy(() => import("./pages/services/WebDesign"));
+const Branding = lazy(() => import("./pages/services/Branding"));
+const ContentCreation = lazy(() => import("./pages/services/ContentCreation"));
+const DigitalMarketing = lazy(() => import("./pages/services/DigitalMarketing"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminLeads = lazy(() => import("./pages/AdminLeads"));
+const Discovery = lazy(() => import("./pages/Discovery"));
 
-const pageTransition = {
-  duration: 0.2,
-  ease: "easeInOut" as const
-};
+const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
+  { path: "/", element: <Home /> },
+  { path: "/work", element: <Work /> },
+  { path: "/work/:slug", element: <CaseStudyDetail /> },
+  { path: "/portfolio", element: <Portfolio /> },
+  { path: "/services", element: <Services /> },
+  { path: "/services/web-design", element: <WebDesign /> },
+  { path: "/services/branding", element: <Branding /> },
+  { path: "/services/content-creation", element: <ContentCreation /> },
+  { path: "/services/digital-marketing", element: <DigitalMarketing /> },
+  { path: "/about", element: <About /> },
+  { path: "/blog", element: <Blog /> },
+  { path: "/blog/:slug", element: <BlogPost /> },
+  { path: "/contact", element: <Contact /> },
+  { path: "/privacy", element: <Privacy /> },
+  { path: "/terms", element: <Terms /> },
+  { path: "/admin/leads", element: <AdminLeads /> },
+  { path: "/discovery", element: <Discovery />, raw: true },
+  { path: "*", element: <NotFound /> },
+];
 
 const AnimatedRoutes = () => {
   const location = useLocation();
-  
-  // Track page views on route changes
   useAnalytics();
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Home />
-          </motion.div>
-        } />
-        <Route path="/work" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Work />
-          </motion.div>
-        } />
-        <Route path="/work/:slug" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <CaseStudyDetail />
-          </motion.div>
-        } />
-        <Route path="/portfolio" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Portfolio />
-          </motion.div>
-        } />
-        <Route path="/services" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Services />
-          </motion.div>
-        } />
-        <Route path="/services/web-design" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <WebDesign />
-          </motion.div>
-        } />
-        <Route path="/services/branding" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Branding />
-          </motion.div>
-        } />
-        <Route path="/services/content-creation" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <ContentCreation />
-          </motion.div>
-        } />
-        <Route path="/services/digital-marketing" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <DigitalMarketing />
-          </motion.div>
-        } />
-        <Route path="/about" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <About />
-          </motion.div>
-        } />
-        <Route path="/blog" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Blog />
-          </motion.div>
-        } />
-        <Route path="/blog/:slug" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <BlogPost />
-          </motion.div>
-        } />
-        <Route path="/contact" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Contact />
-          </motion.div>
-        } />
-        <Route path="/privacy" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Privacy />
-          </motion.div>
-        } />
-        <Route path="/terms" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <Terms />
-          </motion.div>
-        } />
-        <Route path="/admin/leads" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <AdminLeads />
-          </motion.div>
-        } />
-        <Route path="/discovery" element={<Discovery />} />
-        <Route path="*" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <NotFound />
-          </motion.div>
-        } />
-      </Routes>
+      <Suspense fallback={<PageLoader isLoading={true} />}>
+        <Routes location={location} key={location.pathname}>
+          {routes.map(({ path, element, raw }) => (
+            <Route
+              key={path}
+              path={path}
+              element={raw ? element : <PageTransition>{element}</PageTransition>}
+            />
+          ))}
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 };
