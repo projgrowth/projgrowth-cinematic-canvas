@@ -1,0 +1,26 @@
+# ProjGrowth
+
+> Orlando-based creative studio specializing in brand strategy, web design, content creation, and digital marketing. We craft digital experiences that help businesses grow.
+
+ProjGrowth partners with founders and growing companies to design and build modern websites, develop distinctive brand identities, produce content, and run digital marketing programs. Based in Orlando, FL, serving clients nationwide.
+
+## Pages
+
+- [Home](/): Overview of services, featured work, and studio philosophy.
+- [About](/about): Studio story, values, and approach.
+- [Services](/services): Brand strategy, web design, content, and marketing capabilities.
+- [Work](/work): Portfolio of client case studies and projects.
+- [Blog](/blog): Articles on design, branding, and digital growth.
+- [Contact](/contact): Start a project or get in touch.
+
+## Services
+
+- [Web Design](/services/web-design): Modern, conversion-focused websites.
+- [Branding](/services/branding): Identity systems and brand strategy.
+- [Content Creation](/services/content-creation): Photo, video, and editorial content.
+- [Digital Marketing](/services/digital-marketing): SEO, paid media, and growth strategy.
+
+## Optional
+
+- [Privacy Policy](/privacy)
+- [Terms of Service](/terms)
