@@ -25,6 +25,7 @@ const MobileNav = () => {
   const mainLinks = [
     { path: "/", label: "Home" },
     { path: "/work", label: "Portfolio" },
+    { path: "/blog", label: "Blog" },
     { path: "/about", label: "About" },
     { path: "/contact", label: "Contact" },
   ];
