@@ -40,5 +40,6 @@ export function DiscoveryShell({ children, wide = false }: { children: ReactNode
         {children}
       </div>
     </div>
+    </>
   );
 }
