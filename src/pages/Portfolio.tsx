@@ -5,6 +5,7 @@
 
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Portfolio = () => {
   const navigate = useNavigate();
@@ -17,7 +18,11 @@ const Portfolio = () => {
     navigate(destination, { replace: true });
   }, [navigate, searchParams]);
 
-  return null;
+  return (
+    <Helmet>
+      <meta name="robots" content="noindex,follow" />
+    </Helmet>
+  );
 };
 
 export default Portfolio;
