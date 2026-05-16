@@ -65,7 +65,7 @@ const Layout = ({
       </a>
       
       <Navigation />
-      <main id="main-content" className="pt-20 flex-1">
+      <main id="main-content" className="flex-1" style={{ paddingTop: "var(--nav-height)" }}>
         {children}
       </main>
       {!suppressCTA && <GlobalCTA />}
