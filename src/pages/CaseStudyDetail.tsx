@@ -236,7 +236,7 @@ const CaseStudyDetail = () => {
 
             {/* The Impact */}
             <ScrollReveal variant="fade-up" delay={0.2}>
-              <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-xl border border-accent/20">
+              <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-lg border border-accent/20">
                 <h2 className="font-display text-text mb-4">Why It Matters</h2>
                 <p className="text-lg md:text-xl text-mute">
                   {caseStudy.whyItMatters}

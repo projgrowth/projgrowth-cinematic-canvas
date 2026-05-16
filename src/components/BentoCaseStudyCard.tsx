@@ -49,7 +49,7 @@ const BentoCaseStudyCard = ({
 
   return (
     <motion.article
-      className={`group relative overflow-hidden rounded-xl border border-line bg-surface cursor-pointer h-full w-full ${aspectClass}`}
+      className={`group relative overflow-hidden rounded-lg border border-line bg-surface cursor-pointer h-full w-full ${aspectClass}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
@@ -193,7 +193,7 @@ const BentoCaseStudyCard = ({
 
       {/* Hover border glow */}
       <motion.div
-        className="absolute inset-0 rounded-xl pointer-events-none"
+        className="absolute inset-0 rounded-lg pointer-events-none"
         animate={{
           boxShadow: isHovered 
             ? '0 0 0 1px hsl(var(--accent) / 0.5), 0 25px 50px -12px hsl(var(--accent) / 0.15)' 

@@ -1,17 +1,9 @@
-## Add Blog to MobileNav `mainLinks`
+## Swap `rounded-xl` for `rounded-lg` (token radius)
 
-In `src/components/MobileNav.tsx`, insert a Blog entry into the flat `mainLinks` array (the one currently holding Home / Portfolio / About / Contact — Services is handled separately as an expandable submenu, so "between Portfolio and Services" maps to "right after Portfolio" here).
+Tailwind's `xl` radius is not in our design tokens; `rounded-lg` maps to `--radius-lg` (1.5rem). Replace all 3 occurrences:
 
-Use the existing `path` key (not `href`) to match the array's schema.
+- `src/pages/CaseStudyDetail.tsx:239` — outer "What changed" gradient card
+- `src/components/BentoCaseStudyCard.tsx:52` — card root
+- `src/components/BentoCaseStudyCard.tsx:196` — inner glow overlay
 
-```tsx
-const mainLinks = [
-  { path: "/", label: "Home" },
-  { path: "/work", label: "Portfolio" },
-  { path: "/blog", label: "Blog" },   // new
-  { path: "/about", label: "About" },
-  { path: "/contact", label: "Contact" },
-];
-```
-
-No other changes. The desktop `Navigation.tsx` already has Blog and is untouched.
+Single string replacement `rounded-xl` → `rounded-lg` in those two files. No other changes.
