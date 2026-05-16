@@ -35,7 +35,7 @@ const About = () => {
   return (
     <Layout
       seoTitle="About Us - ProjGrowth | Digital Design Studio in the US"
-      seoDescription="Meet the team behind ProjGrowth. We're strategists, designers, and developers passionate about creating digital experiences that transform businesses and drive growth."
+      seoDescription="Meet ProjGrowth — strategists, designers, and developers creating digital experiences that help businesses grow."
       seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
     >
