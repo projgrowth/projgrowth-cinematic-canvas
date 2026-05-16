@@ -70,7 +70,7 @@
     --shadow-none: none;
     --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.2);
     --shadow-elegant: 0 8px 32px -8px rgba(0, 0, 0, 0.15);
-    --shadow-glow-accent: 0 8px 40px -10px rgba(68, 160, 120, 0.15);
+    --shadow-glow-accent: 0 8px 40px -10px hsl(var(--accent) / 0.15);
     --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 
     /* Gradients */
