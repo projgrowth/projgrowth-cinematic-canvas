@@ -95,12 +95,13 @@
     --section-py-lg: clamp(6rem, 12vw, 12rem); /* 96px -> 192px */
     --header-mb: clamp(2rem, 4vw, 4rem); /* 32px -> 64px */
     --gap-cards: clamp(1.5rem, 3vw, 2.5rem); /* 24px -> 40px */
+    --nav-height: 5rem; /* fixed header offset */
 
-    /* Motion - Enhanced for All Devices */
-    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
-    --duration-xs: 140ms;
-    --duration-sm: 220ms;
-    --duration-md: 360ms;
+    /* Status colors (HSL) */
+    --success: 142 65% 45%;
+    --warning: 38 92% 55%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 40 10% 96%;
   }
 }
 
@@ -165,14 +166,8 @@
     line-height: clamp(1.25rem, 1.2vw + 0.8rem, 1.5rem); /* 20px -> 24px */
   }
 
-  /* Heading reset: when .font-display is applied, trust the global fluid clamp.
-     Uses :where() for zero specificity so explicit overrides still work if needed. */
-  :where(h1, h2, h3, h4).font-display {
-    font-size: inherit;
-  }
-  :where(h1).font-display { font-size: clamp(2.25rem, 3.2vw + 1.25rem, 4.25rem); }
-  :where(h2).font-display { font-size: clamp(1.625rem, 2.2vw + 0.875rem, 2.75rem); }
-  :where(h3).font-display { font-size: clamp(1.125rem, 1.2vw + 0.625rem, 1.625rem); }
+  /* Heading reset: when .font-display is applied, inherit the global fluid clamp above. */
+  :where(h1, h2, h3, h4).font-display { font-size: inherit; }
 }
 
 @layer components {

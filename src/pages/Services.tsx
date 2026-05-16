@@ -8,7 +8,7 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageHeader from "@/components/PageHeader";
 import LeafDivider from "@/components/LeafDivider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
 const Services = () => {
@@ -18,56 +18,60 @@ const Services = () => {
   const services = [
     {
       number: "01",
-      title: "Brand Strategy",
-      description: "We help you define your unique position in the market and build a brand that truly resonates.",
+      title: "Web Design",
+      path: "/services/web-design",
+      description: "Custom, mobile-responsive websites that look stunning and turn Orlando visitors into customers.",
       capabilities: [
-        { name: "Brand Identity", tooltip: "Logo, color palette, typography, and visual language that represents your brand" },
-        { name: "Positioning", tooltip: "Define your unique value proposition and market differentiation" },
-        { name: "Messaging", tooltip: "Craft compelling brand voice, tone, and key messages" },
-        { name: "Guidelines", tooltip: "Comprehensive brand standards to ensure consistency across all touchpoints" }
+        { name: "Custom Design", tooltip: "Tailored to your brand — never a template" },
+        { name: "Mobile Responsive", tooltip: "Flawless on every screen size, from phone to desktop" },
+        { name: "Conversion Focused", tooltip: "Layouts, copy, and CTAs engineered to convert visitors" },
+        { name: "SEO Foundations", tooltip: "Fast loads, clean markup, structured data baked in" },
       ],
-      details: "Our brand strategy service goes beyond aesthetics. We conduct deep market research, competitor analysis, and audience profiling to create a brand that not only looks great but strategically positions you for success. From workshops to deliverable guidelines, we ensure your brand tells a cohesive story.",
-      deliverables: ["Brand audit", "Positioning statement", "Visual identity system", "Brand guidelines", "Messaging framework"]
+      details: "We design and build websites end-to-end — discovery, UX, visual design, development, and launch. Every site is built on a modern stack, optimized for Core Web Vitals, and handed off with documentation so your team can update content with confidence.",
+      deliverables: ["Discovery & sitemap", "Wireframes & visual design", "Responsive build", "SEO foundation", "Analytics setup", "Launch & training"],
     },
     {
       number: "02",
-      title: "Digital Design",
-      description: "Beautiful, functional interfaces crafted with attention to detail and user experience at the core.",
+      title: "Branding",
+      path: "/services/branding",
+      description: "Strategic brand identity systems that make your Orlando business memorable and distinctive.",
       capabilities: [
-        { name: "UI/UX Design", tooltip: "User-centered interfaces that are both beautiful and intuitive" },
-        { name: "Product Design", tooltip: "End-to-end product design from concept to high-fidelity prototypes" },
-        { name: "Prototyping", tooltip: "Interactive prototypes to test and validate design decisions" },
-        { name: "Design Systems", tooltip: "Scalable component libraries for consistent product experiences" }
+        { name: "Logo & Identity", tooltip: "Primary logo, marks, lockups, and supporting elements" },
+        { name: "Positioning", tooltip: "Define what makes you different and who you're for" },
+        { name: "Visual System", tooltip: "Color, typography, and imagery direction" },
+        { name: "Brand Guidelines", tooltip: "A clear playbook so your brand stays consistent everywhere" },
       ],
-      details: "We blend aesthetics with usability to create digital experiences that users love. Our process includes user research, wireframing, visual design, and iterative prototyping. We design with accessibility and responsiveness in mind, ensuring your product works beautifully on every device.",
-      deliverables: ["User research insights", "Wireframes & user flows", "High-fidelity mockups", "Interactive prototypes", "Design system documentation"]
+      details: "From founders rebranding to new ventures launching, we develop brand identities rooted in strategy. We start with positioning, then translate it into a visual system you can apply across digital, print, and environment.",
+      deliverables: ["Brand strategy workshop", "Positioning statement", "Logo system", "Color & typography", "Brand guidelines PDF"],
     },
     {
       number: "03",
-      title: "Development",
-      description: "Modern, scalable web applications built with best practices and cutting-edge technologies.",
+      title: "Content Creation",
+      path: "/services/content-creation",
+      description: "Story-driven content — copy, photo, and video — that connects with your audience.",
       capabilities: [
-        { name: "Web Development", tooltip: "Custom websites and web apps using React, Next.js, and modern frameworks" },
-        { name: "Mobile Apps", tooltip: "Native and cross-platform mobile applications" },
-        { name: "API Integration", tooltip: "Seamless integration with third-party services and internal systems" },
-        { name: "Performance", tooltip: "Optimized code for lightning-fast load times and smooth interactions" }
+        { name: "Copywriting", tooltip: "Website copy, campaigns, and editorial that sells without selling" },
+        { name: "Photography", tooltip: "Brand and product photography for web and social" },
+        { name: "Video Production", tooltip: "Brand films, social cutdowns, and testimonial reels" },
+        { name: "Social Content", tooltip: "Platform-native content built to perform organically" },
       ],
-      details: "Our development team builds robust, maintainable applications using the latest technologies. We follow agile methodologies, write clean code, and prioritize performance and security. Every project includes thorough testing, documentation, and post-launch support.",
-      deliverables: ["Technical architecture", "Clean, documented code", "Responsive web application", "API documentation", "Deployment & hosting setup"]
+      details: "We produce content the way modern brands actually use it — efficiently, in batches, designed to be cut down for multiple channels. One shoot day, weeks of content.",
+      deliverables: ["Content strategy", "Photo & video shoot", "Edited deliverables", "Social-ready cutdowns", "Copy & captions"],
     },
     {
       number: "04",
-      title: "Growth",
-      description: "Data-driven strategies to accelerate your growth and maximize your digital presence.",
+      title: "Digital Marketing",
+      path: "/services/digital-marketing",
+      description: "Full-funnel digital marketing — SEO, paid, email, and social — measured against real ROI.",
       capabilities: [
-        { name: "SEO", tooltip: "Search engine optimization to improve organic visibility and rankings" },
-        { name: "Content Strategy", tooltip: "Strategic content planning to engage and convert your audience" },
-        { name: "Analytics", tooltip: "Data tracking and insights to measure and optimize performance" },
-        { name: "Conversion Optimization", tooltip: "A/B testing and UX improvements to maximize conversions" }
+        { name: "SEO", tooltip: "Local + organic search optimization for Orlando and Central Florida" },
+        { name: "Paid Advertising", tooltip: "Google Ads and Meta campaigns that hit a target CPA" },
+        { name: "Email Marketing", tooltip: "Lifecycle, nurture, and broadcast campaigns" },
+        { name: "Analytics & Reporting", tooltip: "Honest, channel-by-channel reporting tied to revenue" },
       ],
-      details: "Growth isn't just about traffic—it's about the right traffic. We use data analytics, user behavior insights, and continuous optimization to drive meaningful results. From SEO to conversion rate optimization, we help you achieve sustainable growth.",
-      deliverables: ["SEO audit & strategy", "Content calendar", "Analytics dashboard setup", "Conversion funnel analysis", "Monthly performance reports"]
-    }
+      details: "We run digital marketing as a system, not a checklist. Each channel reports into a shared dashboard so you can see what's working and reinvest in what's actually moving the business.",
+      deliverables: ["Channel audit", "Keyword + audience research", "Campaign build & launch", "Monthly optimization", "Performance dashboard"],
+    },
   ];
 
   const toggleService = (idx: number) => {
@@ -93,9 +97,9 @@ const Services = () => {
 
   return (
     <Layout
-      seoTitle="Services - ProjGrowth | Brand Strategy, Design & Development"
-      seoDescription="Transform your digital presence with our comprehensive services: brand strategy, UI/UX design, web development, and growth marketing. Get a free consultation."
-      seoKeywords="brand strategy services, UI/UX design agency, web development company, digital design studio, growth marketing services, creative agency"
+      seoTitle="Services | Orlando Web Design, Branding & Marketing"
+      seoDescription="Web design, branding, content creation, and digital marketing for Orlando businesses. One Central Florida team, end-to-end."
+      seoKeywords="web design Orlando, branding Orlando, content creation Orlando, digital marketing Orlando, creative agency Orlando"
       canonicalUrl="/services"
     >
       <Helmet>
@@ -134,28 +138,32 @@ const Services = () => {
 
                     <div className="col-span-12 lg:col-span-6">
                       <h2 className="font-display text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
-                        {service.title}
+                        <Link to={service.path} className="hover:text-accent">{service.title}</Link>
                       </h2>
                       <p className="text-base md:text-lg text-mute mb-4 md:mb-6">
                         {service.description}
                       </p>
 
-                      <button
-                        onClick={() => toggleService(idx)}
-                        className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
-                      >
-                        {expandedService === idx ? (
-                          <>
-                            <span>Show less</span>
-                            <ChevronUp className="w-4 h-4" />
-                          </>
-                        ) : (
-                          <>
-                            <span>Learn more</span>
-                            <ChevronDown className="w-4 h-4" />
-                          </>
-                        )}
-                      </button>
+                      <div className="flex flex-wrap items-center gap-4">
+                        <button
+                          onClick={() => toggleService(idx)}
+                          className="inline-flex items-center gap-2 text-sm font-medium text-mute hover:text-accent transition-colors min-h-[44px]"
+                          aria-expanded={expandedService === idx}
+                        >
+                          {expandedService === idx ? (
+                            <><span>Show less</span><ChevronUp className="w-4 h-4" /></>
+                          ) : (
+                            <><span>Quick view</span><ChevronDown className="w-4 h-4" /></>
+                          )}
+                        </button>
+                        <Link
+                          to={service.path}
+                          className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:gap-3 transition-all duration-sm min-h-[44px]"
+                        >
+                          See full page
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
                     </div>
 
                     <div className="col-span-12 lg:col-span-4">

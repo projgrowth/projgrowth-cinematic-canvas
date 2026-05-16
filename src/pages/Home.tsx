@@ -1,6 +1,6 @@
 import { Section } from "@/components/ui/section";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import FeaturedWorkSlider from "@/components/FeaturedWorkSlider";
@@ -28,6 +28,7 @@ const heroWords = [
 
 const Home = () => {
   const [isLoadingWork, setIsLoadingWork] = useState(true);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoadingWork(false), 800);
@@ -103,13 +104,9 @@ const Home = () => {
                 <motion.span
                   key={i}
                   className={`block ${word.accent ? "text-accent" : ""}`}
-                  initial={{ opacity: 0, y: 30, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{
-                    duration: 0.6,
-                    delay: i * 0.15,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
+                  initial={reduceMotion ? false : { opacity: 0, y: 30, filter: "blur(4px)" }}
+                  animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   {word.text}
                 </motion.span>
