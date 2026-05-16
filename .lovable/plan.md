@@ -1,15 +1,17 @@
-## Replace hardcoded glow shadow with accent token
+## Add Blog to MobileNav `mainLinks`
 
-In `src/index.css`, update the `--shadow-glow-accent` token to use the design system's accent variable instead of a hardcoded RGBA value.
+In `src/components/MobileNav.tsx`, insert a Blog entry into the flat `mainLinks` array (the one currently holding Home / Portfolio / About / Contact — Services is handled separately as an expandable submenu, so "between Portfolio and Services" maps to "right after Portfolio" here).
 
-**Change (single line in `:root`):**
+Use the existing `path` key (not `href`) to match the array's schema.
 
-```css
-/* before */
---shadow-glow-accent: 0 8px 40px -10px rgba(68, 160, 120, 0.15);
-
-/* after */
---shadow-glow-accent: 0 8px 40px -10px hsl(var(--accent) / 0.15);
+```tsx
+const mainLinks = [
+  { path: "/", label: "Home" },
+  { path: "/work", label: "Portfolio" },
+  { path: "/blog", label: "Blog" },   // new
+  { path: "/about", label: "About" },
+  { path: "/contact", label: "Contact" },
+];
 ```
 
-No other files or tokens are touched.
+No other changes. The desktop `Navigation.tsx` already has Blog and is untouched.
