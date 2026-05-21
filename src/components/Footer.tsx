@@ -118,6 +118,12 @@ const Footer = () => {
           </p>
           <div className="flex gap-4 md:gap-6">
             <Link
+              to="/admin/leads"
+              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
+            >
+              Admin
+            </Link>
+            <Link
               to="/privacy"
               className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
             >
