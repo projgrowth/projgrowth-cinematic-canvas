@@ -7,6 +7,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        /* RGC pitch palette — scoped to /rgc route */
+        bone: "#ede7d6",
+        paper: "#f5f0e8",
+        pencil: "#2a2a1e",
+        ink: "#1a1a14",
+        graphite: "#5c5a52",
+        forest: "#14241a",
+        fairway: "#1b2b1f",
+        oxblood: "#8c2f2a",
+        rough: "#c9c1a8",
+        /* Projgrowth palette */
         base: "hsl(var(--base))",
         surface: "hsl(var(--surface))",
         text: "hsl(var(--text))",

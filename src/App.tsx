@@ -28,6 +28,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminLeads = lazy(() => import("./pages/AdminLeads"));
 const Discovery = lazy(() => import("./pages/Discovery"));
+const RGC = lazy(() => import("./pages/RGC"));
 
 const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
   { path: "/", element: <Home /> },
@@ -47,6 +48,8 @@ const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
   { path: "/terms", element: <Terms /> },
   { path: "/admin/leads", element: <AdminLeads /> },
   { path: "/discovery", element: <Discovery />, raw: true },
+  { path: "/rgc", element: <RGC />, raw: true },
+  { path: "/random-golf-club", element: <RGC />, raw: true },
   { path: "*", element: <NotFound /> },
 ];
 
