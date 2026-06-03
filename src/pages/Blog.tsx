@@ -127,11 +127,12 @@ const Blog = () => {
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-accent/5">
-                          <span className="text-accent text-4xl font-bold opacity-50">
-                            {post.title.charAt(0)}
-                          </span>
-                        </div>
+                        <div className="w-full h-full bg-surface"
+                          style={{
+                            backgroundImage: "radial-gradient(hsl(155 48% 54% / 0.08) 1px, transparent 1px)",
+                            backgroundSize: "24px 24px",
+                          }}
+                        />
                       )}
                       <div className="absolute top-4 left-4">
                         <span className="pill-accent">

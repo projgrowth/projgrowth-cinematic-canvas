@@ -13,28 +13,28 @@ const About = () => {
   // PLACEHOLDER — replace with verified numbers
   const stats = [
     { value: "9", label: "Client Partners" },
-    { value: "5", label: "Service Areas" },
-    { value: "Orlando", label: "Based In" },
+    { value: "5", label: "Services Offered" },
+    { value: "3+", label: "Years in Business" },
   ];
 
   const values = [
     {
       title: "Craft",
-      description: "We believe in the power of meticulous attention to detail and thoughtful execution."
+      description: "Good work takes precision and a refusal to settle. We'd rather ship one exceptional thing than three forgettable ones."
     },
     {
-      title: "Impact",
-      description: "Our work is driven by creating meaningful outcomes that move businesses forward."
+      title: "Clarity",
+      description: "Most brands say too much and mean too little. We cut to what's true, what's different, and what will actually land."
     },
     {
-      title: "Partnership",
-      description: "We work alongside our clients as true partners, invested in their success."
+      title: "Compounding",
+      description: "We build things that get better over time — brand systems, content engines, and digital infrastructure that grow with you."
     }
   ];
 
   return (
     <Layout
-      seoTitle="About Us - ProjGrowth | Digital Design Studio in the US"
+      seoTitle="About ProjGrowth | Orlando Digital Marketing Agency"
       seoDescription="Meet ProjGrowth — strategists, designers, and developers creating digital experiences that help businesses grow."
       seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
@@ -43,11 +43,10 @@ const About = () => {
         <ScrollReveal variant="fade-up">
           <PageHeader className="mb-12 md:mb-16">
             <h1 className="font-display text-text mb-5">
-              About Us
+              We Build What Lasts.
             </h1>
             <p className="lede max-w-3xl">
-              We're a team of strategists, designers, and developers who believe in the power 
-              of great design and thoughtful technology to transform businesses.
+              ProjGrowth is a boutique digital studio based in Orlando, FL. We work with founders and marketing leaders who know that design is a competitive advantage — and are ready to act like it.
             </p>
           </PageHeader>
         </ScrollReveal>
@@ -74,8 +73,7 @@ const About = () => {
             </div>
             <div className="col-span-12 lg:col-span-8">
               <p className="text-xl md:text-2xl text-text max-w-readable">
-                To empower businesses with digital solutions that are not only visually stunning 
-                but also strategically sound and technically excellent.
+                Most brands are under-designed and over-explained. We're here to change that — with work that's precise, intentional, and built to outlast the trend cycle.
               </p>
             </div>
           </div>

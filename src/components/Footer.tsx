@@ -32,7 +32,7 @@ const Footer = () => {
               ProjGrowth
             </Link>
             <p className="text-sm text-mute">
-              Orlando's boutique digital marketing agency focused on web design, branding, and growth.
+              Boutique digital studio — based in Orlando, FL. Serving ambitious brands across the US.
             </p>
           </div>
 
@@ -117,12 +117,6 @@ const Footer = () => {
             © {currentYear} ProjGrowth. All rights reserved.
           </p>
           <div className="flex gap-4 md:gap-6">
-            <Link
-              to="/admin/leads"
-              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
-            >
-              Admin
-            </Link>
             <Link
               to="/privacy"
               className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"

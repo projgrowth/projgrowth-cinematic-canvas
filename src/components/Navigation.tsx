@@ -68,18 +68,18 @@ const Navigation = () => {
               aria-label="ProjGrowth - Go to homepage"
             >
               <img src={pgLogo} alt="" className="h-5 md:h-7 w-auto logo-accent-hover" />
-              <span className="hidden xs:inline">ProjGrowth</span>
+              <span className="hidden sm:inline">ProjGrowth</span>
             </Link>
             
             {/* Desktop Navigation */}
-            <ul className="hidden md:flex gap-10" role="list">
+            <ul className="hidden md:flex items-center gap-8 lg:gap-10" role="list">
               {links.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
                     className={`
                       text-sm md:text-base transition-colors duration-sm relative min-h-[44px] flex items-center px-2 focus-ring rounded-sm
-                      ${isActive(link.path) ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-mute hover:text-text'}
+                      ${isActive(link.path) ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-text/60 hover:text-text'}
                     `}
                     aria-current={location.pathname === link.path ? "page" : undefined}
                   >
@@ -88,6 +88,13 @@ const Navigation = () => {
                 </li>
               ))}
             </ul>
+
+            <Link
+              to="/contact"
+              className="hidden md:inline-flex btn-solid text-sm px-5 whitespace-nowrap"
+            >
+              Start a Project
+            </Link>
 
             {/* Mobile Navigation */}
             <div className="md:hidden">

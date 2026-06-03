@@ -97,8 +97,8 @@ const Services = () => {
 
   return (
     <Layout
-      seoTitle="Services | Orlando Web Design, Branding & Marketing"
-      seoDescription="Web design, branding, content creation, and digital marketing for Orlando businesses. One Central Florida team, end-to-end."
+      seoTitle="Services | Web Design, Branding & Marketing — Orlando, FL | ProjGrowth"
+      seoDescription="Web design, brand identity, content creation, and digital marketing for ambitious businesses. Based in Orlando, FL. Working nationwide."
       seoKeywords="web design Orlando, branding Orlando, content creation Orlando, digital marketing Orlando, creative agency Orlando"
       canonicalUrl="/services"
     >
@@ -113,10 +113,10 @@ const Services = () => {
           <ScrollReveal variant="fade-up">
             <PageHeader className="mb-12 md:mb-16">
               <h1 className="font-display text-text mb-5">
-                Our Services
+                The Work We Do Best.
               </h1>
               <p className="lede">
-                Comprehensive digital solutions tailored to your business goals and user needs.
+                We're not a full-service agency that does everything passably. We've built four disciplines to an exceptionally high standard — and we only take on work that fits.
               </p>
             </PageHeader>
           </ScrollReveal>
@@ -124,9 +124,9 @@ const Services = () => {
           <div className="stack gap-0">
             {services.map((service, idx) => (
               <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
-                <div className="group border-t border-line py-12 transition-all duration-md ease-smooth hover:bg-surface/30 relative before:absolute before:left-0 before:top-12 before:bottom-12 before:w-[2px] before:bg-accent before:scale-y-0 before:transition-transform before:duration-sm hover:before:scale-y-100 before:origin-top">
-                  <div className="grid-12 gap-y-8">
-                    <div className="col-span-12 lg:col-span-2">
+                <div className="group border-t border-line py-8 lg:py-12 transition-all duration-md ease-smooth hover:bg-surface/30 relative before:absolute before:left-0 before:top-8 before:bottom-8 before:w-[2px] before:bg-accent before:scale-y-0 before:transition-transform before:duration-sm hover:before:scale-y-100 before:origin-top">
+                  <div className="grid-12 gap-y-4 lg:gap-y-8">
+                    <div className="hidden lg:block col-span-12 lg:col-span-2">
                       <button
                         onClick={() => toggleService(idx)}
                         className="font-display text-accent-faint transition-colors duration-sm ease-smooth group-hover:text-accent cursor-pointer hover:scale-110 transform min-h-[44px]"
@@ -137,8 +137,9 @@ const Services = () => {
                     </div>
 
                     <div className="col-span-12 lg:col-span-6">
-                      <h2 className="font-display text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent">
-                        <Link to={service.path} className="hover:text-accent">{service.title}</Link>
+                      <h2 className="font-display text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent flex items-baseline gap-3">
+                        <span className="lg:hidden text-accent-faint text-base font-display">{service.number}</span>
+                        <Link to={service.path} className="hover:text-accent flex-1">{service.title}</Link>
                       </h2>
                       <p className="text-base md:text-lg text-mute mb-4 md:mb-6">
                         {service.description}
@@ -167,26 +168,25 @@ const Services = () => {
                     </div>
 
                     <div className="col-span-12 lg:col-span-4">
-                      <h3 className="text-sm font-medium text-mute mb-3 md:mb-4">Capabilities</h3>
-                      <ul className="stack gap-3">
+                      {/* Pill tags on mobile/tablet, list on desktop */}
+                      <div className="flex flex-wrap gap-2 lg:hidden">
+                        {service.capabilities.map((cap, i) => (
+                          <span key={i} className="pill-neutral text-xs">{cap.name}</span>
+                        ))}
+                      </div>
+                      <ul className="hidden lg:flex flex-col gap-3">
                         {service.capabilities.map((cap, i) => (
                           <li key={i}>
-                            <div className="hidden md:block">
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <button className="text-text hover:text-accent transition-colors cursor-help text-left text-sm md:text-base min-h-[44px] flex items-center">
-                                    {cap.name}
-                                  </button>
-                                </TooltipTrigger>
-                                <TooltipContent side="left" className="max-w-xs">
-                                  <p className="text-sm">{cap.tooltip}</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </div>
-                            <div className="md:hidden">
-                              <span className="text-text text-sm block">{cap.name}</span>
-                              <span className="text-mute text-xs">{cap.tooltip}</span>
-                            </div>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <button className="text-text/80 hover:text-accent transition-colors cursor-help text-left text-sm min-h-[36px] flex items-center">
+                                  {cap.name}
+                                </button>
+                              </TooltipTrigger>
+                              <TooltipContent side="left" className="max-w-xs">
+                                <p className="text-sm">{cap.tooltip}</p>
+                              </TooltipContent>
+                            </Tooltip>
                           </li>
                         ))}
                       </ul>

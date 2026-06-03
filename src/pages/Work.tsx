@@ -158,39 +158,24 @@ const Work = () => {
                 </div>
 
                 <div className="flex border border-line rounded-md overflow-hidden">
-                  <button
-                    onClick={() => setViewMode("bento")}
-                    className={`p-2 transition-colors ${
-                      viewMode === "bento" 
-                        ? "bg-accent/10 text-accent" 
-                        : "text-mute hover:text-text hover:bg-surface"
-                    }`}
-                    aria-label="Bento view"
-                  >
-                    <LayoutGrid className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className={`p-2 transition-colors ${
-                      viewMode === "grid" 
-                        ? "bg-accent/10 text-accent" 
-                        : "text-mute hover:text-text hover:bg-surface"
-                    }`}
-                    aria-label="Grid view"
-                  >
-                    <Grid3X3 className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className={`p-2 transition-colors ${
-                      viewMode === "list" 
-                        ? "bg-accent/10 text-accent" 
-                        : "text-mute hover:text-text hover:bg-surface"
-                    }`}
-                    aria-label="List view"
-                  >
-                    <List className="w-4 h-4" />
-                  </button>
+                  {([
+                    { mode: "bento", icon: LayoutGrid, label: "Bento view" },
+                    { mode: "grid",  icon: Grid3X3,   label: "Grid view" },
+                    { mode: "list",  icon: List,       label: "List view" },
+                  ] as const).map(({ mode, icon: Icon, label }) => (
+                    <button
+                      key={mode}
+                      onClick={() => setViewMode(mode)}
+                      className={`min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors ${
+                        viewMode === mode
+                          ? "bg-accent/10 text-accent"
+                          : "text-mute hover:text-text hover:bg-surface"
+                      }`}
+                      aria-label={label}
+                    >
+                      <Icon className="w-4 h-4" />
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -261,17 +246,6 @@ const Work = () => {
             </AnimatePresence>
           </motion.div>
         )}
-      </Section>
-
-      {/* Quick Contact */}
-      <Section>
-        <ScrollReveal variant="fade-up">
-          <div className="max-w-xl mx-auto text-center">
-            <h2 className="font-display text-text mb-2">Like What You See?</h2>
-            <p className="text-mute mb-6">Tell us about your project and let's create something great together.</p>
-            <QuickContactForm />
-          </div>
-        </ScrollReveal>
       </Section>
 
       <GlobalCTA />
