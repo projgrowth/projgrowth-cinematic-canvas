@@ -11,27 +11,43 @@
   transform: translateY(0);
 }
 
-/* Hero: Pirata One blackletter descenders visually extend ~40px below the
-   font's bounding box. Override the inline marginTop on BodyProse so the
-   prose starts well below the ornamental letterforms.
-   Mobile: clamp min is reduced because 10vw@375px = 37.5px which clamps to
-   the minimum — 100px is too large on mobile, 72px gives clear separation. */
-[data-section="hero"] .body-prose {
-  margin-top: clamp(80px, 13vw, 180px) !important;
-}
-/* Hero headline: tighten leading and reserve space below descenders so the
-   "Résumé" underline and Pirata descenders never collide with the prose. */
-[data-section="hero"] .type-display-xl {
-  line-height: 1.02;
-  padding-bottom: 0.08em;
+/* ─── Hero + Close: heading overflow fix ────────────────────────────────────
+   The h1/h2 elements have line-height:1 (64px box at desktop), but the
+   .type-display-xl children are display:block at 11vw (120px at 1280px).
+   The spans overflow the heading's own CSS box by ~165–180px. Any margin-top
+   on BodyProse is measured from the heading's CSS box bottom — NOT from the
+   visual text bottom — so the default 56px gap leaves ~30px of visual overlap.
+
+   Fix: margin = span_visual_bottom_offset + ornamental_descenders + desired_gap
+        ≈ (2 × 11vw × line-height) – h1_box + 4vw_descenders + 40px_target
+        ≈ 26vw − 20px
+   Expressed as a safe clamp: min covers mobile where font is smaller. ────── */
+
+/* Force the heading elements to contain their block spans so layout is correct */
+[data-section="hero"] h1,
+[data-section="close"] h2 {
+  display: block;
+  height: auto;
+  /* Establish a proper block formatting context so block-child spans
+     expand the heading's own box and margin-top on following elements
+     works as expected */
+  overflow: visible;
+  contain: layout;
 }
 
-/* Close section: heading uses clamp(56px, 11vw, 120px) Pirata One.
-   At desktop that's 120px — ornamental descenders extend ~48px below the
-   CSS box. The default space-headline-body (56px) leaves only ~8px clear.
-   Override to give breathing room at all sizes. */
+[data-section="hero"] .body-prose {
+  margin-top: clamp(48px, 8vw, 96px) !important;
+}
+
+/* Hero headline: tighten leading and reserve space below descenders */
+[data-section="hero"] .type-display-xl {
+  line-height: 1.02;
+  padding-bottom: 0.06em;
+}
+
+/* Close section: same type-display-xl heading overflow issue */
 [data-section="close"] .body-prose {
-  margin-top: clamp(80px, 12vw, 160px) !important;
+  margin-top: clamp(48px, 8vw, 96px) !important;
 }
 
 
