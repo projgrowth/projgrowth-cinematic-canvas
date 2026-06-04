@@ -68,6 +68,8 @@
   --paper-rgb: 245 240 232;
   --bone-rgb: 237 231 214;
   --ink-rgb: 26 26 20;
+  --forest-rgb: 20 36 26;
+  --fairway-rgb: 27 43 31;
 
   /* Hairline system — all rules read from here */
   --hairline: rgb(var(--pencil-rgb) / 0.12);
@@ -2060,4 +2062,281 @@
 
 .rgc-scope .close-section .close-footer__meta {
   color: rgba(245, 240, 232, 0.58);
+}
+
+/* --------------------------------------------------------------------------
+   RGC subpage system finish: typography, alignment, and contrast guardrails.
+   This intentionally stays scoped to .rgc-scope so the main ProjGrowth site is
+   untouched. It reduces one-off visual drift without changing the story.
+-------------------------------------------------------------------------- */
+.rgc-scope {
+  --rgc-font-display:
+    "Pirata One", "UnifrakturCook", "Old English Text MT", serif;
+  --rgc-font-body: "Lora", Georgia, serif;
+  --rgc-font-meta: "Space Mono", "Courier New", monospace;
+  --rgc-font-hand: "Caveat", cursive;
+
+  --rgc-text-primary: var(--pencil);
+  --rgc-text-strong: var(--ink);
+  --rgc-text-muted: rgb(var(--pencil-rgb) / 0.68);
+  --rgc-text-subtle: rgb(var(--pencil-rgb) / 0.54);
+  --rgc-text-onforest: var(--paper);
+  --rgc-text-onforest-muted: rgb(var(--paper-rgb) / 0.74);
+  --rgc-text-onforest-subtle: rgb(var(--paper-rgb) / 0.58);
+
+  --rgc-section-y: clamp(82px, 10vw, 142px);
+  --rgc-section-y-tight: clamp(68px, 8vw, 112px);
+  --rgc-heading-gap: clamp(30px, 4vw, 50px);
+  --rgc-artifact-gap: clamp(34px, 5vw, 62px);
+  --rgc-card-pad: clamp(20px, 2.8vw, 32px);
+}
+
+.rgc-scope .font-body,
+.rgc-scope .body-prose,
+.rgc-scope .section-intro,
+.rgc-scope .type-body,
+.rgc-scope .type-caption,
+.rgc-scope .concept-card__body,
+.rgc-scope .ninety-row__titleline h3,
+.rgc-scope .ninety-row__main > p,
+.rgc-scope .ninety-roadmap__header p:last-child,
+.rgc-scope .ninety-row__output strong {
+  font-family: var(--rgc-font-body);
+}
+
+.rgc-scope .font-blackletter,
+.rgc-scope .h-section,
+.rgc-scope .type-display-xl {
+  font-family: var(--rgc-font-display);
+}
+
+.rgc-scope .font-mono,
+.rgc-scope .meta-label,
+.rgc-scope .eyebrow,
+.rgc-scope .type-meta,
+.rgc-scope .mono-chip,
+.rgc-scope .ninety-lane-chip span,
+.rgc-scope .ninety-row__number span,
+.rgc-scope .ninety-row__number p,
+.rgc-scope .ninety-row__output .meta-label,
+.rgc-scope .ninety-row__titleline span,
+.rgc-scope .ninety-row__chips span,
+.rgc-scope .field-monitor__topbar,
+.rgc-scope .close-footer__email,
+.rgc-scope .close-footer__meta {
+  font-family: var(--rgc-font-meta);
+}
+
+.rgc-scope .font-hand,
+.rgc-scope .hand-accent {
+  font-family: var(--rgc-font-hand);
+}
+
+/* Cream/paper surfaces: one readable editorial contrast ladder. */
+.rgc-scope
+  :where(
+    .bg-bone,
+    .bg-paper,
+    .paper-card,
+    .receipt-card,
+    .system-card,
+    .ninety-roadmap,
+    .concept-card
+  ):not(.concept-card--forest)
+  :where(p, li) {
+  color: var(--rgc-text-primary);
+}
+.rgc-scope
+  :where(
+    .bg-bone,
+    .bg-paper,
+    .paper-card,
+    .receipt-card,
+    .system-card,
+    .ninety-roadmap,
+    .concept-card
+  ):not(.concept-card--forest)
+  :where(h1, h2, h3, h4, strong) {
+  color: var(--rgc-text-strong);
+}
+.rgc-scope
+  :where(
+    .bg-bone,
+    .bg-paper,
+    .paper-card,
+    .receipt-card,
+    .system-card,
+    .ninety-roadmap,
+    .concept-card
+  ):not(.concept-card--forest)
+  .meta-label {
+  color: var(--rgc-text-subtle);
+}
+
+/* Forest/dark surfaces: prevent accidental dark text and keep oxblood from being used as tiny body copy. */
+.rgc-scope
+  :where(
+    .bg-forest,
+    .forest-card,
+    .artifact-card,
+    .close-section,
+    .opportunity-card,
+    .concept-card--forest,
+    .close-video-frame--cinematic
+  )
+  :where(p, li, h1, h2, h3, h4, strong, span) {
+  color: var(--rgc-text-onforest);
+}
+.rgc-scope
+  :where(
+    .bg-forest,
+    .forest-card,
+    .artifact-card,
+    .close-section,
+    .opportunity-card,
+    .concept-card--forest,
+    .close-video-frame--cinematic
+  )
+  :where(
+    .meta-label,
+    .type-meta,
+    .eyebrow,
+    .mono-chip--forest,
+    .field-monitor__topbar
+  ) {
+  color: var(--rgc-text-onforest-subtle);
+}
+.rgc-scope
+  :where(
+    .bg-forest,
+    .forest-card,
+    .artifact-card,
+    .close-section,
+    .opportunity-card,
+    .concept-card--forest
+  )
+  .accent {
+  color: var(--oxblood);
+}
+
+/* Type rhythm: fewer visual voices, more predictable hierarchy. */
+.rgc-scope .h-section {
+  line-height: 0.98;
+}
+.rgc-scope .section-heading-block,
+.rgc-scope .pitch-grid__editorial,
+.rgc-scope .pitch-grid__main {
+  justify-self: stretch;
+}
+.rgc-scope .section-intro,
+.rgc-scope .body-prose {
+  font-size: clamp(1rem, 1.05vw, 1.08rem);
+  line-height: 1.72;
+  max-width: 62ch;
+}
+.rgc-scope .meta-label,
+.rgc-scope .eyebrow,
+.rgc-scope .type-meta {
+  line-height: 1.45;
+  letter-spacing: 0.18em;
+}
+.rgc-scope .type-card-title,
+.rgc-scope .work-card h3,
+.rgc-scope .concept-card h3 {
+  font-family: var(--rgc-font-body);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  line-height: 1.13;
+}
+
+/* Alignment: same left edge, same artifact rhythm. */
+.rgc-scope .pitch-grid,
+.rgc-scope .pitch-container {
+  padding-inline: var(--space-gutter);
+}
+.rgc-scope .artifact-stack,
+.rgc-scope .section-stack-lg,
+.rgc-scope .section-stack-md,
+.rgc-scope .close-film-stage,
+.rgc-scope .concept-board-wrap {
+  margin-top: var(--rgc-artifact-gap);
+}
+.rgc-scope [data-section] > .pitch-grid:first-child,
+.rgc-scope [data-section] > .pitch-container:first-child {
+  margin-inline: auto;
+}
+
+/* Cards/sheets: one quieter family across $1K, 90 days, work, and community. */
+.rgc-scope
+  :where(
+    .paper-card,
+    .receipt-card,
+    .system-card,
+    .budget-slip,
+    .ninety-roadmap,
+    .concept-board-wrap,
+    .work-card
+  ) {
+  border-color: var(--hairline-strong);
+  box-shadow: 0 18px 58px rgba(20, 18, 14, 0.055);
+}
+.rgc-scope :where(.ninety-row, .tee-move, .work-card, .concept-card) {
+  padding-block: clamp(18px, 2.3vw, 26px);
+}
+.rgc-scope .receipt-card,
+.rgc-scope .concept-card,
+.rgc-scope .budget-slip {
+  padding: var(--rgc-card-pad);
+}
+
+/* Oxblood restraint: keep it as signal, not decoration noise. */
+.rgc-scope :where(.meta-label, .eyebrow) .accent,
+.rgc-scope :where(.mono-chip--accent, .tee-move--active, .ninety-row--active) {
+  --rgc-accent-active: var(--oxblood);
+}
+.rgc-scope .ninety-row__titleline span,
+.rgc-scope .ninety-row__chips span,
+.rgc-scope .mono-chip {
+  border-color: rgb(var(--pencil-rgb) / 0.14);
+}
+
+/* Mobile: protect readability over decorative density. */
+@media (max-width: 640px) {
+  .rgc-scope {
+    --space-gutter: 20px;
+    --rgc-artifact-gap: 28px;
+  }
+  .rgc-scope .section-intro,
+  .rgc-scope .body-prose {
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+  .rgc-scope .meta-label,
+  .rgc-scope .eyebrow,
+  .rgc-scope .type-meta,
+  .rgc-scope .mono-chip,
+  .rgc-scope .ninety-row__chips span {
+    letter-spacing: 0.12em;
+  }
+  .rgc-scope .pitch-grid,
+  .rgc-scope .pitch-container {
+    padding-inline: var(--space-gutter);
+  }
+}
+
+/* System pass exceptions: readable chips and forest labels after global contrast guards. */
+.rgc-scope
+  :where(.forest-card, .artifact-card, .concept-card--forest, .opportunity-card)
+  .mono-chip:not(.mono-chip--accent):not(.mono-chip--forest) {
+  color: var(--pencil);
+}
+
+.rgc-scope
+  :where(.forest-card, .artifact-card, .concept-card--forest, .opportunity-card)
+  .mono-chip--accent {
+  color: var(--paper);
+}
+
+.rgc-scope [data-section="ninety-days"] .ninety-lane-strip__label {
+  color: var(--rgc-text-onforest-subtle);
 }
