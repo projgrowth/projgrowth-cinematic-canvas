@@ -11,8 +11,6 @@ const TEST_MARKER = "_TEST_VERIFY";
 
 async function verifyAdmin(email: string | undefined, password: string | undefined, sb: any): Promise<boolean> {
   if (!password) return false;
-  const adminPassword = Deno.env.get("ADMIN_PASSWORD");
-  if (!email && adminPassword && password === adminPassword) return true;
   if (!email) return false;
   const { data } = await sb
     .from("admin_users")
