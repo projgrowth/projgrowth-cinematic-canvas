@@ -305,9 +305,6 @@ const Home = () => {
         </ScrollReveal>
       </Section>
 
-      {/* Testimonials */}
-      <TestimonialsCarousel />
-
       {/* Client Logos */}
       <ClientLogos />
     </Layout>
