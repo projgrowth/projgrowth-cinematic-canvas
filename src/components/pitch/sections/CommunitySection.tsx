@@ -26,8 +26,9 @@ function YearbookArtifact() {
         <img
           src="/artifacts/yearbook-primary.png"
           alt="Premium Random Golf Club yearbook spread mockup for a destination golf trip"
-          loading="lazy"
+          loading="eager"
           decoding="async"
+          fetchPriority="high"
           className="media-frame__asset"
         />
         <div

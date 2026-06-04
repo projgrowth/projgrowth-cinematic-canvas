@@ -45,8 +45,9 @@ function FieldCutFrame() {
                     <img
                       src="/artifacts/rgc-field-film-poster.jpg?v=3"
                       alt=""
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
+                      fetchPriority="high"
                     />
                     <span className="field-film-poster__scrim" aria-hidden />
                     <span className="field-film-poster__scanlines" aria-hidden />

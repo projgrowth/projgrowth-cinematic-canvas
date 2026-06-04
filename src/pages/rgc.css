@@ -1960,3 +1960,57 @@
     min-height: 184px;
   }
 }
+
+/* RGC live-route integration polish: privacy-safe pitch page, reliable artifacts, calmer scroll. */
+.rgc-scope .media-frame,
+.rgc-scope .field-film-poster,
+.rgc-scope .artifact-marker__image {
+  background:
+    radial-gradient(circle at 50% 34%, rgb(var(--paper-rgb) / 0.08), transparent 34%),
+    linear-gradient(135deg, rgb(var(--forest-rgb) / 0.92), #0b120d);
+}
+.rgc-scope .yearbook-frame .media-frame__asset,
+.rgc-scope .field-film-poster img,
+.rgc-scope .artifact-marker__image {
+  transition: opacity 220ms ease;
+}
+.rgc-scope [data-section="thousand-test"] {
+  padding-bottom: clamp(88px, 9vw, 128px);
+}
+.rgc-scope [data-section="ninety-days"] {
+  padding-top: clamp(88px, 9vw, 128px);
+  padding-bottom: clamp(88px, 9vw, 128px);
+}
+.rgc-scope [data-section="community"] {
+  padding-bottom: clamp(86px, 9vw, 126px);
+}
+.rgc-scope [data-section="close"] {
+  padding-top: clamp(82px, 9vw, 126px);
+}
+@media (max-width: 640px) {
+  .rgc-scope [data-section="thousand-test"],
+  .rgc-scope [data-section="ninety-days"],
+  .rgc-scope [data-section="community"] {
+    padding-bottom: 76px;
+  }
+  .rgc-scope [data-section="ninety-days"],
+  .rgc-scope [data-section="close"] {
+    padding-top: 76px;
+  }
+}
+
+/* Send-safe reveal fallback for the embedded ProjGrowth route.
+   The standalone pitch used scroll reveals; inside the main site shell, reliability beats animation. */
+.rgc-scope .in-view-fade {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Keep the yearbook artifact caption readable in the ProjGrowth embed. */
+.rgc-scope .yearbook-frame {
+  background: #11130f !important;
+  color: var(--paper) !important;
+}
+.rgc-scope .yearbook-frame > div:last-child {
+  background: #11130f;
+}

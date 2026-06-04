@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { lazy, Suspense } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -49,7 +49,7 @@ const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
   { path: "/admin/leads", element: <AdminLeads /> },
   { path: "/discovery", element: <Discovery />, raw: true },
   { path: "/rgc", element: <RGC />, raw: true },
-  { path: "/random-golf-club", element: <RGC />, raw: true },
+  { path: "/random-golf-club", element: <Navigate to="/rgc" replace />, raw: true },
   { path: "*", element: <NotFound /> },
 ];
 

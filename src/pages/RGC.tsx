@@ -18,6 +18,28 @@ export default function RGC() {
     const prevBody = document.body.style.backgroundColor;
     const prevHtml = document.documentElement.style.backgroundColor;
     const prevHtmlBgImage = document.documentElement.style.backgroundImage;
+    const prevTitle = document.title;
+
+    const previousRobots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    const previousRobotsContent = previousRobots?.getAttribute("content") ?? null;
+    const robotsMeta = previousRobots ?? document.createElement("meta");
+    robotsMeta.setAttribute("name", "robots");
+    robotsMeta.setAttribute("content", "noindex, nofollow, noarchive");
+    if (!previousRobots) document.head.appendChild(robotsMeta);
+
+    const preloadHrefs = [
+      "/artifacts/yearbook-primary.png",
+      "/artifacts/rgc-field-film-poster.jpg?v=3",
+    ];
+    const preloadLinks = preloadHrefs.map((href) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = href;
+      link.dataset.rgcPreload = "true";
+      document.head.appendChild(link);
+      return link;
+    });
 
     document.body.style.backgroundColor = "#ede7d6";
     document.documentElement.style.backgroundColor = "#ede7d6";
@@ -28,6 +50,17 @@ export default function RGC() {
       document.body.style.backgroundColor = prevBody;
       document.documentElement.style.backgroundColor = prevHtml;
       document.documentElement.style.backgroundImage = prevHtmlBgImage;
+      document.title = prevTitle;
+      preloadLinks.forEach((link) => link.remove());
+      if (previousRobots) {
+        if (previousRobotsContent) {
+          previousRobots.setAttribute("content", previousRobotsContent);
+        } else {
+          previousRobots.removeAttribute("content");
+        }
+      } else {
+        robotsMeta.remove();
+      }
     };
   }, []);
 
