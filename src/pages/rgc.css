@@ -17,7 +17,13 @@
    Mobile: clamp min is reduced because 10vw@375px = 37.5px which clamps to
    the minimum — 100px is too large on mobile, 72px gives clear separation. */
 [data-section="hero"] .body-prose {
-  margin-top: clamp(72px, 10vw, 140px) !important;
+  margin-top: clamp(80px, 13vw, 180px) !important;
+}
+/* Hero headline: tighten leading and reserve space below descenders so the
+   "Résumé" underline and Pirata descenders never collide with the prose. */
+[data-section="hero"] .type-display-xl {
+  line-height: 1.02;
+  padding-bottom: 0.08em;
 }
 
 .rgc-scope {
@@ -742,6 +748,42 @@
   .meta-label,
   .type-meta {
     letter-spacing: 0.14em;
+  }
+}
+
+/* ---------- Mobile refinements (cleanup pass) ---------- */
+@media (max-width: 640px) {
+  .rgc-scope .pitch-grid,
+  .rgc-scope .pitch-container {
+    padding-inline: 1.25rem;
+  }
+  .rgc-scope .eyebrow {
+    letter-spacing: 0.18em;
+  }
+  /* Keep the oversized chapter numerals inside the section so they don't
+     create phantom horizontal scroll on narrow phones. */
+  .rgc-scope [data-section] > span[aria-hidden] {
+    font-size: clamp(72px, 28vw, 140px) !important;
+    right: -0.04em !important;
+  }
+  /* Hero footer: tighten the DAN RODRIGUEZ / hcp 9 row on phones. */
+  [data-section="hero"] .hand-accent {
+    font-size: 18px !important;
+  }
+}
+
+/* Very small phones: prevent the hero headline from forcing impossible breaks. */
+@media (max-width: 380px) {
+  .rgc-scope .type-display-xl {
+    font-size: clamp(44px, 12vw, 56px) !important;
+  }
+}
+
+/* Hero route rail: at narrow widths let arrows + labels wrap cleanly
+   instead of overflowing the editorial column. */
+@media (max-width: 480px) {
+  .rgc-scope .hero-route > div {
+    gap: 6px 10px;
   }
 }
 
