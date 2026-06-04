@@ -8,7 +8,7 @@ import { Fragment } from "react";
 const mono = "'Space Mono', 'Courier New', monospace";
 const serif = "'Lora', Georgia, serif";
 
-const LOOP = ["event", "clips", "player reposts", "new people ask", "next invite"];
+const LOOP = ["event", "clips", "players ask", "next invite"];
 
 function EnergyLoop() {
   return (
@@ -42,9 +42,17 @@ function EnergyLoop() {
                 <span
                   style={{
                     background:
-                      index === 0 || index === 3 ? "var(--oxblood)" : "rgb(var(--bone-rgb) / 0.7)",
-                    color: index === 0 || index === 3 ? "var(--paper)" : "var(--pencil)",
-                    border: index === 0 || index === 3 ? "none" : "1px solid var(--hairline)",
+                      index === 0 || index === 3
+                        ? "var(--oxblood)"
+                        : "rgb(var(--bone-rgb) / 0.7)",
+                    color:
+                      index === 0 || index === 3
+                        ? "var(--paper)"
+                        : "var(--pencil)",
+                    border:
+                      index === 0 || index === 3
+                        ? "none"
+                        : "1px solid var(--hairline)",
                     padding: "7px 11px",
                     fontFamily: mono,
                     fontSize: "0.52rem",
@@ -96,7 +104,7 @@ function EnergyLoop() {
               color: "rgb(var(--pencil-rgb) / 0.68)",
             }}
           >
-            The texts, clips, and follow-up rounds that happen when the event has somewhere to go.
+            The texts and clips that happen when the event has somewhere to go.
           </p>
         </div>
 
@@ -111,12 +119,17 @@ function EnergyLoop() {
               color: "var(--pencil)",
             }}
           >
-            The opportunity is not more noise. It is a cleaner home for the energy that already
-            exists.
+            The opportunity is not more noise. It is a cleaner home for the
+            energy already there.
           </p>
           <p
             className="hand-accent"
-            style={{ margin: 0, fontSize: 26, transform: "rotate(-2deg)", whiteSpace: "nowrap" }}
+            style={{
+              margin: 0,
+              fontSize: 26,
+              transform: "rotate(-2deg)",
+              whiteSpace: "nowrap",
+            }}
           >
             this is already happening
           </p>
@@ -143,13 +156,14 @@ export function GapSection() {
 
             <BodyProse>
               <p>
-                RGC already did the hardest part: it made golf feel like something people want to
-                belong to.
+                RGC already did the hardest part: it made golf feel like
+                something people want to belong to.
               </p>
               <p>
-                The events, films, drops, city chapters, and inside jokes all point to the same
-                thing: people want the group text, the pairing, the memory, and the reason to come
-                back — not just the tee time.
+                The events, films, drops, city chapters, and inside jokes all
+                point to the same thing: people want the group text, the
+                pairing, the memory, and the reason to come back — not just the
+                tee time.
               </p>
             </BodyProse>
 
@@ -175,8 +189,9 @@ export function GapSection() {
                     color: "rgb(var(--paper-rgb) / 0.82)",
                   }}
                 >
-                  The job is not to manufacture demand. It is to organize the energy RGC already
-                  creates: media, follow-up, drops, rounds, and the next reason to gather.
+                  The job is not to manufacture demand. It is to organize the
+                  energy RGC already creates: media, follow-up, drops, and the
+                  next reason to gather.
                 </p>
                 <p
                   style={{
@@ -200,8 +215,9 @@ export function GapSection() {
                     fontStyle: "italic",
                   }}
                 >
-                  I was already filming rounds. Players were asking for clips. That is the signal:
-                  the media is part of the event value, not an afterthought.
+                  I was already filming rounds. Players were asking for clips.
+                  That is the signal: the media is part of the event value, not
+                  an afterthought.
                 </p>
               </div>
             </Reveal>

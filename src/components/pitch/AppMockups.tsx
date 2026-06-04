@@ -7,8 +7,18 @@ const PAPER = "var(--paper)";
 const HAIRLINE = "var(--hairline)";
 const serif = "'Lora', Georgia, serif";
 
-function Pill({ children, accent = false }: { children: ReactNode; accent?: boolean }) {
-  return <span className={accent ? "mono-chip mono-chip--accent" : "mono-chip"}>{children}</span>;
+function Pill({
+  children,
+  accent = false,
+}: {
+  children: ReactNode;
+  accent?: boolean;
+}) {
+  return (
+    <span className={accent ? "mono-chip mono-chip--accent" : "mono-chip"}>
+      {children}
+    </span>
+  );
 }
 
 function ClipCard() {
@@ -25,14 +35,24 @@ function ClipCard() {
         }}
       />
       <div style={{ position: "relative" }}>
-        <p className="meta-label" style={{ margin: 0, color: "rgb(var(--paper-rgb) / 0.56)" }}>
+        <p
+          className="meta-label"
+          style={{ margin: 0, color: "rgb(var(--paper-rgb) / 0.56)" }}
+        >
           field archive · 00:07
         </p>
         <p className="concept-card__hero" style={{ color: PAPER }}>
           The round has a place to land.
         </p>
       </div>
-      <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 8 }}>
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
         <Pill accent>Send to player</Pill>
         <Pill>Post in city room</Pill>
         <Pill>Save field report</Pill>
@@ -45,10 +65,18 @@ function FieldReport() {
   return (
     <div
       className="concept-card"
-      style={{ background: "linear-gradient(180deg, #fbf7ef 0%, #f1e8d8 100%)", padding: 22 }}
+      style={{
+        background: "linear-gradient(180deg, #fbf7ef 0%, #f1e8d8 100%)",
+        padding: 22,
+      }}
     >
       <div
-        style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "start" }}
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 16,
+          alignItems: "start",
+        }}
       >
         <div>
           <p className="meta-label" style={{ margin: 0, color: MUTED }}>
@@ -58,27 +86,8 @@ function FieldReport() {
         </div>
         <Pill accent>Archive</Pill>
       </div>
-      <div className="concept-stats mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
-        {[
-          ["clips", "18"],
-          ["photos", "34"],
-          ["asks in", "11"],
-        ].map(([label, value]) => (
-          <div key={label} style={{ borderTop: `1px solid ${HAIRLINE}`, paddingTop: 12 }}>
-            <p
-              className="font-blackletter"
-              style={{ margin: 0, fontSize: 34, color: ACCENT, lineHeight: 1 }}
-            >
-              {value}
-            </p>
-            <p className="meta-label" style={{ margin: "7px 0 0", color: MUTED }}>
-              {label}
-            </p>
-          </div>
-        ))}
-      </div>
       <p className="concept-card__body">
-        Save the proof, deliver the clips, watch what people ask for, and keep the city room human.
+        Save the proof, deliver the clips, and keep the city room human.
       </p>
     </div>
   );
@@ -106,10 +115,21 @@ function CityRoom() {
             paddingTop: 12,
           }}
         >
-          <p className="meta-label" style={{ margin: 0, color: ACCENT, letterSpacing: "0.13em" }}>
+          <p
+            className="meta-label"
+            style={{ margin: 0, color: ACCENT, letterSpacing: "0.13em" }}
+          >
             {label}
           </p>
-          <p style={{ margin: 0, fontFamily: serif, fontSize: 14, lineHeight: 1.45, color: INK }}>
+          <p
+            style={{
+              margin: 0,
+              fontFamily: serif,
+              fontSize: 14,
+              lineHeight: 1.45,
+              color: INK,
+            }}
+          >
             {value}
           </p>
         </div>
@@ -126,9 +146,15 @@ function ConceptBoard() {
           <p className="meta-label" style={{ margin: 0, color: MUTED }}>
             START IN DISCORD
           </p>
-          <p style={{ margin: "7px 0 0", fontFamily: serif, fontSize: 14, color: INK }}>
-            A field captain, a Discord room, and a clean archive first. Software only after the
-            behavior earns it.
+          <p
+            style={{
+              margin: "7px 0 0",
+              fontFamily: serif,
+              fontSize: 14,
+              color: INK,
+            }}
+          >
+            A field captain, a Discord room, and a clean archive first.
           </p>
         </div>
         <Pill accent>field captain</Pill>
@@ -140,7 +166,10 @@ function ConceptBoard() {
       </div>
       <div className="concept-board__grid grid grid-cols-1 gap-px lg:grid-cols-[1.1fr_0.9fr]">
         <CityRoom />
-        <div className="concept-card" style={{ background: "#f7f0e3", padding: 22 }}>
+        <div
+          className="concept-card"
+          style={{ background: "#f7f0e3", padding: 22 }}
+        >
           <p className="meta-label" style={{ margin: 0, color: MUTED }}>
             what compounds
           </p>
@@ -148,8 +177,8 @@ function ConceptBoard() {
             Keep it human first.
           </p>
           <p className="concept-card__body">
-            Discord is the clubhouse. The archive is the receipt. The product roadmap comes from
-            what members keep doing without being pushed.
+            Discord is the clubhouse. The archive is the receipt. Build only
+            what members keep using.
           </p>
         </div>
       </div>

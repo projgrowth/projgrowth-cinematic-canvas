@@ -31,7 +31,10 @@ const LANES: Lane[] = [
     title: "Drops",
     body: "Make merch feel like proof you were there, not inventory that needs pushing.",
   },
-  { title: "Events", body: "Build the before and after, not just the day-of moment." },
+  {
+    title: "Events",
+    body: "Build the before and after, not just the day-of moment.",
+  },
   {
     title: "Reporting",
     body: "One board for paid, email, site/SEO, events, drops, and what actually compounded.",
@@ -70,14 +73,7 @@ const PHASES: Phase[] = [
     range: "DAYS 36–55",
     title: "Run the wager.",
     goal: "Prove the loop in one city: first foursomes, tee sheet, player clips, city marker, field report, follow-up signal.",
-    owns: [
-      "first foursomes",
-      "tee sheet",
-      "player clips",
-      "city marker",
-      "field report",
-      "follow-up signal",
-    ],
+    owns: ["first foursomes", "tee sheet", "city marker", "field report"],
     output: "One city case study",
   },
   {
@@ -85,7 +81,12 @@ const PHASES: Phase[] = [
     range: "DAYS 56–75",
     title: "Turn it into a playbook.",
     goal: "Make the test repeatable without sanding off the soul that made it work.",
-    owns: ["templates", "partner/sponsor angle", "next-city criteria", "reporting rhythm"],
+    owns: [
+      "templates",
+      "partner/sponsor angle",
+      "next-city criteria",
+      "reporting rhythm",
+    ],
     output: "The RGC City Playbook",
   },
   {
@@ -111,7 +112,9 @@ function LaneBoard() {
   return (
     <Reveal delay={80}>
       <div className="ninety-lane-strip mt-8">
-        <p className="meta-label ninety-lane-strip__label">I’d own all six lanes</p>
+        <p className="meta-label ninety-lane-strip__label">
+          I’d own all six lanes
+        </p>
         <div className="ninety-lane-strip__grid">
           {LANES.map((lane) => (
             <div key={lane.title} className="ninety-lane-chip">
@@ -131,8 +134,8 @@ function PhaseMap() {
         <div className="ninety-roadmap__header">
           <p className="meta-label">field plan</p>
           <p>
-            Read the room, connect the machine, prove the loop, then write the playbook from what
-            actually happened.
+            Read the room, connect the machine, prove the loop, then write the
+            playbook from what actually happened.
           </p>
         </div>
 
@@ -142,7 +145,9 @@ function PhaseMap() {
             return (
               <article
                 key={phase.n}
-                className={isTest ? "ninety-row ninety-row--active" : "ninety-row"}
+                className={
+                  isTest ? "ninety-row ninety-row--active" : "ninety-row"
+                }
               >
                 <div className="ninety-row__number">
                   <span>{phase.n}</span>
@@ -192,29 +197,9 @@ export function NinetyDaysSection() {
           </Reveal>
           <Reveal delay={60}>
             <p className="section-intro section-intro--forest">
-              The job is the connective tissue. I&apos;d own all six lanes — lifecycle, paid,
-              content, drops, events, reporting — then connect them around one city test that proves
-              the loop can repeat.
-            </p>
-          </Reveal>
-          <Reveal delay={75}>
-            <p className="role-fit-line">
-              I&apos;d own the fuel system: calendar, CRM, paid, email, distribution, reporting, and
-              the follow-up that turns one great RGC moment into the next one.
-            </p>
-          </Reveal>
-          <Reveal delay={90}>
-            <p
-              className="hand-accent mt-5"
-              style={{
-                fontSize: 22,
-                color: boneFaint(0.62),
-                display: "inline-block",
-                transform: "rotate(-1deg)",
-                transformOrigin: "left center",
-              }}
-            >
-              day 1 → day 90, then decide what to build.
+              The job is the connective tissue: lifecycle, paid, content, drops,
+              events, reporting — connected around one city test that proves the
+              loop can repeat.
             </p>
           </Reveal>
           <LaneBoard />
@@ -232,7 +217,11 @@ export function NinetyDaysSection() {
             >
               <p
                 className="meta-label"
-                style={{ margin: 0, color: boneFaint(0.48), letterSpacing: "0.18em" }}
+                style={{
+                  margin: 0,
+                  color: boneFaint(0.48),
+                  letterSpacing: "0.18em",
+                }}
               >
                 day 90 receipt
               </p>
@@ -257,9 +246,9 @@ export function NinetyDaysSection() {
                   maxWidth: "68ch",
                 }}
               >
-                By day 90, RGC would have the receipts: which clips got shared, which players came
-                back, which drops felt earned, which city wants the next card, and what is worth
-                turning into infrastructure.
+                By day 90, RGC would know which clips got shared, which players
+                came back, which drops felt earned, and what is worth turning
+                into infrastructure.
               </p>
             </div>
           </Reveal>

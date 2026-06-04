@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500;600&family=Pirata+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500;600&family=Pirata+One&display=swap");
 
 /* RGC Pitch Styles — scoped to .rgc-scope wrapper */
 
@@ -49,7 +49,6 @@
 [data-section="close"] .body-prose {
   margin-top: clamp(48px, 8vw, 96px) !important;
 }
-
 
 .rgc-scope {
   /* FINAL spec palette */
@@ -845,7 +844,7 @@
 /* Section-specific compositions built from the shared pitch system. */
 .framed-grid {
   border: 1px solid var(--hairline-strong);
-  background: rgb(var(--ink-rgb) / 0.10);
+  background: rgb(var(--ink-rgb) / 0.1);
 }
 .fit-rail {
   border: 1px solid rgba(237, 231, 214, 0.12);
@@ -1138,7 +1137,11 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 44%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.36) 72%),
+    radial-gradient(
+      circle at 50% 44%,
+      rgba(0, 0, 0, 0.08),
+      rgba(0, 0, 0, 0.36) 72%
+    ),
     linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.22));
 }
 .field-film-poster__play {
@@ -1271,7 +1274,11 @@
   border-bottom: 0;
 }
 .ninety-row--active {
-  background: linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.08), var(--paper) 42%);
+  background: linear-gradient(
+    90deg,
+    rgb(var(--oxblood-rgb) / 0.08),
+    var(--paper) 42%
+  );
   box-shadow: inset 4px 0 0 var(--oxblood);
 }
 .ninety-row__number span {
@@ -1410,7 +1417,7 @@
   max-width: 9.5ch;
   font-family: "Pirata One", "UnifrakturCook", "Old English Text MT", serif;
   font-size: clamp(36px, 6vw, 58px);
-  line-height: 1.0;
+  line-height: 1;
   color: var(--ink);
 }
 .strategy-row {
@@ -1418,7 +1425,11 @@
 }
 .strategy-row--active {
   box-shadow: inset 3px 0 0 var(--oxblood);
-  background: linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.07), var(--paper) 46%) !important;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--oxblood-rgb) / 0.07),
+    var(--paper) 46%
+  ) !important;
 }
 .strategy-row__label {
   margin: 0;
@@ -1545,7 +1556,11 @@
   border-color: rgb(var(--bone-rgb) / 0.28);
   background:
     linear-gradient(90deg, rgba(139, 32, 32, 0.04) 0 1px, transparent 1px 100%),
-    linear-gradient(180deg, rgba(14, 28, 19, 0.035) 0 1px, transparent 1px 100%),
+    linear-gradient(
+      180deg,
+      rgba(14, 28, 19, 0.035) 0 1px,
+      transparent 1px 100%
+    ),
     linear-gradient(180deg, #fbf5e9 0%, #f2e8d7 100%);
   background-size:
     42px 100%,
@@ -1580,7 +1595,11 @@
 }
 .ninety-row--active {
   background:
-    radial-gradient(circle at 0% 50%, rgb(var(--oxblood-rgb) / 0.13), transparent 46%),
+    radial-gradient(
+      circle at 0% 50%,
+      rgb(var(--oxblood-rgb) / 0.13),
+      transparent 46%
+    ),
     linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.07), transparent 58%);
   box-shadow:
     inset 4px 0 0 var(--oxblood),
@@ -1594,7 +1613,9 @@
 }
 .fit-rail {
   border: 1px solid rgba(14, 28, 19, 0.16);
-  background: linear-gradient(90deg, rgba(14, 28, 19, 0.96), rgba(18, 38, 26, 0.94)), var(--forest);
+  background:
+    linear-gradient(90deg, rgba(14, 28, 19, 0.96), rgba(18, 38, 26, 0.94)),
+    var(--forest);
   box-shadow: 0 18px 50px rgba(20, 18, 14, 0.08);
 }
 .fit-rail__cell {
@@ -1630,7 +1651,11 @@
 }
 .concept-card--forest {
   background:
-    radial-gradient(circle at 74% 18%, rgba(245, 240, 232, 0.14), transparent 34%),
+    radial-gradient(
+      circle at 74% 18%,
+      rgba(245, 240, 232, 0.14),
+      transparent 34%
+    ),
     linear-gradient(135deg, #101b14 0%, #0a120d 100%);
 }
 .close-video-frame--cinematic {
@@ -1663,7 +1688,12 @@
   gap: 14px;
   border: 1px solid rgba(245, 240, 232, 0.16);
   background:
-    radial-gradient(circle at 50% 0%, rgba(245, 240, 232, 0.08), transparent 36%), #070b08;
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(245, 240, 232, 0.08),
+      transparent 36%
+    ),
+    #070b08;
   padding: 14px;
 }
 .field-monitor__topbar {
@@ -1778,12 +1808,12 @@
   max-width: 58ch;
   margin: clamp(26px, 4vw, 40px) 0 0;
   padding-top: 18px;
-  border-top: 1px solid rgb(var(--paper-rgb) / 0.16);
+  border-top: 1px solid rgba(245, 240, 232, 0.16);
   font-family: "Lora", Georgia, serif;
   font-size: clamp(1rem, 1.4vw, 1.12rem);
   line-height: 1.62;
   font-style: italic;
-  color: rgb(var(--paper-rgb) / 0.82);
+  color: rgba(245, 240, 232, 0.82);
 }
 .close-film-stage {
   margin-top: clamp(34px, 5vw, 58px);
@@ -1806,7 +1836,11 @@
 }
 .close-section .field-film-poster__scrim {
   background:
-    radial-gradient(circle at 50% 46%, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.28) 78%),
+    radial-gradient(
+      circle at 50% 46%,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.28) 78%
+    ),
     linear-gradient(180deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.16));
 }
 .close-footer {
@@ -1816,14 +1850,14 @@
   gap: 12px;
   align-items: baseline;
   text-align: center;
-  border-top: 1px solid rgb(var(--paper-rgb) / 0.16);
+  border-top: 1px solid rgba(245, 240, 232, 0.16);
 }
 .close-footer__email,
 .close-footer__meta {
   margin: 0;
   font-family: "Space Mono", "Courier New", monospace;
   text-transform: uppercase;
-  color: rgb(var(--paper-rgb) / 0.74);
+  color: rgba(245, 240, 232, 0.74);
 }
 .close-footer__email {
   font-size: 0.72rem;
@@ -1966,7 +2000,11 @@
 .rgc-scope .field-film-poster,
 .rgc-scope .artifact-marker__image {
   background:
-    radial-gradient(circle at 50% 34%, rgb(var(--paper-rgb) / 0.08), transparent 34%),
+    radial-gradient(
+      circle at 50% 34%,
+      rgb(var(--paper-rgb) / 0.08),
+      transparent 34%
+    ),
     linear-gradient(135deg, rgb(var(--forest-rgb) / 0.92), #0b120d);
 }
 .rgc-scope .yearbook-frame .media-frame__asset,
@@ -2013,4 +2051,13 @@
 }
 .rgc-scope .yearbook-frame > div:last-child {
   background: #11130f;
+}
+
+/* Final route-specific contrast guard: keep close text readable against forest even inside the shared bg-bone wrapper. */
+.rgc-scope .close-section .close-field-note {
+  color: rgba(245, 240, 232, 0.82);
+}
+
+.rgc-scope .close-section .close-footer__meta {
+  color: rgba(245, 240, 232, 0.58);
 }
