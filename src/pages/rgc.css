@@ -89,7 +89,6 @@
      .rgc-scope inherit Lora instead of Inter. Named classes (.h-section,
      .eyebrow, .meta-label etc.) override this further as needed. */
   font-family: "Lora", Georgia, serif;
-  color: var(--ink);
 
   /* Spacing scale */
   --space-section: clamp(64px, 12vw, 176px);
@@ -167,6 +166,27 @@
 .rgc-scope .eyebrow--link[aria-pressed="true"] {
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+/* ─── Forest-background text overrides ──────────────────────────────────────
+   main.text-pencil sets color:pencil (#2a2a1e) as an explicit class rule with
+   specificity 0,1,0. Forest-background heading/body classes like .h-section-onforest
+   are also 0,1,0 — source order determines the winner and the Tailwind bundle
+   can load after rgc.css, meaning text-pencil wins and renders dark ink on dark
+   forest. Fix: scope all forest-text overrides to .rgc-scope (0,2,0) so they
+   always beat the single-class Tailwind utilities. ──────────────────────────── */
+.rgc-scope .h-section-onforest {
+  color: var(--bone) !important;
+}
+.rgc-scope .section-intro--forest {
+  color: rgb(var(--bone-rgb) / 0.84) !important;
+}
+.rgc-scope .body-prose-onforest {
+  color: var(--bone) !important;
+  opacity: 0.85;
+}
+.rgc-scope .eyebrow-onforest {
+  color: rgba(237, 231, 214, 0.72) !important;
 }
 
 /* Micro mono label — footer, signature, attribution */
