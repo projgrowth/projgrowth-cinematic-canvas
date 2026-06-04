@@ -3,7 +3,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import ClientLogos from "@/components/ClientLogos";
-import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import GrowthLines from "@/components/GrowthLines";
 import AmbientGlow from "@/components/AmbientGlow";
 import { Helmet } from "react-helmet-async";
@@ -305,9 +304,6 @@ const Home = () => {
           </div>
         </ScrollReveal>
       </Section>
-
-      {/* Testimonials */}
-      <TestimonialsCarousel />
 
       {/* Client Logos */}
       <ClientLogos />
