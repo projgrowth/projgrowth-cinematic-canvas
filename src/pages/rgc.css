@@ -58,6 +58,14 @@
   --ring: var(--oxblood);
   --radius: 0;
 
+  /* Base font — RGC uses Lora as the inherited body font.
+     The projgrowth index.css sets body { font-family: Inter } which cascades
+     into everything. Override it here so all un-classed elements inside
+     .rgc-scope inherit Lora instead of Inter. Named classes (.h-section,
+     .eyebrow, .meta-label etc.) override this further as needed. */
+  font-family: "Lora", Georgia, serif;
+  color: var(--ink);
+
   /* Spacing scale */
   --space-section: clamp(64px, 12vw, 176px);
   --space-section-sm: clamp(48px, 8vw, 112px);
