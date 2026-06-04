@@ -2,6 +2,24 @@
 
 /* RGC Pitch Styles — scoped to .rgc-scope wrapper */
 
+/* Hero: cancel Reveal's translateY inside the hero — HeroArrival already
+   handles staggered entry. Prevents double-shift during animation. */
+[data-section="hero"] .in-view-fade {
+  transform: translateY(0);
+}
+[data-section="hero"] .in-view-fade.is-visible {
+  transform: translateY(0);
+}
+
+/* Hero: Pirata One blackletter descenders visually extend ~40px below the
+   font's bounding box. Override the inline marginTop on BodyProse so the
+   prose starts well below the ornamental letterforms.
+   Mobile: clamp min is reduced because 10vw@375px = 37.5px which clamps to
+   the minimum — 100px is too large on mobile, 72px gives clear separation. */
+[data-section="hero"] .body-prose {
+  margin-top: clamp(72px, 10vw, 140px) !important;
+}
+
 .rgc-scope {
   /* FINAL spec palette */
   --bone: #ede7d6;
@@ -708,7 +726,13 @@
 }
 
 @media (max-width: 640px) {
+<<<<<<< HEAD
   :root {
+=======
+  /* Scoped to .rgc-scope — prevents this from overriding the global projgrowth
+     --space-section token on the main site pages */
+  .rgc-scope {
+>>>>>>> 83defab (Add /rgc pitch page + home page visual improvements)
     --space-section: clamp(58px, 18vw, 92px);
   }
   .receipt-card,
