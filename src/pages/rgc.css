@@ -2613,3 +2613,237 @@
     max-width: 58ch;
   }
 }
+
+/* --------------------------------------------------------------------------
+   RGC final narrow-desktop refinement: faster scroll, lighter secondary UI.
+   CSS-only; applies to wide-tablet / narrow-desktop where density still showed.
+-------------------------------------------------------------------------- */
+@media (min-width: 760px) and (max-width: 900px) {
+  .rgc-scope {
+    --space-section: clamp(68px, 8vw, 94px);
+    --space-section-sm: clamp(56px, 7vw, 80px);
+    --rgc-artifact-gap: clamp(24px, 3.4vw, 34px);
+    --rgc-card-pad: clamp(15px, 2vw, 21px);
+  }
+
+  .rgc-scope [data-section="thousand-test"],
+  .rgc-scope [data-section="work"],
+  .rgc-scope [data-section="community"] {
+    padding-top: clamp(58px, 7vw, 82px);
+    padding-bottom: clamp(62px, 7vw, 88px);
+  }
+
+  .rgc-scope [data-section="ninety-days"] {
+    padding-top: clamp(62px, 7vw, 86px);
+    padding-bottom: clamp(62px, 7vw, 86px);
+  }
+
+  /* Opportunity: keep the forest insight dominant, quiet the support artifact. */
+  .rgc-scope .opportunity-card {
+    max-width: 680px;
+    padding: clamp(18px, 2.2vw, 21px);
+  }
+
+  .rgc-scope .opportunity-card .font-blackletter {
+    font-size: clamp(30px, 4.5vw, 40px) !important;
+  }
+
+  .rgc-scope .opportunity-loop {
+    padding: 12px;
+    box-shadow: 0 10px 26px rgba(20, 18, 14, 0.035);
+  }
+
+  .rgc-scope .opportunity-loop__strip,
+  .rgc-scope .opportunity-loop__room {
+    padding: 14px !important;
+  }
+
+  .rgc-scope .opportunity-loop__room .font-blackletter {
+    font-size: clamp(30px, 4.8vw, 42px) !important;
+  }
+
+  /* $1K: compact the tee sheet and support rail so the answer reads sharper. */
+  .rgc-scope [data-section="thousand-test"] .section-intro {
+    margin-top: clamp(24px, 3vw, 34px);
+  }
+
+  .rgc-scope .tee-sheet-card {
+    margin-top: clamp(24px, 3.4vw, 36px) !important;
+  }
+
+  .rgc-scope .tee-sheet-card > div:first-child {
+    padding: clamp(18px, 2.6vw, 24px) !important;
+  }
+
+  .rgc-scope .tee-sheet-card > div:first-child .font-blackletter {
+    font-size: clamp(40px, 7vw, 58px) !important;
+    line-height: 0.94 !important;
+  }
+
+  .rgc-scope .tee-move {
+    padding: 13px 16px;
+  }
+
+  .rgc-scope .tee-move__number {
+    font-size: 0.78rem;
+  }
+
+  .rgc-scope .tee-move__title {
+    font-size: clamp(1rem, 1.7vw, 1.14rem);
+  }
+
+  .rgc-scope .strategy-row__meta {
+    margin-top: 4px;
+    font-size: 0.49rem;
+    letter-spacing: 0.1em;
+  }
+
+  .rgc-scope .strategy-row__body,
+  .rgc-scope .tee-move p {
+    font-size: 0.86rem;
+    line-height: 1.43;
+  }
+
+  .rgc-scope .thousand-support-grid {
+    margin-top: clamp(22px, 3vw, 30px) !important;
+    gap: 14px;
+  }
+
+  .rgc-scope .budget-slip,
+  .rgc-scope .artifact-marker {
+    padding: 14px;
+  }
+
+  .rgc-scope .budget-slip .font-blackletter {
+    font-size: clamp(38px, 6vw, 52px) !important;
+  }
+
+  .rgc-scope .budget-slip__rows > div {
+    padding-block: 10px !important;
+  }
+
+  .rgc-scope .artifact-marker__image img,
+  .rgc-scope .artifact-marker__image {
+    max-height: 260px;
+  }
+
+  /* 90 days: use stacked row anatomy at narrow desktop instead of a squeezed table. */
+  .rgc-scope .ninety-lane-strip {
+    padding: 12px;
+  }
+
+  .rgc-scope .ninety-lane-chip {
+    padding: 8px 9px;
+  }
+
+  .rgc-scope .ninety-roadmap__header {
+    padding: 16px 18px;
+  }
+
+  .rgc-scope .ninety-row {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    padding: 16px 18px;
+  }
+
+  .rgc-scope .ninety-row__number {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .rgc-scope .ninety-row__number p {
+    margin-top: 0;
+  }
+
+  .rgc-scope .ninety-row__titleline h3 {
+    font-size: clamp(1.12rem, 2vw, 1.34rem);
+  }
+
+  .rgc-scope .ninety-row__main > p {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    line-height: 1.46;
+  }
+
+  .rgc-scope .ninety-row__output {
+    padding-top: 2px;
+  }
+
+  .rgc-scope .ninety-row__output .meta-label {
+    margin-top: 0;
+  }
+
+  .rgc-scope .ninety-row__output strong {
+    margin-top: 4px;
+    font-size: 0.88rem;
+  }
+
+  .rgc-scope [data-section="ninety-days"] .forest-card,
+  .rgc-scope [data-section="ninety-days"] .receipt-card {
+    padding: clamp(18px, 2.2vw, 22px);
+  }
+
+  /* Work: lighter ledger, quieter proof labels. */
+  .rgc-scope .fit-rail__cell {
+    padding: 9px 10px;
+  }
+
+  .rgc-scope .fit-rail__cell .meta-label,
+  .rgc-scope .work-card__proof,
+  .rgc-scope .work-card__topline .meta-label {
+    opacity: 0.78;
+  }
+
+  .rgc-scope .work-card,
+  .rgc-scope .work-card--featured {
+    gap: 8px;
+    padding: clamp(17px, 2.1vw, 21px);
+  }
+
+  .rgc-scope .work-card__title {
+    font-size: clamp(1.22rem, 2vw, 1.52rem);
+  }
+
+  .rgc-scope .work-card__proof {
+    font-size: 0.51rem;
+  }
+
+  .rgc-scope .work-card__rgc {
+    margin-top: 2px;
+    padding-top: 9px;
+    font-size: 0.82rem;
+  }
+
+  /* Community: keep yearbook premium, make Discord board feel like a quiet note. */
+  .rgc-scope .concept-board {
+    border-color: rgb(var(--pencil-rgb) / 0.12);
+    box-shadow: 0 10px 32px rgba(20, 18, 14, 0.055);
+  }
+
+  .rgc-scope .concept-board__header {
+    padding: 13px 16px;
+  }
+
+  .rgc-scope .concept-board__header p:last-child {
+    font-size: 0.86rem;
+  }
+
+  .rgc-scope .concept-card {
+    padding: 14px 16px;
+  }
+
+  .rgc-scope .concept-card--forest {
+    min-height: 166px;
+  }
+
+  .rgc-scope .concept-card__hero {
+    font-size: clamp(1.24rem, 2.4vw, 1.58rem);
+  }
+
+  .rgc-scope .concept-card__body {
+    margin-top: 10px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+}
