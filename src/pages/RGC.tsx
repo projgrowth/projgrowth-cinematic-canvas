@@ -11,12 +11,23 @@ import { CloseSection } from "@/components/pitch/sections/CloseSection";
 
 export default function RGC() {
   useEffect(() => {
-    // Apply RGC background to body while on this page
-    const prev = document.body.style.backgroundColor;
+    // Override both <html> and <body> backgrounds while on this page.
+    // index.css explicitly sets html { background-color: hsl(var(--base)) } which
+    // takes the viewport canvas — body-only override leaves the dark projgrowth
+    // dot-grid visible anywhere the body doesn't fully cover it.
+    const prevBody = document.body.style.backgroundColor;
+    const prevHtml = document.documentElement.style.backgroundColor;
+    const prevHtmlBgImage = document.documentElement.style.backgroundImage;
+
     document.body.style.backgroundColor = "#ede7d6";
+    document.documentElement.style.backgroundColor = "#ede7d6";
+    document.documentElement.style.backgroundImage = "none";
     document.title = "A Letter, Not a Résumé — ProjGrowth × RGC";
+
     return () => {
-      document.body.style.backgroundColor = prev;
+      document.body.style.backgroundColor = prevBody;
+      document.documentElement.style.backgroundColor = prevHtml;
+      document.documentElement.style.backgroundImage = prevHtmlBgImage;
     };
   }, []);
 
