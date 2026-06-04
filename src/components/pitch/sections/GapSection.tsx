@@ -130,7 +130,7 @@ export function GapSection() {
   return (
     <section
       data-section="opportunity"
-      className="paper-grain paper-rule relative overflow-hidden bg-bone py-24 md:py-32"
+      className="paper-grain paper-rule relative overflow-hidden bg-bone section-y"
     >
       <GhostNumber n="01" />
       <div className="pitch-grid relative z-10">

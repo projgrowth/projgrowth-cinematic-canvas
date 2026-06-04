@@ -176,7 +176,7 @@ export function WorkSection() {
           <Reveal delay={80}>
             <p
               className="work-footer-meta meta-label mt-10 text-center"
-              style={{ letterSpacing: "0.22em", opacity: 0.38 }}
+              style={{ letterSpacing: "0.22em", opacity: 0.54 }}
             >
               proof ledger · community / content / drops / events / systems
             </p>
