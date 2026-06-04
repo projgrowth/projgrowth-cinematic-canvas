@@ -212,7 +212,7 @@ function TeeSheetModule() {
             <h3 className="system-sheet-title">Build the field before the flyer.</h3>
             <p
               style={{
-                margin: "16px 0 0",
+                margin: "32px 0 0",
                 fontFamily: serif,
                 fontSize: "1rem",
                 lineHeight: 1.68,

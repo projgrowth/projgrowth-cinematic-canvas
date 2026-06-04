@@ -26,6 +26,15 @@
   padding-bottom: 0.08em;
 }
 
+/* Close section: heading uses clamp(56px, 11vw, 120px) Pirata One.
+   At desktop that's 120px — ornamental descenders extend ~48px below the
+   CSS box. The default space-headline-body (56px) leaves only ~8px clear.
+   Override to give breathing room at all sizes. */
+[data-section="close"] .body-prose {
+  margin-top: clamp(80px, 12vw, 160px) !important;
+}
+
+
 .rgc-scope {
   /* FINAL spec palette */
   --bone: #ede7d6;
@@ -70,7 +79,9 @@
   --space-section: clamp(64px, 12vw, 176px);
   --space-section-sm: clamp(48px, 8vw, 112px);
   --space-block: clamp(40px, 5vw, 72px);
-  --space-headline-body: clamp(32px, 5vw, 56px);
+  /* Increased from clamp(32,5vw,56) — gives ~47px effective clearance below 64px
+     Pirata One headings after accounting for ornamental descenders (~25px below CSS box) */
+  --space-headline-body: clamp(40px, 6vw, 72px);
   --space-paragraph: 1.25rem;
   --space-gutter: clamp(20px, 4vw, 64px);
 
@@ -1363,7 +1374,7 @@
   max-width: 9.5ch;
   font-family: "Pirata One", "UnifrakturCook", "Old English Text MT", serif;
   font-size: clamp(36px, 6vw, 58px);
-  line-height: 0.9;
+  line-height: 1.0;
   color: var(--ink);
 }
 .strategy-row {
