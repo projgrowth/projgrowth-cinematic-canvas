@@ -2340,3 +2340,276 @@
 .rgc-scope [data-section="ninety-days"] .ninety-lane-strip__label {
   color: var(--rgc-text-onforest-subtle);
 }
+
+/* --------------------------------------------------------------------------
+   RGC desktop/tablet compression pass: calmer rhythm between 760px and 1100px.
+   Preserve the story and assets; tighten only layout, spacing, and artifact scale.
+-------------------------------------------------------------------------- */
+@media (min-width: 760px) and (max-width: 1100px) {
+  .rgc-scope {
+    --space-gutter: clamp(32px, 5vw, 52px);
+    --space-section: clamp(82px, 9vw, 118px);
+    --space-section-sm: clamp(64px, 7vw, 92px);
+    --space-headline-body: clamp(30px, 4vw, 46px);
+    --rgc-artifact-gap: clamp(30px, 4vw, 46px);
+    --rgc-card-pad: clamp(18px, 2.4vw, 26px);
+  }
+
+  .rgc-scope .pitch-grid,
+  .rgc-scope .pitch-container {
+    max-width: 900px;
+    padding-inline: var(--space-gutter);
+  }
+
+  .rgc-scope .pitch-container--xl,
+  .rgc-scope .pitch-grid__wide {
+    max-width: 940px;
+  }
+
+  .rgc-scope .pitch-grid__editorial,
+  .rgc-scope .pitch-grid__main {
+    grid-column: 1 / -1;
+    max-width: 840px;
+  }
+
+  .rgc-scope .section-y {
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+
+  .rgc-scope [data-section="hero"] {
+    padding-bottom: clamp(84px, 9vw, 118px);
+  }
+
+  .rgc-scope [data-section="opportunity"],
+  .rgc-scope [data-section="thousand-test"],
+  .rgc-scope [data-section="work"],
+  .rgc-scope [data-section="community"] {
+    padding-top: clamp(72px, 8vw, 104px);
+    padding-bottom: clamp(76px, 8vw, 108px);
+  }
+
+  .rgc-scope [data-section="ninety-days"] {
+    padding-top: clamp(76px, 8vw, 108px);
+    padding-bottom: clamp(76px, 8vw, 108px);
+  }
+
+  .rgc-scope [data-section="close"] {
+    padding-top: clamp(82px, 9vw, 118px);
+  }
+
+  .rgc-scope .section-intro,
+  .rgc-scope .body-prose {
+    max-width: 60ch;
+  }
+
+  .rgc-scope .section-stack-lg,
+  .rgc-scope .artifact-stack,
+  .rgc-scope .yearbook-frame,
+  .rgc-scope .close-film-stage {
+    margin-top: var(--rgc-artifact-gap);
+  }
+
+  /* Opportunity: reduce the slab feel and keep support visuals secondary. */
+  .rgc-scope .opportunity-grid {
+    gap: clamp(28px, 4vw, 42px);
+  }
+
+  .rgc-scope .opportunity-card {
+    margin-top: clamp(24px, 3vw, 34px);
+    padding: clamp(20px, 2.6vw, 24px);
+  }
+
+  .rgc-scope .opportunity-card .font-blackletter {
+    font-size: clamp(34px, 5vw, 46px) !important;
+    line-height: 0.98 !important;
+  }
+
+  .rgc-scope .opportunity-loop {
+    padding: 14px;
+    box-shadow: 0 14px 38px rgba(20, 18, 14, 0.045);
+  }
+
+  .rgc-scope .opportunity-loop__room .font-blackletter {
+    font-size: clamp(36px, 5vw, 50px) !important;
+  }
+
+  /* $1K: make the application-answer section tighter without losing the artifact. */
+  .rgc-scope .tee-sheet-card {
+    max-width: 840px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .tee-move {
+    padding: clamp(15px, 2vw, 18px) clamp(16px, 2.2vw, 20px);
+  }
+
+  .rgc-scope .tee-move__title {
+    font-size: clamp(1.04rem, 1.8vw, 1.22rem);
+  }
+
+  .rgc-scope .strategy-row__body,
+  .rgc-scope .tee-move p {
+    line-height: 1.48;
+  }
+
+  .rgc-scope .thousand-support-grid {
+    max-width: 840px;
+    margin-inline: auto;
+    gap: clamp(16px, 2.4vw, 22px);
+  }
+
+  .rgc-scope .budget-slip,
+  .rgc-scope .artifact-marker {
+    padding: clamp(14px, 2vw, 18px);
+  }
+
+  .rgc-scope .budget-slip .font-blackletter {
+    font-size: clamp(42px, 7vw, 62px) !important;
+  }
+
+  .rgc-scope .thousand-proof-note {
+    font-size: clamp(20px, 2.8vw, 24px);
+  }
+
+  /* 90 days: keep it strategic, reduce dashboard bulk. */
+  .rgc-scope .ninety-lane-strip {
+    padding: 14px;
+  }
+
+  .rgc-scope .ninety-roadmap {
+    max-width: 840px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .ninety-roadmap__header {
+    gap: 20px;
+    padding: 18px 20px;
+  }
+
+  .rgc-scope .ninety-row {
+    grid-template-columns: 92px minmax(0, 1fr) 178px;
+    gap: 18px;
+    padding: 18px 20px;
+  }
+
+  .rgc-scope .ninety-row__main > p {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .rgc-scope .ninety-row__chips {
+    margin-top: 10px;
+  }
+
+  .rgc-scope .ninety-row__chips span {
+    padding: 5px 7px;
+    font-size: 0.47rem;
+  }
+
+  .rgc-scope [data-section="ninety-days"] .forest-card,
+  .rgc-scope [data-section="ninety-days"] .receipt-card {
+    max-width: 840px;
+    margin-inline: auto;
+    padding: clamp(20px, 2.6vw, 26px);
+  }
+
+  /* Work: compress the ledger and reduce the oversized first receipt. */
+  .rgc-scope [data-section="work"] .fit-rail,
+  .rgc-scope [data-section="work"] .framed-grid {
+    max-width: 840px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .fit-rail__cell {
+    padding: 11px 12px;
+  }
+
+  .rgc-scope .work-card,
+  .rgc-scope .work-card--featured {
+    gap: 10px;
+    padding: clamp(20px, 2.5vw, 25px);
+  }
+
+  .rgc-scope .work-card__title {
+    font-size: clamp(1.32rem, 2.25vw, 1.72rem);
+  }
+
+  .rgc-scope .work-card__proof {
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+  }
+
+  .rgc-scope .work-card__rgc {
+    padding-top: 11px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  /* Community: artifact leads; board gets quieter and less product-dashboard. */
+  .rgc-scope .yearbook-frame {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .concept-board-wrap,
+  .rgc-scope .concept-board {
+    max-width: 840px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .concept-board {
+    box-shadow: 0 16px 44px rgba(20, 18, 14, 0.075);
+  }
+
+  .rgc-scope .concept-board__header {
+    padding: 16px 18px;
+  }
+
+  .rgc-scope .concept-card {
+    padding: clamp(16px, 2vw, 20px);
+  }
+
+  .rgc-scope .concept-card--forest {
+    min-height: 190px;
+  }
+
+  .rgc-scope .concept-card__hero {
+    font-size: clamp(1.35rem, 2.8vw, 1.82rem);
+  }
+
+  /* Close: preserve payoff, but align it with the compressed artifact lane. */
+  .rgc-scope .close-section .pitch-grid__editorial {
+    max-width: 760px;
+  }
+
+  .rgc-scope .close-video-frame--cinematic {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 1101px) {
+  .rgc-scope [data-section="opportunity"] .pitch-grid__main,
+  .rgc-scope [data-section="thousand-test"] .pitch-grid__main,
+  .rgc-scope [data-section="ninety-days"] .pitch-grid__main,
+  .rgc-scope [data-section="work"] .pitch-grid__main,
+  .rgc-scope [data-section="community"] .pitch-grid__main {
+    max-width: 960px;
+  }
+}
+
+/* Compression QA fixes: avoid tablet-width slabs and cramped roadmap header copy. */
+@media (min-width: 760px) and (max-width: 1100px) {
+  .rgc-scope .opportunity-card {
+    max-width: 720px;
+  }
+
+  .rgc-scope .ninety-roadmap__header {
+    grid-template-columns: 1fr;
+  }
+
+  .rgc-scope .ninety-roadmap__header p:last-child {
+    max-width: 58ch;
+  }
+}
