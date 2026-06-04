@@ -10,11 +10,6 @@ const corsHeaders = {
 
 export async function verifyAdmin(email: string | undefined, password: string | undefined): Promise<{ ok: boolean; email?: string }> {
   if (!password) return { ok: false };
-  // Legacy fallback: shared password env
-  const adminPassword = Deno.env.get("ADMIN_PASSWORD");
-  if (!email && adminPassword && password === adminPassword) {
-    return { ok: true, email: "legacy" };
-  }
   if (!email) return { ok: false };
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
