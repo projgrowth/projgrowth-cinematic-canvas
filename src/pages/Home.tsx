@@ -10,8 +10,16 @@ import { caseStudies } from "@/data/caseStudies";
 import { ArrowRight, FileText, Globe, Sparkles, Film, Cpu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SurfaceCard } from "@/components/ui/card-surface";
+import ResultsStrip from "@/components/home/ResultsStrip";
 
 const featuredProjects = caseStudies.slice(0, 3);
+
+const availability = {
+  chip: "Currently booking Q1 2026 · 2 engagements open",
+  now: { label: "Now", value: "Wealth advisory + legaltech builds in flight" },
+  recent: { label: "Recent", title: "Florida Private Providers", slug: "florida-private" },
+  next: { label: "Next", value: "Accepting 2 new partners for Q1" },
+};
 
 const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   "Content Systems": FileText,
@@ -70,10 +78,10 @@ const Home = () => {
   };
 
   const services = [
-    { title: "Web Design", description: "Precision-engineered sites on modern stacks. Fast, conversion-focused, and built to reflect a brand worth paying attention to.", path: "/services/web-design" },
-    { title: "Branding", description: "Identity systems rooted in positioning. Logo, language, and visual direction that make you the obvious choice in the room.", path: "/services/branding" },
-    { title: "Content Creation", description: "Cinematic short-form, editorial copy, and social content — built in systems so one shoot becomes months of output.", path: "/services/content-creation" },
-    { title: "Digital Marketing", description: "Full-funnel strategy tied to revenue, not reports. SEO, paid, and email that compounds over time.", path: "/services/digital-marketing" },
+    { title: "Web Design", outcome: "Sites that convert, not just look good.", description: "Precision-engineered sites on modern stacks. Fast, conversion-focused, and built to reflect a brand worth paying attention to.", path: "/services/web-design" },
+    { title: "Branding", outcome: "The obvious choice in your category.", description: "Identity systems rooted in positioning. Logo, language, and visual direction that make you the obvious choice in the room.", path: "/services/branding" },
+    { title: "Content Creation", outcome: "One shoot. A month of output.", description: "Cinematic short-form, editorial copy, and social content — built in systems so one shoot becomes months of output.", path: "/services/content-creation" },
+    { title: "Digital Marketing", outcome: "Pipeline, not vanity reports.", description: "Full-funnel strategy tied to revenue, not reports. SEO, paid, and email that compounds over time.", path: "/services/digital-marketing" },
   ];
 
   const differentiators = [
@@ -103,6 +111,20 @@ const Home = () => {
         <div className="grid-12 relative z-10 items-center">
           {/* Left — headline and CTAs */}
           <div className="col-span-12 lg:col-span-7 stack gap-6 md:gap-8">
+            <motion.div
+              className="inline-flex items-center gap-2 self-start rounded-full border border-accent/30 bg-accent/5 px-3 py-1.5"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+              </span>
+              <span className="text-[11px] uppercase tracking-widest text-accent">
+                {availability.chip}
+              </span>
+            </motion.div>
             <motion.p
               className="eyebrow"
               initial={{ opacity: 0 }}
@@ -157,25 +179,33 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="w-full max-w-[300px] space-y-7">
-              {[
-                { value: "9", label: "Active Client Partners", accent: true },
-                { value: "3+", label: "Years Building Brands" },
-                { value: "100%", label: "Senior Talent, Every Engagement" },
-              ].map((stat, i) => (
-                <div key={i} className="flex items-start gap-4">
-                  <div className="w-px self-stretch bg-accent/30 flex-shrink-0 mt-1" />
-                  <div>
-                    <p className={`font-display text-4xl leading-none mb-1.5 tracking-tight ${stat.accent ? "text-accent" : "text-text"}`}>
-                      {stat.value}
-                    </p>
-                    <p className="text-xs text-mute uppercase tracking-widest">{stat.label}</p>
-                  </div>
-                </div>
-              ))}
-              <div className="pl-5 pt-2 border-t border-line">
-                <p className="text-xs text-mute/70 italic leading-relaxed">
-                  "You work directly with us — no account managers, no handoffs."
+            <div className="w-full max-w-[320px] border-l border-accent/30 pl-6 space-y-7">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2">
+                  {availability.now.label}
+                </p>
+                <p className="font-display text-text text-lg leading-snug">
+                  {availability.now.value}
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-mute mb-2">
+                  {availability.recent.label}
+                </p>
+                <Link
+                  to={`/work/${availability.recent.slug}`}
+                  className="group inline-flex items-center gap-2 font-display text-text text-lg leading-snug transition-colors duration-sm hover:text-accent"
+                >
+                  {availability.recent.title}
+                  <ArrowRight className="w-4 h-4 transition-transform duration-sm group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+              <div className="pt-5 border-t border-line">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-mute mb-2">
+                  {availability.next.label}
+                </p>
+                <p className="text-sm text-mute leading-relaxed">
+                  {availability.next.value}
                 </p>
               </div>
             </div>
@@ -201,14 +231,16 @@ const Home = () => {
               {services.map((service, idx) => (
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                   <Link to={service.path} className="group block h-full">
-                    <SurfaceCard pad="md" interactive className="relative overflow-hidden h-full">
+                    <SurfaceCard pad="md" interactive className="relative overflow-hidden h-full transition-transform duration-sm group-hover:-translate-y-0.5">
                       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
+                      <div className="absolute bottom-0 left-0 h-px w-0 bg-accent transition-all duration-md group-hover:w-full" />
                       <span className="relative font-display text-xs tracking-widest mb-4 block" style={{ color: "hsl(var(--accent) / 0.4)" }}>
                         {String(idx + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="relative font-display text-text mb-2 transition-colors duration-sm group-hover:text-accent">
+                      <h3 className="relative font-display text-text mb-1.5 transition-colors duration-sm group-hover:text-accent">
                         {service.title}
                       </h3>
+                      <p className="relative text-accent/80 text-sm mb-3 italic">{service.outcome}</p>
                       <p className="relative text-mute">{service.description}</p>
                     </SurfaceCard>
                   </Link>
@@ -218,6 +250,9 @@ const Home = () => {
           </div>
         </ScrollReveal>
       </Section>
+
+      {/* Results Strip — qualitative outcomes from real engagements */}
+      <ResultsStrip />
 
       {/* How We Work — editorial numbered list */}
       <section className="relative bg-surface/70 border-y border-line">
@@ -274,7 +309,7 @@ const Home = () => {
               const gradient = categoryGradients[project.category] || "from-accent/10 to-accent/5";
               const Icon = categoryIcons[project.category] || FileText;
               return (
-                <Link key={idx} to="/work" className="group block">
+                <Link key={idx} to={`/work/${project.id}`} className="group block">
                   <div className={`bg-gradient-to-br ${gradient} border border-line rounded-lg p-6 md:p-8 h-full flex flex-col transition-all duration-md hover:border-accent/40 hover:shadow-elegant`}>
                     <Icon className="w-7 h-7 text-accent-strong mb-6" />
                     <span className="text-xs text-accent mb-2 block">{project.category}</span>
@@ -282,8 +317,9 @@ const Home = () => {
                       {project.title}
                     </h3>
                     <p className="text-mute text-sm flex-1">{project.subtitle}</p>
-                    <div className="mt-6 flex items-center gap-1 text-accent text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-sm">
-                      View Case Study <ArrowRight className="w-4 h-4 ml-1" />
+                    <div className="mt-6 flex items-center gap-1 text-accent text-sm font-medium">
+                      View Case Study
+                      <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-sm group-hover:translate-x-1" />
                     </div>
                   </div>
                 </Link>
