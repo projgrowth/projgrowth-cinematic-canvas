@@ -2453,3 +2453,222 @@
     gap: 8px !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   RGC final artifact-scale pass: bigger primary artifacts, quieter UI supports.
+   Scale/hierarchy only; preserves copy, assets, and route behavior.
+-------------------------------------------------------------------------- */
+@media (min-width: 1100px) {
+  .rgc-scope {
+    --content-width-wide: 1040px;
+    --content-width-xl: 1180px;
+    --rgc-artifact-gap: clamp(34px, 4.6vw, 58px);
+  }
+
+  .rgc-scope .pitch-grid,
+  .rgc-scope .pitch-container {
+    max-width: 1180px;
+  }
+
+  .rgc-scope .pitch-grid__editorial {
+    max-width: 760px;
+  }
+
+  .rgc-scope [data-section="thousand-test"] .pitch-grid__main,
+  .rgc-scope [data-section="ninety-days"] .pitch-grid__main,
+  .rgc-scope [data-section="work"] .pitch-grid__main,
+  .rgc-scope [data-section="community"] .pitch-grid__main {
+    max-width: 1040px;
+  }
+
+  .rgc-scope .pitch-grid__wide,
+  .rgc-scope .pitch-container--xl {
+    max-width: 1120px;
+  }
+
+  .rgc-scope .tee-sheet-card,
+  .rgc-scope .thousand-support-grid,
+  .rgc-scope .ninety-roadmap,
+  .rgc-scope [data-section="work"] .fit-rail,
+  .rgc-scope [data-section="work"] .framed-grid,
+  .rgc-scope .concept-board-wrap,
+  .rgc-scope .concept-board {
+    max-width: 1040px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .yearbook-frame,
+  .rgc-scope .close-video-frame--cinematic {
+    max-width: 1120px;
+    margin-inline: auto;
+  }
+}
+
+/* Opportunity: attach the support receipt to the field observation visually. */
+.rgc-scope .opportunity-loop {
+  position: relative;
+  border-color: var(--rgc-border-soft);
+  background: linear-gradient(180deg, #fbf6eb 0%, #f2e8d7 100%);
+  box-shadow: 0 10px 28px rgba(20, 18, 14, 0.04);
+}
+
+.rgc-scope .opportunity-loop::before {
+  content: "FIELD RECEIPT";
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-family: var(--rgc-font-meta);
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+  color: rgb(var(--pencil-rgb) / 0.28);
+}
+
+.rgc-scope .opportunity-loop__strip,
+.rgc-scope .opportunity-loop__room {
+  background: rgb(var(--paper-rgb) / 0.62);
+  box-shadow: none;
+}
+
+.rgc-scope .opportunity-loop__room {
+  margin-top: 8px;
+}
+
+/* $1K: give the centerpiece more scale and connect the field kit tighter. */
+@media (min-width: 1100px) {
+  .rgc-scope [data-section="thousand-test"] .section-intro {
+    margin-bottom: clamp(34px, 4vw, 48px);
+  }
+
+  .rgc-scope .tee-sheet-card > div:first-child {
+    grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr) !important;
+  }
+
+  .rgc-scope .tee-sheet-card > div:first-child > div:first-child {
+    padding: clamp(30px, 3.2vw, 42px) !important;
+  }
+
+  .rgc-scope .tee-sheet-card > div:first-child .font-blackletter {
+    font-size: clamp(58px, 5.6vw, 76px) !important;
+  }
+
+  .rgc-scope .strategy-row {
+    grid-template-columns: 60px minmax(220px, 0.52fr) minmax(0, 1fr) !important;
+    padding: 20px 24px !important;
+  }
+
+  .rgc-scope .strategy-row__label {
+    font-size: 1.08rem;
+  }
+
+  .rgc-scope .strategy-row__body {
+    font-size: 0.92rem;
+    line-height: 1.52;
+  }
+
+  .rgc-scope .thousand-support-grid {
+    margin-top: clamp(18px, 2.3vw, 28px) !important;
+  }
+}
+
+/* 90 Days: checklist/stamp feel, less UI tag energy. */
+.rgc-scope .ninety-lane-strip {
+  padding: 14px 16px;
+}
+
+.rgc-scope .ninety-lane-strip__grid {
+  gap: 6px;
+}
+
+.rgc-scope .ninety-lane-chip {
+  padding: 7px 9px;
+  background: transparent;
+}
+
+.rgc-scope .ninety-lane-chip span {
+  color: rgb(var(--bone-rgb) / 0.72);
+  letter-spacing: 0.12em;
+}
+
+.rgc-scope .ninety-row--active .ninety-row__titleline span {
+  border-style: dashed;
+  background: transparent;
+  transform: rotate(-0.8deg);
+}
+
+.rgc-scope .ninety-row__chips span {
+  border-style: dashed;
+  background: rgb(var(--paper-rgb) / 0.34);
+}
+
+@media (min-width: 1100px) {
+  .rgc-scope .ninety-row {
+    grid-template-columns: 128px minmax(0, 1fr) 230px;
+    padding: 24px 28px;
+  }
+}
+
+/* Work: primary receipt plus quieter ledger entries. */
+.rgc-scope [data-section="work"] .fit-rail {
+  border-bottom: 0;
+  box-shadow: none;
+  opacity: 0.9;
+}
+
+.rgc-scope [data-section="work"] .fit-rail__cell {
+  padding-block: 11px;
+}
+
+.rgc-scope .work-card--featured {
+  position: relative;
+  background:
+    linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.075), transparent 44%),
+    linear-gradient(180deg, #fbf4e7 0%, #efe3d0 100%);
+}
+
+
+.rgc-scope .work-card:not(.work-card--featured) {
+  background: linear-gradient(180deg, #fbf6eb 0%, #f5eddf 100%);
+}
+
+.rgc-scope .work-card:not(.work-card--featured) .work-card__title {
+  font-size: clamp(1.22rem, 2vw, 1.58rem);
+}
+
+/* Community: stamped labels, flatter field paperwork. */
+.rgc-scope .concept-board {
+  box-shadow: 0 10px 28px rgba(20, 18, 14, 0.045);
+}
+
+.rgc-scope .concept-board__grid {
+  background: rgb(var(--pencil-rgb) / 0.08);
+}
+
+.rgc-scope .concept-board .mono-chip,
+.rgc-scope .concept-board .mono-chip--accent {
+  border-style: dashed;
+  background: rgb(var(--paper-rgb) / 0.88);
+  color: var(--pencil) !important;
+}
+
+.rgc-scope .concept-board .mono-chip--accent:first-child,
+.rgc-scope .concept-board__header .mono-chip--accent {
+  border-style: solid;
+  background: rgb(var(--oxblood-rgb) / 0.86);
+  color: var(--paper) !important;
+}
+
+/* Close: more film presence, less monitor chrome. */
+@media (min-width: 1100px) {
+  .rgc-scope .close-video-frame--cinematic {
+    padding: 10px;
+  }
+}
+
+.rgc-scope .field-monitor__topbar {
+  opacity: 0.58;
+}
+
+.rgc-scope .close-video-frame--cinematic::before {
+  opacity: 0.6;
+}
+

@@ -138,7 +138,8 @@ function BallMarkerArtifact() {
         <img
           src="/artifacts/rgc-city-marker.png"
           alt="RGC Orlando city marker and Mad Scramble Tour collectible marker mockup"
-          loading="lazy"
+          loading="eager"
+          fetchPriority="high"
           decoding="async"
           className="artifact-marker__image"
         />
