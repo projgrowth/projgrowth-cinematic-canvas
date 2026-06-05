@@ -1004,1070 +1004,9 @@
   border-top: 1px solid rgb(var(--paper-rgb) / 0.18);
 }
 
-/* Final ship polish: calmer hierarchy, fewer competing cards, cleaner mobile density. */
-.fit-rail {
-  border-color: rgba(14, 28, 19, 0.12);
-  background: rgba(14, 28, 19, 0.08);
-  box-shadow: none;
-}
-.fit-rail__cell {
-  background: rgba(14, 28, 19, 0.94);
-  padding: 13px 14px;
-}
-.budget-slip {
-  box-shadow: 0 14px 34px rgba(20, 18, 14, 0.055);
-  transform: rotate(0.6deg);
-}
-.artifact-marker {
-  box-shadow: 0 18px 44px rgba(20, 18, 14, 0.14);
-}
-.tee-sheet-card {
-  box-shadow: 0 22px 54px rgba(20, 18, 14, 0.075);
-}
-.concept-board {
-  box-shadow: 0 22px 56px rgba(20, 18, 14, 0.1);
-}
-.concept-card--forest {
-  min-height: 230px;
-}
-.community-note {
-  box-shadow: 0 12px 32px rgba(20, 18, 14, 0.045);
-}
-.close-video-frame {
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
-}
-
-@media (max-width: 640px) {
-  .fit-rail {
-    margin-top: 2rem !important;
-  }
-  .fit-rail__cell {
-    padding: 12px;
-  }
-  .work-footer-meta {
-    display: none;
-  }
-  .budget-slip {
-    padding: 14px;
-    transform: none;
-  }
-  .dashed-card {
-    padding: 14px;
-  }
-  .budget-slip__rows {
-    display: none !important;
-  }
-  .artifact-marker {
-    margin-top: 1rem !important;
-  }
-  .tee-move {
-    grid-template-columns: 44px 1fr !important;
-    gap: 14px !important;
-    padding: 17px 18px;
-  }
-  .tee-sheet-card {
-    margin-top: 2.25rem !important;
-  }
-  .concept-board {
-    box-shadow: 0 14px 36px rgba(20, 18, 14, 0.08);
-  }
-  .concept-card--forest {
-    min-height: 200px;
-  }
-  .community-note {
-    padding: 19px;
-  }
-}
-
-/* Final media upgrade */
-.artifact-marker__image {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border: 1px solid rgba(245, 240, 232, 0.14);
-}
-.artifact-marker__copy {
-  margin-top: 14px;
-}
-.close-video-frame--cinematic {
-  width: 100%;
-  margin-inline: 0;
-  padding: 10px;
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.24);
-}
-.close-video-frame--cinematic .close-video-frame__inner {
-  padding: 10px;
-}
-.close-video-frame__media--landscape {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-}
-.close-video-frame__media--landscape video {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.03) saturate(0.95) brightness(0.95);
-}
-.field-film-poster {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  background: #050806;
-  color: var(--paper);
-  cursor: pointer;
-  overflow: hidden;
-}
-.field-film-poster img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.04) saturate(0.94) brightness(0.94);
-  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.field-film-poster__scrim {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      circle at 50% 44%,
-      rgba(0, 0, 0, 0.08),
-      rgba(0, 0, 0, 0.36) 72%
-    ),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.22));
-}
-.field-film-poster__play {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  display: grid;
-  width: 72px;
-  height: 72px;
-  place-items: center;
-  border: 1.5px solid rgba(245, 240, 232, 0.62);
-  border-radius: 999px;
-  background: rgba(5, 8, 6, 0.48);
-  box-shadow: 0 0 0 8px rgba(245, 240, 232, 0.06);
-  color: var(--paper);
-  font-size: 24px;
-  line-height: 1;
-  transform: translate(-50%, -50%);
-  padding-left: 4px;
-  backdrop-filter: blur(4px);
-}
-.field-film-poster__label {
-  position: absolute;
-  left: 18px;
-  bottom: 16px;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgb(var(--paper-rgb) / 0.82);
-}
-.field-film-poster:hover img {
-  transform: scale(1.018);
-}
-@media (max-width: 640px) {
-  .close-video-frame--cinematic {
-    width: 100%;
-    padding: 8px;
-  }
-  .close-video-frame--cinematic .close-video-frame__inner {
-    padding: 8px;
-  }
-  .close-video-frame__media--landscape {
-    aspect-ratio: 16 / 9;
-  }
-  .field-film-poster__play {
-    width: 54px;
-    height: 54px;
-    font-size: 18px;
-  }
-  .field-film-poster__label {
-    left: 12px;
-    bottom: 10px;
-    font-size: 0.54rem;
-  }
-}
-
-/* Final close polish: the accent word is strong enough without a page-spanning underline. */
-[data-section="close"] .h-section .accent::after {
-  display: none;
-}
-
-/* 90-day roadmap reset: editorial field-plan sheet, not dashboard cards. */
-.ninety-lane-strip {
-  border: 1px solid rgb(var(--bone-rgb) / 0.13);
-  background: rgb(var(--bone-rgb) / 0.045);
-  padding: 16px;
-}
-.ninety-lane-strip__label {
-  margin: 0 0 12px;
-  color: rgb(var(--bone-rgb) / 0.64);
-  letter-spacing: 0.2em;
-}
-.ninety-lane-strip__grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.ninety-lane-chip {
-  border: 1px solid rgb(var(--bone-rgb) / 0.22);
-  background: rgb(var(--bone-rgb) / 0.06);
-  padding: 9px 11px;
-}
-.ninety-lane-chip span {
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgb(var(--bone-rgb) / 0.88);
-}
-.ninety-roadmap {
-  border: 1px solid rgb(var(--bone-rgb) / 0.16);
-  background: var(--paper);
-  color: var(--pencil);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.16);
-}
-.ninety-roadmap__header {
-  display: grid;
-  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
-  gap: 28px;
-  padding: 22px 24px;
-  border-bottom: 1px solid var(--hairline);
-  background: linear-gradient(180deg, #fbf7ee 0%, var(--paper) 100%);
-}
-.ninety-roadmap__header .meta-label {
-  margin: 0;
-  color: var(--oxblood);
-  letter-spacing: 0.2em;
-}
-.ninety-roadmap__header p:last-child {
-  margin: 0;
-  max-width: 62ch;
-  font-family: "Lora", Georgia, serif;
-  font-size: 0.98rem;
-  line-height: 1.6;
-  color: rgb(var(--pencil-rgb) / 0.78);
-}
-.ninety-roadmap__rows {
-  display: grid;
-}
-.ninety-row {
-  display: grid;
-  grid-template-columns: 118px minmax(0, 1fr) 210px;
-  gap: 24px;
-  padding: 22px 24px;
-  border-bottom: 1px solid var(--hairline);
-  background: var(--paper);
-}
-.ninety-row:last-child {
-  border-bottom: 0;
-}
-.ninety-row--active {
-  background: linear-gradient(
-    90deg,
-    rgb(var(--oxblood-rgb) / 0.08),
-    var(--paper) 42%
-  );
-  box-shadow: inset 4px 0 0 var(--oxblood);
-}
-.ninety-row__number span {
-  display: block;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 1.05rem;
-  letter-spacing: 0.16em;
-  color: var(--oxblood);
-}
-.ninety-row__number p,
-.ninety-row__output .meta-label {
-  margin: 8px 0 0;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.54rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgb(var(--pencil-rgb) / 0.48);
-}
-.ninety-row__titleline {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.ninety-row__titleline h3 {
-  margin: 0;
-  font-family: "Lora", Georgia, serif;
-  font-size: clamp(1.22rem, 2.1vw, 1.58rem);
-  line-height: 1.16;
-  color: var(--ink);
-}
-.ninety-row__titleline span {
-  border: 1px solid rgb(var(--oxblood-rgb) / 0.28);
-  padding: 6px 8px;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.48rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--oxblood);
-  background: rgb(var(--oxblood-rgb) / 0.06);
-}
-.ninety-row__main > p {
-  margin: 9px 0 0;
-  font-family: "Lora", Georgia, serif;
-  font-size: 0.96rem;
-  line-height: 1.58;
-  color: rgb(var(--pencil-rgb) / 0.78);
-}
-.ninety-row__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 13px;
-}
-.ninety-row__chips span {
-  border: 1px solid rgb(var(--pencil-rgb) / 0.12);
-  padding: 6px 8px;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.5rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgb(var(--pencil-rgb) / 0.68);
-  background: rgb(var(--paper-rgb) / 0.68);
-}
-.ninety-row__output strong {
-  display: block;
-  margin-top: 8px;
-  font-family: "Lora", Georgia, serif;
-  font-size: 0.92rem;
-  line-height: 1.42;
-  font-style: italic;
-  font-weight: 500;
-  color: var(--oxblood);
-}
-@media (max-width: 900px) {
-  .ninety-roadmap__header,
-  .ninety-row {
-    grid-template-columns: 1fr;
-  }
-  .ninety-row {
-    gap: 14px;
-    padding: 20px;
-  }
-  .ninety-row__number {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-  }
-}
-
-/* Reveal fail-safe: if motion is reduced or browser restores mid-page, content should never read as missing. */
-@media (prefers-reduced-motion: reduce) {
-  .in-view-fade {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-
-@media (max-width: 640px) {
-  [data-section="ninety-days"] .section-intro {
-    margin-top: 1.5rem;
-  }
-  [data-section="ninety-days"] .hand-accent {
-    margin-top: 1rem !important;
-  }
-  [data-section="ninety-days"] .ninety-lane-strip {
-    margin-top: 1.5rem !important;
-  }
-  [data-section="ninety-days"] .ninety-roadmap {
-    margin-top: 1.5rem !important;
-  }
-}
-
-/* Final restraint pass: shared strategy and receipt language. */
-.artifact-frame {
-  border: 1px solid var(--hairline-strong);
-  background: #11130f;
-  color: var(--paper);
-  box-shadow: 0 28px 80px rgba(20, 18, 14, 0.14);
-}
-.system-sheet {
-  border: 1px solid var(--hairline-strong);
-  background: linear-gradient(180deg, #fbf7ee 0%, var(--paper) 100%);
-  box-shadow: 0 18px 60px rgba(20, 18, 14, 0.07);
-}
-.quiet-meta {
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.56rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgb(var(--pencil-rgb) / 0.48);
-}
-.system-sheet-title {
-  margin: 10px 0 0;
-  max-width: 9.5ch;
-  font-family: "Pirata One", "UnifrakturCook", "Old English Text MT", serif;
-  font-size: clamp(36px, 6vw, 58px);
-  line-height: 1;
-  color: var(--ink);
-}
-.strategy-row {
-  transition: background 220ms ease;
-}
-.strategy-row--active {
-  box-shadow: inset 3px 0 0 var(--oxblood);
-  background: linear-gradient(
-    90deg,
-    rgb(var(--oxblood-rgb) / 0.07),
-    var(--paper) 46%
-  ) !important;
-}
-.strategy-row__label {
-  margin: 0;
-  font-family: "Lora", Georgia, serif;
-  font-size: 1rem;
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--ink);
-}
-.strategy-row--active .strategy-row__label {
-  color: var(--oxblood);
-}
-.strategy-row__number {
-  margin: 0;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  color: var(--oxblood);
-}
-.strategy-row__meta {
-  margin: 5px 0 0;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.56rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgb(var(--pencil-rgb) / 0.62);
-}
-.strategy-row__body {
-  margin: 0;
-  font-family: "Lora", Georgia, serif;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: rgb(var(--pencil-rgb) / 0.78);
-}
-.thousand-support-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(20px, 3vw, 28px);
-}
-.thousand-proof-note {
-  margin: 0;
-  font-size: 24px;
-  line-height: 1.1;
-}
-@media (min-width: 900px) {
-  .thousand-support-grid {
-    grid-template-columns: minmax(0, 0.82fr) minmax(280px, 0.58fr);
-    align-items: start;
-  }
-  .thousand-proof-note {
-    grid-column: 1 / -1;
-    justify-self: end;
-    max-width: 420px;
-    text-align: right;
-  }
-  .artifact-marker {
-    margin-top: 0 !important;
-  }
-}
-.tee-move__number {
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.92rem;
-  letter-spacing: 0.12em;
-  color: var(--oxblood);
-}
-.tee-move__title,
-.work-card__title,
-.community-bullet-title,
-.concept-card__title {
-  margin: 0;
-  font-family: "Lora", Georgia, serif;
-  color: var(--ink);
-  line-height: 1.14;
-}
-.tee-move__title {
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-}
-.work-card__title {
-  font-size: clamp(1.45rem, 2.6vw, 2rem);
-}
-.community-bullet-title {
-  margin: 14px 0 12px;
-  font-size: 1.25rem;
-}
-.concept-card__title {
-  margin: 10px 0 0;
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
-}
-.concept-card__hero {
-  margin: 12px 0 0;
-  max-width: 11ch;
-  font-family: "Lora", Georgia, serif;
-  font-size: clamp(1.45rem, 3.2vw, 2.15rem);
-  line-height: 1.06;
-  font-weight: 700;
-}
-.role-fit-line {
-  max-width: 68ch;
-  margin: 1.15rem 0 0;
-  padding-left: 16px;
-  border-left: 2px solid var(--oxblood);
-  font-family: "Lora", Georgia, serif;
-  font-size: 1rem;
-  line-height: 1.64;
-  color: rgb(var(--bone-rgb) / 0.86);
-}
-@media (max-width: 640px) {
-  .system-sheet-title {
-    max-width: none;
-  }
-  .strategy-row__label {
-    font-size: 1.05rem;
-  }
-  .role-fit-line {
-    margin-top: 1rem;
-    font-size: 0.94rem;
-  }
-}
-
-/* Final cohesion pass: restore field-packet soul without reintroducing chaos. */
-.ninety-roadmap {
-  position: relative;
-  overflow: hidden;
-  border-color: rgb(var(--bone-rgb) / 0.28);
-  background:
-    linear-gradient(90deg, rgba(139, 32, 32, 0.04) 0 1px, transparent 1px 100%),
-    linear-gradient(
-      180deg,
-      rgba(14, 28, 19, 0.035) 0 1px,
-      transparent 1px 100%
-    ),
-    linear-gradient(180deg, #fbf5e9 0%, #f2e8d7 100%);
-  background-size:
-    42px 100%,
-    100% 42px,
-    auto;
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.2),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.42);
-}
-.ninety-roadmap::before {
-  content: "RGC FIELD PLAN";
-  position: absolute;
-  right: 22px;
-  top: 18px;
-  z-index: 0;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.24em;
-  color: rgb(var(--pencil-rgb) / 0.18);
-}
-.ninety-roadmap__header,
-.ninety-row {
-  position: relative;
-  z-index: 1;
-  background: transparent;
-}
-.ninety-roadmap__header {
-  border-bottom-color: rgba(14, 28, 19, 0.15);
-}
-.ninety-row {
-  border-bottom-color: rgba(14, 28, 19, 0.13);
-}
-.ninety-row--active {
-  background:
-    radial-gradient(
-      circle at 0% 50%,
-      rgb(var(--oxblood-rgb) / 0.13),
-      transparent 46%
-    ),
-    linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.07), transparent 58%);
-  box-shadow:
-    inset 4px 0 0 var(--oxblood),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42);
-}
-.ninety-row__titleline h3 {
-  letter-spacing: -0.02em;
-}
-.ninety-row__chips span {
-  background: rgba(255, 252, 245, 0.58);
-}
-.fit-rail {
-  border: 1px solid rgba(14, 28, 19, 0.16);
-  background:
-    linear-gradient(90deg, rgba(14, 28, 19, 0.96), rgba(18, 38, 26, 0.94)),
-    var(--forest);
-  box-shadow: 0 18px 50px rgba(20, 18, 14, 0.08);
-}
-.fit-rail__cell {
-  background: transparent;
-  border-right: 1px solid rgba(245, 240, 232, 0.16);
-}
-.fit-rail__cell:last-child {
-  border-right: 0;
-}
-.work-card {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 42%),
-    linear-gradient(180deg, #fbf6eb 0%, #f1e7d6 100%);
-}
-.work-card--featured {
-  background:
-    linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.055), transparent 42%),
-    linear-gradient(180deg, #fbf4e7 0%, #efe3d0 100%);
-}
-.work-card__title {
-  letter-spacing: -0.025em;
-}
-.concept-board {
-  border-color: rgba(14, 28, 19, 0.14);
-  background: linear-gradient(180deg, #fbf6eb 0%, #efe4d3 100%);
-  box-shadow: 0 28px 80px rgba(20, 18, 14, 0.12);
-}
-.concept-board__header {
-  background: rgba(14, 28, 19, 0.045);
-}
-.concept-card {
-  background: rgba(255, 252, 246, 0.7);
-}
-.concept-card--forest {
-  background:
-    radial-gradient(
-      circle at 74% 18%,
-      rgba(245, 240, 232, 0.14),
-      transparent 34%
-    ),
-    linear-gradient(135deg, #101b14 0%, #0a120d 100%);
-}
-.close-video-frame--cinematic {
-  position: relative;
-  border: 1px solid rgba(245, 240, 232, 0.22);
-  border-radius: 2px;
-  background:
-    linear-gradient(135deg, rgba(245, 240, 232, 0.1), transparent 18%),
-    linear-gradient(180deg, rgba(9, 14, 10, 0.94), rgba(2, 4, 3, 0.98));
-  padding: 16px;
-  box-shadow:
-    0 34px 110px rgba(0, 0, 0, 0.32),
-    inset 0 0 0 1px rgba(245, 240, 232, 0.05);
-}
-.close-video-frame--cinematic::before,
-.close-video-frame--cinematic::after {
-  content: "";
-  position: absolute;
-  inset: 9px;
-  pointer-events: none;
-  border: 1px solid rgba(245, 240, 232, 0.08);
-}
-.close-video-frame--cinematic::after {
-  inset: 21px;
-  border-color: rgba(245, 240, 232, 0.045);
-}
-.close-video-frame--cinematic .close-video-frame__inner {
-  position: relative;
-  z-index: 1;
-  gap: 14px;
-  border: 1px solid rgba(245, 240, 232, 0.16);
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(245, 240, 232, 0.08),
-      transparent 36%
-    ),
-    #070b08;
-  padding: 14px;
-}
-.field-monitor__topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 2px 0 8px;
-  font-family: "Space Mono", "Courier New", monospace;
-  font-size: 0.54rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgb(var(--paper-rgb) / 0.48);
-}
-.field-monitor__rec {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: rgb(var(--paper-rgb) / 0.72);
-}
-.field-monitor__rec span {
-  display: block;
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--oxblood);
-  box-shadow: 0 0 14px rgb(var(--oxblood-rgb) / 0.9);
-  animation: rgc-rec-pulse 1.45s ease-in-out infinite;
-}
-.close-video-frame__media--landscape {
-  border: 1px solid rgba(245, 240, 232, 0.13);
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.72),
-    0 20px 50px rgba(0, 0, 0, 0.28);
-}
-.field-film-poster {
-  animation: rgc-monitor-on 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.field-film-poster__scanlines {
-  position: absolute;
-  inset: 0;
-  opacity: 0.42;
-  background: repeating-linear-gradient(
-    180deg,
-    rgba(245, 240, 232, 0.06) 0,
-    rgba(245, 240, 232, 0.06) 1px,
-    transparent 1px,
-    transparent 6px
-  );
-  mix-blend-mode: soft-light;
-}
-.field-film-poster__play {
-  box-shadow:
-    0 0 0 6px rgba(245, 240, 232, 0.04),
-    0 18px 44px rgba(0, 0, 0, 0.32);
-}
-@keyframes rgc-monitor-on {
-  0% {
-    opacity: 0;
-    filter: brightness(2) blur(8px);
-    transform: scaleY(0.035);
-  }
-  18% {
-    opacity: 0.9;
-    transform: scaleY(0.035);
-  }
-  42% {
-    filter: brightness(1.45) blur(2px);
-    transform: scaleY(1.015);
-  }
-  100% {
-    opacity: 1;
-    filter: none;
-    transform: none;
-  }
-}
-@keyframes rgc-rec-pulse {
-  0%,
-  100% {
-    opacity: 0.45;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@media (max-width: 640px) {
-  .field-monitor__topbar {
-    font-size: 0.46rem;
-    letter-spacing: 0.13em;
-  }
-  .field-monitor__topbar span:nth-child(2) {
-    display: none;
-  }
-  .close-video-frame--cinematic {
-    padding: 10px;
-  }
-  .close-video-frame--cinematic::before,
-  .close-video-frame--cinematic::after {
-    display: none;
-  }
-}
-
-/* Final pre-send polish: make dense sections easier to scan and make the close one final scene. */
-.close-section {
-  padding-top: clamp(92px, 10vw, 142px);
-  padding-bottom: clamp(54px, 7vw, 86px);
-}
-.close-section .body-prose {
-  max-width: 62ch;
-}
-.close-field-note {
-  max-width: 58ch;
-  margin: clamp(26px, 4vw, 40px) 0 0;
-  padding-top: 18px;
-  border-top: 1px solid rgba(245, 240, 232, 0.16);
-  font-family: "Lora", Georgia, serif;
-  font-size: clamp(1rem, 1.4vw, 1.12rem);
-  line-height: 1.62;
-  font-style: italic;
-  color: rgba(245, 240, 232, 0.82);
-}
-.close-film-stage {
-  margin-top: clamp(34px, 5vw, 58px);
-}
-.close-section .close-video-frame--cinematic {
-  padding: clamp(10px, 1.35vw, 14px);
-  box-shadow:
-    0 28px 82px rgba(0, 0, 0, 0.28),
-    inset 0 0 0 1px rgba(245, 240, 232, 0.045);
-}
-.close-section .close-video-frame--cinematic::before {
-  inset: 8px;
-}
-.close-section .close-video-frame--cinematic::after {
-  display: none;
-}
-.close-section .close-video-frame--cinematic .close-video-frame__inner {
-  gap: 12px;
-  padding: clamp(10px, 1.1vw, 12px);
-}
-.close-section .field-film-poster__scrim {
-  background:
-    radial-gradient(
-      circle at 50% 46%,
-      rgba(0, 0, 0, 0.02),
-      rgba(0, 0, 0, 0.28) 78%
-    ),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.16));
-}
-.close-footer {
-  margin-top: clamp(30px, 4vw, 46px);
-  padding-top: 22px;
-  display: grid;
-  gap: 12px;
-  align-items: baseline;
-  text-align: center;
-  border-top: 1px solid rgba(245, 240, 232, 0.16);
-}
-.close-footer__email,
-.close-footer__meta {
-  margin: 0;
-  font-family: "Space Mono", "Courier New", monospace;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.74);
-}
-.close-footer__email {
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  text-decoration: none;
-}
-.close-footer__meta {
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
-  opacity: 0.62;
-}
-.close-footer__email:hover {
-  color: var(--paper);
-}
-
-.community-system-label {
-  text-align: center;
-}
-.concept-board-wrap {
-  margin-top: 24px;
-  width: 100%;
-}
-.concept-board__header {
-  padding: clamp(16px, 2.2vw, 22px) clamp(18px, 2.6vw, 26px);
-}
-.concept-board__header p:last-child {
-  max-width: 58ch;
-  line-height: 1.55;
-}
-.concept-card {
-  padding: clamp(18px, 2vw, 22px);
-}
-.concept-card__body {
-  margin: 14px 0 0;
-  font-family: "Lora", Georgia, serif;
-  font-size: 0.95rem;
-  line-height: 1.62;
-  color: var(--ink);
-}
-.concept-stats {
-  opacity: 0.82;
-}
-.concept-card--forest {
-  min-height: 214px;
-}
-
-@media (min-width: 760px) {
-  .close-footer {
-    grid-template-columns: auto 1fr auto;
-    text-align: left;
-  }
-  .close-footer__meta {
-    text-align: center;
-  }
-}
-
-@media (max-width: 900px) {
-  .ninety-roadmap__header {
-    gap: 10px;
-    padding: 20px;
-  }
-  .ninety-row {
-    gap: 16px;
-    padding: 22px 20px;
-  }
-  .ninety-row__main > p {
-    font-size: 1rem;
-    line-height: 1.62;
-  }
-  .ninety-row__output {
-    padding-top: 2px;
-  }
-  .ninety-row__output .meta-label {
-    margin-top: 0;
-  }
-}
-
-@media (max-width: 640px) {
-  .close-section {
-    padding-top: 76px;
-    padding-bottom: 50px;
-  }
-  .close-field-note {
-    margin-top: 24px;
-  }
-  .close-film-stage {
-    margin-top: 30px;
-  }
-  .close-section .field-monitor__topbar {
-    padding-bottom: 6px;
-  }
-  .close-footer {
-    margin-top: 28px;
-  }
-  .close-footer__email {
-    font-size: 0.66rem;
-  }
-  .ninety-lane-strip {
-    padding: 15px;
-  }
-  .ninety-lane-chip span {
-    font-size: 0.54rem;
-  }
-  .ninety-roadmap {
-    margin-top: 1.75rem !important;
-  }
-  .ninety-row__number {
-    padding-bottom: 2px;
-  }
-  .ninety-row__number span {
-    font-size: 0.95rem;
-  }
-  .ninety-row__titleline {
-    gap: 8px;
-  }
-  .ninety-row__chips {
-    gap: 6px;
-  }
-  .ninety-row__chips span {
-    font-size: 0.47rem;
-    padding: 6px 7px;
-  }
-  .community-system-label {
-    text-align: left;
-    line-height: 1.55;
-  }
-  .concept-board-wrap {
-    margin-top: 18px;
-  }
-  .concept-board__header {
-    gap: 12px;
-  }
-  .concept-card--forest {
-    min-height: 184px;
-  }
-}
-
-/* RGC live-route integration polish: privacy-safe pitch page, reliable artifacts, calmer scroll. */
-.rgc-scope .media-frame,
-.rgc-scope .field-film-poster,
-.rgc-scope .artifact-marker__image {
-  background:
-    radial-gradient(
-      circle at 50% 34%,
-      rgb(var(--paper-rgb) / 0.08),
-      transparent 34%
-    ),
-    linear-gradient(135deg, rgb(var(--forest-rgb) / 0.92), #0b120d);
-}
-.rgc-scope .yearbook-frame .media-frame__asset,
-.rgc-scope .field-film-poster img,
-.rgc-scope .artifact-marker__image {
-  transition: opacity 220ms ease;
-}
-.rgc-scope [data-section="thousand-test"] {
-  padding-bottom: clamp(88px, 9vw, 128px);
-}
-.rgc-scope [data-section="ninety-days"] {
-  padding-top: clamp(88px, 9vw, 128px);
-  padding-bottom: clamp(88px, 9vw, 128px);
-}
-.rgc-scope [data-section="community"] {
-  padding-bottom: clamp(86px, 9vw, 126px);
-}
-.rgc-scope [data-section="close"] {
-  padding-top: clamp(82px, 9vw, 126px);
-}
-@media (max-width: 640px) {
-  .rgc-scope [data-section="thousand-test"],
-  .rgc-scope [data-section="ninety-days"],
-  .rgc-scope [data-section="community"] {
-    padding-bottom: 76px;
-  }
-  .rgc-scope [data-section="ninety-days"],
-  .rgc-scope [data-section="close"] {
-    padding-top: 76px;
-  }
-}
-
-/* Send-safe reveal fallback for the embedded ProjGrowth route.
-   The standalone pitch used scroll reveals; inside the main site shell, reliability beats animation. */
-.rgc-scope .in-view-fade {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* Keep the yearbook artifact caption readable in the ProjGrowth embed. */
-.rgc-scope .yearbook-frame {
-  background: #11130f !important;
-  color: var(--paper) !important;
-}
-.rgc-scope .yearbook-frame > div:last-child {
-  background: #11130f;
-}
-
-/* Final route-specific contrast guard: keep close text readable against forest even inside the shared bg-bone wrapper. */
-.rgc-scope .close-section .close-field-note {
-  color: rgba(245, 240, 232, 0.82);
-}
-
-.rgc-scope .close-section .close-footer__meta {
-  color: rgba(245, 240, 232, 0.58);
-}
-
 /* --------------------------------------------------------------------------
-   RGC subpage system finish: typography, alignment, and contrast guardrails.
-   This intentionally stays scoped to .rgc-scope so the main ProjGrowth site is
-   untouched. It reduces one-off visual drift without changing the story.
+   RGC consolidated visual system: one premium field-packet language.
+   Keep this as the single route-level system layer after the base pitch styles.
 -------------------------------------------------------------------------- */
 .rgc-scope {
   --rgc-font-display:
@@ -2078,35 +1017,118 @@
 
   --rgc-text-primary: var(--pencil);
   --rgc-text-strong: var(--ink);
-  --rgc-text-muted: rgb(var(--pencil-rgb) / 0.68);
-  --rgc-text-subtle: rgb(var(--pencil-rgb) / 0.54);
+  --rgc-text-muted: rgb(var(--pencil-rgb) / 0.7);
+  --rgc-text-subtle: rgb(var(--pencil-rgb) / 0.52);
   --rgc-text-onforest: var(--paper);
-  --rgc-text-onforest-muted: rgb(var(--paper-rgb) / 0.74);
-  --rgc-text-onforest-subtle: rgb(var(--paper-rgb) / 0.58);
+  --rgc-text-onforest-muted: rgb(var(--paper-rgb) / 0.76);
+  --rgc-text-onforest-subtle: rgb(var(--paper-rgb) / 0.56);
 
-  --rgc-section-y: clamp(82px, 10vw, 142px);
-  --rgc-section-y-tight: clamp(68px, 8vw, 112px);
-  --rgc-heading-gap: clamp(30px, 4vw, 50px);
-  --rgc-artifact-gap: clamp(34px, 5vw, 62px);
-  --rgc-card-pad: clamp(20px, 2.8vw, 32px);
+  --rgc-sheet-bg: linear-gradient(180deg, #fbf6eb 0%, #f1e7d6 100%);
+  --rgc-sheet-grid:
+    linear-gradient(
+      90deg,
+      rgba(139, 32, 32, 0.025) 0 1px,
+      transparent 1px 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(14, 28, 19, 0.026) 0 1px,
+      transparent 1px 100%
+    ),
+    var(--rgc-sheet-bg);
+  --rgc-artifact-dark: linear-gradient(135deg, #101b14 0%, #08100b 100%);
+  --rgc-shadow-sheet: 0 18px 56px rgba(20, 18, 14, 0.07);
+  --rgc-shadow-artifact: 0 26px 82px rgba(20, 18, 14, 0.16);
+  --rgc-border: rgb(var(--pencil-rgb) / 0.16);
+  --rgc-border-soft: rgb(var(--pencil-rgb) / 0.1);
+  --rgc-border-forest: rgb(var(--paper-rgb) / 0.15);
+
+  --rgc-section-y: clamp(78px, 9vw, 132px);
+  --rgc-section-y-tight: clamp(64px, 8vw, 108px);
+  --rgc-artifact-gap: clamp(30px, 4.4vw, 54px);
+  --rgc-card-pad: clamp(20px, 2.4vw, 28px);
 }
 
+/* Route integration and reliability guardrails. */
+.rgc-scope .in-view-fade {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.rgc-scope .bg-bone,
+.rgc-scope .bg-paper {
+  background-color: var(--bone);
+}
+
+.rgc-scope [data-section] {
+  position: relative;
+}
+
+.rgc-scope [data-section] > span[aria-hidden] {
+  opacity: 0.3;
+  transform: scale(0.9);
+  transform-origin: top right;
+}
+
+.rgc-scope [data-section="opportunity"],
+.rgc-scope [data-section="thousand-test"],
+.rgc-scope [data-section="work"],
+.rgc-scope [data-section="community"] {
+  padding-top: var(--rgc-section-y-tight);
+  padding-bottom: var(--rgc-section-y-tight);
+}
+
+.rgc-scope [data-section="ninety-days"],
+.rgc-scope [data-section="close"] {
+  padding-top: var(--rgc-section-y);
+  padding-bottom: var(--rgc-section-y);
+}
+
+.rgc-scope .pitch-grid,
+.rgc-scope .pitch-container {
+  padding-inline: var(--space-gutter);
+}
+
+.rgc-scope .pitch-grid__editorial,
+.rgc-scope .pitch-grid__main {
+  justify-self: stretch;
+}
+
+.rgc-scope .section-stack-lg,
+.rgc-scope .section-stack-md,
+.rgc-scope .artifact-stack,
+.rgc-scope .yearbook-frame,
+.rgc-scope .concept-board-wrap,
+.rgc-scope .close-film-stage {
+  margin-top: var(--rgc-artifact-gap);
+}
+
+/* Typography: one hierarchy, with blackletter reserved for moments. */
+.rgc-scope,
 .rgc-scope .font-body,
 .rgc-scope .body-prose,
 .rgc-scope .section-intro,
 .rgc-scope .type-body,
 .rgc-scope .type-caption,
-.rgc-scope .concept-card__body,
+.rgc-scope .body-sm,
+.rgc-scope .strategy-row__label,
+.rgc-scope .strategy-row__body,
+.rgc-scope .tee-move__title,
 .rgc-scope .ninety-row__titleline h3,
 .rgc-scope .ninety-row__main > p,
-.rgc-scope .ninety-roadmap__header p:last-child,
-.rgc-scope .ninety-row__output strong {
+.rgc-scope .ninety-row__output strong,
+.rgc-scope .work-card__title,
+.rgc-scope .work-card__rgc,
+.rgc-scope .concept-card__title,
+.rgc-scope .concept-card__body,
+.rgc-scope .community-bullet-title {
   font-family: var(--rgc-font-body);
 }
 
 .rgc-scope .font-blackletter,
 .rgc-scope .h-section,
-.rgc-scope .type-display-xl {
+.rgc-scope .type-display-xl,
+.rgc-scope .system-sheet-title {
   font-family: var(--rgc-font-display);
 }
 
@@ -2114,12 +1136,13 @@
 .rgc-scope .meta-label,
 .rgc-scope .eyebrow,
 .rgc-scope .type-meta,
+.rgc-scope .quiet-meta,
 .rgc-scope .mono-chip,
+.rgc-scope .strategy-row__number,
+.rgc-scope .strategy-row__meta,
 .rgc-scope .ninety-lane-chip span,
 .rgc-scope .ninety-row__number span,
 .rgc-scope .ninety-row__number p,
-.rgc-scope .ninety-row__output .meta-label,
-.rgc-scope .ninety-row__titleline span,
 .rgc-scope .ninety-row__chips span,
 .rgc-scope .field-monitor__topbar,
 .rgc-scope .close-footer__email,
@@ -2127,735 +1150,56 @@
   font-family: var(--rgc-font-meta);
 }
 
-.rgc-scope .font-hand,
-.rgc-scope .hand-accent {
+.rgc-scope .hand-accent,
+.rgc-scope .font-hand {
   font-family: var(--rgc-font-hand);
 }
 
-/* Cream/paper surfaces: one readable editorial contrast ladder. */
-.rgc-scope
-  :where(
-    .bg-bone,
-    .bg-paper,
-    .paper-card,
-    .receipt-card,
-    .system-card,
-    .ninety-roadmap,
-    .concept-card
-  ):not(.concept-card--forest)
-  :where(p, li) {
-  color: var(--rgc-text-primary);
-}
-.rgc-scope
-  :where(
-    .bg-bone,
-    .bg-paper,
-    .paper-card,
-    .receipt-card,
-    .system-card,
-    .ninety-roadmap,
-    .concept-card
-  ):not(.concept-card--forest)
-  :where(h1, h2, h3, h4, strong) {
-  color: var(--rgc-text-strong);
-}
-.rgc-scope
-  :where(
-    .bg-bone,
-    .bg-paper,
-    .paper-card,
-    .receipt-card,
-    .system-card,
-    .ninety-roadmap,
-    .concept-card
-  ):not(.concept-card--forest)
-  .meta-label {
-  color: var(--rgc-text-subtle);
+.rgc-scope .h-section {
+  line-height: 0.98;
 }
 
-/* Forest/dark surfaces: prevent accidental dark text and keep oxblood from being used as tiny body copy. */
+.rgc-scope .section-intro,
+.rgc-scope .body-prose {
+  max-width: 62ch;
+  color: var(--rgc-text-primary);
+  font-size: clamp(1rem, 1.05vw, 1.08rem);
+  line-height: 1.72;
+}
+
+.rgc-scope :where(.meta-label, .eyebrow, .type-meta, .quiet-meta) {
+  letter-spacing: 0.18em;
+  line-height: 1.45;
+}
+
 .rgc-scope
   :where(
     .bg-forest,
     .forest-card,
     .artifact-card,
-    .close-section,
     .opportunity-card,
+    .close-section,
     .concept-card--forest,
+    .artifact-marker,
     .close-video-frame--cinematic
   )
   :where(p, li, h1, h2, h3, h4, strong, span) {
   color: var(--rgc-text-onforest);
 }
+
 .rgc-scope
   :where(
     .bg-forest,
     .forest-card,
     .artifact-card,
-    .close-section,
     .opportunity-card,
+    .close-section,
     .concept-card--forest,
+    .artifact-marker,
     .close-video-frame--cinematic
   )
-  :where(
-    .meta-label,
-    .type-meta,
-    .eyebrow,
-    .mono-chip--forest,
-    .field-monitor__topbar
-  ) {
+  :where(.meta-label, .eyebrow, .type-meta, .quiet-meta) {
   color: var(--rgc-text-onforest-subtle);
-}
-.rgc-scope
-  :where(
-    .bg-forest,
-    .forest-card,
-    .artifact-card,
-    .close-section,
-    .opportunity-card,
-    .concept-card--forest
-  )
-  .accent {
-  color: var(--oxblood);
-}
-
-/* Type rhythm: fewer visual voices, more predictable hierarchy. */
-.rgc-scope .h-section {
-  line-height: 0.98;
-}
-.rgc-scope .section-heading-block,
-.rgc-scope .pitch-grid__editorial,
-.rgc-scope .pitch-grid__main {
-  justify-self: stretch;
-}
-.rgc-scope .section-intro,
-.rgc-scope .body-prose {
-  font-size: clamp(1rem, 1.05vw, 1.08rem);
-  line-height: 1.72;
-  max-width: 62ch;
-}
-.rgc-scope .meta-label,
-.rgc-scope .eyebrow,
-.rgc-scope .type-meta {
-  line-height: 1.45;
-  letter-spacing: 0.18em;
-}
-.rgc-scope .type-card-title,
-.rgc-scope .work-card h3,
-.rgc-scope .concept-card h3 {
-  font-family: var(--rgc-font-body);
-  font-weight: 600;
-  letter-spacing: -0.018em;
-  line-height: 1.13;
-}
-
-/* Alignment: same left edge, same artifact rhythm. */
-.rgc-scope .pitch-grid,
-.rgc-scope .pitch-container {
-  padding-inline: var(--space-gutter);
-}
-.rgc-scope .artifact-stack,
-.rgc-scope .section-stack-lg,
-.rgc-scope .section-stack-md,
-.rgc-scope .close-film-stage,
-.rgc-scope .concept-board-wrap {
-  margin-top: var(--rgc-artifact-gap);
-}
-.rgc-scope [data-section] > .pitch-grid:first-child,
-.rgc-scope [data-section] > .pitch-container:first-child {
-  margin-inline: auto;
-}
-
-/* Cards/sheets: one quieter family across $1K, 90 days, work, and community. */
-.rgc-scope
-  :where(
-    .paper-card,
-    .receipt-card,
-    .system-card,
-    .budget-slip,
-    .ninety-roadmap,
-    .concept-board-wrap,
-    .work-card
-  ) {
-  border-color: var(--hairline-strong);
-  box-shadow: 0 18px 58px rgba(20, 18, 14, 0.055);
-}
-.rgc-scope :where(.ninety-row, .tee-move, .work-card, .concept-card) {
-  padding-block: clamp(18px, 2.3vw, 26px);
-}
-.rgc-scope .receipt-card,
-.rgc-scope .concept-card,
-.rgc-scope .budget-slip {
-  padding: var(--rgc-card-pad);
-}
-
-/* Oxblood restraint: keep it as signal, not decoration noise. */
-.rgc-scope :where(.meta-label, .eyebrow) .accent,
-.rgc-scope :where(.mono-chip--accent, .tee-move--active, .ninety-row--active) {
-  --rgc-accent-active: var(--oxblood);
-}
-.rgc-scope .ninety-row__titleline span,
-.rgc-scope .ninety-row__chips span,
-.rgc-scope .mono-chip {
-  border-color: rgb(var(--pencil-rgb) / 0.14);
-}
-
-/* Mobile: protect readability over decorative density. */
-@media (max-width: 640px) {
-  .rgc-scope {
-    --space-gutter: 20px;
-    --rgc-artifact-gap: 28px;
-  }
-  .rgc-scope .section-intro,
-  .rgc-scope .body-prose {
-    font-size: 1rem;
-    line-height: 1.68;
-  }
-  .rgc-scope .meta-label,
-  .rgc-scope .eyebrow,
-  .rgc-scope .type-meta,
-  .rgc-scope .mono-chip,
-  .rgc-scope .ninety-row__chips span {
-    letter-spacing: 0.12em;
-  }
-  .rgc-scope .pitch-grid,
-  .rgc-scope .pitch-container {
-    padding-inline: var(--space-gutter);
-  }
-}
-
-/* System pass exceptions: readable chips and forest labels after global contrast guards. */
-.rgc-scope
-  :where(.forest-card, .artifact-card, .concept-card--forest, .opportunity-card)
-  .mono-chip:not(.mono-chip--accent):not(.mono-chip--forest) {
-  color: var(--pencil);
-}
-
-.rgc-scope
-  :where(.forest-card, .artifact-card, .concept-card--forest, .opportunity-card)
-  .mono-chip--accent {
-  color: var(--paper);
-}
-
-.rgc-scope [data-section="ninety-days"] .ninety-lane-strip__label {
-  color: var(--rgc-text-onforest-subtle);
-}
-
-/* --------------------------------------------------------------------------
-   RGC desktop/tablet compression pass: calmer rhythm between 760px and 1100px.
-   Preserve the story and assets; tighten only layout, spacing, and artifact scale.
--------------------------------------------------------------------------- */
-@media (min-width: 760px) and (max-width: 1100px) {
-  .rgc-scope {
-    --space-gutter: clamp(32px, 5vw, 52px);
-    --space-section: clamp(82px, 9vw, 118px);
-    --space-section-sm: clamp(64px, 7vw, 92px);
-    --space-headline-body: clamp(30px, 4vw, 46px);
-    --rgc-artifact-gap: clamp(30px, 4vw, 46px);
-    --rgc-card-pad: clamp(18px, 2.4vw, 26px);
-  }
-
-  .rgc-scope .pitch-grid,
-  .rgc-scope .pitch-container {
-    max-width: 900px;
-    padding-inline: var(--space-gutter);
-  }
-
-  .rgc-scope .pitch-container--xl,
-  .rgc-scope .pitch-grid__wide {
-    max-width: 940px;
-  }
-
-  .rgc-scope .pitch-grid__editorial,
-  .rgc-scope .pitch-grid__main {
-    grid-column: 1 / -1;
-    max-width: 840px;
-  }
-
-  .rgc-scope .section-y {
-    padding-top: var(--space-section);
-    padding-bottom: var(--space-section);
-  }
-
-  .rgc-scope [data-section="hero"] {
-    padding-bottom: clamp(84px, 9vw, 118px);
-  }
-
-  .rgc-scope [data-section="opportunity"],
-  .rgc-scope [data-section="thousand-test"],
-  .rgc-scope [data-section="work"],
-  .rgc-scope [data-section="community"] {
-    padding-top: clamp(72px, 8vw, 104px);
-    padding-bottom: clamp(76px, 8vw, 108px);
-  }
-
-  .rgc-scope [data-section="ninety-days"] {
-    padding-top: clamp(76px, 8vw, 108px);
-    padding-bottom: clamp(76px, 8vw, 108px);
-  }
-
-  .rgc-scope [data-section="close"] {
-    padding-top: clamp(82px, 9vw, 118px);
-  }
-
-  .rgc-scope .section-intro,
-  .rgc-scope .body-prose {
-    max-width: 60ch;
-  }
-
-  .rgc-scope .section-stack-lg,
-  .rgc-scope .artifact-stack,
-  .rgc-scope .yearbook-frame,
-  .rgc-scope .close-film-stage {
-    margin-top: var(--rgc-artifact-gap);
-  }
-
-  /* Opportunity: reduce the slab feel and keep support visuals secondary. */
-  .rgc-scope .opportunity-grid {
-    gap: clamp(28px, 4vw, 42px);
-  }
-
-  .rgc-scope .opportunity-card {
-    margin-top: clamp(24px, 3vw, 34px);
-    padding: clamp(20px, 2.6vw, 24px);
-  }
-
-  .rgc-scope .opportunity-card .font-blackletter {
-    font-size: clamp(34px, 5vw, 46px) !important;
-    line-height: 0.98 !important;
-  }
-
-  .rgc-scope .opportunity-loop {
-    padding: 14px;
-    box-shadow: 0 14px 38px rgba(20, 18, 14, 0.045);
-  }
-
-  .rgc-scope .opportunity-loop__room .font-blackletter {
-    font-size: clamp(36px, 5vw, 50px) !important;
-  }
-
-  /* $1K: make the application-answer section tighter without losing the artifact. */
-  .rgc-scope .tee-sheet-card {
-    max-width: 840px;
-    margin-inline: auto;
-  }
-
-  .rgc-scope .tee-move {
-    padding: clamp(15px, 2vw, 18px) clamp(16px, 2.2vw, 20px);
-  }
-
-  .rgc-scope .tee-move__title {
-    font-size: clamp(1.04rem, 1.8vw, 1.22rem);
-  }
-
-  .rgc-scope .strategy-row__body,
-  .rgc-scope .tee-move p {
-    line-height: 1.48;
-  }
-
-  .rgc-scope .thousand-support-grid {
-    max-width: 840px;
-    margin-inline: auto;
-    gap: clamp(16px, 2.4vw, 22px);
-  }
-
-  .rgc-scope .budget-slip,
-  .rgc-scope .artifact-marker {
-    padding: clamp(14px, 2vw, 18px);
-  }
-
-  .rgc-scope .budget-slip .font-blackletter {
-    font-size: clamp(42px, 7vw, 62px) !important;
-  }
-
-  .rgc-scope .thousand-proof-note {
-    font-size: clamp(20px, 2.8vw, 24px);
-  }
-
-  /* 90 days: keep it strategic, reduce dashboard bulk. */
-  .rgc-scope .ninety-lane-strip {
-    padding: 14px;
-  }
-
-  .rgc-scope .ninety-roadmap {
-    max-width: 840px;
-    margin-inline: auto;
-  }
-
-  .rgc-scope .ninety-roadmap__header {
-    gap: 20px;
-    padding: 18px 20px;
-  }
-
-  .rgc-scope .ninety-row {
-    grid-template-columns: 92px minmax(0, 1fr) 178px;
-    gap: 18px;
-    padding: 18px 20px;
-  }
-
-  .rgc-scope .ninety-row__main > p {
-    font-size: 0.92rem;
-    line-height: 1.5;
-  }
-
-  .rgc-scope .ninety-row__chips {
-    margin-top: 10px;
-  }
-
-  .rgc-scope .ninety-row__chips span {
-    padding: 5px 7px;
-    font-size: 0.47rem;
-  }
-
-  .rgc-scope [data-section="ninety-days"] .forest-card,
-  .rgc-scope [data-section="ninety-days"] .receipt-card {
-    max-width: 840px;
-    margin-inline: auto;
-    padding: clamp(20px, 2.6vw, 26px);
-  }
-
-  /* Work: compress the ledger and reduce the oversized first receipt. */
-  .rgc-scope [data-section="work"] .fit-rail,
-  .rgc-scope [data-section="work"] .framed-grid {
-    max-width: 840px;
-    margin-inline: auto;
-  }
-
-  .rgc-scope .fit-rail__cell {
-    padding: 11px 12px;
-  }
-
-  .rgc-scope .work-card,
-  .rgc-scope .work-card--featured {
-    gap: 10px;
-    padding: clamp(20px, 2.5vw, 25px);
-  }
-
-  .rgc-scope .work-card__title {
-    font-size: clamp(1.32rem, 2.25vw, 1.72rem);
-  }
-
-  .rgc-scope .work-card__proof {
-    font-size: 0.56rem;
-    letter-spacing: 0.1em;
-  }
-
-  .rgc-scope .work-card__rgc {
-    padding-top: 11px;
-    font-size: 0.86rem;
-    line-height: 1.5;
-  }
-
-  /* Community: artifact leads; board gets quieter and less product-dashboard. */
-  .rgc-scope .yearbook-frame {
-    max-width: 900px;
-    margin-inline: auto;
-  }
-
-  .rgc-scope .concept-board-wrap,
-  .rgc-scope .concept-board {
-    max-width: 840px;
-    margin-inline: auto;
-  }
-
-  .rgc-scope .concept-board {
-    box-shadow: 0 16px 44px rgba(20, 18, 14, 0.075);
-  }
-
-  .rgc-scope .concept-board__header {
-    padding: 16px 18px;
-  }
-
-  .rgc-scope .concept-card {
-    padding: clamp(16px, 2vw, 20px);
-  }
-
-  .rgc-scope .concept-card--forest {
-    min-height: 190px;
-  }
-
-  .rgc-scope .concept-card__hero {
-    font-size: clamp(1.35rem, 2.8vw, 1.82rem);
-  }
-
-  /* Close: preserve payoff, but align it with the compressed artifact lane. */
-  .rgc-scope .close-section .pitch-grid__editorial {
-    max-width: 760px;
-  }
-
-  .rgc-scope .close-video-frame--cinematic {
-    max-width: 900px;
-    margin-inline: auto;
-  }
-}
-
-@media (min-width: 1101px) {
-  .rgc-scope [data-section="opportunity"] .pitch-grid__main,
-  .rgc-scope [data-section="thousand-test"] .pitch-grid__main,
-  .rgc-scope [data-section="ninety-days"] .pitch-grid__main,
-  .rgc-scope [data-section="work"] .pitch-grid__main,
-  .rgc-scope [data-section="community"] .pitch-grid__main {
-    max-width: 960px;
-  }
-}
-
-/* Compression QA fixes: avoid tablet-width slabs and cramped roadmap header copy. */
-@media (min-width: 760px) and (max-width: 1100px) {
-  .rgc-scope .opportunity-card {
-    max-width: 720px;
-  }
-
-  .rgc-scope .ninety-roadmap__header {
-    grid-template-columns: 1fr;
-  }
-
-  .rgc-scope .ninety-roadmap__header p:last-child {
-    max-width: 58ch;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   RGC final narrow-desktop refinement: faster scroll, lighter secondary UI.
-   CSS-only; applies to wide-tablet / narrow-desktop where density still showed.
--------------------------------------------------------------------------- */
-@media (min-width: 760px) and (max-width: 900px) {
-  .rgc-scope {
-    --space-section: clamp(68px, 8vw, 94px);
-    --space-section-sm: clamp(56px, 7vw, 80px);
-    --rgc-artifact-gap: clamp(24px, 3.4vw, 34px);
-    --rgc-card-pad: clamp(15px, 2vw, 21px);
-  }
-
-  .rgc-scope [data-section="thousand-test"],
-  .rgc-scope [data-section="work"],
-  .rgc-scope [data-section="community"] {
-    padding-top: clamp(58px, 7vw, 82px);
-    padding-bottom: clamp(62px, 7vw, 88px);
-  }
-
-  .rgc-scope [data-section="ninety-days"] {
-    padding-top: clamp(62px, 7vw, 86px);
-    padding-bottom: clamp(62px, 7vw, 86px);
-  }
-
-  /* Opportunity: keep the forest insight dominant, quiet the support artifact. */
-  .rgc-scope .opportunity-card {
-    max-width: 680px;
-    padding: clamp(18px, 2.2vw, 21px);
-  }
-
-  .rgc-scope .opportunity-card .font-blackletter {
-    font-size: clamp(30px, 4.5vw, 40px) !important;
-  }
-
-  .rgc-scope .opportunity-loop {
-    padding: 12px;
-    box-shadow: 0 10px 26px rgba(20, 18, 14, 0.035);
-  }
-
-  .rgc-scope .opportunity-loop__strip,
-  .rgc-scope .opportunity-loop__room {
-    padding: 14px !important;
-  }
-
-  .rgc-scope .opportunity-loop__room .font-blackletter {
-    font-size: clamp(30px, 4.8vw, 42px) !important;
-  }
-
-  /* $1K: compact the tee sheet and support rail so the answer reads sharper. */
-  .rgc-scope [data-section="thousand-test"] .section-intro {
-    margin-top: clamp(24px, 3vw, 34px);
-  }
-
-  .rgc-scope .tee-sheet-card {
-    margin-top: clamp(24px, 3.4vw, 36px) !important;
-  }
-
-  .rgc-scope .tee-sheet-card > div:first-child {
-    padding: clamp(18px, 2.6vw, 24px) !important;
-  }
-
-  .rgc-scope .tee-sheet-card > div:first-child .font-blackletter {
-    font-size: clamp(40px, 7vw, 58px) !important;
-    line-height: 0.94 !important;
-  }
-
-  .rgc-scope .tee-move {
-    padding: 13px 16px;
-  }
-
-  .rgc-scope .tee-move__number {
-    font-size: 0.78rem;
-  }
-
-  .rgc-scope .tee-move__title {
-    font-size: clamp(1rem, 1.7vw, 1.14rem);
-  }
-
-  .rgc-scope .strategy-row__meta {
-    margin-top: 4px;
-    font-size: 0.49rem;
-    letter-spacing: 0.1em;
-  }
-
-  .rgc-scope .strategy-row__body,
-  .rgc-scope .tee-move p {
-    font-size: 0.86rem;
-    line-height: 1.43;
-  }
-
-  .rgc-scope .thousand-support-grid {
-    margin-top: clamp(22px, 3vw, 30px) !important;
-    gap: 14px;
-  }
-
-  .rgc-scope .budget-slip,
-  .rgc-scope .artifact-marker {
-    padding: 14px;
-  }
-
-  .rgc-scope .budget-slip .font-blackletter {
-    font-size: clamp(38px, 6vw, 52px) !important;
-  }
-
-  .rgc-scope .budget-slip__rows > div {
-    padding-block: 10px !important;
-  }
-
-  .rgc-scope .artifact-marker__image img,
-  .rgc-scope .artifact-marker__image {
-    max-height: 260px;
-  }
-
-  /* 90 days: use stacked row anatomy at narrow desktop instead of a squeezed table. */
-  .rgc-scope .ninety-lane-strip {
-    padding: 12px;
-  }
-
-  .rgc-scope .ninety-lane-chip {
-    padding: 8px 9px;
-  }
-
-  .rgc-scope .ninety-roadmap__header {
-    padding: 16px 18px;
-  }
-
-  .rgc-scope .ninety-row {
-    grid-template-columns: 1fr;
-    gap: 9px;
-    padding: 16px 18px;
-  }
-
-  .rgc-scope .ninety-row__number {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
-
-  .rgc-scope .ninety-row__number p {
-    margin-top: 0;
-  }
-
-  .rgc-scope .ninety-row__titleline h3 {
-    font-size: clamp(1.12rem, 2vw, 1.34rem);
-  }
-
-  .rgc-scope .ninety-row__main > p {
-    margin-top: 6px;
-    font-size: 0.9rem;
-    line-height: 1.46;
-  }
-
-  .rgc-scope .ninety-row__output {
-    padding-top: 2px;
-  }
-
-  .rgc-scope .ninety-row__output .meta-label {
-    margin-top: 0;
-  }
-
-  .rgc-scope .ninety-row__output strong {
-    margin-top: 4px;
-    font-size: 0.88rem;
-  }
-
-  .rgc-scope [data-section="ninety-days"] .forest-card,
-  .rgc-scope [data-section="ninety-days"] .receipt-card {
-    padding: clamp(18px, 2.2vw, 22px);
-  }
-
-  /* Work: lighter ledger, quieter proof labels. */
-  .rgc-scope .fit-rail__cell {
-    padding: 9px 10px;
-  }
-
-  .rgc-scope .fit-rail__cell .meta-label,
-  .rgc-scope .work-card__proof,
-  .rgc-scope .work-card__topline .meta-label {
-    opacity: 0.78;
-  }
-
-  .rgc-scope .work-card,
-  .rgc-scope .work-card--featured {
-    gap: 8px;
-    padding: clamp(17px, 2.1vw, 21px);
-  }
-
-  .rgc-scope .work-card__title {
-    font-size: clamp(1.22rem, 2vw, 1.52rem);
-  }
-
-  .rgc-scope .work-card__proof {
-    font-size: 0.51rem;
-  }
-
-  .rgc-scope .work-card__rgc {
-    margin-top: 2px;
-    padding-top: 9px;
-    font-size: 0.82rem;
-  }
-
-  /* Community: keep yearbook premium, make Discord board feel like a quiet note. */
-  .rgc-scope .concept-board {
-    border-color: rgb(var(--pencil-rgb) / 0.12);
-    box-shadow: 0 10px 32px rgba(20, 18, 14, 0.055);
-  }
-
-  .rgc-scope .concept-board__header {
-    padding: 13px 16px;
-  }
-
-  .rgc-scope .concept-board__header p:last-child {
-    font-size: 0.86rem;
-  }
-
-  .rgc-scope .concept-card {
-    padding: 14px 16px;
-  }
-
-  .rgc-scope .concept-card--forest {
-    min-height: 166px;
-  }
-
-  .rgc-scope .concept-card__hero {
-    font-size: clamp(1.24rem, 2.4vw, 1.58rem);
-  }
-
-  .rgc-scope .concept-card__body {
-    margin-top: 10px;
-    font-size: 0.88rem;
-    line-height: 1.5;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   RGC final visual cohesion polish: one field-packet system, less UI noise.
-   CSS-only; preserves copy, section order, and media assets.
--------------------------------------------------------------------------- */
-.rgc-scope [data-section] > span[aria-hidden] {
-  opacity: 0.36;
-  transform: translate3d(0, 0, 0) scale(0.94);
-  transform-origin: top right;
 }
 
 .rgc-scope
@@ -2867,46 +1211,155 @@
     .tee-sheet-card,
     .ninety-roadmap,
     .concept-board,
-    .work-card
-  ) {
-  box-shadow: 0 16px 48px rgba(20, 18, 14, 0.055);
+    .concept-card,
+    .work-card,
+    .community-note
+  )
+  :where(p, li) {
+  color: var(--rgc-text-primary);
 }
 
 .rgc-scope
   :where(
-    .tee-move__title,
-    .strategy-row__label,
-    .ninety-row__titleline h3,
-    .work-card__title,
-    .concept-card__title,
-    .community-bullet-title
-  ) {
-  font-family: var(--rgc-font-body);
+    .paper-card,
+    .receipt-card,
+    .system-card,
+    .budget-slip,
+    .tee-sheet-card,
+    .ninety-roadmap,
+    .concept-board,
+    .concept-card,
+    .work-card,
+    .community-note
+  )
+  :where(h1, h2, h3, h4, strong) {
+  color: var(--rgc-text-strong);
 }
 
-/* $1K: make budget + marker read as one field kit supporting the tee sheet. */
-.rgc-scope .thousand-support-grid {
-  position: relative;
-  border: 1px solid var(--hairline-strong);
-  background:
-    linear-gradient(
-      90deg,
-      rgba(139, 32, 32, 0.025) 0 1px,
-      transparent 1px 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(14, 28, 19, 0.026) 0 1px,
-      transparent 1px 100%
-    ),
-    linear-gradient(180deg, #fbf6eb 0%, #f1e6d4 100%);
+/* Shared surface families. */
+.rgc-scope :where(.tee-sheet-card, .ninety-roadmap, .concept-board) {
+  border: 1px solid var(--rgc-border);
+  background: var(--rgc-sheet-grid);
   background-size:
     38px 100%,
     100% 38px,
     auto;
+  box-shadow: var(--rgc-shadow-sheet);
+}
+
+.rgc-scope :where(.work-card, .budget-slip, .community-note, .receipt-card) {
+  border: 1px solid var(--rgc-border);
+  background: var(--rgc-sheet-bg);
+  box-shadow: 0 12px 38px rgba(20, 18, 14, 0.045);
+}
+
+.rgc-scope
+  :where(.artifact-marker, .yearbook-frame, .close-video-frame--cinematic) {
+  background: var(--rgc-artifact-dark);
+  color: var(--paper);
+  box-shadow: var(--rgc-shadow-artifact);
+}
+
+.rgc-scope .media-frame,
+.rgc-scope .field-film-poster,
+.rgc-scope .artifact-marker__image {
+  background:
+    radial-gradient(
+      circle at 50% 34%,
+      rgb(var(--paper-rgb) / 0.08),
+      transparent 34%
+    ),
+    linear-gradient(135deg, rgb(var(--forest-rgb) / 0.92), #0b120d);
+}
+
+/* Opportunity: one dark insight, one quiet receipt. */
+.rgc-scope .opportunity-card {
+  border-color: var(--rgc-border-forest);
+  box-shadow: 0 18px 56px rgba(20, 18, 14, 0.12);
+}
+
+.rgc-scope .opportunity-loop {
+  border: 1px solid var(--rgc-border-soft);
+  background: rgba(255, 252, 246, 0.58);
+  box-shadow: 0 12px 32px rgba(20, 18, 14, 0.045);
+}
+
+.rgc-scope .opportunity-loop__strip,
+.rgc-scope .opportunity-loop__room {
+  border-color: var(--rgc-border-soft);
+}
+
+/* $1K: primary tee sheet plus one unified field kit. */
+.rgc-scope .tee-sheet-card {
+  overflow: hidden;
+}
+
+.rgc-scope .tee-sheet-card > div:first-child {
+  border-bottom-color: var(--rgc-border-soft) !important;
+}
+
+.rgc-scope .tee-sheet-card > div:first-child > div:first-child {
+  border-right-color: var(--rgc-border-soft) !important;
+}
+
+.rgc-scope .system-sheet-title {
+  max-width: 9.5ch;
+  color: var(--ink);
+  line-height: 0.96;
+}
+
+.rgc-scope .strategy-row {
+  background: rgb(var(--paper-rgb) / 0.74) !important;
+  transition: background 180ms ease;
+}
+
+.rgc-scope .strategy-row--active {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--oxblood-rgb) / 0.075),
+    rgb(var(--paper-rgb) / 0.8) 48%
+  ) !important;
+  box-shadow: inset 3px 0 0 var(--oxblood);
+}
+
+.rgc-scope .strategy-row__number,
+.rgc-scope .tee-move__number {
+  color: rgb(var(--oxblood-rgb) / 0.82);
+}
+
+.rgc-scope .strategy-row__label,
+.rgc-scope .tee-move__title {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.018em;
+}
+
+.rgc-scope .strategy-row--active .strategy-row__label {
+  color: var(--oxblood);
+}
+
+.rgc-scope .strategy-row__meta,
+.rgc-scope .work-card__proof {
+  color: rgb(var(--pencil-rgb) / 0.52);
+}
+
+.rgc-scope .strategy-row__body {
+  color: rgb(var(--pencil-rgb) / 0.78);
+}
+
+.rgc-scope .thousand-support-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 0;
+  border: 1px solid var(--rgc-border);
+  background: var(--rgc-sheet-grid);
+  background-size:
+    38px 100%,
+    100% 38px,
+    auto;
   padding: clamp(12px, 1.6vw, 18px);
-  box-shadow: 0 18px 56px rgba(20, 18, 14, 0.07);
+  box-shadow: var(--rgc-shadow-sheet);
 }
 
 .rgc-scope .thousand-support-grid::before {
@@ -2936,120 +1389,408 @@
   padding: clamp(14px, 2vw, 22px);
 }
 
-.rgc-scope .thousand-support-grid .budget-slip .dashed-card {
-  min-height: 100%;
-  background: rgb(var(--paper-rgb) / 0.46);
+.rgc-scope .dashed-card {
+  border-color: var(--rgc-border);
+  background: rgb(var(--paper-rgb) / 0.44);
+}
+
+.rgc-scope .budget-slip__rows > div {
+  border-color: var(--rgc-border-soft) !important;
 }
 
 .rgc-scope .thousand-support-grid .artifact-marker {
-  background:
-    radial-gradient(
-      circle at 50% 22%,
-      rgba(245, 240, 232, 0.1),
-      transparent 34%
-    ),
-    #10130f;
   padding: clamp(12px, 1.7vw, 16px);
+}
+
+.rgc-scope .artifact-marker__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(245, 240, 232, 0.14);
+}
+
+.rgc-scope .artifact-marker__copy {
+  margin-top: 14px;
 }
 
 .rgc-scope .thousand-proof-note {
   margin-top: clamp(12px, 1.8vw, 18px);
-  opacity: 0.88;
+  opacity: 0.86;
 }
 
-/* 90 days: align the operating plan with the tee-sheet/scorecard artifact language. */
+/* 90 days: same sheet logic as tee sheet, with Phase 3 as the only loud row. */
 .rgc-scope .ninety-lane-strip {
-  border-color: rgb(var(--bone-rgb) / 0.16);
+  border: 1px solid rgb(var(--bone-rgb) / 0.16);
   background: rgb(var(--bone-rgb) / 0.035);
   box-shadow: none;
 }
 
+.rgc-scope .ninety-lane-strip__label {
+  margin: 0 0 12px;
+  color: var(--rgc-text-onforest-subtle);
+}
+
+.rgc-scope .ninety-lane-strip__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .rgc-scope .ninety-lane-chip {
-  border-style: dashed;
-  background: rgb(var(--bone-rgb) / 0.035);
+  border: 1px dashed rgb(var(--bone-rgb) / 0.22);
+  background: rgb(var(--bone-rgb) / 0.04);
+  padding: 9px 11px;
+}
+
+.rgc-scope .ninety-lane-chip span {
+  color: rgb(var(--bone-rgb) / 0.84);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .rgc-scope .ninety-roadmap {
-  border-color: rgb(var(--bone-rgb) / 0.22);
+  position: relative;
+  overflow: hidden;
+  color: var(--pencil);
   box-shadow: 0 20px 66px rgba(0, 0, 0, 0.16);
 }
 
-.rgc-scope .ninety-row:not(.ninety-row--active) .ninety-row__number span {
-  color: rgb(var(--oxblood-rgb) / 0.72);
+.rgc-scope .ninety-roadmap::before {
+  content: "RGC FIELD PLAN";
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  z-index: 0;
+  font-family: var(--rgc-font-meta);
+  font-size: 0.55rem;
+  letter-spacing: 0.24em;
+  color: rgb(var(--pencil-rgb) / 0.18);
 }
 
-.rgc-scope .ninety-row:not(.ninety-row--active) .ninety-row__titleline span,
-.rgc-scope .ninety-row:not(.ninety-row--active) .ninety-row__chips span {
-  color: rgb(var(--pencil-rgb) / 0.55);
-  border-color: rgb(var(--pencil-rgb) / 0.12);
-  background: rgb(var(--paper-rgb) / 0.42);
+.rgc-scope .ninety-roadmap__header,
+.rgc-scope .ninety-row {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+.rgc-scope .ninety-roadmap__header {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: 28px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--rgc-border-soft);
+}
+
+.rgc-scope .ninety-roadmap__header .meta-label {
+  margin: 0;
+  color: var(--oxblood);
+}
+
+.rgc-scope .ninety-roadmap__header p:last-child {
+  margin: 0;
+  max-width: 62ch;
+  color: rgb(var(--pencil-rgb) / 0.76);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.rgc-scope .ninety-roadmap__rows {
+  display: grid;
+}
+
+.rgc-scope .ninety-row {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr) 210px;
+  gap: 24px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--rgc-border-soft);
+}
+
+.rgc-scope .ninety-row:last-child {
+  border-bottom: 0;
 }
 
 .rgc-scope .ninety-row--active {
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      rgb(var(--oxblood-rgb) / 0.13),
+      transparent 46%
+    ),
+    linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.07), transparent 58%);
   box-shadow: inset 4px 0 0 var(--oxblood);
 }
 
-/* Work: proof ledger over portfolio grid. */
-.rgc-scope [data-section="work"] .fit-rail {
-  opacity: 0.94;
+.rgc-scope .ninety-row__number span {
+  display: block;
+  color: rgb(var(--oxblood-rgb) / 0.74);
+  font-size: 1.02rem;
+  letter-spacing: 0.16em;
+}
+
+.rgc-scope .ninety-row__number p,
+.rgc-scope .ninety-row__output .meta-label {
+  margin: 8px 0 0;
+  color: rgb(var(--pencil-rgb) / 0.46);
+  font-size: 0.54rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.rgc-scope .ninety-row__titleline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.rgc-scope .ninety-row__titleline h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.2rem, 2vw, 1.56rem);
+  line-height: 1.16;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.rgc-scope .ninety-row__titleline span,
+.rgc-scope .ninety-row__chips span {
+  border: 1px solid rgb(var(--pencil-rgb) / 0.12);
+  background: rgba(255, 252, 245, 0.5);
+  color: rgb(var(--pencil-rgb) / 0.58);
+}
+
+.rgc-scope .ninety-row--active .ninety-row__titleline span {
+  border-color: rgb(var(--oxblood-rgb) / 0.3);
+  background: rgb(var(--oxblood-rgb) / 0.06);
+  color: var(--oxblood);
+}
+
+.rgc-scope .ninety-row__main > p {
+  margin: 9px 0 0;
+  color: rgb(var(--pencil-rgb) / 0.78);
+  font-size: 0.96rem;
+  line-height: 1.58;
+}
+
+.rgc-scope .ninety-row__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.rgc-scope .ninety-row__chips span {
+  padding: 6px 8px;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rgc-scope .ninety-row__output strong {
+  display: block;
+  margin-top: 8px;
+  color: rgb(var(--oxblood-rgb) / 0.84);
+  font-size: 0.92rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.42;
+}
+
+/* Work: one receipt ledger with a calmer rail. */
+.rgc-scope .framed-grid {
+  border-color: var(--rgc-border);
+  background: var(--rgc-border);
+}
+
+.rgc-scope .fit-rail {
+  border: 1px solid rgba(14, 28, 19, 0.16);
+  background: linear-gradient(
+    90deg,
+    rgba(14, 28, 19, 0.96),
+    rgba(18, 38, 26, 0.94)
+  );
   box-shadow: 0 10px 30px rgba(20, 18, 14, 0.06);
+}
+
+.rgc-scope .fit-rail__cell {
+  border-right: 1px solid rgba(245, 240, 232, 0.16);
+  background: transparent;
+  padding: 13px 14px;
+}
+
+.rgc-scope .fit-rail__cell:last-child {
+  border-right: 0;
 }
 
 .rgc-scope [data-section="work"] .fit-rail__cell .meta-label {
   color: rgb(var(--oxblood-rgb) / 0.74);
 }
 
-.rgc-scope .work-card:not(.work-card--featured) {
-  box-shadow: none;
+.rgc-scope .work-card {
+  height: 100%;
+  display: grid;
+  gap: 12px;
+  padding: var(--rgc-card-pad);
   background: linear-gradient(180deg, #fbf6eb 0%, #f3eadb 100%);
+  box-shadow: none;
 }
 
 .rgc-scope .work-card--featured {
-  box-shadow: inset 0 -1px 0 rgba(14, 28, 19, 0.08);
+  background:
+    linear-gradient(90deg, rgb(var(--oxblood-rgb) / 0.055), transparent 42%),
+    linear-gradient(180deg, #fbf4e7 0%, #efe3d0 100%);
 }
 
-.rgc-scope .work-card__topline .meta-label:last-child,
+.rgc-scope .work-card__topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
 .rgc-scope .work-card__proof {
-  color: rgb(var(--pencil-rgb) / 0.44);
+  margin: 0;
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.rgc-scope .work-card__title {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.34rem, 2.3vw, 1.82rem);
+  font-weight: 700;
+  line-height: 1.13;
+  letter-spacing: -0.025em;
 }
 
 .rgc-scope .work-card__rgc {
+  margin: 4px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--rgc-border-soft);
   color: rgb(var(--oxblood-rgb) / 0.82);
+  font-size: 0.88rem;
+  font-style: italic;
+  line-height: 1.52;
 }
 
-/* Community: yearbook remains the hero; archive board becomes quieter field paperwork. */
+.rgc-scope .work-footer-meta {
+  color: rgb(var(--pencil-rgb) / 0.34);
+}
+
+/* Community: artifact-led archive, not a software dashboard. */
 .rgc-scope .yearbook-frame {
-  box-shadow: 0 24px 80px rgba(20, 18, 14, 0.16);
+  margin-top: var(--rgc-artifact-gap);
+  overflow: hidden;
+  border: 1px solid rgb(var(--ink-rgb) / 0.7);
+  background: #11130f !important;
+  color: var(--paper) !important;
+}
+
+.rgc-scope .yearbook-frame .media-frame__asset {
+  aspect-ratio: 16 / 10;
+  object-position: center;
+}
+
+.rgc-scope .yearbook-frame > div:last-child {
+  background: #11130f;
 }
 
 .rgc-scope [data-section="community"] .grid.md\:grid-cols-3 > div {
   padding-left: 14px;
-  border-left: 1px solid rgb(var(--pencil-rgb) / 0.12);
+  border-left: 1px solid var(--rgc-border-soft);
+}
+
+.rgc-scope .community-bullet-title {
+  margin: 14px 0 12px;
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.16;
 }
 
 .rgc-scope .community-note {
-  border-color: rgb(var(--pencil-rgb) / 0.12);
-  background: linear-gradient(180deg, #fbf6eb 0%, #f2e8d7 100%);
+  align-self: start;
+  padding: var(--rgc-card-pad);
   box-shadow: none;
 }
 
+.rgc-scope .community-system-label {
+  text-align: center;
+  color: rgb(var(--pencil-rgb) / 0.34);
+}
+
 .rgc-scope .concept-board-wrap {
-  filter: none;
+  width: 100%;
 }
 
 .rgc-scope .concept-board {
-  border-color: rgb(var(--pencil-rgb) / 0.12);
-  background:
-    linear-gradient(90deg, rgba(14, 28, 19, 0.022) 0 1px, transparent 1px 100%),
-    linear-gradient(180deg, #fbf6eb 0%, #efe5d4 100%);
-  background-size:
-    36px 100%,
-    auto;
+  overflow: hidden;
   box-shadow: 0 12px 34px rgba(20, 18, 14, 0.055);
 }
 
 .rgc-scope .concept-board__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: clamp(16px, 2vw, 22px) clamp(18px, 2.4vw, 26px);
+  border-bottom: 1px solid var(--rgc-border-soft);
   background: rgb(var(--paper-rgb) / 0.42);
+}
+
+.rgc-scope .concept-board__grid {
+  background: var(--rgc-border-soft);
+}
+
+.rgc-scope .concept-card {
+  border: 1px solid var(--rgc-border-soft);
+  background: rgb(var(--paper-rgb) / 0.58);
+  padding: clamp(18px, 2vw, 22px);
+}
+
+.rgc-scope .concept-card--forest {
+  min-height: 220px;
+  display: grid;
+  align-content: space-between;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 72% 18%,
+      rgba(245, 240, 232, 0.11),
+      transparent 32%
+    ),
+    var(--rgc-artifact-dark);
+}
+
+.rgc-scope .concept-card__title {
+  margin: 10px 0 0;
+  color: var(--ink);
+  font-size: clamp(1.28rem, 2.6vw, 1.74rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.rgc-scope .concept-card__hero {
+  margin: 12px 0 0;
+  max-width: 11ch;
+  color: var(--paper);
+  font-size: clamp(1.36rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.06;
+}
+
+.rgc-scope .concept-card__body {
+  margin: 14px 0 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.62;
 }
 
 .rgc-scope .concept-board .mono-chip,
@@ -3060,74 +1801,583 @@
 
 .rgc-scope .concept-board .mono-chip--accent {
   background: rgb(var(--oxblood-rgb) / 0.86);
+  color: var(--paper);
 }
 
-.rgc-scope .concept-card {
-  border-color: rgb(var(--pencil-rgb) / 0.11);
-  background: rgb(var(--paper-rgb) / 0.58);
-}
-
-.rgc-scope .concept-card--forest {
-  background:
-    radial-gradient(
-      circle at 72% 18%,
-      rgba(245, 240, 232, 0.11),
-      transparent 32%
-    ),
-    linear-gradient(135deg, #101b14 0%, #08100b 100%);
-}
-
-/* Close: one final scene, lighter monitor chrome. */
+/* Close: a single final scene with lighter monitor chrome. */
 .rgc-scope .close-section {
   padding-top: clamp(78px, 8vw, 118px);
+  padding-bottom: clamp(54px, 7vw, 86px);
+}
+
+.rgc-scope .close-section .body-prose,
+.rgc-scope .close-section .pitch-grid__editorial {
+  max-width: 760px;
 }
 
 .rgc-scope .close-field-note {
-  margin-top: clamp(20px, 3vw, 30px);
+  max-width: 58ch;
+  margin: clamp(20px, 3vw, 30px) 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(245, 240, 232, 0.16);
+  color: rgba(245, 240, 232, 0.82);
+  font-size: clamp(1rem, 1.35vw, 1.1rem);
+  font-style: italic;
+  line-height: 1.62;
 }
 
 .rgc-scope .close-film-stage {
   margin-top: clamp(26px, 3.6vw, 42px);
 }
 
-.rgc-scope .close-section .close-video-frame--cinematic {
-  border-color: rgba(245, 240, 232, 0.16);
+.rgc-scope .close-video-frame--cinematic {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  border: 1px solid rgba(245, 240, 232, 0.16);
+  border-radius: 2px;
   padding: clamp(8px, 1vw, 12px);
   box-shadow: 0 22px 72px rgba(0, 0, 0, 0.26);
 }
 
 .rgc-scope .close-video-frame--cinematic::before {
-  border-color: rgba(245, 240, 232, 0.055);
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  border: 1px solid rgba(245, 240, 232, 0.055);
 }
 
-.rgc-scope
-  .close-section
-  .close-video-frame--cinematic
-  .close-video-frame__inner {
-  border-color: rgba(245, 240, 232, 0.1);
+.rgc-scope .close-video-frame--cinematic::after {
+  display: none;
 }
 
-.rgc-scope .field-monitor__topbar,
-.rgc-scope .close-video-frame--cinematic .meta-label {
+.rgc-scope .close-video-frame--cinematic .close-video-frame__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  background: #0b0f0c;
+  padding: clamp(10px, 1.1vw, 12px);
+}
+
+.rgc-scope .field-monitor__topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   opacity: 0.74;
+  color: rgba(245, 240, 232, 0.56);
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.rgc-scope .field-monitor__rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rgc-scope .field-monitor__rec span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--oxblood);
+  animation: rgc-rec-pulse 1.45s ease-in-out infinite;
+}
+
+.rgc-scope .close-video-frame__media--landscape {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #020302;
+}
+
+.rgc-scope .close-video-frame__media--landscape video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.03) saturate(0.95) brightness(0.95);
+}
+
+.rgc-scope .field-film-poster {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: #050806;
+  color: var(--paper);
+  cursor: pointer;
+  overflow: hidden;
+  animation: rgc-monitor-on 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.rgc-scope .field-film-poster img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.04) saturate(0.94) brightness(0.94);
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rgc-scope .field-film-poster__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 50% 46%,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.28) 78%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.16));
+}
+
+.rgc-scope .field-film-poster__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(245, 240, 232, 0.035) 0 1px,
+    transparent 1px 5px
+  );
+  mix-blend-mode: soft-light;
+}
+
+.rgc-scope .field-film-poster__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border: 1.5px solid rgba(245, 240, 232, 0.62);
+  border-radius: 999px;
+  background: rgba(5, 8, 6, 0.48);
+  box-shadow: 0 0 0 8px rgba(245, 240, 232, 0.06);
+  color: var(--paper);
+  font-size: 24px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  padding-left: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.rgc-scope .field-film-poster__label {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  color: rgb(var(--paper-rgb) / 0.82);
+  font-family: var(--rgc-font-meta);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.rgc-scope .field-film-poster:hover img {
+  transform: scale(1.018);
+}
+
+.rgc-scope .close-footer {
+  margin-top: clamp(30px, 4vw, 46px);
+  padding-top: 22px;
+  display: grid;
+  gap: 12px;
+  align-items: baseline;
+  text-align: center;
+  border-top: 1px solid rgba(245, 240, 232, 0.16);
+}
+
+.rgc-scope .close-footer__email,
+.rgc-scope .close-footer__meta {
+  margin: 0;
+  color: rgba(245, 240, 232, 0.74);
+  text-transform: uppercase;
+}
+
+.rgc-scope .close-footer__email {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-decoration: none;
+}
+
+.rgc-scope .close-footer__meta {
+  color: rgba(245, 240, 232, 0.66) !important;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  opacity: 1;
+}
+
+.rgc-scope .close-footer__email:hover {
+  color: var(--paper);
+}
+
+@keyframes rgc-monitor-on {
+  0% {
+    opacity: 0;
+    filter: brightness(2.2) blur(8px);
+    transform: scaleY(0.02);
+  }
+  18% {
+    opacity: 0.9;
+    transform: scaleY(0.035);
+  }
+  42% {
+    filter: brightness(1.45) blur(2px);
+    transform: scaleY(1.015);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+@keyframes rgc-rec-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 760px) {
+  .rgc-scope .close-footer {
+    grid-template-columns: auto 1fr auto;
+    text-align: left;
+  }
+  .rgc-scope .close-footer__meta {
+    text-align: center;
+  }
+}
+
+@media (min-width: 900px) {
+  .rgc-scope .thousand-support-grid {
+    grid-template-columns: minmax(0, 0.86fr) minmax(280px, 0.64fr);
+    align-items: stretch;
+  }
+  .rgc-scope .thousand-proof-note {
+    grid-column: 1 / -1;
+    justify-self: end;
+    max-width: 420px;
+    text-align: right;
+  }
+  .rgc-scope .artifact-marker {
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 1100px) {
+  .rgc-scope {
+    --space-gutter: clamp(32px, 5vw, 52px);
+    --space-section: clamp(82px, 9vw, 118px);
+    --space-section-sm: clamp(64px, 7vw, 92px);
+    --space-headline-body: clamp(30px, 4vw, 46px);
+    --rgc-artifact-gap: clamp(30px, 4vw, 46px);
+    --rgc-card-pad: clamp(18px, 2.4vw, 26px);
+  }
+
+  .rgc-scope .pitch-grid,
+  .rgc-scope .pitch-container {
+    max-width: 900px;
+    padding-inline: var(--space-gutter);
+  }
+
+  .rgc-scope .pitch-container--xl,
+  .rgc-scope .pitch-grid__wide {
+    max-width: 940px;
+  }
+
+  .rgc-scope .pitch-grid__editorial,
+  .rgc-scope .pitch-grid__main {
+    grid-column: 1 / -1;
+    max-width: 840px;
+  }
+
+  .rgc-scope [data-section="opportunity"],
+  .rgc-scope [data-section="thousand-test"],
+  .rgc-scope [data-section="work"],
+  .rgc-scope [data-section="community"] {
+    padding-top: clamp(72px, 8vw, 104px);
+    padding-bottom: clamp(76px, 8vw, 108px);
+  }
+
+  .rgc-scope [data-section="ninety-days"] {
+    padding-top: clamp(76px, 8vw, 108px);
+    padding-bottom: clamp(76px, 8vw, 108px);
+  }
+
+  .rgc-scope .section-intro,
+  .rgc-scope .body-prose {
+    max-width: 60ch;
+  }
+
+  .rgc-scope .tee-sheet-card,
+  .rgc-scope .thousand-support-grid,
+  .rgc-scope .ninety-roadmap,
+  .rgc-scope [data-section="ninety-days"] .forest-card,
+  .rgc-scope [data-section="ninety-days"] .receipt-card,
+  .rgc-scope [data-section="work"] .fit-rail,
+  .rgc-scope [data-section="work"] .framed-grid,
+  .rgc-scope .concept-board-wrap,
+  .rgc-scope .concept-board {
+    max-width: 840px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .yearbook-frame,
+  .rgc-scope .close-video-frame--cinematic {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .rgc-scope .opportunity-card {
+    max-width: 720px;
+    margin-top: clamp(24px, 3vw, 34px);
+    padding: clamp(20px, 2.6vw, 24px);
+  }
+
+  .rgc-scope .opportunity-card .font-blackletter {
+    font-size: clamp(34px, 5vw, 46px) !important;
+    line-height: 0.98 !important;
+  }
+
+  .rgc-scope .opportunity-loop {
+    padding: 14px;
+  }
+
+  .rgc-scope .tee-move,
+  .rgc-scope .strategy-row {
+    padding: clamp(15px, 2vw, 18px) clamp(16px, 2.2vw, 20px) !important;
+  }
+
+  .rgc-scope .strategy-row__body,
+  .rgc-scope .tee-move p {
+    line-height: 1.48;
+  }
+
+  .rgc-scope .ninety-roadmap__header {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 18px 20px;
+  }
+
+  .rgc-scope .ninety-row {
+    grid-template-columns: 92px minmax(0, 1fr) 178px;
+    gap: 18px;
+    padding: 18px 20px;
+  }
+
+  .rgc-scope .work-card,
+  .rgc-scope .work-card--featured {
+    gap: 10px;
+    padding: clamp(20px, 2.5vw, 25px);
+  }
+
+  .rgc-scope .concept-card {
+    padding: clamp(16px, 2vw, 20px);
+  }
+
+  .rgc-scope .concept-card--forest {
+    min-height: 190px;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 900px) {
+  .rgc-scope {
+    --space-section: clamp(68px, 8vw, 94px);
+    --space-section-sm: clamp(56px, 7vw, 80px);
+    --rgc-artifact-gap: clamp(24px, 3.4vw, 34px);
+    --rgc-card-pad: clamp(15px, 2vw, 21px);
+  }
+
+  .rgc-scope [data-section="thousand-test"],
+  .rgc-scope [data-section="work"],
+  .rgc-scope [data-section="community"] {
+    padding-top: clamp(58px, 7vw, 82px);
+    padding-bottom: clamp(62px, 7vw, 88px);
+  }
+
+  .rgc-scope [data-section="ninety-days"] {
+    padding-top: clamp(62px, 7vw, 86px);
+    padding-bottom: clamp(62px, 7vw, 86px);
+  }
+
+  .rgc-scope .tee-sheet-card > div:first-child {
+    padding: clamp(18px, 2.6vw, 24px) !important;
+  }
+
+  .rgc-scope .tee-sheet-card > div:first-child .font-blackletter {
+    font-size: clamp(40px, 7vw, 58px) !important;
+    line-height: 0.94 !important;
+  }
+
+  .rgc-scope .strategy-row__meta {
+    margin-top: 4px;
+    font-size: 0.49rem;
+    letter-spacing: 0.1em;
+  }
+
+  .rgc-scope .strategy-row__body,
+  .rgc-scope .tee-move p {
+    font-size: 0.86rem;
+    line-height: 1.43;
+  }
+
+  .rgc-scope .artifact-marker__image {
+    max-height: 260px;
+  }
+
+  .rgc-scope .ninety-row {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    padding: 16px 18px;
+  }
+
+  .rgc-scope .ninety-row__number {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .rgc-scope .ninety-row__number p {
+    margin-top: 0;
+  }
+
+  .rgc-scope .ninety-row__main > p {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    line-height: 1.46;
+  }
+
+  .rgc-scope .work-card__title {
+    font-size: clamp(1.22rem, 2vw, 1.52rem);
+  }
+
+  .rgc-scope .concept-card--forest {
+    min-height: 166px;
+  }
 }
 
 @media (max-width: 640px) {
+  .rgc-scope {
+    --space-gutter: 20px;
+    --space-section: clamp(58px, 18vw, 92px);
+    --rgc-artifact-gap: 28px;
+    --rgc-card-pad: 20px;
+  }
+
   .rgc-scope [data-section] > span[aria-hidden] {
-    opacity: 0.22;
-    transform: scale(0.84);
+    opacity: 0.18;
+    transform: scale(0.78);
+    right: -0.04em !important;
+  }
+
+  .rgc-scope .section-intro,
+  .rgc-scope .body-prose {
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+
+  .rgc-scope .meta-label,
+  .rgc-scope .eyebrow,
+  .rgc-scope .type-meta,
+  .rgc-scope .mono-chip,
+  .rgc-scope .ninety-row__chips span {
+    letter-spacing: 0.12em;
+  }
+
+  .rgc-scope .pitch-grid,
+  .rgc-scope .pitch-container {
+    padding-inline: var(--space-gutter);
+  }
+
+  .rgc-scope .fit-rail {
+    margin-top: 2rem !important;
+  }
+
+  .rgc-scope .fit-rail__cell {
+    padding: 12px;
+  }
+
+  .rgc-scope .work-footer-meta,
+  .rgc-scope .budget-slip__rows,
+  .rgc-scope .thousand-support-grid::before {
+    display: none !important;
   }
 
   .rgc-scope .thousand-support-grid {
     padding: 10px;
   }
 
-  .rgc-scope .thousand-support-grid::before {
-    display: none;
+  .rgc-scope .budget-slip,
+  .rgc-scope .dashed-card {
+    padding: 14px;
+    transform: none;
+  }
+
+  .rgc-scope .artifact-marker {
+    margin-top: 1rem !important;
+  }
+
+  .rgc-scope .tee-move,
+  .rgc-scope .strategy-row {
+    grid-template-columns: 44px 1fr !important;
+    gap: 14px !important;
+    padding: 17px 18px !important;
+  }
+
+  .rgc-scope .ninety-lane-strip {
+    padding: 15px;
+  }
+
+  .rgc-scope .ninety-lane-chip span {
+    font-size: 0.54rem;
+  }
+
+  .rgc-scope .ninety-roadmap__header,
+  .rgc-scope .ninety-row {
+    grid-template-columns: 1fr;
+  }
+
+  .rgc-scope .ninety-row {
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .rgc-scope .ninety-row__number {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .rgc-scope .ninety-row__chips span {
+    padding: 6px 7px;
+    font-size: 0.47rem;
   }
 
   .rgc-scope [data-section="community"] .grid.md\:grid-cols-3 > div {
     padding-left: 12px;
+  }
+
+  .rgc-scope .concept-card--forest {
+    min-height: 184px;
   }
 
   .rgc-scope .concept-board .mono-chip,
@@ -3139,10 +2389,67 @@
   .rgc-scope .close-section {
     padding-top: 68px;
   }
+
+  .rgc-scope .field-monitor__topbar {
+    font-size: 0.46rem;
+    letter-spacing: 0.13em;
+  }
+
+  .rgc-scope .field-monitor__topbar span:nth-child(2) {
+    display: none;
+  }
+
+  .rgc-scope .close-video-frame--cinematic::before {
+    display: none;
+  }
+
+  .rgc-scope .field-film-poster__play {
+    width: 54px;
+    height: 54px;
+    font-size: 18px;
+  }
+
+  .rgc-scope .field-film-poster__label {
+    left: 12px;
+    bottom: 10px;
+    font-size: 0.54rem;
+  }
 }
 
-/* Final QA contrast nudge: keep the close contact strip legible on forest. */
-.rgc-scope .close-section .close-footer__meta {
-  color: rgba(245, 240, 232, 0.66) !important;
-  opacity: 1;
+@media (max-width: 380px) {
+  .rgc-scope .type-display-xl {
+    font-size: clamp(44px, 12vw, 56px) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rgc-scope .in-view-fade,
+  .rgc-scope .field-film-poster {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Consolidation QA fixes: restore artifact headline scale and chip contrast. */
+.rgc-scope .system-sheet-title {
+  font-size: clamp(36px, 6vw, 58px);
+}
+
+.rgc-scope .concept-card--forest .mono-chip:not(.mono-chip--accent) {
+  color: var(--pencil) !important;
+  background: var(--paper);
+}
+
+.rgc-scope .concept-card--forest .mono-chip--accent {
+  color: var(--paper) !important;
+}
+
+/* Mobile QA fix: strategy rows are field-note rows, not two-column cards. */
+@media (max-width: 640px) {
+  .rgc-scope .strategy-row {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
 }
