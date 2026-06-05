@@ -10,24 +10,24 @@ type Outcome = {
 
 const outcomes: Outcome[] = [
   {
-    text: "Rebuilt a wealth advisory firm's identity end-to-end.",
+    text: "Rebuilt a wealth advisory firm's brand and website end-to-end.",
     accent: "Rebuilt",
     slug: "smart-financial",
   },
   {
-    text: "Shipped a legaltech SaaS marketing site in six weeks.",
+    text: "Shipped an AI-assisted plan-review tool for a compliance firm.",
     accent: "Shipped",
-    slug: "legaltech-saas-platform",
+    slug: "florida-private",
   },
   {
-    text: "Built a content engine producing 30+ assets a month from one shoot day.",
+    text: "Built a cinematic content engine that turns one shoot day into a month of output.",
     accent: "Built",
     slug: "gfg-solutions",
   },
   {
-    text: "Took a financial advisory practice from zero to a full digital presence.",
-    accent: "Took",
-    slug: "financial-advisory-automation",
+    text: "Launched a modern, trust-forward website for a Florida law practice.",
+    accent: "Launched",
+    slug: "fritzler-law",
   },
 ];
 
