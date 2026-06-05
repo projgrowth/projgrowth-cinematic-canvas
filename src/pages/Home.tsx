@@ -7,10 +7,11 @@ import GrowthLines from "@/components/GrowthLines";
 import AmbientGlow from "@/components/AmbientGlow";
 import { Helmet } from "react-helmet-async";
 import { caseStudies } from "@/data/caseStudies";
-import { ArrowRight, FileText, Globe, Sparkles, Film, Cpu } from "lucide-react";
+import { ArrowRight, FileText, Globe, Sparkles, Film, Cpu, LineChart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import ResultsStrip from "@/components/home/ResultsStrip";
+import SectionChapter from "@/components/home/SectionChapter";
 
 const featuredProjects = caseStudies.slice(0, 3);
 
@@ -78,10 +79,10 @@ const Home = () => {
   };
 
   const services = [
-    { title: "Web Design", outcome: "Sites that convert, not just look good.", description: "Precision-engineered sites on modern stacks. Fast, conversion-focused, and built to reflect a brand worth paying attention to.", path: "/services/web-design" },
-    { title: "Branding", outcome: "The obvious choice in your category.", description: "Identity systems rooted in positioning. Logo, language, and visual direction that make you the obvious choice in the room.", path: "/services/branding" },
-    { title: "Content Creation", outcome: "One shoot. A month of output.", description: "Cinematic short-form, editorial copy, and social content — built in systems so one shoot becomes months of output.", path: "/services/content-creation" },
-    { title: "Digital Marketing", outcome: "Pipeline, not vanity reports.", description: "Full-funnel strategy tied to revenue, not reports. SEO, paid, and email that compounds over time.", path: "/services/digital-marketing" },
+    { title: "Web Design", icon: Globe, outcome: "Sites that convert, not just look good.", description: "Precision-engineered sites on modern stacks. Fast, conversion-focused, and built to reflect a brand worth paying attention to.", path: "/services/web-design" },
+    { title: "Branding", icon: Sparkles, outcome: "The obvious choice in your category.", description: "Identity systems rooted in positioning. Logo, language, and visual direction that make you the obvious choice in the room.", path: "/services/branding" },
+    { title: "Content Creation", icon: Film, outcome: "One shoot. A month of output.", description: "Cinematic short-form, editorial copy, and social content — built in systems so one shoot becomes months of output.", path: "/services/content-creation" },
+    { title: "Digital Marketing", icon: LineChart, outcome: "Pipeline, not vanity reports.", description: "Full-funnel strategy tied to revenue, not reports. SEO, paid, and email that compounds over time.", path: "/services/digital-marketing" },
   ];
 
   const differentiators = [
@@ -218,7 +219,7 @@ const Home = () => {
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-10">
             <div className="col-span-12 lg:col-span-4">
-              <p className="eyebrow mb-3">Our Craft</p>
+              <SectionChapter number={1} label="Our Craft" />
               <h2 className="font-display text-text mb-3">
                 The Full Stack of Brand-Building
               </h2>
@@ -234,9 +235,9 @@ const Home = () => {
                     <SurfaceCard pad="md" interactive className="relative overflow-hidden h-full transition-transform duration-sm group-hover:-translate-y-0.5">
                       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
                       <div className="absolute bottom-0 left-0 h-px w-0 bg-accent transition-all duration-md group-hover:w-full" />
-                      <span className="relative font-display text-xs tracking-widest mb-4 block" style={{ color: "hsl(var(--accent) / 0.4)" }}>
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
+                      <div className="relative mb-4 inline-flex items-center justify-center w-10 h-10 rounded-md border border-accent/30 bg-accent/5 transition-colors duration-sm group-hover:border-accent/60 group-hover:bg-accent/10">
+                        <service.icon className="w-5 h-5 text-accent" />
+                      </div>
                       <h3 className="relative font-display text-text mb-1.5 transition-colors duration-sm group-hover:text-accent">
                         {service.title}
                       </h3>
@@ -260,7 +261,7 @@ const Home = () => {
           <ScrollReveal variant="fade-up">
             <div className="grid-12 gap-y-10 mb-12 md:mb-16">
               <div className="col-span-12 lg:col-span-4">
-                <p className="eyebrow mb-3">How We Work</p>
+                <SectionChapter number={3} label="How We Work" />
                 <h2 className="font-display text-text">
                   Not a Vendor.<br />A Strategic Partner.
                 </h2>
@@ -297,7 +298,9 @@ const Home = () => {
       <Section>
         <ScrollReveal variant="fade-up">
           <div className="section-header">
-            <p className="eyebrow mb-3">Selected Work</p>
+            <div className="flex justify-center">
+              <SectionChapter number={4} label="Selected Work" />
+            </div>
             <h2 className="font-display text-text mb-3">Work That Moves the Needle</h2>
             <p className="lede">A tight selection of what we've built — and what happened after.</p>
           </div>
@@ -310,14 +313,30 @@ const Home = () => {
               const Icon = categoryIcons[project.category] || FileText;
               return (
                 <Link key={idx} to={`/work/${project.id}`} className="group block">
-                  <div className={`bg-gradient-to-br ${gradient} border border-line rounded-lg p-6 md:p-8 h-full flex flex-col transition-all duration-md hover:border-accent/40 hover:shadow-elegant`}>
-                    <Icon className="w-7 h-7 text-accent-strong mb-6" />
-                    <span className="text-xs text-accent mb-2 block">{project.category}</span>
-                    <h3 className="font-display text-text mb-2 group-hover:text-accent transition-colors duration-sm">
+                  <div className={`relative overflow-hidden bg-gradient-to-br ${gradient} border border-line rounded-lg p-6 md:p-8 h-full flex flex-col transition-all duration-md hover:border-accent/40 hover:shadow-elegant`}>
+                    {project.logo && (
+                      <img
+                        src={project.logo}
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                        className="pointer-events-none absolute -right-6 -bottom-6 w-40 h-40 object-contain opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-md"
+                      />
+                    )}
+                    <div className="relative flex items-start justify-between mb-6">
+                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-accent/30 bg-bg/40">
+                        <Icon className="w-4 h-4 text-accent" />
+                      </span>
+                      <span className="text-[10px] uppercase tracking-widest text-mute pt-2">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <span className="relative text-xs text-accent mb-2 block">{project.category}</span>
+                    <h3 className="relative font-display text-text mb-2 group-hover:text-accent transition-colors duration-sm">
                       {project.title}
                     </h3>
-                    <p className="text-mute text-sm flex-1">{project.subtitle}</p>
-                    <div className="mt-6 flex items-center gap-1 text-accent text-sm font-medium">
+                    <p className="relative text-mute text-sm flex-1">{project.subtitle}</p>
+                    <div className="relative mt-6 flex items-center gap-1 text-accent text-sm font-medium">
                       View Case Study
                       <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-sm group-hover:translate-x-1" />
                     </div>
