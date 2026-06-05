@@ -2847,3 +2847,302 @@
     line-height: 1.5;
   }
 }
+
+/* --------------------------------------------------------------------------
+   RGC final visual cohesion polish: one field-packet system, less UI noise.
+   CSS-only; preserves copy, section order, and media assets.
+-------------------------------------------------------------------------- */
+.rgc-scope [data-section] > span[aria-hidden] {
+  opacity: 0.36;
+  transform: translate3d(0, 0, 0) scale(0.94);
+  transform-origin: top right;
+}
+
+.rgc-scope
+  :where(
+    .paper-card,
+    .receipt-card,
+    .system-card,
+    .budget-slip,
+    .tee-sheet-card,
+    .ninety-roadmap,
+    .concept-board,
+    .work-card
+  ) {
+  box-shadow: 0 16px 48px rgba(20, 18, 14, 0.055);
+}
+
+.rgc-scope
+  :where(
+    .tee-move__title,
+    .strategy-row__label,
+    .ninety-row__titleline h3,
+    .work-card__title,
+    .concept-card__title,
+    .community-bullet-title
+  ) {
+  font-family: var(--rgc-font-body);
+}
+
+/* $1K: make budget + marker read as one field kit supporting the tee sheet. */
+.rgc-scope .thousand-support-grid {
+  position: relative;
+  border: 1px solid var(--hairline-strong);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(139, 32, 32, 0.025) 0 1px,
+      transparent 1px 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(14, 28, 19, 0.026) 0 1px,
+      transparent 1px 100%
+    ),
+    linear-gradient(180deg, #fbf6eb 0%, #f1e6d4 100%);
+  background-size:
+    38px 100%,
+    100% 38px,
+    auto;
+  gap: 0;
+  padding: clamp(12px, 1.6vw, 18px);
+  box-shadow: 0 18px 56px rgba(20, 18, 14, 0.07);
+}
+
+.rgc-scope .thousand-support-grid::before {
+  content: "FIELD KIT";
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 1;
+  font-family: var(--rgc-font-meta);
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  color: rgb(var(--pencil-rgb) / 0.28);
+}
+
+.rgc-scope .thousand-support-grid .budget-slip,
+.rgc-scope .thousand-support-grid .artifact-marker {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  border: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.rgc-scope .thousand-support-grid .budget-slip {
+  background: transparent;
+  padding: clamp(14px, 2vw, 22px);
+}
+
+.rgc-scope .thousand-support-grid .budget-slip .dashed-card {
+  min-height: 100%;
+  background: rgb(var(--paper-rgb) / 0.46);
+}
+
+.rgc-scope .thousand-support-grid .artifact-marker {
+  background:
+    radial-gradient(
+      circle at 50% 22%,
+      rgba(245, 240, 232, 0.1),
+      transparent 34%
+    ),
+    #10130f;
+  padding: clamp(12px, 1.7vw, 16px);
+}
+
+.rgc-scope .thousand-proof-note {
+  margin-top: clamp(12px, 1.8vw, 18px);
+  opacity: 0.88;
+}
+
+/* 90 days: align the operating plan with the tee-sheet/scorecard artifact language. */
+.rgc-scope .ninety-lane-strip {
+  border-color: rgb(var(--bone-rgb) / 0.16);
+  background: rgb(var(--bone-rgb) / 0.035);
+  box-shadow: none;
+}
+
+.rgc-scope .ninety-lane-chip {
+  border-style: dashed;
+  background: rgb(var(--bone-rgb) / 0.035);
+}
+
+.rgc-scope .ninety-roadmap {
+  border-color: rgb(var(--bone-rgb) / 0.22);
+  box-shadow: 0 20px 66px rgba(0, 0, 0, 0.16);
+}
+
+.rgc-scope .ninety-row:not(.ninety-row--active) .ninety-row__number span {
+  color: rgb(var(--oxblood-rgb) / 0.72);
+}
+
+.rgc-scope .ninety-row:not(.ninety-row--active) .ninety-row__titleline span,
+.rgc-scope .ninety-row:not(.ninety-row--active) .ninety-row__chips span {
+  color: rgb(var(--pencil-rgb) / 0.55);
+  border-color: rgb(var(--pencil-rgb) / 0.12);
+  background: rgb(var(--paper-rgb) / 0.42);
+}
+
+.rgc-scope .ninety-row--active {
+  box-shadow: inset 4px 0 0 var(--oxblood);
+}
+
+/* Work: proof ledger over portfolio grid. */
+.rgc-scope [data-section="work"] .fit-rail {
+  opacity: 0.94;
+  box-shadow: 0 10px 30px rgba(20, 18, 14, 0.06);
+}
+
+.rgc-scope [data-section="work"] .fit-rail__cell .meta-label {
+  color: rgb(var(--oxblood-rgb) / 0.74);
+}
+
+.rgc-scope .work-card:not(.work-card--featured) {
+  box-shadow: none;
+  background: linear-gradient(180deg, #fbf6eb 0%, #f3eadb 100%);
+}
+
+.rgc-scope .work-card--featured {
+  box-shadow: inset 0 -1px 0 rgba(14, 28, 19, 0.08);
+}
+
+.rgc-scope .work-card__topline .meta-label:last-child,
+.rgc-scope .work-card__proof {
+  color: rgb(var(--pencil-rgb) / 0.44);
+}
+
+.rgc-scope .work-card__rgc {
+  color: rgb(var(--oxblood-rgb) / 0.82);
+}
+
+/* Community: yearbook remains the hero; archive board becomes quieter field paperwork. */
+.rgc-scope .yearbook-frame {
+  box-shadow: 0 24px 80px rgba(20, 18, 14, 0.16);
+}
+
+.rgc-scope [data-section="community"] .grid.md\:grid-cols-3 > div {
+  padding-left: 14px;
+  border-left: 1px solid rgb(var(--pencil-rgb) / 0.12);
+}
+
+.rgc-scope .community-note {
+  border-color: rgb(var(--pencil-rgb) / 0.12);
+  background: linear-gradient(180deg, #fbf6eb 0%, #f2e8d7 100%);
+  box-shadow: none;
+}
+
+.rgc-scope .concept-board-wrap {
+  filter: none;
+}
+
+.rgc-scope .concept-board {
+  border-color: rgb(var(--pencil-rgb) / 0.12);
+  background:
+    linear-gradient(90deg, rgba(14, 28, 19, 0.022) 0 1px, transparent 1px 100%),
+    linear-gradient(180deg, #fbf6eb 0%, #efe5d4 100%);
+  background-size:
+    36px 100%,
+    auto;
+  box-shadow: 0 12px 34px rgba(20, 18, 14, 0.055);
+}
+
+.rgc-scope .concept-board__header {
+  background: rgb(var(--paper-rgb) / 0.42);
+}
+
+.rgc-scope .concept-board .mono-chip,
+.rgc-scope .concept-board .mono-chip--accent {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.rgc-scope .concept-board .mono-chip--accent {
+  background: rgb(var(--oxblood-rgb) / 0.86);
+}
+
+.rgc-scope .concept-card {
+  border-color: rgb(var(--pencil-rgb) / 0.11);
+  background: rgb(var(--paper-rgb) / 0.58);
+}
+
+.rgc-scope .concept-card--forest {
+  background:
+    radial-gradient(
+      circle at 72% 18%,
+      rgba(245, 240, 232, 0.11),
+      transparent 32%
+    ),
+    linear-gradient(135deg, #101b14 0%, #08100b 100%);
+}
+
+/* Close: one final scene, lighter monitor chrome. */
+.rgc-scope .close-section {
+  padding-top: clamp(78px, 8vw, 118px);
+}
+
+.rgc-scope .close-field-note {
+  margin-top: clamp(20px, 3vw, 30px);
+}
+
+.rgc-scope .close-film-stage {
+  margin-top: clamp(26px, 3.6vw, 42px);
+}
+
+.rgc-scope .close-section .close-video-frame--cinematic {
+  border-color: rgba(245, 240, 232, 0.16);
+  padding: clamp(8px, 1vw, 12px);
+  box-shadow: 0 22px 72px rgba(0, 0, 0, 0.26);
+}
+
+.rgc-scope .close-video-frame--cinematic::before {
+  border-color: rgba(245, 240, 232, 0.055);
+}
+
+.rgc-scope
+  .close-section
+  .close-video-frame--cinematic
+  .close-video-frame__inner {
+  border-color: rgba(245, 240, 232, 0.1);
+}
+
+.rgc-scope .field-monitor__topbar,
+.rgc-scope .close-video-frame--cinematic .meta-label {
+  opacity: 0.74;
+}
+
+@media (max-width: 640px) {
+  .rgc-scope [data-section] > span[aria-hidden] {
+    opacity: 0.22;
+    transform: scale(0.84);
+  }
+
+  .rgc-scope .thousand-support-grid {
+    padding: 10px;
+  }
+
+  .rgc-scope .thousand-support-grid::before {
+    display: none;
+  }
+
+  .rgc-scope [data-section="community"] .grid.md\:grid-cols-3 > div {
+    padding-left: 12px;
+  }
+
+  .rgc-scope .concept-board .mono-chip,
+  .rgc-scope .concept-board .mono-chip--accent {
+    padding: 7px 8px;
+    font-size: 0.46rem;
+  }
+
+  .rgc-scope .close-section {
+    padding-top: 68px;
+  }
+}
+
+/* Final QA contrast nudge: keep the close contact strip legible on forest. */
+.rgc-scope .close-section .close-footer__meta {
+  color: rgba(245, 240, 232, 0.66) !important;
+  opacity: 1;
+}
