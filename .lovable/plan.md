@@ -1,65 +1,111 @@
-## Goal
-1. Replace the cheap-looking "Currently booking Q1 2026" pill in the hero with something more refined.
-2. Sharpen typography sitewide and tighten the design system.
-3. Do not touch `/rgc` (any file under `src/components/pitch/**`, `src/pages/RGC.tsx`, or `src/pages/rgc.css`).
 
-## 1. Hero availability indicator — replace the pill
+# Bundle A — Site-Wide Cohesion Pass
 
-Current: rounded-full chip with emerald border + tint, reading "Currently booking Q1 2026 · 2 engagements open". Looks like a generic SaaS badge.
+Goal: every page (except `/rgc`) reads like it was designed by the same hand as the new Home. Three coordinated moves: a shared hero shell, chapter marks on every section, and a consolidated card system.
 
-Replace with an **inline availability line** — no pill, no chip:
+Scope rule: do not touch `/rgc`, `src/pages/RGC.tsx`, `src/pages/rgc.css`, or anything under `src/components/pitch/**`.
 
-```
-●  Booking Q1 2026   —   2 engagements open
-```
+---
 
-- A small pulsing emerald dot (10px) with a soft halo (not a chip background).
-- Type: `font-display`, `text-xs`, `uppercase`, `tracking-[0.22em]`, `text-mute`.
-- "Q1 2026" rendered in `text-text` (stronger).
-- A thin `h-px w-8 bg-line` rule between the label and the count, instead of a middot — more editorial.
-- No border, no background fill. Sits flush left above the headline.
+## 1. Shared PageHero shell
 
-This reads as a status line on a serious studio site rather than a marketing badge.
+Promote `SectionChapter` and the Home hero pattern into a reusable hero used by every inner page.
 
-## 2. Typography sharpening
+New: `src/components/PageHero.tsx`
+- Props: `chapter?: { number: number; label: string }`, `title: ReactNode`, `lede?: ReactNode`, `status?: ReactNode` (for the new inline booking line on Home), `align?: "left" | "center"`, `children?` (slot for extras like the Contact email card).
+- Composition:
+  - Chapter mark (uses existing `SectionChapter`)
+  - H1: `font-display text-text` with `text-wrap: balance`
+  - Lede: `.lede` class, `max-w-[62ch]`
+  - Optional status row directly below lede
+- Wraps content in the existing `PageHeader` glow halo so the radial accent stays consistent.
+- Built-in fade-up reveal via `ScrollReveal` so pages stop hand-rolling `motion.h1`.
 
-Three coordinated changes — small but visible across every page.
+Migration:
+- `About.tsx`, `Services.tsx`, `Blog.tsx`, `Contact.tsx`, `Work.tsx`, `Portfolio.tsx`, `CaseStudyDetail.tsx`, `BlogPost.tsx`, all 4 `services/*` pages → replace their bespoke `PageHeader + h1 + lede` blocks with `<PageHero>`.
+- Home keeps its custom hero (it has the word-by-word reveal and the booking status line), but adopts the same chapter mark format above the headline for parity.
 
-**a. Font loading**
-- Add `Outfit` weights `300, 400, 500, 600, 700` and `Inter` weights `400, 500, 600, 700` (currently only 400/500/600). Display headlines lean on 500/600 contrast; body needs 400 + 600 for proper emphasis.
-- Add `display=swap` already present — keep.
-- Add `font-feature-settings: "ss01", "cv11", "calt"` to `html` for Inter's stylistic alternates (sharper `a`, `g`, single-storey numerals) — this is the single biggest "sharpness" win.
-- Add `text-rendering: optimizeLegibility` (already set) and add `-webkit-font-smoothing: antialiased` with `font-synthesis: none` so we never get faux-bold.
+Chapter labels (assigned per page):
+- Home — already uses chapters mid-page
+- Work — `01 / Selected Work`
+- Services — `01 / Disciplines`
+- About — `01 / Studio`
+- Blog — `01 / Field Notes`
+- Contact — `01 / Begin`
+- Case study detail — `0X / Case Study` where X = index in the lineup
 
-**b. Heading scale + tracking**
-- Tighten `h1` letter-spacing from `-0.025em` → `-0.028em` and bump font-weight to `600` consistently (some pages render at 500 via shadcn defaults).
-- `h2` letter-spacing `-0.02em` → `-0.022em`.
-- Add `text-wrap: balance` to `h1, h2` for better line breaks on hero/section headers.
-- Body line-height stays, but bump min size from 14px → 15px so small viewports stop looking thin.
+## 2. Chapter marks across every section
 
-**c. Numerals**
-- Add `font-variant-numeric: tabular-nums` to `.numeral-display`, the results strip metric numbers, and the chapter mark `01 /` style. Stops digits from jittering on hover/animation.
+Today only Home uses `SectionChapter`. Roll it out so every major section on every page is labeled with `0N / Section Name`. This is the single biggest cohesion win.
 
-## 3. Design system cleanup
+- About: `01 / Studio` (hero), `02 / Mission`, `03 / Values`
+- Services: `01 / Disciplines`, `02 / Process` (above `ProcessTimeline`)
+- Work: `01 / Selected Work` (hero), `02 / Index` (above the grid)
+- Blog: `01 / Field Notes`, `02 / Latest`
+- Contact: `01 / Begin`, `02 / Quick Message`, `03 / Start a Project`, `04 / Questions` (FAQ)
+- Service subpages (4): `01 / Overview`, `02 / Capabilities`, `03 / Deliverables`, `04 / Process`
+- Case study detail: `01 / Challenge`, `02 / Approach`, `03 / What Changed`
 
-Tighten without changing colors or layout structure:
+Standardize spacing: chapter mark `mb-4`, then H2 `mb-6`, body content below. This matches existing `mb-16` headers rule from memory by keeping the section header block compact.
 
-- **Eyebrow** — currently emerald + 600 weight + 0.16em tracking. Drop weight to 500, tracking to 0.18em → more editorial, less shouty. Keep emerald color.
-- **Pills** — `.pill-base` padding `0.25rem 0.75rem` is cramped at the new font weight. Bump to `0.3125rem 0.875rem` and add `font-feature-settings: "tnum"`.
-- **Buttons** — `.btn-base` font-weight 500 is fine, but add `letter-spacing: -0.005em` so labels feel set, not loose.
-- **Lede** — current `color: hsl(var(--mute))`. Switch to `hsl(var(--text) / 0.78)` for a touch more presence (mute is too gray under Outfit display headlines).
-- **Section headers** — `.section-header` currently `max-width: 65ch`. Add `text-wrap: pretty` so orphan words drop cleanly.
-- **Token consolidation** — remove the unused `--accent-alt` references in components if any, and document the locked color ladder (`--accent-faint/soft/strong`) as the only allowed accent opacity values in a short comment block at the top of `index.css`. No new tokens, just enforcing what exists.
+## 3. Card system consolidation
+
+Today there are 4 overlapping card patterns: `SurfaceCard` (CVA), `BentoCaseStudyCard`, `CaseStudyCard` (with 3D tilt), and ad-hoc `bg-surface rounded-lg border border-line` divs in About/Services/Contact/Blog.
+
+Consolidate to **two** sanctioned variants:
+
+**A. `SurfaceCard` (the "content card")** — used for values, FAQ items, contact info cards, blog post cards, service capability cards. Extend its CVA:
+- Add `variant: "ghost"` (transparent bg, line border only) for lower-emphasis grids
+- Standardize hover: every interactive `SurfaceCard` uses `hover:border-accent/40 hover:shadow-elegant hover:-translate-y-0.5`
+- Standardize radius: all `rounded-lg` (drop the occasional `rounded-md`/`rounded-xl`)
+
+Refactor targets:
+- `About.tsx` value cards → `<SurfaceCard variant="surface" pad="lg" interactive>`
+- `Contact.tsx` Email/Response cards → `<SurfaceCard variant="ghost" pad="sm" interactive>`
+- `Blog.tsx` `BlogCardSkeleton` and the post card markup → `<SurfaceCard>` wrapper
+- Services capability tiles in `services/*` → `<SurfaceCard variant="ghost">`
+
+**B. `BentoCaseStudyCard` (the "work card")** — single owner for showing case studies anywhere (Home featured, Work bento, related case studies on detail pages). 
+
+- Deprecate `CaseStudyCard.tsx`: Work page's "grid" and "list" view modes both re-render through `BentoCaseStudyCard` with a new `layout?: "bento" | "grid" | "list"` prop. The 3D tilt logic in `CaseStudyCard` is removed (per Mobile/Touch memory and to reduce noise per Minimalist memory).
+- File deletion: `src/components/CaseStudyCard.tsx` removed; imports in `Work.tsx` updated.
+
+This gets us from 4 card patterns → 2 owned, documented components.
+
+---
 
 ## Files touched
 
-- `src/pages/Home.tsx` — replace availability pill markup (lines ~115–125) with the inline availability line. Remove the `availability.chip` string usage.
-- `index.html` — extend Google Fonts URL with extra weights.
-- `src/index.css` — font-feature-settings on `html`, heading tracking, body min-size, `text-wrap` rules, eyebrow/pill/button/lede refinements, tabular-nums on numeral utilities.
+Created:
+- `src/components/PageHero.tsx`
 
-**Not touched:** `/rgc` route and any file under `src/components/pitch/**`, `src/pages/RGC.tsx`, `src/pages/rgc.css`. The RGC palette + Söhne-style typography stays isolated under `.rgc-scope`.
+Edited:
+- `src/components/home/SectionChapter.tsx` — move into `src/components/SectionChapter.tsx` (used site-wide now, not Home-only)
+- `src/components/ui/card-surface.tsx` — add `ghost` variant, standardize hover
+- `src/pages/Home.tsx` — chapter mark above hero headline; update SectionChapter import path
+- `src/pages/About.tsx` — PageHero + chapter marks + SurfaceCard for values
+- `src/pages/Services.tsx` — PageHero + chapter marks
+- `src/pages/Work.tsx` — PageHero + chapter marks; swap CaseStudyCard → BentoCaseStudyCard with `layout` prop
+- `src/pages/Portfolio.tsx` — PageHero + chapter marks
+- `src/pages/Blog.tsx` — PageHero + chapter marks + SurfaceCard for post cards
+- `src/pages/BlogPost.tsx` — PageHero
+- `src/pages/Contact.tsx` — PageHero + chapter marks + SurfaceCard for info row
+- `src/pages/CaseStudyDetail.tsx` — chapter marks per narrative section
+- `src/pages/services/WebDesign.tsx`, `Branding.tsx`, `ContentCreation.tsx`, `DigitalMarketing.tsx` — PageHero + chapter marks + SurfaceCard for tiles
+- `src/components/BentoCaseStudyCard.tsx` — add `layout` prop (bento | grid | list), inline old list-view markup
+- `src/components/home/ResultsStrip.tsx` — update SectionChapter import path
 
-## Out of scope
-- No changes to nav, footer, hero layout/copy, services, results strip content, or routing.
-- No new components, no new dependencies.
-- No color palette changes.
+Deleted:
+- `src/components/CaseStudyCard.tsx`
+- `src/components/home/SectionChapter.tsx` (replaced by site-wide path)
+
+Untouched:
+- `src/pages/RGC.tsx`, `src/pages/rgc.css`, anything under `src/components/pitch/**`, `src/pages/Discovery.tsx`, `src/pages/discovery/**`, navigation, footer, color tokens, typography rules, motion system.
+
+---
+
+## Out of scope (saved for later bundles)
+
+- Motion unification, link hover system, font preloading (Bundle B)
+- CTA voice, logos on Services/About, footer status (Bundle C)
+- Focus rings, reduced-motion sweep, image pipeline (Bundle D)
