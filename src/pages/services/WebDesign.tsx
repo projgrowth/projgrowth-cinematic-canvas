@@ -7,6 +7,9 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
+import { SurfaceCard } from "@/components/ui/card-surface";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Monitor, Smartphone, Zap, Shield } from "lucide-react";
 import QuickContactForm from "@/components/QuickContactForm";
@@ -106,18 +109,12 @@ const WebDesign = () => {
       <Section>
         <Breadcrumbs />
         
-        <ScrollReveal variant="fade-up">
-          <div className="mb-16">
-            <h1 className="font-display text-text mb-6">
-              Web Design Services in Orlando
-            </h1>
-            <p className="text-xl text-mute max-w-3xl">
-              We create stunning, high-performance websites that help Orlando businesses 
-              stand out, engage visitors, and drive conversions. From small business sites 
-              to complex web applications, we deliver digital experiences that work.
-            </p>
-          </div>
-        </ScrollReveal>
+        <PageHero
+          chapter={{ number: 1, label: "Overview" }}
+          title={<>Web Design Services in Orlando</>}
+          lede="We create stunning, high-performance websites that help Orlando businesses stand out, engage visitors, and drive conversions. From small business sites to complex web applications, we deliver digital experiences that work."
+          className="mb-16"
+        />
 
         {/* Key Benefits */}
         <ScrollReveal variant="fade-up">
@@ -128,11 +125,11 @@ const WebDesign = () => {
               { icon: Zap, title: "Lightning Fast", desc: "Optimized performance" },
               { icon: Shield, title: "Secure & Reliable", desc: "Built to last" }
             ].map((item, idx) => (
-              <div key={idx} className="p-6 bg-surface rounded-lg border border-line text-center">
+              <SurfaceCard key={idx} variant="ghost" pad="md" className="text-center">
                 <item.icon className="w-10 h-10 text-accent mx-auto mb-4" />
                 <h3 className="font-display text-text mb-2">{item.title}</h3>
                 <p className="text-sm text-mute">{item.desc}</p>
-              </div>
+              </SurfaceCard>
             ))}
           </div>
         </ScrollReveal>
@@ -140,6 +137,7 @@ const WebDesign = () => {
         {/* Process */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={2} label="Process" />
             <h2 className="font-display text-text mb-12">
               Our Web Design Process
             </h2>
@@ -162,15 +160,16 @@ const WebDesign = () => {
         {/* What's Included */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={3} label="Capabilities" />
             <h2 className="font-display text-text mb-12">
               What's Included
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {features.map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-4 bg-surface rounded-lg border border-line">
+                <SurfaceCard key={idx} variant="ghost" pad="sm" className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
                   <span className="text-text">{feature}</span>
-                </div>
+                </SurfaceCard>
               ))}
             </div>
           </div>
@@ -179,6 +178,7 @@ const WebDesign = () => {
         {/* FAQs */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={4} label="Questions" />
             <h2 className="font-display text-text mb-12">
               Frequently Asked Questions
             </h2>

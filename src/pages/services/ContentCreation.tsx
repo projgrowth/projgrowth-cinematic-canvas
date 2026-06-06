@@ -7,6 +7,9 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
+import { SurfaceCard } from "@/components/ui/card-surface";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, PenTool, Video, Camera, Share2 } from "lucide-react";
 import QuickContactForm from "@/components/QuickContactForm";
@@ -102,32 +105,27 @@ const ContentCreation = () => {
       <Section>
         <Breadcrumbs />
         
-        <ScrollReveal variant="fade-up">
-          <div className="mb-16">
-            <h1 className="font-display text-text mb-6">
-              Content Creation Services in Orlando
-            </h1>
-            <p className="text-xl text-mute max-w-3xl">
-              Great content tells your story, builds trust, and drives action. We create compelling 
-              content—from words to video to imagery—that helps Orlando businesses connect with 
-              their audience and achieve their goals.
-            </p>
-          </div>
-        </ScrollReveal>
+        <PageHero
+          chapter={{ number: 1, label: "Overview" }}
+          title={<>Content Creation Services in Orlando</>}
+          lede="Great content tells your story, builds trust, and drives action. We create compelling content—from words to video to imagery—that helps Orlando businesses connect with their audience and achieve their goals."
+          className="mb-16"
+        />
 
         {/* Services */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={2} label="Capabilities" />
             <h2 className="font-display text-text mb-12">
               Content Services We Offer
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {services.map((service, idx) => (
-                <div key={idx} className="p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30">
+                <SurfaceCard key={idx} pad="lg" interactive>
                   <service.icon className="w-10 h-10 text-accent mb-4" />
                   <h3 className="font-display text-text mb-3">{service.title}</h3>
                   <p className="text-mute">{service.description}</p>
-                </div>
+                </SurfaceCard>
               ))}
             </div>
           </div>
@@ -136,15 +134,16 @@ const ContentCreation = () => {
         {/* Deliverables */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={3} label="Deliverables" />
             <h2 className="font-display text-text mb-12">
               What We Create
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {deliverables.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-4 bg-surface rounded-lg border border-line">
+                <SurfaceCard key={idx} variant="ghost" pad="sm" className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
                   <span className="text-text">{item}</span>
-                </div>
+                </SurfaceCard>
               ))}
             </div>
           </div>
@@ -153,6 +152,7 @@ const ContentCreation = () => {
         {/* Process */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={4} label="Process" />
             <h2 className="font-display text-text mb-12">
               Our Content Creation Process
             </h2>
