@@ -9,6 +9,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import PageHero from "@/components/PageHero";
 import SectionChapter from "@/components/SectionChapter";
 import LeafDivider from "@/components/LeafDivider";
+import ClientLogos from "@/components/ClientLogos";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -235,6 +236,7 @@ const Services = () => {
             <ProcessTimeline />
           </ScrollReveal>
         </Section>
+        <ClientLogos />
       </TooltipProvider>
     </Layout>
   );
