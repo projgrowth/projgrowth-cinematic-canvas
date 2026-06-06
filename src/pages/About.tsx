@@ -6,7 +6,9 @@ import { Section } from "@/components/ui/section";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import PageHeader from "@/components/PageHeader";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
+import { SurfaceCard } from "@/components/ui/card-surface";
 import LeafDivider from "@/components/LeafDivider";
 
 const About = () => {
@@ -40,16 +42,12 @@ const About = () => {
       canonicalUrl="/about"
     >
       <Section>
-        <ScrollReveal variant="fade-up">
-          <PageHeader className="mb-12 md:mb-16">
-            <h1 className="font-display text-text mb-5">
-              We Build What Lasts.
-            </h1>
-            <p className="lede max-w-3xl">
-              ProjGrowth is a boutique digital studio based in Orlando, FL. We work with founders and marketing leaders who know that design is a competitive advantage — and are ready to act like it.
-            </p>
-          </PageHeader>
-        </ScrollReveal>
+        <PageHero
+          chapter={{ number: 1, label: "Studio" }}
+          title={<>We Build What Lasts.</>}
+          lede="ProjGrowth is a boutique digital studio based in Orlando, FL. We work with founders and marketing leaders who know that design is a competitive advantage — and are ready to act like it."
+          className="mb-12 md:mb-16"
+        />
 
         {/* Stats Row */}
         <ScrollReveal variant="fade-up" delay={0.1}>
@@ -69,6 +67,7 @@ const About = () => {
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-10 section">
             <div className="col-span-12 lg:col-span-4">
+              <SectionChapter number={2} label="Mission" />
               <h2 className="font-display text-text">Our Mission</h2>
             </div>
             <div className="col-span-12 lg:col-span-8">
@@ -83,18 +82,15 @@ const About = () => {
         <LeafDivider />
         <ScrollReveal variant="fade-up">
           <div className="section">
+            <SectionChapter number={3} label="Values" />
             <h2 className="font-display text-text mb-12 md:mb-16">Our Values</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-cards">
               {values.map((value, idx) => (
                 <ScrollReveal key={idx} variant="scale" delay={idx * 0.1}>
-                  <div className="p-7 md:p-8 bg-surface rounded-lg border border-line transition-all duration-md ease-smooth hover:border-accent/40 hover:shadow-elegant h-full">
-                    <h3 className="font-display text-accent mb-3">
-                      {value.title}
-                    </h3>
-                    <p className="text-mute">
-                      {value.description}
-                    </p>
-                  </div>
+                  <SurfaceCard pad="lg" interactive className="h-full">
+                    <h3 className="font-display text-accent mb-3">{value.title}</h3>
+                    <p className="text-mute">{value.description}</p>
+                  </SurfaceCard>
                 </ScrollReveal>
               ))}
             </div>

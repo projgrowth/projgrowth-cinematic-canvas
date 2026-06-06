@@ -8,7 +8,9 @@ import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import PageHeader from "@/components/PageHeader";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
+import { SurfaceCard } from "@/components/ui/card-surface";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -73,19 +75,15 @@ const Blog = () => {
       <Section>
         <Breadcrumbs />
 
-        <ScrollReveal>
-          <PageHeader className="mb-12 md:mb-16">
-            <h1 className="font-display text-text mb-6">
-              Insights & Resources
-            </h1>
-            <p className="text-xl text-mute max-w-2xl">
-              Expert perspectives on web design, branding, and digital marketing 
-              strategies for Orlando and Central Florida businesses.
-            </p>
-          </PageHeader>
-        </ScrollReveal>
+        <PageHero
+          chapter={{ number: 1, label: "Field Notes" }}
+          title={<>Insights &amp; Resources</>}
+          lede="Expert perspectives on web design, branding, and digital marketing strategies for Orlando and Central Florida businesses."
+          className="mb-12 md:mb-16"
+        />
 
         <ScrollReveal delay={0.1}>
+          <SectionChapter number={2} label="Latest" />
           <div className="flex flex-wrap gap-2 mb-10 border-b border-line pb-6">
             {categories.map((category) => (
               <button

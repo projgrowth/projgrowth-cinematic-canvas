@@ -5,8 +5,9 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import MultiStepContactForm from "@/components/MultiStepContactForm";
-
-import PageHeader from "@/components/PageHeader";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
+import { SurfaceCard } from "@/components/ui/card-surface";
 import LeafDivider from "@/components/LeafDivider";
 import { Mail, MessageSquare } from "lucide-react";
 import QuickContactForm from "@/components/QuickContactForm";
@@ -77,27 +78,17 @@ const Contact = () => {
         <div className="grid-12 gap-y-8 items-end">
             {/* Header */}
             <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-8">
-              <PageHeader>
-                <motion.h1 
-                  className="font-display text-text mb-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  Let's Build
-                  <br />
-                  <span className="text-accent">Something Great</span>
-                </motion.h1>
-                <motion.p 
-                  className="lede"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                  Tell us about your project and we'll craft a tailored approach 
-                  to bring your vision to life.
-                </motion.p>
-              </PageHeader>
+              <PageHero
+                chapter={{ number: 1, label: "Begin" }}
+                title={
+                  <>
+                    Let's Build
+                    <br />
+                    <span className="text-accent">Something Great</span>
+                  </>
+                }
+                lede="Tell us about your project and we'll craft a tailored approach to bring your vision to life."
+              />
             </ScrollReveal>
 
             {/* Compact info row */}
@@ -105,7 +96,7 @@ const Contact = () => {
               <ScrollReveal variant="scale" delay={0.2}>
                 <a
                   href="mailto:info@projgrowth.com"
-                  className="flex items-center gap-3 p-4 bg-surface/80 rounded-lg border border-line hover:border-accent/50 transition-all duration-sm group"
+                  className="surface-card !p-4 flex items-center gap-3 border-line hover:border-accent/50 transition-all duration-sm group"
                 >
                   <Mail className="w-5 h-5 text-accent flex-shrink-0" />
                   <div>
@@ -115,7 +106,7 @@ const Contact = () => {
                 </a>
               </ScrollReveal>
               <ScrollReveal variant="scale" delay={0.3}>
-                <div className="flex items-center gap-3 p-4 bg-surface/80 rounded-lg border border-line">
+                <div className="surface-card !p-4 flex items-center gap-3 border-line">
                   <MessageSquare className="w-5 h-5 text-accent flex-shrink-0" />
                   <div>
                     <p className="text-sm font-medium text-text">Response Time</p>
@@ -131,6 +122,7 @@ const Contact = () => {
       <Section>
         <ScrollReveal>
           <div className="max-w-xl mx-auto">
+            <SectionChapter number={2} label="Quick Message" align="center" />
             <h2 className="font-display text-text mb-2 text-center">Quick Message</h2>
             <p className="text-sm text-mute mb-6 text-center">Don't need the full rundown? Just drop us a line.</p>
             <QuickContactForm />
@@ -143,6 +135,7 @@ const Contact = () => {
       <Section>
         <ScrollReveal>
           <div className="text-center mb-8">
+            <SectionChapter number={3} label="Start a Project" align="center" />
             <h2 className="font-display text-text mb-2">Start a Project</h2>
             <p className="text-mute">Want to tell us more? Walk through our guided form.</p>
           </div>
@@ -154,6 +147,7 @@ const Contact = () => {
       <Section>
         <ScrollReveal variant="fade-up">
           <div className="max-w-3xl mx-auto">
+            <SectionChapter number={4} label="Questions" align="center" />
             <h2 className="font-display text-text mb-10 md:mb-12 text-center">
               Frequently Asked Questions
             </h2>
