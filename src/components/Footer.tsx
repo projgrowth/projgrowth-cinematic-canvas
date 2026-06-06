@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Mail, Instagram, Linkedin, Twitter } from "lucide-react";
 import pgLogo from "@/assets/logos/pg-logo.png";
 import QuickContactForm from "@/components/QuickContactForm";
+import FooterStatus from "@/components/FooterStatus";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -34,6 +35,7 @@ const Footer = () => {
             <p className="text-sm text-mute">
               Boutique digital studio — based in Orlando, FL. Serving ambitious brands across the US.
             </p>
+            <FooterStatus />
           </div>
 
           {/* Quick Links */}

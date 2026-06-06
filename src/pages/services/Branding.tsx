@@ -12,7 +12,7 @@ import SectionChapter from "@/components/SectionChapter";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Palette, Target, BookOpen, Eye } from "lucide-react";
-import QuickContactForm from "@/components/QuickContactForm";
+import RelatedCaseStudies from "@/components/RelatedCaseStudies";
 import {
   Accordion,
   AccordionContent,
@@ -201,35 +201,14 @@ const Branding = () => {
           </div>
         </ScrollReveal>
 
-        {/* Quick Contact */}
-        <ScrollReveal variant="fade-up">
-          <div className="section border-t border-line">
-            <div className="max-w-xl mx-auto text-center">
-              <h2 className="font-display text-text mb-2">Interested in Branding?</h2>
-              <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
-              <QuickContactForm />
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {/* CTA */}
-        <ScrollReveal variant="fade-up">
-          <div className="section border-t border-line text-center">
-            <h2 className="font-display text-text mb-6">
-              Ready to Build Your Brand?
-            </h2>
-            <p className="text-xl text-mute max-w-2xl mx-auto mb-8">
-              Let's create a brand identity that sets your Orlando business apart from the competition.
-            </p>
-            <Link
-              to="/contact?service=branding"
-              className="btn-solid group "
-            >
-              Schedule a Discovery Call
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </ScrollReveal>
+        {/* Selected Work in this discipline */}
+        <RelatedCaseStudies
+          ids={["smart-financial", "fritzler-law"]}
+          chapterNumber={6}
+          chapterLabel="Proof"
+          heading="Brand Work, Recently Shipped"
+          eyebrow="A few identities we've built and refined."
+        />
       </Section>
     </Layout>
   );

@@ -10,6 +10,7 @@ import PageHero from "@/components/PageHero";
 import SectionChapter from "@/components/SectionChapter";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import LeafDivider from "@/components/LeafDivider";
+import ClientLogos from "@/components/ClientLogos";
 
 const About = () => {
   // PLACEHOLDER — replace with verified numbers
@@ -98,6 +99,7 @@ const About = () => {
         </ScrollReveal>
 
       </Section>
+      <ClientLogos />
     </Layout>
   );
 };
