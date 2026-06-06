@@ -10,7 +10,8 @@ import CaseStudyCardSkeleton from "@/components/CaseStudyCardSkeleton";
 import CaseStudySheet from "@/components/CaseStudySheet";
 import BentoGrid from "@/components/BentoGrid";
 import ScrollReveal from "@/components/ScrollReveal";
-import PageHeader from "@/components/PageHeader";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 import { Grid3X3, List, ArrowUpDown, LayoutGrid } from "lucide-react";
 import QuickContactForm from "@/components/QuickContactForm";
@@ -110,20 +111,17 @@ const Work = () => {
       canonicalUrl="/work"
     >
       <Section>
-        <ScrollReveal variant="fade-up">
-          <PageHeader className="mb-12 md:mb-16 relative z-10">
-            <h1 className="font-display text-text mb-5">
-              Work
-            </h1>
-            <p className="lede max-w-3xl">
-              A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity.
-            </p>
-          </PageHeader>
-        </ScrollReveal>
+        <PageHero
+          chapter={{ number: 1, label: "Selected Work" }}
+          title="Work"
+          lede="A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity."
+          className="mb-12 md:mb-16 relative z-10"
+        />
 
         {/* Filter Bar */}
         <ScrollReveal variant="fade-up" delay={0.1}>
           <div className="space-y-4 mb-10 relative z-10">
+            <SectionChapter number={2} label="Index" />
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}

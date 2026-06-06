@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ProcessTimeline from "@/components/ProcessTimeline";
 import ScrollReveal from "@/components/ScrollReveal";
-import PageHeader from "@/components/PageHeader";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
 import LeafDivider from "@/components/LeafDivider";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
@@ -110,16 +111,12 @@ const Services = () => {
       
       <TooltipProvider>
         <Section>
-          <ScrollReveal variant="fade-up">
-            <PageHeader className="mb-12 md:mb-16">
-              <h1 className="font-display text-text mb-5">
-                The Work We Do Best.
-              </h1>
-              <p className="lede">
-                We're not a full-service agency that does everything passably. We've built four disciplines to an exceptionally high standard — and we only take on work that fits.
-              </p>
-            </PageHeader>
-          </ScrollReveal>
+          <PageHero
+            chapter={{ number: 1, label: "Disciplines" }}
+            title={<>The Work We Do Best.</>}
+            lede="We're not a full-service agency that does everything passably. We've built four disciplines to an exceptionally high standard — and we only take on work that fits."
+            className="mb-12 md:mb-16"
+          />
 
           <div className="stack gap-0">
             {services.map((service, idx) => (
@@ -234,6 +231,7 @@ const Services = () => {
           {/* Process Timeline */}
           <LeafDivider />
           <ScrollReveal variant="fade-up">
+            <SectionChapter number={2} label="Process" />
             <ProcessTimeline />
           </ScrollReveal>
         </Section>

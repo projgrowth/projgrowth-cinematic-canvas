@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { SurfaceCard } from "@/components/ui/card-surface";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
@@ -326,7 +327,7 @@ const BlogPost = () => {
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
-            <div className="mt-12 surface-card p-6">
+            <SurfaceCard pad="md" className="mt-12">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
                   <User className="w-6 h-6 text-accent" />
@@ -338,7 +339,7 @@ const BlogPost = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </SurfaceCard>
           </ScrollReveal>
 
           {relatedPosts && relatedPosts.length > 0 && (
@@ -347,13 +348,15 @@ const BlogPost = () => {
                 <h2 className="text-2xl font-medium text-text mb-8">Related Articles</h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   {relatedPosts.map((related) => (
-                    <Link key={related.id} to={`/blog/${related.slug}`} className="group surface-card p-6">
-                      <span className="text-xs text-accent mb-2 block">{related.category}</span>
-                      <h3 className="font-medium text-text group-hover:text-accent transition-colors mb-2 line-clamp-2">{related.title}</h3>
-                      <span className="text-xs text-mute flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {related.read_time} min read
-                      </span>
+                    <Link key={related.id} to={`/blog/${related.slug}`} className="group block">
+                      <SurfaceCard pad="md" interactive className="h-full">
+                        <span className="text-xs text-accent mb-2 block">{related.category}</span>
+                        <h3 className="font-medium text-text group-hover:text-accent transition-colors mb-2 line-clamp-2">{related.title}</h3>
+                        <span className="text-xs text-mute flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {related.read_time} min read
+                        </span>
+                      </SurfaceCard>
                     </Link>
                   ))}
                 </div>

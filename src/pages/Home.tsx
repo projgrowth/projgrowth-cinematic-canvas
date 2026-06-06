@@ -11,7 +11,7 @@ import { ArrowRight, FileText, Globe, Sparkles, Film, Cpu, LineChart } from "luc
 import { Link } from "react-router-dom";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import ResultsStrip from "@/components/home/ResultsStrip";
-import SectionChapter from "@/components/home/SectionChapter";
+import SectionChapter from "@/components/SectionChapter";
 
 const featuredProjects = caseStudies.slice(0, 3);
 

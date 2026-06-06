@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import { caseStudies } from "@/data/caseStudies";
 import { useRef } from "react";
+import SectionChapter from "@/components/SectionChapter";
 
 const CaseStudyDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -183,6 +184,7 @@ const CaseStudyDetail = () => {
             {/* The Challenge */}
             <ScrollReveal variant="fade-up">
               <div className="space-y-6">
+                  <SectionChapter number={1} label="Challenge" />
                   <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-destructive/10 border border-destructive/20 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-destructive" />
@@ -210,6 +212,7 @@ const CaseStudyDetail = () => {
             {/* The Solution */}
             <ScrollReveal variant="fade-up" delay={0.1}>
               <div className="space-y-6">
+                <SectionChapter number={2} label="Approach" />
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
                     <Lightbulb className="w-5 h-5 text-accent" />
@@ -236,6 +239,7 @@ const CaseStudyDetail = () => {
 
             {/* The Impact */}
             <ScrollReveal variant="fade-up" delay={0.2}>
+              <SectionChapter number={3} label="What Changed" />
               <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-lg border border-accent/20">
                 <h2 className="font-display text-text mb-4">Why It Matters</h2>
                 <p className="text-lg md:text-xl text-mute">

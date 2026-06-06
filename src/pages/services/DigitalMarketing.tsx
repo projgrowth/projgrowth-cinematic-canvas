@@ -7,6 +7,9 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHero from "@/components/PageHero";
+import SectionChapter from "@/components/SectionChapter";
+import { SurfaceCard } from "@/components/ui/card-surface";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import QuickContactForm from "@/components/QuickContactForm";
@@ -98,35 +101,30 @@ const DigitalMarketing = () => {
       <Section>
         <Breadcrumbs />
         
-        <ScrollReveal variant="fade-up">
-          <div className="mb-16">
-            <h1 className="font-display text-text mb-6">
-              Digital Marketing Services in Orlando
-            </h1>
-            <p className="text-xl text-mute max-w-3xl">
-              Drive growth with data-driven digital marketing strategies. We help Orlando businesses 
-              reach their ideal customers, generate leads, and increase revenue through SEO, 
-              paid advertising, social media, and email marketing.
-            </p>
-          </div>
-        </ScrollReveal>
+        <PageHero
+          chapter={{ number: 1, label: "Overview" }}
+          title={<>Digital Marketing Services in Orlando</>}
+          lede="Drive growth with data-driven digital marketing strategies. We help Orlando businesses reach their ideal customers, generate leads, and increase revenue through SEO, paid advertising, social media, and email marketing."
+          className="mb-16"
+        />
 
         {/* Services */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={2} label="Capabilities" />
             <h2 className="font-display text-text mb-12">
               Our Digital Marketing Services
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {services.map((service, idx) => (
-                <div key={idx} className="group relative p-8 bg-surface rounded-lg border border-line transition-all duration-sm hover:border-accent/30 overflow-hidden">
+                <SurfaceCard key={idx} pad="lg" interactive className="group relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
                   <span className="font-display text-accent-faint mb-4 block">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                   <h3 className="font-display text-text mb-3">{service.title}</h3>
                   <p className="text-mute">{service.description}</p>
-                </div>
+                </SurfaceCard>
               ))}
             </div>
           </div>
@@ -135,6 +133,7 @@ const DigitalMarketing = () => {
         {/* Our Approach */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={3} label="Approach" />
             <h2 className="font-display text-text mb-12">
               Our Approach
             </h2>
@@ -144,10 +143,10 @@ const DigitalMarketing = () => {
                 { title: "Results-Focused", desc: "We're obsessed with ROI. Our strategies are designed to deliver measurable business outcomes." },
                 { title: "Transparent", desc: "Clear reporting, honest communication, and full visibility into what's working and what's not." }
               ].map((item, idx) => (
-                <div key={idx} className="p-8 bg-surface rounded-lg border border-line text-center">
+                <SurfaceCard key={idx} pad="lg" className="text-center">
                   <h3 className="font-display text-accent mb-4">{item.title}</h3>
                   <p className="text-mute">{item.desc}</p>
-                </div>
+                </SurfaceCard>
               ))}
             </div>
           </div>
@@ -156,15 +155,16 @@ const DigitalMarketing = () => {
         {/* Deliverables */}
         <ScrollReveal variant="fade-up">
           <div className="section border-t border-line">
+            <SectionChapter number={4} label="Deliverables" />
             <h2 className="font-display text-text mb-12">
               What's Included
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {deliverables.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-4 bg-surface rounded-lg border border-line">
+                <SurfaceCard key={idx} variant="ghost" pad="sm" className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
                   <span className="text-text">{item}</span>
-                </div>
+                </SurfaceCard>
               ))}
             </div>
           </div>
