@@ -113,17 +113,21 @@ const Home = () => {
           {/* Left — headline and CTAs */}
           <div className="col-span-12 lg:col-span-7 stack gap-6 md:gap-8">
             <motion.div
-              className="inline-flex items-center gap-2 self-start rounded-full border border-accent/30 bg-accent/5 px-3 py-1.5"
+              className="inline-flex items-center gap-3 self-start"
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="relative flex h-2 w-2 items-center justify-center">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_hsl(var(--accent)/0.6)]" />
               </span>
-              <span className="text-[11px] uppercase tracking-widest text-accent">
-                {availability.chip}
+              <span className="font-display text-[11px] uppercase tracking-[0.22em] text-mute tabular-nums">
+                Booking <span className="text-text">Q1 2026</span>
+              </span>
+              <span className="h-px w-8 bg-line" aria-hidden="true" />
+              <span className="font-display text-[11px] uppercase tracking-[0.22em] text-mute tabular-nums">
+                2 engagements open
               </span>
             </motion.div>
             <motion.p
