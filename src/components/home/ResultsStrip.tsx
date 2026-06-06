@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import SectionChapter from "@/components/home/SectionChapter";
+import SectionChapter from "@/components/SectionChapter";
 
 type Outcome = {
   text: string;
