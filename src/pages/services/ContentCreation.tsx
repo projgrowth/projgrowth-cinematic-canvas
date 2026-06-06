@@ -12,7 +12,7 @@ import SectionChapter from "@/components/SectionChapter";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, PenTool, Video, Camera, Share2 } from "lucide-react";
-import QuickContactForm from "@/components/QuickContactForm";
+import RelatedCaseStudies from "@/components/RelatedCaseStudies";
 import {
   Accordion,
   AccordionContent,
@@ -201,35 +201,14 @@ const ContentCreation = () => {
           </div>
         </ScrollReveal>
 
-        {/* Quick Contact */}
-        <ScrollReveal variant="fade-up">
-          <div className="section border-t border-line">
-            <div className="max-w-xl mx-auto text-center">
-              <h2 className="font-display text-text mb-2">Interested in Content Creation?</h2>
-              <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
-              <QuickContactForm />
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {/* CTA */}
-        <ScrollReveal variant="fade-up">
-          <div className="section border-t border-line text-center">
-            <h2 className="font-display text-text mb-6">
-              Ready to Create Amazing Content?
-            </h2>
-            <p className="text-xl text-mute max-w-2xl mx-auto mb-8">
-              Let's discuss your content needs and create something your audience will love.
-            </p>
-            <Link
-              to="/contact?service=content-creation"
-              className="btn-solid group "
-            >
-              Start Your Content Project
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </ScrollReveal>
+        {/* Selected Work in this discipline */}
+        <RelatedCaseStudies
+          ids={["gfg-solutions", "real-thread"]}
+          chapterNumber={6}
+          chapterLabel="Proof"
+          heading="Content Work, Recently Shipped"
+          eyebrow="A few content systems we've built and produced."
+        />
       </Section>
     </Layout>
   );

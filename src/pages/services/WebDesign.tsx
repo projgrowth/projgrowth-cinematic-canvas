@@ -12,7 +12,7 @@ import SectionChapter from "@/components/SectionChapter";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Monitor, Smartphone, Zap, Shield } from "lucide-react";
-import QuickContactForm from "@/components/QuickContactForm";
+import RelatedCaseStudies from "@/components/RelatedCaseStudies";
 import {
   Accordion,
   AccordionContent,
@@ -201,35 +201,14 @@ const WebDesign = () => {
           </div>
         </ScrollReveal>
 
-        {/* Quick Contact */}
-        <ScrollReveal variant="fade-up">
-          <div className="section border-t border-line">
-            <div className="max-w-xl mx-auto text-center">
-              <h2 className="font-display text-text mb-2">Interested in Web Design?</h2>
-              <p className="text-mute mb-6">Drop us a quick message and we'll get back to you within 24 hours.</p>
-              <QuickContactForm />
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {/* CTA */}
-        <ScrollReveal variant="fade-up">
-          <div className="section border-t border-line text-center">
-            <h2 className="font-display text-text mb-6">
-              Ready to Build Your Website?
-            </h2>
-            <p className="text-xl text-mute max-w-2xl mx-auto mb-8">
-              Let's discuss your project and create a website that helps your Orlando business grow.
-            </p>
-            <Link
-              to="/contact?service=web-design"
-              className="btn-solid group "
-            >
-              Get Your Free Consultation
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </ScrollReveal>
+        {/* Selected Work in this discipline */}
+        <RelatedCaseStudies
+          ids={["custom-dinks", "fritzler-law"]}
+          chapterNumber={5}
+          chapterLabel="Proof"
+          heading="Web Work, Recently Shipped"
+          eyebrow="A few sites we've designed and built."
+        />
       </Section>
     </Layout>
   );
