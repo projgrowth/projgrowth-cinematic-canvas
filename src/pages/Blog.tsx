@@ -127,7 +127,7 @@ const Blog = () => {
                       ) : (
                         <div className="w-full h-full bg-surface"
                           style={{
-                            backgroundImage: "radial-gradient(hsl(155 48% 54% / 0.08) 1px, transparent 1px)",
+                            backgroundImage: "radial-gradient(hsl(var(--accent) / 0.08) 1px, transparent 1px)",
                             backgroundSize: "24px 24px",
                           }}
                         />
@@ -141,9 +141,9 @@ const Blog = () => {
                     </div>
 
                     <div className="p-6">
-                      <h2 className="text-lg font-medium text-text mb-3 group-hover:text-accent transition-colors line-clamp-2">
+                      <h3 className="text-lg font-medium text-text mb-3 group-hover:text-accent transition-colors line-clamp-2">
                         {post.title}
-                      </h2>
+                      </h3>
                       <p className="text-sm text-mute mb-4 line-clamp-3">
                         {post.excerpt}
                       </p>

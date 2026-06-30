@@ -324,6 +324,7 @@ const Home = () => {
                         alt=""
                         aria-hidden="true"
                         loading="lazy"
+                        decoding="async"
                         className="pointer-events-none absolute -right-6 -bottom-6 w-40 h-40 object-contain opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-md"
                       />
                     )}

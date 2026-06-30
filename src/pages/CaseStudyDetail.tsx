@@ -46,6 +46,8 @@ const CaseStudyDetail = () => {
       seoDescription={`${caseStudy.subtitle}. Learn how we helped ${caseStudy.title} overcome their challenges with ${caseStudy.category.toLowerCase()}.`}
       seoKeywords={`${caseStudy.title}, ${caseStudy.category}, case study, Orlando agency`}
       canonicalUrl={`/work/${caseStudy.id}`}
+      ogType="article"
+      ogParams={{ ogType: "article" }}
     >
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-[60vh] md:min-h-[70vh] flex items-end overflow-hidden">

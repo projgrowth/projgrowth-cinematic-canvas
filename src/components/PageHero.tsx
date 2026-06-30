@@ -34,7 +34,7 @@ const PageHero = ({
         aria-hidden="true"
         style={{
           background:
-            "radial-gradient(ellipse at 20% 50%, hsl(155 48% 54% / 0.06), transparent 65%)",
+            "radial-gradient(ellipse at 20% 50%, hsl(var(--accent) / 0.06), transparent 65%)",
         }}
       />
       <ScrollReveal variant="fade-up">

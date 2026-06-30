@@ -1,111 +1,83 @@
+## Polish & Cleanup Audit
 
-# Bundle A — Site-Wide Cohesion Pass
-
-Goal: every page (except `/rgc`) reads like it was designed by the same hand as the new Home. Three coordinated moves: a shared hero shell, chapter marks on every section, and a consolidated card system.
-
-Scope rule: do not touch `/rgc`, `src/pages/RGC.tsx`, `src/pages/rgc.css`, or anything under `src/components/pitch/**`.
+A full pass through `src/` (excluding `/rgc`). Bundles A–C already covered cohesion, motion, and conversion. This plan addresses what's still rough: duplication, dead code, drift from your own tokens, and a small a11y/perf debt. Grouped by impact.
 
 ---
 
-## 1. Shared PageHero shell
+### 1. Fix outright inconsistencies (highest impact, lowest risk)
 
-Promote `SectionChapter` and the Home hero pattern into a reusable hero used by every inner page.
+**CTA label drift** — Bundle C standardized on "Start a project" but `Navigation.tsx` still says "Start a Project" and Home hero says "Start a Project". Lock to one casing site-wide.
 
-New: `src/components/PageHero.tsx`
-- Props: `chapter?: { number: number; label: string }`, `title: ReactNode`, `lede?: ReactNode`, `status?: ReactNode` (for the new inline booking line on Home), `align?: "left" | "center"`, `children?` (slot for extras like the Contact email card).
-- Composition:
-  - Chapter mark (uses existing `SectionChapter`)
-  - H1: `font-display text-text` with `text-wrap: balance`
-  - Lede: `.lede` class, `max-w-[62ch]`
-  - Optional status row directly below lede
-- Wraps content in the existing `PageHeader` glow halo so the radial accent stays consistent.
-- Built-in fade-up reveal via `ScrollReveal` so pages stop hand-rolling `motion.h1`.
+**Page hero treatment is inconsistent.**
+- `Contact.tsx` wraps `PageHero` inside a custom parallax `Section` with two extra blurred orbs and a side-by-side info card row — a different visual contract than every other inner page.
+- `Work.tsx` puts `SectionChapter` *after* `PageHero` (which already renders one), giving Work two chapter marks (1 and 2) stacked 40px apart.
+- `About.tsx` mission section uses `max-w-readable` (undefined class) — silently no-ops.
 
-Migration:
-- `About.tsx`, `Services.tsx`, `Blog.tsx`, `Contact.tsx`, `Work.tsx`, `Portfolio.tsx`, `CaseStudyDetail.tsx`, `BlogPost.tsx`, all 4 `services/*` pages → replace their bespoke `PageHeader + h1 + lede` blocks with `<PageHero>`.
-- Home keeps its custom hero (it has the word-by-word reveal and the booking status line), but adopts the same chapter mark format above the headline for parity.
+Fix: align Contact hero to the same `PageHero` shell the other pages use (keep the email/response chips as a row *below*, not a competing column). Remove the duplicate chapter on Work — let `PageHero` own #1, start the filter bar at #2 without re-rendering a chapter. Replace `max-w-readable` with `prose-measure`.
 
-Chapter labels (assigned per page):
-- Home — already uses chapters mid-page
-- Work — `01 / Selected Work`
-- Services — `01 / Disciplines`
-- About — `01 / Studio`
-- Blog — `01 / Field Notes`
-- Contact — `01 / Begin`
-- Case study detail — `0X / Case Study` where X = index in the lineup
+**Footer wedges a full form into a 1/4 column.** `QuickContactForm` inside the 4-col grid crushes inputs on md. Replace with a single email CTA + social row; the global CTA section already drives form traffic.
 
-## 2. Chapter marks across every section
-
-Today only Home uses `SectionChapter`. Roll it out so every major section on every page is labeled with `0N / Section Name`. This is the single biggest cohesion win.
-
-- About: `01 / Studio` (hero), `02 / Mission`, `03 / Values`
-- Services: `01 / Disciplines`, `02 / Process` (above `ProcessTimeline`)
-- Work: `01 / Selected Work` (hero), `02 / Index` (above the grid)
-- Blog: `01 / Field Notes`, `02 / Latest`
-- Contact: `01 / Begin`, `02 / Quick Message`, `03 / Start a Project`, `04 / Questions` (FAQ)
-- Service subpages (4): `01 / Overview`, `02 / Capabilities`, `03 / Deliverables`, `04 / Process`
-- Case study detail: `01 / Challenge`, `02 / Approach`, `03 / What Changed`
-
-Standardize spacing: chapter mark `mb-4`, then H2 `mb-6`, body content below. This matches existing `mb-16` headers rule from memory by keeping the section header block compact.
-
-## 3. Card system consolidation
-
-Today there are 4 overlapping card patterns: `SurfaceCard` (CVA), `BentoCaseStudyCard`, `CaseStudyCard` (with 3D tilt), and ad-hoc `bg-surface rounded-lg border border-line` divs in About/Services/Contact/Blog.
-
-Consolidate to **two** sanctioned variants:
-
-**A. `SurfaceCard` (the "content card")** — used for values, FAQ items, contact info cards, blog post cards, service capability cards. Extend its CVA:
-- Add `variant: "ghost"` (transparent bg, line border only) for lower-emphasis grids
-- Standardize hover: every interactive `SurfaceCard` uses `hover:border-accent/40 hover:shadow-elegant hover:-translate-y-0.5`
-- Standardize radius: all `rounded-lg` (drop the occasional `rounded-md`/`rounded-xl`)
-
-Refactor targets:
-- `About.tsx` value cards → `<SurfaceCard variant="surface" pad="lg" interactive>`
-- `Contact.tsx` Email/Response cards → `<SurfaceCard variant="ghost" pad="sm" interactive>`
-- `Blog.tsx` `BlogCardSkeleton` and the post card markup → `<SurfaceCard>` wrapper
-- Services capability tiles in `services/*` → `<SurfaceCard variant="ghost">`
-
-**B. `BentoCaseStudyCard` (the "work card")** — single owner for showing case studies anywhere (Home featured, Work bento, related case studies on detail pages). 
-
-- Deprecate `CaseStudyCard.tsx`: Work page's "grid" and "list" view modes both re-render through `BentoCaseStudyCard` with a new `layout?: "bento" | "grid" | "list"` prop. The 3D tilt logic in `CaseStudyCard` is removed (per Mobile/Touch memory and to reduce noise per Minimalist memory).
-- File deletion: `src/components/CaseStudyCard.tsx` removed; imports in `Work.tsx` updated.
-
-This gets us from 4 card patterns → 2 owned, documented components.
+**Services page deliverables button** uses `<Button variant="default">` while everywhere else uses `.btn-solid` / `.btn-outline-cta`. Switch to outline-cta for visual consistency with the section.
 
 ---
 
-## Files touched
+### 2. Delete dead/duplicate code
 
-Created:
-- `src/components/PageHero.tsx`
+Confirmed unused or redundant after Bundles A–C:
+- `src/components/PageHeader.tsx` (17 lines) — superseded by `PageHero`.
+- `src/components/FuturisticGrid.tsx`, `src/components/ScrollIndicator.tsx`, `src/components/FeaturedWorkSlider.tsx`, `src/components/FeaturedWorkSkeleton.tsx` — verify no imports, then remove.
+- `src/pages/Portfolio.tsx` — only does a `<Navigate to="/work">`; the same redirect is already declared inline in `App.tsx` for `/random-golf-club`. Move the `/portfolio` redirect inline and delete the file (saves a lazy chunk).
+- `QuickContactForm` import in `Work.tsx` is unused (leftover from Bundle C).
 
-Edited:
-- `src/components/home/SectionChapter.tsx` — move into `src/components/SectionChapter.tsx` (used site-wide now, not Home-only)
-- `src/components/ui/card-surface.tsx` — add `ghost` variant, standardize hover
-- `src/pages/Home.tsx` — chapter mark above hero headline; update SectionChapter import path
-- `src/pages/About.tsx` — PageHero + chapter marks + SurfaceCard for values
-- `src/pages/Services.tsx` — PageHero + chapter marks
-- `src/pages/Work.tsx` — PageHero + chapter marks; swap CaseStudyCard → BentoCaseStudyCard with `layout` prop
-- `src/pages/Portfolio.tsx` — PageHero + chapter marks
-- `src/pages/Blog.tsx` — PageHero + chapter marks + SurfaceCard for post cards
-- `src/pages/BlogPost.tsx` — PageHero
-- `src/pages/Contact.tsx` — PageHero + chapter marks + SurfaceCard for info row
-- `src/pages/CaseStudyDetail.tsx` — chapter marks per narrative section
-- `src/pages/services/WebDesign.tsx`, `Branding.tsx`, `ContentCreation.tsx`, `DigitalMarketing.tsx` — PageHero + chapter marks + SurfaceCard for tiles
-- `src/components/BentoCaseStudyCard.tsx` — add `layout` prop (bento | grid | list), inline old list-view markup
-- `src/components/home/ResultsStrip.tsx` — update SectionChapter import path
-
-Deleted:
-- `src/components/CaseStudyCard.tsx`
-- `src/components/home/SectionChapter.tsx` (replaced by site-wide path)
-
-Untouched:
-- `src/pages/RGC.tsx`, `src/pages/rgc.css`, anything under `src/components/pitch/**`, `src/pages/Discovery.tsx`, `src/pages/discovery/**`, navigation, footer, color tokens, typography rules, motion system.
+CSS cleanup in `src/index.css`:
+- `.card-interactive` duplicates `SurfaceCard interactive` variant. Pick one (keep the variant, drop the class).
+- `.btn-interactive` is only used by footer social icons; inline it or rename for clarity.
+- Three overlapping animation helpers (`.animate-smooth/fast/quick`) — keep, but document which to use when (currently picked arbitrarily).
 
 ---
 
-## Out of scope (saved for later bundles)
+### 3. Token discipline — stop hardcoded values
 
-- Motion unification, link hover system, font preloading (Bundle B)
-- CTA voice, logos on Services/About, footer status (Bundle C)
-- Focus rings, reduced-motion sweep, image pipeline (Bundle D)
+Grep flagged several files writing raw HSL or hex instead of using tokens:
+- `PageHero.tsx` line 37 hardcodes `hsl(155 48% 54% / 0.06)` for the halo. Replace with `hsl(var(--accent) / 0.06)` so theme changes propagate.
+- `Blog.tsx` line 130 hardcodes the same accent value in the placeholder dot pattern.
+- `Home.tsx` featured project cards bypass `SurfaceCard` and re-implement border + hover styles inline. Migrate to `SurfaceCard` with the `interactive` variant + a gradient overlay child (same look, one source of truth).
+- `Contact.tsx` parallax orbs use `bg-accent/5` and `bg-accent/3` — `/3` isn't a Tailwind opacity step and silently drops. Use `/5` and `/10`, or move to the `AmbientGlow` component you already have.
+
+---
+
+### 4. Accessibility & semantics
+
+- **Heading order**: `Blog.tsx` cards use `<h2>` for post titles inside a list where the page already has an `<h1>` from `PageHero` and an `<h2>` would be expected for the section header (currently missing). Add a visually-hidden `<h2>Latest posts</h2>` or demote cards to `<h3>`.
+- **`<select>` on Work page** has no associated `<label>` — add `aria-label="Sort projects"`.
+- **Focus rings**: only `.focus-ring` utility uses `:focus-visible`. The numbered service toggle buttons, view-mode toggles, and accordion triggers fall back to browser default outlines. Apply `focus-ring` consistently to all interactive non-button elements.
+- **Reduced motion**: the global rule kills all transitions, but `Home.tsx` hero already special-cases `useReducedMotion`. Other parallax sections (Contact, CaseStudyDetail) should do the same instead of relying on the global wipe, which also kills useful hover transitions.
+- **Skip link** target is `#main-content`, correct — but the `<main>` uses `paddingTop: var(--nav-height)` inline. Move to a class so print styles and reduced-motion don't have to fight inline styles.
+
+---
+
+### 5. Performance
+
+- **Featured project images** on Home use the SVG logo at 160×160 with `opacity-[0.06]` as decoration — fine, but mark `decoding="async"` alongside `loading="lazy"`.
+- **`framer-motion`** is imported on Work, Contact, Blog, Home — fine, but `Work.tsx` wraps every card in a `motion.div` with stagger even in `list` mode. Strip motion from list mode (it fights the layout transition).
+- **Lazy routes**: `Discovery` (1214 lines) and `AdminLeads` (553 lines) are already lazy ✓. Add `<link rel="prefetch">` hints for `/work` and `/contact` from Home since they're the primary CTAs.
+- **Fonts**: `index.html` preloads Inter/Outfit per Bundle B. Verify `font-display: swap` is set on the @font-face declarations to avoid invisible-text flashes.
+
+---
+
+### 6. SEO polish
+
+- Every page sets `seoTitle`/`seoDescription` ✓. But `BlogPost.tsx` and `CaseStudyDetail.tsx` should also pass `ogType="article"` and `ogParams.author` / `ogParams.date` — the Layout supports it, just not used.
+- `sitemap.xml` is static. Confirm it includes the four service sub-routes (`/services/web-design`, etc.) and `/work/:slug` entries.
+- `robots.txt` already blocks AI crawlers (per memory). No change.
+
+---
+
+### Execution order (when you say go)
+
+1. **Cleanup pass** (low-risk deletions + label fixes) — Section 1 + 2.
+2. **Token + component dedup** — Section 3 (Home cards → SurfaceCard, halo tokens).
+3. **A11y + perf** — Sections 4 + 5.
+4. **SEO touch-up** — Section 6.
+
+Each step is independently shippable. Want me to scope it as one bundle or split into two (1+2 first, then 3+4+5+6)?

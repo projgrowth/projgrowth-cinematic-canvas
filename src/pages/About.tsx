@@ -72,7 +72,7 @@ const About = () => {
               <h2 className="font-display text-text">Our Mission</h2>
             </div>
             <div className="col-span-12 lg:col-span-8">
-              <p className="text-xl md:text-2xl text-text max-w-readable">
+              <p className="text-xl md:text-2xl text-text prose-measure-wide">
                 Most brands are under-designed and over-explained. We're here to change that — with work that's precise, intentional, and built to outlast the trend cycle.
               </p>
             </div>
