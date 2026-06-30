@@ -13,7 +13,6 @@ import useAnalytics from "@/hooks/useAnalytics";
 const Home = lazy(() => import("./pages/Home"));
 const Work = lazy(() => import("./pages/Work"));
 const CaseStudyDetail = lazy(() => import("./pages/CaseStudyDetail"));
-const Portfolio = lazy(() => import("./pages/Portfolio"));
 const Services = lazy(() => import("./pages/Services"));
 const WebDesign = lazy(() => import("./pages/services/WebDesign"));
 const Branding = lazy(() => import("./pages/services/Branding"));
@@ -34,7 +33,7 @@ const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
   { path: "/", element: <Home /> },
   { path: "/work", element: <Work /> },
   { path: "/work/:slug", element: <CaseStudyDetail /> },
-  { path: "/portfolio", element: <Portfolio /> },
+  { path: "/portfolio", element: <Navigate to="/work" replace />, raw: true },
   { path: "/services", element: <Services /> },
   { path: "/services/web-design", element: <WebDesign /> },
   { path: "/services/branding", element: <Branding /> },
