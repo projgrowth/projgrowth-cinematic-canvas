@@ -478,26 +478,15 @@
     @apply min-h-[44px] min-w-[44px] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
   }
 
-  /* Improved Micro-interactions */
-  .card-interactive {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-elegant;
-  }
-
-  .card-interactive:hover {
-    box-shadow: var(--shadow-glow-accent);
-  }
+  /* Card hover variants live on SurfaceCard (variant="interactive").
+     The legacy .card-interactive class was removed — migrate any
+     stragglers to <SurfaceCard interactive>. */
 
   /* Skip link styles - Enhanced visibility */
   .skip-link {
     @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-4 focus:bg-accent focus:text-base focus:rounded-md focus:font-medium focus:shadow-glow-accent focus:min-h-[44px] focus:flex focus:items-center;
   }
 
-  /* Safari/iOS specific fixes */
-  @supports (-webkit-touch-callout: none) {
-    .card-interactive:hover {
-      transform: translateZ(0) translateY(-4px);
-    }
-  }
 
   /* Container Queries Support */
   @container (min-width: 400px) {

@@ -1,14 +1,12 @@
 import { Section } from "@/components/ui/section";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import MultiStepContactForm from "@/components/MultiStepContactForm";
 import PageHero from "@/components/PageHero";
 import SectionChapter from "@/components/SectionChapter";
-import { SurfaceCard } from "@/components/ui/card-surface";
 import LeafDivider from "@/components/LeafDivider";
+import AmbientGlow from "@/components/AmbientGlow";
 import { Mail, MessageSquare } from "lucide-react";
 import QuickContactForm from "@/components/QuickContactForm";
 import {
@@ -19,15 +17,6 @@ import {
 } from "@/components/ui/accordion";
 
 const Contact = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
   // Schema markup
   const contactPageSchema = {
     "@context": "https://schema.org",
@@ -66,56 +55,40 @@ const Contact = () => {
         </script>
       </Helmet>
 
-      {/* Hero with Parallax */}
-      <Section as="section" className="overflow-hidden" ref={heroRef as any}>
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="absolute inset-0 pointer-events-none"
-        >
-          <div className="absolute top-20 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/3 rounded-full blur-3xl" />
-        </motion.div>
-        <div className="grid-12 gap-y-8 items-end">
-            {/* Header */}
-            <ScrollReveal variant="fade-up" className="col-span-12 lg:col-span-8">
-              <PageHero
-                chapter={{ number: 1, label: "Begin" }}
-                title={
-                  <>
-                    Let's Build
-                    <br />
-                    <span className="text-accent">Something Great</span>
-                  </>
-                }
-                lede="Tell us about your project and we'll craft a tailored approach to bring your vision to life."
-              />
-            </ScrollReveal>
-
-            {/* Compact info row */}
-            <div className="col-span-12 lg:col-span-4 flex flex-row lg:flex-col gap-4">
-              <ScrollReveal variant="scale" delay={0.2}>
-                <a
-                  href="mailto:info@projgrowth.com"
-                  className="surface-card !p-4 flex items-center gap-3 border-line hover:border-accent/50 transition-all duration-sm group"
-                >
-                  <Mail className="w-5 h-5 text-accent flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-text group-hover:text-accent transition-colors">Email Us</p>
-                    <p className="text-xs text-mute">info@projgrowth.com</p>
-                  </div>
-                </a>
-              </ScrollReveal>
-              <ScrollReveal variant="scale" delay={0.3}>
-                <div className="surface-card !p-4 flex items-center gap-3 border-line">
-                  <MessageSquare className="w-5 h-5 text-accent flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-text">Response Time</p>
-                    <p className="text-xs text-mute">Within 24 hours, Mon-Fri</p>
-                  </div>
-                </div>
-              </ScrollReveal>
+      {/* Hero — matches PageHero shell used on every other inner page */}
+      <Section className="relative overflow-hidden">
+        <AmbientGlow variant="hero" />
+        <PageHero
+          chapter={{ number: 1, label: "Begin" }}
+          title={
+            <>
+              Let's Build
+              <br />
+              <span className="text-accent">Something Great</span>
+            </>
+          }
+          lede="Tell us about your project and we'll craft a tailored approach to bring your vision to life."
+          className="mb-10 md:mb-12"
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-cards max-w-2xl">
+          <a
+            href="mailto:info@projgrowth.com"
+            className="surface-card !p-4 flex items-center gap-3 hover:border-accent/50 transition-all duration-sm group"
+          >
+            <Mail className="w-5 h-5 text-accent flex-shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-text group-hover:text-accent transition-colors">Email Us</p>
+              <p className="text-xs text-mute">info@projgrowth.com</p>
+            </div>
+          </a>
+          <div className="surface-card !p-4 flex items-center gap-3">
+            <MessageSquare className="w-5 h-5 text-accent flex-shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-text">Response Time</p>
+              <p className="text-xs text-mute">Within 24 hours, Mon-Fri</p>
             </div>
           </div>
+        </div>
       </Section>
 
       {/* Quick Contact */}

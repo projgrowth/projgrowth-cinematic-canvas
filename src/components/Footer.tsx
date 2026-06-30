@@ -5,7 +5,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Instagram, Linkedin, Twitter } from "lucide-react";
 import pgLogo from "@/assets/logos/pg-logo.png";
-import QuickContactForm from "@/components/QuickContactForm";
 import FooterStatus from "@/components/FooterStatus";
 
 const Footer = () => {
@@ -87,15 +86,17 @@ const Footer = () => {
           <div>
             <h3 className="font-display text-xs uppercase tracking-[0.18em] text-text mb-5">Get in Touch</h3>
             <div className="space-y-4">
-              <QuickContactForm />
               <a
                 href={`mailto:${contactEmail}`}
-                className="flex items-center gap-2 text-sm text-mute hover:text-accent transition-colors duration-sm"
+                className="inline-flex items-center gap-2 text-sm text-text hover:text-accent transition-colors duration-sm"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 text-accent" />
                 {contactEmail}
               </a>
-              <div className="flex gap-3 pt-1">
+              <p className="text-sm text-mute">
+                Tell us where you are and where you want to go.
+              </p>
+              <div className="flex gap-3 pt-2">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
@@ -103,7 +104,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="btn-interactive p-2 rounded-md border border-line bg-surface text-mute hover:text-accent hover:border-accent hover:bg-accent/10"
+                    className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-md border border-line bg-surface text-mute hover:text-accent hover:border-accent hover:bg-accent/10 transition-colors duration-sm"
                   >
                     <social.icon className="w-4 h-4" />
                   </a>
