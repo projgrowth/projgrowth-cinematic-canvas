@@ -478,9 +478,17 @@
     @apply min-h-[44px] min-w-[44px] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
   }
 
-  /* Card hover variants live on SurfaceCard (variant="interactive").
-     The legacy .card-interactive class was removed — migrate any
-     stragglers to <SurfaceCard interactive>. */
+  /* Card hover — kept for non-SurfaceCard markup (e.g. CaseStudyCard).
+     Prefer <SurfaceCard interactive> for new work. */
+  .card-interactive {
+    transition: transform var(--duration-md) var(--ease),
+                box-shadow var(--duration-md) var(--ease),
+                border-color var(--duration-md) var(--ease);
+  }
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-accent);
+  }
 
   /* Skip link styles - Enhanced visibility */
   .skip-link {
