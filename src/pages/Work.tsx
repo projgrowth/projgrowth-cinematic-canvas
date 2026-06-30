@@ -11,10 +11,8 @@ import CaseStudySheet from "@/components/CaseStudySheet";
 import BentoGrid from "@/components/BentoGrid";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageHero from "@/components/PageHero";
-import SectionChapter from "@/components/SectionChapter";
 import { caseStudies, categories, CaseStudy } from "@/data/caseStudies";
 import { Grid3X3, List, ArrowUpDown, LayoutGrid } from "lucide-react";
-import QuickContactForm from "@/components/QuickContactForm";
 import GlobalCTA from "@/components/GlobalCTA";
 
 // Define types for sort options and view mode
@@ -121,7 +119,6 @@ const Work = () => {
         {/* Filter Bar */}
         <ScrollReveal variant="fade-up" delay={0.1}>
           <div className="space-y-4 mb-10 relative z-10">
-            <SectionChapter number={2} label="Index" />
             <SearchBar
               value={searchQuery}
               onChange={setSearchQuery}
@@ -141,6 +138,7 @@ const Work = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as SortOption)}
+                    aria-label="Sort projects"
                     className="appearance-none pl-9 pr-8 py-2 bg-surface border border-line rounded-md text-sm text-text cursor-pointer hover:border-accent/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
                   >
                     {sortOptions.map((option) => (

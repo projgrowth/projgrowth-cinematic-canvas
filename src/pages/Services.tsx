@@ -2,7 +2,6 @@ import { Section } from "@/components/ui/section";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
-import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ProcessTimeline from "@/components/ProcessTimeline";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -210,14 +209,13 @@ const Services = () => {
                                   </li>
                                 ))}
                               </ul>
-                              <Button
+                              <button
                                 onClick={() => handleRequestService(service.title)}
-                                className="mt-6 group"
-                                variant="default"
+                                className="btn-outline-cta mt-6 group text-sm"
                               >
                                 Request {service.title}
                                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                              </Button>
+                              </button>
                             </div>
                           </div>
                         </div>

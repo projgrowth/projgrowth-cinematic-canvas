@@ -93,7 +93,7 @@ const Navigation = () => {
               to="/contact"
               className="hidden md:inline-flex btn-solid text-sm px-5 whitespace-nowrap"
             >
-              Start a Project
+              Start a project
             </Link>
 
             {/* Mobile Navigation */}
