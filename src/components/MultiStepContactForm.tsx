@@ -207,7 +207,7 @@ Company: ${formData.company || "Not provided"}
                 key={i}
                 className="absolute w-2 h-2 rounded-full"
                 style={{
-                  backgroundColor: i % 3 === 0 ? "hsl(var(--accent))" : i % 3 === 1 ? "#fff" : "hsl(var(--accent) / 0.5)",
+                  backgroundColor: i % 3 === 0 ? "hsl(var(--accent))" : i % 3 === 1 ? "hsl(var(--text))" : "hsl(var(--accent) / 0.5)",
                   left: `${Math.random() * 100}%`,
                   top: -10,
                 }}
