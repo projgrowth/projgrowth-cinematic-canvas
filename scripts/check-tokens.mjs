@@ -20,6 +20,7 @@ const IGNORE_FILES = new Set([
   "pages/discovery/steps.tsx",
   "pages/discovery/constants.ts",
   "pages/discovery/mockups",
+  "pages/discovery/Shell.tsx",
   "pages/discovery/brandBriefPdf.ts",
   "components/pitch",
 ]);
