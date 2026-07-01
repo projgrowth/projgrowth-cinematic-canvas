@@ -108,8 +108,8 @@ const Contact = () => {
       <Section>
         <ScrollReveal>
           <div className="text-center mb-8">
-            <SectionChapter number={3} label="Start a Project" align="center" />
-            <h2 className="font-display text-text mb-2">Start a Project</h2>
+            <SectionChapter number={3} label="Start a project" align="center" />
+            <h2 className="font-display text-text mb-2">Start a project</h2>
             <p className="text-mute">Want to tell us more? Walk through our guided form.</p>
           </div>
           <MultiStepContactForm />

@@ -30,7 +30,7 @@ const NotFound = () => {
               className="inline-flex items-center gap-2 px-8 py-4 border border-line text-text rounded-md font-medium transition-all duration-sm hover:border-accent hover:text-accent"
             >
               <Search className="w-5 h-5" />
-              View Our Work
+              View our work
             </Link>
           </div>
 
