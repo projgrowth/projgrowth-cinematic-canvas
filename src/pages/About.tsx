@@ -21,6 +21,7 @@ const About = () => {
     "name": "ProjGrowth",
     "url": "https://projgrowth.com/about",
     "email": "info@projgrowth.com",
+    "image": "https://projgrowth.com/favicon.png",
     "description": "Boutique Orlando digital studio building brands, websites, and content systems for ambitious businesses.",
     "address": {
       "@type": "PostalAddress",
