@@ -11,18 +11,15 @@
     
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="1IR2BMGdKhR2WxU8JK7YcV9A_pd7TO415khpUJHb1ho" />
-    
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', { send_page_view: false });
-    </script>
+
+    <!-- Local SEO (Orlando, FL) -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+    <meta name="geo.position" content="28.5383;-81.3792" />
+    <meta name="ICBM" content="28.5383, -81.3792" />
+
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
-    <link rel="canonical" href="https://projgrowth.com" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -59,6 +56,31 @@
     <!-- Prefetch primary in-app destinations -->
     <link rel="prefetch" href="/work" />
     <link rel="prefetch" href="/contact" />
+
+    <!-- Organization schema (sitewide) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://projgrowth.com/#organization",
+        "name": "ProjGrowth",
+        "url": "https://projgrowth.com",
+        "logo": "https://projgrowth.com/favicon.png",
+        "email": "info@projgrowth.com",
+        "description": "Orlando digital studio building brands, websites, and content systems for ambitious businesses.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Orlando",
+          "addressRegion": "FL",
+          "addressCountry": "US"
+        },
+        "sameAs": [
+          "https://www.instagram.com/projgrowth/",
+          "https://www.linkedin.com/company/projgrowth",
+          "https://twitter.com/projgrowth"
+        ]
+      }
+    </script>
   </head>
 
   <body>

@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 interface SEOProps {
   title?: string;
   description?: string;
-  keywords?: string;
   ogImage?: string;
   twitterImage?: string;
   canonicalUrl?: string;
@@ -47,7 +46,6 @@ function buildOgUrl(
 const SEO = ({
   title = "ProjGrowth - Digital Experiences That Grow Businesses",
   description = "Modern creative studio specializing in brand strategy, digital design, and web development. We create meaningful digital experiences that drive business growth.",
-  keywords = "digital design, web development, brand strategy, UI/UX design, creative studio, growth marketing",
   ogImage,
   twitterImage,
   canonicalUrl,
@@ -80,71 +78,7 @@ const SEO = ({
     ? "noindex, nofollow"
     : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
-  // JSON-LD Structured Data for Organization
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "ProjGrowth",
-    url: SITE_URL,
-    logo: `${SITE_URL}/favicon.png`,
-    description: "Modern creative studio specializing in brand strategy, digital design, and web development.",
-    sameAs: [
-      "https://www.instagram.com/projgrowth",
-      "https://www.linkedin.com/company/projgrowth",
-      "https://twitter.com/projgrowth"
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      email: "info@projgrowth.com",
-      contactType: "customer service",
-      availableLanguage: "English"
-    },
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "US"
-    }
-  };
-
-  // JSON-LD for ProfessionalService
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "ProjGrowth",
-    url: SITE_URL,
-    image: `${SITE_URL}/og-image.png`,
-    description: "Digital design studio specializing in brand strategy, UI/UX design, and web development.",
-    priceRange: "$$",
-    openingHours: "Mo-Fr 09:00-18:00",
-    email: "info@projgrowth.com",
-    areaServed: {
-      "@type": "Country",
-      name: "United States"
-    },
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "Digital Services",
-      itemListElement: [
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Brand Strategy", description: "Build authentic brand identities that resonate with your audience" }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Digital Design", description: "Beautiful, functional interfaces with exceptional user experiences" }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Web Development", description: "Modern, scalable web applications built with cutting-edge technologies" }
-        },
-        {
-          "@type": "Offer",
-          itemOffered: { "@type": "Service", name: "Growth Marketing", description: "Data-driven strategies to accelerate business growth" }
-        }
-      ]
-    }
-  };
-
-  // Breadcrumb schema
+  // Breadcrumb schema (skip on home)
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -171,7 +105,6 @@ const SEO = ({
       <title>{title}</title>
       <meta name="title" content={title} />
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
       <link rel="canonical" href={fullUrl} />
 
       {/* Robots */}
@@ -203,17 +136,6 @@ const SEO = ({
       <meta name="language" content="English" />
       <meta name="author" content="ProjGrowth" />
       
-      {/* Geo Tags for Local SEO */}
-      <meta name="geo.region" content="US" />
-      <meta name="geo.placename" content="United States" />
-
-      {/* JSON-LD Structured Data */}
-      <script type="application/ld+json">
-        {JSON.stringify(organizationSchema)}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify(localBusinessSchema)}
-      </script>
       {pathSegments.length > 0 && (
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbSchema)}

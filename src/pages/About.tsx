@@ -11,8 +11,33 @@ import SectionChapter from "@/components/SectionChapter";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import LeafDivider from "@/components/LeafDivider";
 import ClientLogos from "@/components/ClientLogos";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://projgrowth.com/about#localbusiness",
+    "name": "ProjGrowth",
+    "url": "https://projgrowth.com/about",
+    "email": "info@projgrowth.com",
+    "description": "Boutique Orlando digital studio building brands, websites, and content systems for ambitious businesses.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Orlando",
+      "addressRegion": "FL",
+      "addressCountry": "US"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 28.5383, "longitude": -81.3792 },
+    "areaServed": ["Orlando", "Central Florida", "United States"],
+    "priceRange": "$$",
+    "sameAs": [
+      "https://www.instagram.com/projgrowth/",
+      "https://www.linkedin.com/company/projgrowth",
+      "https://twitter.com/projgrowth"
+    ]
+  };
+
   // PLACEHOLDER — replace with verified numbers
   const stats = [
     { value: "9", label: "Client Partners" },
@@ -42,6 +67,9 @@ const About = () => {
       seoKeywords="about ProjGrowth, creative team, design studio, company values, digital agency team, web design company"
       canonicalUrl="/about"
     >
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+      </Helmet>
       <Section>
         <PageHero
           chapter={{ number: 1, label: "Studio" }}

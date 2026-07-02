@@ -173,6 +173,25 @@ const ServiceTemplate = ({ content }: { content: ServiceContent }) => {
     })),
   };
 
+  const serviceName = content.seo.title.split(" | ")[0];
+  const serviceUrl = `https://projgrowth.com${content.seo.canonical}`;
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": serviceName,
+    "description": content.seo.description,
+    "url": serviceUrl,
+    "provider": {
+      "@type": "Organization",
+      "name": "ProjGrowth",
+      "url": "https://projgrowth.com",
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Orlando" },
+      { "@type": "AdministrativeArea", "name": "Central Florida" },
+    ],
+  };
+
   return (
     <Layout
       seoTitle={content.seo.title}
@@ -180,11 +199,12 @@ const ServiceTemplate = ({ content }: { content: ServiceContent }) => {
       seoKeywords={content.seo.keywords}
       canonicalUrl={content.seo.canonical}
     >
-      {faqSchema && (
-        <Helmet>
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
+        {faqSchema && (
           <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
-        </Helmet>
-      )}
+        )}
+      </Helmet>
 
       <Section>
         <Breadcrumbs />

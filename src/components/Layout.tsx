@@ -47,12 +47,11 @@ const Layout = ({
       <SEO 
         title={seoTitle}
         description={seoDescription}
-        keywords={seoKeywords}
         canonicalUrl={canonicalUrl}
         ogImage={ogImage}
         type={ogType}
         noindex={noindex}
-        dynamicOg={!ogImage}
+        dynamicOg={false}
         ogParams={ogParams}
       />
       
