@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Public can upload discovery references" ON storage.objects;
