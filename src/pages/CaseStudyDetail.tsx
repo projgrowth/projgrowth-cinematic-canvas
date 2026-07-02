@@ -7,6 +7,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { caseStudies } from "@/data/caseStudies";
 import { useRef } from "react";
 import SectionChapter from "@/components/SectionChapter";
+import { Helmet } from "react-helmet-async";
 
 const CaseStudyDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -34,6 +35,21 @@ const CaseStudyDetail = () => {
   const shareUrl = `${window.location.origin}/work/${caseStudy.id}`;
   const shareText = `Check out this case study: ${caseStudy.title} by ProjGrowth`;
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": `${caseStudy.title} — ${caseStudy.subtitle}`,
+    "description": caseStudy.subtitle,
+    "author": { "@type": "Organization", "name": "ProjGrowth" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ProjGrowth",
+      "logo": { "@type": "ImageObject", "url": "https://projgrowth.com/favicon.png" },
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": `https://projgrowth.com/work/${caseStudy.id}` },
+    "articleSection": caseStudy.category,
+  };
+
   const handleShare = async () => {
     if (navigator.share) {
       await navigator.share({ title: caseStudy.title, text: shareText, url: shareUrl });
@@ -49,6 +65,9 @@ const CaseStudyDetail = () => {
       ogType="article"
       ogParams={{ ogType: "article" }}
     >
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
+      </Helmet>
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-[60vh] md:min-h-[70vh] flex items-end overflow-hidden">
         {/* Background */}
