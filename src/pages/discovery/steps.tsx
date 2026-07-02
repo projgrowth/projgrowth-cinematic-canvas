@@ -4,6 +4,23 @@ import { NM_BLUE, EMERALD } from "./mockups";
 import { AXES, REFS, REF_STYLE } from "./constants";
 import { C, Q } from "./primitives";
 
+// Session ID scopes uploads to this browser session so the server can enforce
+// path-based ownership. Persisted in sessionStorage so refreshes keep the same
+// prefix within a single discovery flow.
+function getDiscoverySessionId(): string {
+  try {
+    const k = "discovery_session_id";
+    let v = sessionStorage.getItem(k);
+    if (!v) {
+      v = crypto.randomUUID();
+      sessionStorage.setItem(k, v);
+    }
+    return v;
+  } catch {
+    return crypto.randomUUID();
+  }
+}
+
 export function ReferenceStep({ form, set, tog }: any) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -16,12 +33,17 @@ export function ReferenceStep({ form, set, tog }: any) {
     setBusy(true); setErr("");
     try {
       const urls: string[] = [];
+      const sessionId = getDiscoverySessionId();
       for (const f of files) {
         if (f.size > 5 * 1024 * 1024) { setErr("Max 5MB per file."); continue; }
-        const path = `${crypto.randomUUID()}-${f.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-        const { error } = await supabase.storage.from("discovery-uploads").upload(path, f, { contentType: f.type });
-        if (error) { setErr(error.message); continue; }
-        urls.push(path);
+        const fd = new FormData();
+        fd.append("file", f);
+        const { data, error } = await supabase.functions.invoke<{ path: string; error?: string }>(
+          "upload-discovery-reference",
+          { body: fd, headers: { "x-session-id": sessionId } },
+        );
+        if (error || !data?.path) { setErr("Upload failed. Try a different image."); continue; }
+        urls.push(data.path);
       }
       if (urls.length) set("refUploads", [...form.refUploads, ...urls]);
     } finally { setBusy(false); if (fileRef.current) fileRef.current.value = ""; }
