@@ -52,7 +52,7 @@ const Layout = ({
         ogImage={ogImage}
         type={ogType}
         noindex={noindex}
-        dynamicOg={!ogImage}
+        dynamicOg={false}
         ogParams={ogParams}
       />
       
