@@ -4,7 +4,6 @@
 
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
-import { Helmet } from "react-helmet-async";
 
 interface BreadcrumbItem {
   name: string;
@@ -47,25 +46,8 @@ const Breadcrumbs = () => {
     });
   });
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": breadcrumbs.map((item, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "name": item.name,
-      "item": `https://projgrowth.com${item.path === "/" ? "" : item.path}`
-    }))
-  };
-
   return (
     <>
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(breadcrumbSchema)}
-        </script>
-      </Helmet>
-      
       <nav aria-label="Breadcrumb" className="mb-8">
         <ol className="flex items-center gap-2 text-sm text-mute">
           {breadcrumbs.map((item, index) => {

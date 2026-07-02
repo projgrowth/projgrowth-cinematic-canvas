@@ -40,6 +40,9 @@ const CaseStudyDetail = () => {
     "@type": "Article",
     "headline": `${caseStudy.title} — ${caseStudy.subtitle}`,
     "description": caseStudy.subtitle,
+    "image": [`https://projgrowth.com${caseStudy.image}`],
+    "datePublished": "2024-01-01",
+    "dateModified": "2024-01-01",
     "author": { "@type": "Organization", "name": "ProjGrowth" },
     "publisher": {
       "@type": "Organization",

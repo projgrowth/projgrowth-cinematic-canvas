@@ -80,6 +80,23 @@ const SEO = ({
 
   // Breadcrumb schema (skip on home)
   const pathSegments = location.pathname.split('/').filter(Boolean);
+  const breadcrumbLabels: Record<string, string> = {
+    services: "Services",
+    "web-design": "Web Design",
+    branding: "Branding",
+    "content-creation": "Content Creation",
+    "digital-marketing": "Digital Marketing",
+    portfolio: "Portfolio",
+    work: "Portfolio",
+    blog: "Blog",
+    about: "About",
+    contact: "Contact",
+    privacy: "Privacy Policy",
+    terms: "Terms of Service",
+  };
+  const humanize = (s: string) =>
+    breadcrumbLabels[s] ||
+    s.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -93,7 +110,7 @@ const SEO = ({
       ...pathSegments.map((segment, index) => ({
         "@type": "ListItem",
         position: index + 2,
-        name: segment.charAt(0).toUpperCase() + segment.slice(1),
+        name: humanize(segment),
         item: `${SITE_URL}/${pathSegments.slice(0, index + 1).join('/')}`
       }))
     ]

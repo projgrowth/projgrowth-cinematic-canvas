@@ -232,6 +232,7 @@ const BlogPost = () => {
             "@type": "BlogPosting",
             headline: post.title,
             description: post.excerpt,
+            image: [post.featured_image || "https://projgrowth.com/favicon.png"],
             author: { "@type": "Person", name: post.author },
             publisher: {
               "@type": "Organization",

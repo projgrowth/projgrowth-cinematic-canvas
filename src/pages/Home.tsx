@@ -53,8 +53,8 @@ const Home = () => {
     "name": "ProjGrowth",
     "description": "Orlando digital marketing agency specializing in web design, branding, content creation, and digital marketing for growing businesses.",
     "url": "https://projgrowth.com",
-    "telephone": "",
     "email": "info@projgrowth.com",
+    "image": "https://projgrowth.com/favicon.png",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Orlando",
