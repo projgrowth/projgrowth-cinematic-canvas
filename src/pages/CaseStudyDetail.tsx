@@ -61,7 +61,7 @@ const CaseStudyDetail = () => {
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       </Helmet>
       {/* Hero — shared PageHero shell with optional parallax media */}
-      <Section size="hero" className="overflow-hidden">
+      <Section size="hero" className="overflow-hidden min-h-0 pb-0">
         <PageHero
           chapter={{ number: 1, label: caseStudy.category }}
             title={caseStudy.title}
