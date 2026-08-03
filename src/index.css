@@ -51,6 +51,7 @@
     --radius-md: 0.75rem; /* 12px */
     --radius-lg: 0.875rem; /* 14px — architectural, not bubbly */
     --radius: var(--radius-md);
+    --radius-pill: 9999px;
 
     /* Enhanced Spacing Scale - Fluid and Granular */
     --space-2xs: clamp(0.25rem, 0.5vw + 0.125rem, 0.375rem); /* 4px -> 6px */
@@ -72,6 +73,7 @@
     --shadow-elegant: 0 8px 32px -8px rgba(0, 0, 0, 0.15);
     --shadow-glow-accent: 0 8px 40px -8px hsl(var(--accent) / 0.22);
     --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    --shadow-rail: 0 1px 0 0 hsl(var(--line) / 0.6), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
 
     /* Gradients */
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(165 45% 62%));
