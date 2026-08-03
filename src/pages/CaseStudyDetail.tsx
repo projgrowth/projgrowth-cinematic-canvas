@@ -187,7 +187,7 @@ const CaseStudyDetail = () => {
             {/* The Solution */}
             <ScrollReveal variant="fade-up" delay={0.1}>
               <div className="space-y-6">
-                <SectionChapter number={2} label="Approach" />
+                <SectionChapter number={3} label="Approach" />
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
                     <Lightbulb className="w-5 h-5 text-accent" />
@@ -196,17 +196,10 @@ const CaseStudyDetail = () => {
                 </div>
                 <ul className="space-y-4 pl-2">
                   {caseStudy.howWeHelped.map((help, idx) => (
-                    <motion.li 
-                      key={idx}
-                      className="flex items-start gap-4"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                    >
+                    <li key={idx} className="flex items-start gap-4">
                       <CheckCircle2 className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
                       <span className="text-base md:text-lg text-text">{help}</span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -214,7 +207,7 @@ const CaseStudyDetail = () => {
 
             {/* The Impact */}
             <ScrollReveal variant="fade-up" delay={0.2}>
-              <SectionChapter number={3} label="What Changed" />
+              <SectionChapter number={4} label="What Changed" />
               <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-lg border border-accent/20">
                 <h2 className="font-display text-text mb-4">Why It Matters</h2>
                 <p className="text-lg md:text-xl text-mute">
@@ -230,13 +223,9 @@ const CaseStudyDetail = () => {
                   <h2 className="font-display text-text">Our Process</h2>
                   <div className="grid gap-4">
                     {caseStudy.processSteps.map((step, idx) => (
-                      <motion.div
+                      <div
                         key={idx}
                         className="flex gap-6 p-5 bg-surface rounded-lg border border-line group hover:border-accent/30 transition-colors"
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: idx * 0.1 }}
                       >
                         <span className="font-display text-accent-faint group-hover:text-accent transition-colors">
                           {String(idx + 1).padStart(2, '0')}
@@ -245,7 +234,7 @@ const CaseStudyDetail = () => {
                           <h3 className="text-text font-medium mb-1">{step.title}</h3>
                           <p className="text-mute text-sm">{step.description}</p>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
