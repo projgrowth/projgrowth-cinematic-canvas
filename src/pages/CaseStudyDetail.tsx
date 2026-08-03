@@ -62,9 +62,9 @@ const CaseStudyDetail = () => {
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       </Helmet>
       {/* Hero — shared PageHero shell with optional parallax media */}
-      <Section size="hero" bleed className="overflow-hidden">
-        <div className="container-site">
-          <PageHero
+      <Section size="hero" className="overflow-hidden">
+        <PageHero
+          chapter={{ number: 1, label: caseStudy.category }}
             title={caseStudy.title}
             lede={caseStudy.subtitle}
             parallax={!!caseStudy.heroMedia}
@@ -98,8 +98,7 @@ const CaseStudyDetail = () => {
                 ))}
               </div>
             }
-          />
-        </div>
+        />
       </Section>
 
 
@@ -167,7 +166,7 @@ const CaseStudyDetail = () => {
             {/* The Challenge */}
             <ScrollReveal variant="fade-up">
               <div className="space-y-6">
-                  <SectionChapter number={1} label="Challenge" />
+                  <SectionChapter number={2} label="Challenge" />
                   <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-destructive/10 border border-destructive/20 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-destructive" />
@@ -176,17 +175,10 @@ const CaseStudyDetail = () => {
                 </div>
                 <ul className="space-y-4 pl-2">
                   {caseStudy.theirIssues.map((issue, idx) => (
-                    <motion.li 
-                      key={idx}
-                      className="flex items-start gap-4 text-mute"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                    >
+                    <li key={idx} className="flex items-start gap-4 text-mute">
                       <span className="text-destructive/60 mt-1.5">—</span>
                       <span className="text-base md:text-lg">{issue}</span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
