@@ -111,7 +111,7 @@ const Work = () => {
             <ScrollReveal variant="fade-up">
               <WorkTile
                 caseStudy={lead}
-                aspect="aspect-[4/3] md:aspect-[21/9]"
+                aspect="aspect-[4/3] md:aspect-[16/9]"
                 priority
                 size="lead"
               />
@@ -128,7 +128,7 @@ const Work = () => {
                   >
                     <WorkTile
                       caseStudy={study}
-                      aspect={idx % 3 === 0 ? "aspect-[4/3]" : "aspect-[16/10]"}
+                      aspect="aspect-[4/3]"
                     />
                   </ScrollReveal>
                 ))}
