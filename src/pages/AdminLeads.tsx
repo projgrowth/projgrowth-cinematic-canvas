@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Download } from "lucide-react";
+import Section from "@/components/ui/section";
 import AdminGate from "./admin/AdminGate";
 import LeadsTable from "./admin/LeadsTable";
 import DiscoveryList from "./admin/DiscoveryList";
@@ -26,8 +27,8 @@ const AdminLeads = () => {
   }
 
   return (
-    <div className="min-h-screen bg-base p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="page-canvas">
+      <Section size="sm">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-display text-text">Submissions</h1>
@@ -66,7 +67,7 @@ const AdminLeads = () => {
 
         {tab === "leads" && <LeadsTable submissions={submissions} />}
         {tab === "discovery" && <DiscoveryList discovery={discovery} />}
-      </div>
+      </Section>
     </div>
   );
 };

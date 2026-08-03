@@ -113,7 +113,7 @@ const Block = ({ block }: { block: ServiceBlock }) => {
             <div className="space-y-8">
               {block.steps.map((item, idx) => (
                 <div key={idx} className="flex gap-6 items-start">
-                  <span className="text-3xl font-display text-accent-faint flex-shrink-0 w-12">{item.step}</span>
+                  <span className="numeral-inline flex-shrink-0 w-12">{item.step}</span>
                   <div>
                     <h3 className="font-display text-text mb-2">{item.title}</h3>
                     <p className="text-mute">{item.desc}</p>

@@ -291,6 +291,44 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* Inline step numeral — locked companion to .numeral-display for
+     numbered list rows (process steps, ordered features). */
+  .numeral-inline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 1.5vw + 1rem, 2rem);
+    line-height: 1;
+    color: var(--accent-faint);
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+
+  /* Editorial outcome line — locked display size for statement rows
+     (results strips, proof lists). Keeps one scale site-wide. */
+  .outcome-line {
+    font-family: var(--font-display);
+    color: hsl(var(--text));
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.2vw + 0.75rem, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Shared page canvas + dot grid texture — single source of truth for
+     full-bleed backdrops (Discovery flow, admin surfaces). */
+  .page-canvas {
+    min-height: 100vh;
+    background-color: hsl(var(--base));
+    color: hsl(var(--text));
+    position: relative;
+    overflow: hidden;
+  }
+  .dot-grid {
+    background-image: radial-gradient(circle at 1px 1px, hsl(var(--text) / 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
   /* Locked button recipes for inline anchors / form submits.
      Use <Button> in React when possible; these exist for Link/anchor parity. */
   .btn-base {
