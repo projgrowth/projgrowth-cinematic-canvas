@@ -248,13 +248,9 @@ const CaseStudyDetail = () => {
                   <h2 className="font-display text-text">The Work</h2>
                   <div className="grid md:grid-cols-2 gap-4">
                     {caseStudy.gallery.map((item, idx) => (
-                      <motion.div
+                      <div
                         key={idx}
                         className="relative aspect-video rounded-lg overflow-hidden border border-line group"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: idx * 0.1 }}
                       >
                         {item.type === "video" ? (
                           <video
@@ -278,7 +274,7 @@ const CaseStudyDetail = () => {
                             <p className="text-sm text-text">{item.caption}</p>
                           </div>
                         )}
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
