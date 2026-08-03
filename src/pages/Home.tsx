@@ -150,12 +150,12 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="w-full max-w-[320px] border-l border-accent/30 pl-6 space-y-7">
+            <div className="w-full max-w-[300px] border-l border-accent/30 pl-6 space-y-6">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2">
                   {availability.now.label}
                 </p>
-                <p className="font-display text-text text-lg leading-snug">
+                <p className="font-display text-text text-base leading-snug">
                   {availability.now.value}
                 </p>
               </div>
@@ -165,17 +165,17 @@ const Home = () => {
                 </p>
                 <Link
                   to={`/work/${availability.recent.slug}`}
-                  className="group inline-flex items-center gap-2 font-display text-text text-lg leading-snug transition-colors duration-sm hover:text-accent"
+                  className="group inline-flex items-center gap-2 font-display text-text text-base leading-snug transition-colors duration-sm hover:text-accent"
                 >
                   {availability.recent.title}
                   <ArrowRight className="w-4 h-4 transition-transform duration-sm group-hover:translate-x-0.5" />
                 </Link>
               </div>
-              <div className="pt-5 border-t border-line">
+              <div className="pt-4 border-t border-line">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-mute mb-2">
                   {availability.next.label}
                 </p>
-                <p className="text-sm text-mute leading-relaxed">
+                <p className="text-sm text-mute leading-snug">
                   {availability.next.value}
                 </p>
               </div>
