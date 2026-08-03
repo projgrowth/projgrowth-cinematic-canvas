@@ -176,7 +176,7 @@ const Home = () => {
           >
             <div className="w-full max-w-[300px] border-l border-accent/30 pl-6 space-y-6">
               <div>
-                <p className="eyebrow-faint mb-2 block">
+                <p className="eyebrow-faint text-accent mb-2 block">
                   {availability.now.label}
                 </p>
                 <p className="font-display text-text text-base leading-snug">
