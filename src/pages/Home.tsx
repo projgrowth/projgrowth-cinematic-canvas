@@ -280,34 +280,15 @@ const Home = () => {
 
         <ScrollReveal variant="fade-up" delay={0.15}>
           {/* Asymmetric editorial layout: one lead project, two supporting */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards">
-            {featuredProjects.map((project, idx) => {
-              const lead = idx === 0;
-              return (
-                <Link
-                  key={project.id}
-                  to={`/work/${project.id}`}
-                  className={`group block ${lead ? "lg:col-span-7 lg:row-span-2" : "lg:col-span-5"}`}
-                >
-                  <WorkPlate
-                    caseStudy={project}
-                    aspect={lead ? "aspect-[16/11]" : "aspect-[16/9]"}
-                  />
-                  <div className="mt-4 flex items-start justify-between gap-6">
-                    <div>
-                      <span className="text-xs uppercase tracking-widest text-accent/80 mb-1.5 block">
-                        {project.category}
-                      </span>
-                      <h3 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
-                        {project.title}
-                      </h3>
-                      <p className="text-mute text-sm mt-1.5 max-w-md">{project.subtitle}</p>
-                    </div>
-                    <ArrowRight className="w-5 h-5 mt-1 flex-shrink-0 text-mute transition-all duration-sm group-hover:text-accent group-hover:translate-x-1" />
-                  </div>
-                </Link>
-              );
-            })}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards items-start">
+            <div className="lg:col-span-7">
+              <FeaturedProject project={featuredProjects[0]} aspect="aspect-[4/3]" />
+            </div>
+            <div className="lg:col-span-5 stack-cards">
+              {featuredProjects.slice(1).map((project) => (
+                <FeaturedProject key={project.id} project={project} aspect="aspect-[16/10]" />
+              ))}
+            </div>
           </div>
         </ScrollReveal>
 
