@@ -1,6 +1,5 @@
 import { Section } from "@/components/ui/section";
 import { useParams, Link, Navigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Share2, Linkedin, Twitter } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
