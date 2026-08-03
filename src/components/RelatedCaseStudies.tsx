@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { caseStudies } from "@/data/caseStudies";
 import SectionChapter from "@/components/SectionChapter";
 import ScrollReveal from "@/components/ScrollReveal";
+import WorkPlate from "@/components/WorkPlate";
 
 interface RelatedCaseStudiesProps {
   ids: string[];
@@ -42,28 +43,21 @@ const RelatedCaseStudies = ({
             <Link
               key={cs.id}
               to={`/work/${cs.id}`}
-              className="group relative block rounded-lg border border-line bg-surface/40 p-6 md:p-7 transition-all duration-sm hover:border-accent/40 hover:bg-surface/70 hover:-translate-y-0.5"
+              className="group relative block"
             >
-              <div className="flex items-start justify-between gap-4 mb-6">
-                <span className="pill-accent text-[10px] tracking-widest uppercase">
-                  {cs.category}
-                </span>
-                <ArrowUpRight className="w-5 h-5 text-mute group-hover:text-accent transition-colors flex-shrink-0" />
-              </div>
-              {cs.logo && (
-                <div className="h-10 mb-5 flex items-center">
-                  <img
-                    src={cs.logo}
-                    alt={`${cs.title} logo`}
-                    loading="lazy"
-                    className="h-full max-w-[140px] object-contain object-left opacity-70 group-hover:opacity-100 transition-opacity"
-                  />
+              <WorkPlate caseStudy={cs} aspect="aspect-[16/9]" />
+              <div className="mt-4 flex items-start justify-between gap-6">
+                <div>
+                  <span className="text-xs uppercase tracking-widest text-accent/80 mb-1.5 block">
+                    {cs.category}
+                  </span>
+                  <h3 className="font-display text-text group-hover:text-accent transition-colors">
+                    {cs.title}
+                  </h3>
+                  <p className="text-sm text-mute mt-1.5 line-clamp-2 max-w-md">{cs.subtitle}</p>
                 </div>
-              )}
-              <h3 className="font-display text-text mb-2 group-hover:text-accent transition-colors">
-                {cs.title}
-              </h3>
-              <p className="text-sm text-mute line-clamp-2">{cs.subtitle}</p>
+                <ArrowUpRight className="w-5 h-5 mt-1 text-mute group-hover:text-accent transition-colors flex-shrink-0" />
+              </div>
             </Link>
           ))}
         </div>

@@ -7,11 +7,12 @@ import GrowthLines from "@/components/GrowthLines";
 import AmbientGlow from "@/components/AmbientGlow";
 import { Helmet } from "react-helmet-async";
 import { caseStudies } from "@/data/caseStudies";
-import { ArrowRight, FileText, Globe, Sparkles, Film, Cpu, LineChart } from "lucide-react";
+import { ArrowRight, Globe, Sparkles, Film, LineChart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import ResultsStrip from "@/components/home/ResultsStrip";
 import SectionChapter from "@/components/SectionChapter";
+import WorkPlate from "@/components/WorkPlate";
 
 const featuredProjects = caseStudies.slice(0, 3);
 
@@ -21,27 +22,35 @@ const availability = {
   next: { label: "Next", value: "Accepting 2 new partners for Q1" },
 };
 
-const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  "Content Systems": FileText,
-  "Web & Product": Globe,
-  "Brand & Messaging": Sparkles,
-  "Cinematic Production": Film,
-  "AI & Tools": Cpu,
-};
-
-const categoryGradients: Record<string, string> = {
-  "Content Systems": "from-accent/10 to-accent/5",
-  "Web & Product": "from-blue-500/10 to-blue-500/5",
-  "Brand & Messaging": "from-purple-500/10 to-purple-500/5",
-  "Cinematic Production": "from-amber-500/10 to-amber-500/5",
-  "AI & Tools": "from-emerald-500/10 to-emerald-500/5",
-};
-
 const heroWords = [
   { text: "We design brands", accent: false },
   { text: "that earn attention", accent: false },
   { text: "and keep it.", accent: true },
 ];
+
+const FeaturedProject = ({
+  project,
+  aspect,
+}: {
+  project: (typeof featuredProjects)[number];
+  aspect: string;
+}) => (
+  <Link to={`/work/${project.id}`} className="group block">
+    <WorkPlate caseStudy={project} aspect={aspect} />
+    <div className="mt-4 flex items-start justify-between gap-6">
+      <div>
+        <span className="text-xs uppercase tracking-widest text-accent/80 mb-1.5 block">
+          {project.category}
+        </span>
+        <h3 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
+          {project.title}
+        </h3>
+        <p className="text-mute text-sm mt-1.5 max-w-md">{project.subtitle}</p>
+      </div>
+      <ArrowRight className="w-5 h-5 mt-1 flex-shrink-0 text-mute transition-all duration-sm group-hover:text-accent group-hover:translate-x-1" />
+    </div>
+  </Link>
+);
 
 const Home = () => {
   const reduceMotion = useReducedMotion();
@@ -165,12 +174,12 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="w-full max-w-[320px] border-l border-accent/30 pl-6 space-y-7">
+            <div className="w-full max-w-[300px] border-l border-accent/30 pl-6 space-y-6">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2">
                   {availability.now.label}
                 </p>
-                <p className="font-display text-text text-lg leading-snug">
+                <p className="font-display text-text text-base leading-snug">
                   {availability.now.value}
                 </p>
               </div>
@@ -180,17 +189,17 @@ const Home = () => {
                 </p>
                 <Link
                   to={`/work/${availability.recent.slug}`}
-                  className="group inline-flex items-center gap-2 font-display text-text text-lg leading-snug transition-colors duration-sm hover:text-accent"
+                  className="group inline-flex items-center gap-2 font-display text-text text-base leading-snug transition-colors duration-sm hover:text-accent"
                 >
                   {availability.recent.title}
                   <ArrowRight className="w-4 h-4 transition-transform duration-sm group-hover:translate-x-0.5" />
                 </Link>
               </div>
-              <div className="pt-5 border-t border-line">
+              <div className="pt-4 border-t border-line">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-mute mb-2">
                   {availability.next.label}
                 </p>
-                <p className="text-sm text-mute leading-relaxed">
+                <p className="text-sm text-mute leading-snug">
                   {availability.next.value}
                 </p>
               </div>
@@ -282,59 +291,33 @@ const Home = () => {
       {/* Featured Work — 3-card grid */}
       <Section>
         <ScrollReveal variant="fade-up">
-          <div className="section-header">
-            <div className="flex justify-center">
+          <div className="grid-12 gap-y-6 mb-12 md:mb-16">
+            <div className="col-span-12 lg:col-span-5">
               <SectionChapter number={4} label="Selected Work" />
+              <h2 className="font-display text-text">Work That Moves the Needle</h2>
             </div>
-            <h2 className="font-display text-text mb-3">Work That Moves the Needle</h2>
-            <p className="lede">A tight selection of what we've built — and what happened after.</p>
+            <div className="col-span-12 lg:col-span-6 lg:col-start-7 flex items-end">
+              <p className="lede">A tight selection of what we've built — and what happened after.</p>
+            </div>
           </div>
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.15}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-cards">
-            {featuredProjects.map((project, idx) => {
-              const gradient = categoryGradients[project.category] || "from-accent/10 to-accent/5";
-              const Icon = categoryIcons[project.category] || FileText;
-              return (
-                <Link key={idx} to={`/work/${project.id}`} className="group block">
-                  <div className={`relative overflow-hidden bg-gradient-to-br ${gradient} border border-line rounded-lg p-6 md:p-8 h-full flex flex-col transition-all duration-md hover:border-accent/40 hover:shadow-elegant`}>
-                    {project.logo && (
-                      <img
-                        src={project.logo}
-                        alt=""
-                        aria-hidden="true"
-                        loading="lazy"
-                        decoding="async"
-                        className="pointer-events-none absolute -right-6 -bottom-6 w-40 h-40 object-contain opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-md"
-                      />
-                    )}
-                    <div className="relative flex items-start justify-between mb-6">
-                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-accent/30 bg-bg/40">
-                        <Icon className="w-4 h-4 text-accent" />
-                      </span>
-                      <span className="text-[10px] uppercase tracking-widest text-mute pt-2">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <span className="relative text-xs text-accent mb-2 block">{project.category}</span>
-                    <h3 className="relative font-display text-text mb-2 group-hover:text-accent transition-colors duration-sm">
-                      {project.title}
-                    </h3>
-                    <p className="relative text-mute text-sm flex-1">{project.subtitle}</p>
-                    <div className="relative mt-6 flex items-center gap-1 text-accent text-sm font-medium">
-                      View Case Study
-                      <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-sm group-hover:translate-x-1" />
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+          {/* Asymmetric editorial layout: one lead project, two supporting */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards items-start">
+            <div className="lg:col-span-7">
+              <FeaturedProject project={featuredProjects[0]} aspect="aspect-[4/3] lg:aspect-[7/8]" />
+            </div>
+            <div className="lg:col-span-5 stack-cards">
+              {featuredProjects.slice(1).map((project) => (
+                <FeaturedProject key={project.id} project={project} aspect="aspect-[16/10]" />
+              ))}
+            </div>
           </div>
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.3}>
-          <div className="mt-12 text-center">
+          <div className="mt-12">
             <Link
               to="/work"
               className="inline-flex items-center gap-2 text-accent hover:text-accent-strong transition-colors duration-sm font-medium"
