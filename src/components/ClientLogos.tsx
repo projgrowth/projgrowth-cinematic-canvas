@@ -26,17 +26,20 @@ const ClientLogos = () => {
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.1}>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 items-center gap-y-10 gap-x-10">
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 items-center gap-y-12 gap-x-10">
             {clients.map((client) => (
-              <li key={client.name} className="flex items-center justify-center lg:justify-start">
+              <li
+                key={client.name}
+                className="flex h-12 items-center justify-center"
+              >
                 <img
                   src={client.logo}
                   alt={`${client.name} logo`}
                   loading="lazy"
                   decoding="async"
-                  width={140}
-                  height={40}
-                  className="h-8 md:h-9 w-auto max-w-[140px] object-contain opacity-45 grayscale transition-all duration-md hover:opacity-90 hover:grayscale-0"
+                  width={180}
+                  height={48}
+                  className="max-h-full w-auto max-w-full object-contain opacity-70 transition-opacity duration-md hover:opacity-100"
                 />
               </li>
             ))}
