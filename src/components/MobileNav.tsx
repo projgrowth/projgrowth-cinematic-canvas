@@ -57,7 +57,10 @@ const MobileNav = () => {
           </SheetTitle>
         </SheetHeader>
 
-        <nav className="flex flex-col mt-8 flex-1" aria-label="Mobile navigation">
+        <nav
+          className="flex flex-col mt-8 flex-1 overflow-y-auto"
+          aria-label="Mobile navigation"
+        >
           {mainLinks.map((link, i) => (
             <div key={link.path} className="border-b border-line/60">
               {link.group ? (
@@ -129,7 +132,7 @@ const MobileNav = () => {
           ))}
         </nav>
 
-        <div className="pt-6 pb-2">
+        <div className="pt-6 pb-2 shrink-0 border-t border-line/60">
           <p className="eyebrow-mute mb-3">Get in touch</p>
           <a
             href="mailto:info@projgrowth.com"
