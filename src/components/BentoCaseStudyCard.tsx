@@ -158,7 +158,7 @@ const BentoCaseStudyCard = ({
                   className="font-display text-accent font-medium"
                   delay={idx * 0.1}
                 />
-                <span className="text-[10px] md:text-xs text-mute uppercase tracking-wider">
+                <span className="eyebrow-faint">
                   {metric.label}
                 </span>
               </div>
