@@ -19,6 +19,9 @@ export default {
         rough: "#c9c1a8",
         /* Projgrowth palette */
         base: "hsl(var(--base))",
+        /* Alias of `base` for foreground use. `text-base` collides with the
+           Tailwind font-size utility, so text on accent surfaces uses this. */
+        "on-accent": "hsl(var(--base))",
         surface: "hsl(var(--surface))",
         text: "hsl(var(--text))",
         mute: "hsl(var(--mute))",
