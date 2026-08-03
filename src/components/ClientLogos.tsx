@@ -30,7 +30,7 @@ const ClientLogos = () => {
             {clients.map((client) => (
               <li
                 key={client.name}
-                className="flex h-12 items-center justify-center"
+                className="flex h-16 md:h-20 items-center justify-center"
               >
                 <img
                   src={client.logo}
@@ -39,7 +39,7 @@ const ClientLogos = () => {
                   decoding="async"
                   width={180}
                   height={48}
-                  className="max-h-full w-auto max-w-full object-contain opacity-70 transition-opacity duration-md hover:opacity-100"
+                  className="h-full w-auto max-w-full object-contain opacity-80 transition-opacity duration-md hover:opacity-100"
                 />
               </li>
             ))}

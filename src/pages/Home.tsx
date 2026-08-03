@@ -306,7 +306,7 @@ const Home = () => {
           {/* Asymmetric editorial layout: one lead project, two supporting */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards items-start">
             <div className="lg:col-span-7">
-              <FeaturedProject project={featuredProjects[0]} aspect="aspect-[4/3]" />
+              <FeaturedProject project={featuredProjects[0]} aspect="aspect-[4/3] lg:aspect-[7/8]" />
             </div>
             <div className="lg:col-span-5 stack-cards">
               {featuredProjects.slice(1).map((project) => (
