@@ -56,7 +56,7 @@ const WorkPlate = ({
             alt={`${caseStudy.title} logo`}
             loading={priority ? "eager" : "lazy"}
             decoding="async"
-            className="h-auto w-[68%] max-h-[72%] object-contain opacity-85 transition-all duration-md ease-smooth group-hover:opacity-100 group-hover:scale-[1.02]"
+            className="h-auto w-[92%] max-h-[80%] object-contain opacity-85 transition-all duration-md ease-smooth group-hover:opacity-100 group-hover:scale-[1.02]"
           />
         </div>
       ) : (
