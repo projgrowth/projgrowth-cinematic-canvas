@@ -1,26 +1,16 @@
 import { Section } from "@/components/ui/section";
 import { useParams, Link, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Share2, Linkedin, Twitter } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
+import PageHero from "@/components/PageHero";
 import { caseStudies } from "@/data/caseStudies";
-import { useRef } from "react";
 import SectionChapter from "@/components/SectionChapter";
 import { Helmet } from "react-helmet-async";
 
 const CaseStudyDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const heroRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
   const caseStudy = caseStudies.find(cs => cs.id === slug);
   
   if (!caseStudy) {
@@ -71,77 +61,46 @@ const CaseStudyDetail = () => {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       </Helmet>
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-[60vh] md:min-h-[70vh] flex items-end overflow-hidden">
-        {/* Background */}
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-br from-accent/10 via-base to-base"
-          style={{ y: heroY }}
-        />
-        
-        {/* Hero media */}
-        {caseStudy.heroMedia && (
-          <motion.div 
-            className="absolute inset-0"
-            style={{ y: heroY, opacity: heroOpacity }}
-          >
-            {caseStudy.heroMedia.type === "video" ? (
-              <video
-                src={caseStudy.heroMedia.url}
-                poster={caseStudy.heroMedia.poster}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover opacity-30"
-              />
-            ) : (
-              <img
-                src={caseStudy.heroMedia.url}
-                alt={caseStudy.title}
-                className="w-full h-full object-cover opacity-30"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-base via-base/80 to-transparent" />
-          </motion.div>
-        )}
-
-        {/* Content */}
-        <div className="container-site relative z-10 pb-12 md:pb-20">
-          <Link 
-            to="/work" 
-            className="inline-flex items-center gap-2 text-mute hover:text-accent transition-colors mb-8 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Work
-          </Link>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex flex-wrap gap-2 mb-4">
-              {caseStudy.categories.map((cat) => (
-                <span 
-                  key={cat}
-                  className="pill-accent"
-                >
-                  {cat}
-                </span>
-              ))}
-            </div>
-
-            <h1 className="font-display text-text mb-4">
-              {caseStudy.title}
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-mute max-w-3xl">
-              {caseStudy.subtitle}
-            </p>
-          </motion.div>
+      {/* Hero — shared PageHero shell with optional parallax media */}
+      <Section size="hero" bleed className="overflow-hidden">
+        <div className="container-site">
+          <PageHero
+            title={caseStudy.title}
+            lede={caseStudy.subtitle}
+            parallax={!!caseStudy.heroMedia}
+            media={
+              caseStudy.heroMedia ? (
+                caseStudy.heroMedia.type === "video" ? (
+                  <video
+                    src={caseStudy.heroMedia.url}
+                    poster={caseStudy.heroMedia.poster}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover opacity-30"
+                  />
+                ) : (
+                  <img
+                    src={caseStudy.heroMedia.url}
+                    alt=""
+                    className="w-full h-full object-cover opacity-30"
+                  />
+                )
+              ) : undefined
+            }
+            status={
+              <div className="flex flex-wrap gap-2">
+                {caseStudy.categories.map((cat) => (
+                  <span key={cat} className="pill-accent">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+            }
+          />
         </div>
-      </section>
+      </Section>
 
 
       {/* Main Content */}

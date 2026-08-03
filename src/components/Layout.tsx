@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import GlobalCTA from "./GlobalCTA";
 import BackToTop from "./BackToTop";
 import SEO from "./SEO";
+import Breadcrumbs from "./Breadcrumbs";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,6 +14,7 @@ interface LayoutProps {
   seoKeywords?: string;
   canonicalUrl?: string;
   hideGlobalCTA?: boolean;
+  hideBreadcrumbs?: boolean;
   ogImage?: string;
   ogType?: "website" | "article";
   noindex?: boolean;
@@ -32,6 +34,7 @@ const Layout = ({
   seoKeywords,
   canonicalUrl,
   hideGlobalCTA = false,
+  hideBreadcrumbs = false,
   ogImage,
   ogType,
   noindex,
@@ -41,6 +44,10 @@ const Layout = ({
   
   // Hide global CTA on Contact page (already has its own) and legal pages
   const suppressCTA = hideGlobalCTA || ["/contact", "/privacy", "/terms"].includes(location.pathname);
+
+  // Breadcrumbs render on every route except Home (the component itself
+  // returns null at "/"), giving uniform breadcrumb structured data.
+  const showBreadcrumbs = !hideBreadcrumbs && location.pathname !== "/";
 
   return (
     <div className="min-h-screen bg-base flex flex-col">
@@ -65,6 +72,11 @@ const Layout = ({
       
       <Navigation />
       <main id="main-content" className="flex-1" style={{ paddingTop: "var(--nav-height)" }}>
+        {showBreadcrumbs && (
+          <div className="container-site pt-6 md:pt-8">
+            <Breadcrumbs />
+          </div>
+        )}
         {children}
       </main>
       {!suppressCTA && <GlobalCTA />}

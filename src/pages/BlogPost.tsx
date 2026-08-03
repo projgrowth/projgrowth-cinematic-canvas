@@ -5,7 +5,8 @@ import { Clock, ArrowLeft, ArrowRight, User, Calendar, Share2, Twitter, Linkedin
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import PageHero from "@/components/PageHero";
+import { Section } from "@/components/ui/section";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -45,10 +46,7 @@ const renderContent = (content: string) => {
     if (currentList.length > 0 && listType) {
       const ListComponent = listType === 'ul' ? 'ul' : 'ol';
       elements.push(
-        <ListComponent 
-          key={`list-${elements.length}`} 
-          className={`mb-6 space-y-2 ${listType === 'ul' ? 'list-disc' : 'list-decimal'} list-inside text-mute`}
-        >
+        <ListComponent key={`list-${elements.length}`}>
           {currentList.map((item, i) => (
             <li key={i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseInlineMarkdown(item)) }} />
           ))}
@@ -64,25 +62,13 @@ const renderContent = (content: string) => {
 
     if (trimmed.startsWith('# ')) {
       flushList();
-      elements.push(
-        <h1 key={index} className="text-3xl md:text-4xl font-medium text-text mb-6 mt-8">
-          {trimmed.slice(2)}
-        </h1>
-      );
+      elements.push(<h2 key={index}>{trimmed.slice(2)}</h2>);
     } else if (trimmed.startsWith('## ')) {
       flushList();
-      elements.push(
-        <h2 key={index} className="text-2xl md:text-3xl font-medium text-text mb-4 mt-10">
-          {trimmed.slice(3)}
-        </h2>
-      );
+      elements.push(<h2 key={index}>{trimmed.slice(3)}</h2>);
     } else if (trimmed.startsWith('### ')) {
       flushList();
-      elements.push(
-        <h3 key={index} className="text-xl md:text-2xl font-medium text-text mb-3 mt-8">
-          {trimmed.slice(4)}
-        </h3>
-      );
+      elements.push(<h3 key={index}>{trimmed.slice(4)}</h3>);
     } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       if (listType !== 'ul') {
         flushList();
@@ -102,7 +88,6 @@ const renderContent = (content: string) => {
       elements.push(
         <p 
           key={index} 
-          className="text-mute mb-6"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseInlineMarkdown(trimmed)) }}
         />
       );
@@ -177,8 +162,8 @@ const BlogPost = () => {
   if (isLoading) {
     return (
       <Layout>
-        <div className="section">
-          <div className="container-site max-w-4xl">
+        <Section>
+          <div className="max-w-4xl">
             <Skeleton className="h-8 w-48 mb-8" />
             <Skeleton className="h-12 w-full mb-4" />
             <Skeleton className="h-6 w-64 mb-8" />
@@ -189,7 +174,7 @@ const BlogPost = () => {
               <Skeleton className="h-4 w-3/4" />
             </div>
           </div>
-        </div>
+        </Section>
       </Layout>
     );
   }
@@ -197,15 +182,17 @@ const BlogPost = () => {
   if (error || !post) {
     return (
       <Layout>
-        <div className="section">
-          <div className="container-site max-w-4xl text-center">
-            <h1 className="text-3xl font-medium text-text mb-4">Post Not Found</h1>
-            <p className="text-mute mb-8">The blog post you're looking for doesn't exist.</p>
-            <Link to="/blog" className="text-accent hover:underline">
-              ← Back to Blog
+        <Section>
+          <PageHero
+            chapter={{ number: 404, label: "Not Found" }}
+            title="Post not found"
+            lede="The article you're looking for doesn't exist or is no longer published."
+          >
+            <Link to="/blog" className="btn-outline-cta">
+              Back to blog
             </Link>
-          </div>
-        </div>
+          </PageHero>
+        </Section>
       </Layout>
     );
   }
@@ -246,19 +233,15 @@ const BlogPost = () => {
         </script>
       </Helmet>
 
-      <article className="section">
-        <div className="container-site max-w-4xl">
-          <Breadcrumbs />
-
-          <ScrollReveal>
-            <header className="mb-10">
-              <span className="pill-accent mb-4">
-                {post.category}
-              </span>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-text mb-6 leading-tight">
-                {post.title}
-              </h1>
+      <Section as="article">
+        <div className="max-w-4xl">
+          <PageHero
+            title={post.title}
+            lede={post.excerpt}
+            className="mb-10"
+            status={
               <div className="flex flex-wrap items-center gap-4 text-sm text-mute">
+                <span className="pill-accent">{post.category}</span>
                 <span className="flex items-center gap-2">
                   <User className="w-4 h-4" />
                   {post.author}
@@ -272,8 +255,8 @@ const BlogPost = () => {
                   {post.read_time} min read
                 </span>
               </div>
-            </header>
-          </ScrollReveal>
+            }
+          />
 
           {post.featured_image && (
             <ScrollReveal delay={0.1}>
@@ -299,7 +282,7 @@ const BlogPost = () => {
           </div>
 
           <ScrollReveal delay={0.2}>
-            <div className="prose prose-invert max-w-none">
+            <div className="article-body">
               {renderContent(contentWithoutTitle)}
             </div>
           </ScrollReveal>
@@ -372,7 +355,7 @@ const BlogPost = () => {
             </Link>
           </div>
         </div>
-      </article>
+      </Section>
     </Layout>
   );
 };
