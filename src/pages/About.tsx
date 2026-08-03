@@ -5,12 +5,12 @@
 import { Section } from "@/components/ui/section";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
-import AnimatedCounter from "@/components/AnimatedCounter";
 import PageHero from "@/components/PageHero";
 import SectionChapter from "@/components/SectionChapter";
-import { SurfaceCard } from "@/components/ui/card-surface";
 import LeafDivider from "@/components/LeafDivider";
 import ClientLogos from "@/components/ClientLogos";
+import WorkTile from "@/components/WorkTile";
+import { caseStudies } from "@/data/caseStudies";
 import { Helmet } from "react-helmet-async";
 
 const About = () => {
@@ -39,12 +39,8 @@ const About = () => {
     ]
   };
 
-  // PLACEHOLDER — replace with verified numbers
-  const stats = [
-    { value: "9", label: "Client Partners" },
-    { value: "5", label: "Services Offered" },
-    { value: "3+", label: "Years in Business" },
-  ];
+  // Image-forward proof instead of unverified counters.
+  const proofPlates = caseStudies.slice(0, 2);
 
   const values = [
     {
@@ -79,20 +75,6 @@ const About = () => {
           className="mb-12 md:mb-16"
         />
 
-        {/* Stats Row */}
-        <ScrollReveal variant="fade-up" delay={0.1}>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-cards py-10 md:py-12 border-t border-b border-line mb-16">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="text-center">
-                <div className="font-display text-accent mb-2">
-                  <AnimatedCounter value={stat.value} />
-                </div>
-                <p className="text-sm text-mute">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </ScrollReveal>
-
         {/* Mission */}
         <ScrollReveal variant="fade-up">
           <div className="grid-12 gap-y-10 section">
@@ -108,19 +90,44 @@ const About = () => {
           </div>
         </ScrollReveal>
 
-        {/* Values */}
+        {/* Proof — image-forward, two-up */}
+        <ScrollReveal variant="fade-up">
+          <div className="section border-t border-line">
+            <SectionChapter number={3} label="Proof" />
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-10 md:mb-12">
+              <h2 className="font-display text-text">What That Looks Like</h2>
+              <p className="text-mute max-w-md">
+                Two engagements that show how we work in practice.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-cards">
+              {proofPlates.map((cs) => (
+                <WorkTile key={cs.id} caseStudy={cs} aspect="aspect-[16/10]" />
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* Values — hairline numbered list, matching Home's rhythm */}
         <LeafDivider />
         <ScrollReveal variant="fade-up">
           <div className="section">
-            <SectionChapter number={3} label="Values" />
-            <h2 className="font-display text-text mb-12 md:mb-16">Our Values</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-cards">
+            <SectionChapter number={4} label="Values" />
+            <h2 className="font-display text-text mb-10 md:mb-12">Our Values</h2>
+            <div className="divide-y divide-line">
               {values.map((value, idx) => (
-                <ScrollReveal key={idx} variant="scale" delay={idx * 0.1}>
-                  <SurfaceCard pad="lg" interactive className="h-full">
-                    <h3 className="font-display text-accent mb-3">{value.title}</h3>
-                    <p className="text-mute">{value.description}</p>
-                  </SurfaceCard>
+                <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.08}>
+                  <div className="flex gap-8 md:gap-12 py-7 md:py-9 group">
+                    <span className="font-display text-xs text-accent-faint w-6 flex-shrink-0 pt-1">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <div className="flex-1 md:flex md:items-start md:gap-12">
+                      <h3 className="font-display text-text mb-2 md:mb-0 md:w-64 flex-shrink-0 transition-colors duration-sm group-hover:text-accent">
+                        {value.title}
+                      </h3>
+                      <p className="text-mute md:flex-1">{value.description}</p>
+                    </div>
+                  </div>
                 </ScrollReveal>
               ))}
             </div>

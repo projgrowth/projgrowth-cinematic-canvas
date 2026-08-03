@@ -50,13 +50,13 @@ const WorkPlate = ({
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-md ease-smooth group-hover:scale-[1.03]"
         />
       ) : caseStudy.logo ? (
-        <div className="absolute inset-0 flex items-center justify-center p-10">
+        <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-8">
           <img
             src={caseStudy.logo}
             alt={`${caseStudy.title} logo`}
             loading={priority ? "eager" : "lazy"}
             decoding="async"
-            className="max-h-[46%] max-w-[62%] object-contain opacity-75 transition-all duration-md ease-smooth group-hover:opacity-100 group-hover:scale-[1.02]"
+            className="h-auto w-[92%] max-h-[80%] object-contain opacity-85 transition-all duration-md ease-smooth group-hover:opacity-100 group-hover:scale-[1.02]"
           />
         </div>
       ) : (

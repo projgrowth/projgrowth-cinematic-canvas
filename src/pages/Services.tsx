@@ -7,8 +7,10 @@ import ProcessTimeline from "@/components/ProcessTimeline";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageHero from "@/components/PageHero";
 import SectionChapter from "@/components/SectionChapter";
-import LeafDivider from "@/components/LeafDivider";
 import ClientLogos from "@/components/ClientLogos";
+import RelatedCaseStudies from "@/components/RelatedCaseStudies";
+import WorkPlate from "@/components/WorkPlate";
+import { caseStudies } from "@/data/caseStudies";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -30,6 +32,7 @@ const Services = () => {
       ],
       details: "We design and build websites end-to-end — discovery, UX, visual design, development, and launch. Every site is built on a modern stack, optimized for Core Web Vitals, and handed off with documentation so your team can update content with confidence.",
       deliverables: ["Discovery & sitemap", "Wireframes & visual design", "Responsive build", "SEO foundation", "Analytics setup", "Launch & training"],
+      proofId: "florida-private",
     },
     {
       number: "02",
@@ -44,6 +47,7 @@ const Services = () => {
       ],
       details: "From founders rebranding to new ventures launching, we develop brand identities rooted in strategy. We start with positioning, then translate it into a visual system you can apply across digital, print, and environment.",
       deliverables: ["Brand strategy workshop", "Positioning statement", "Logo system", "Color & typography", "Brand guidelines PDF"],
+      proofId: "victoria-jewelers",
     },
     {
       number: "03",
@@ -58,6 +62,7 @@ const Services = () => {
       ],
       details: "We produce content the way modern brands actually use it — efficiently, in batches, designed to be cut down for multiple channels. One shoot day, weeks of content.",
       deliverables: ["Content strategy", "Photo & video shoot", "Edited deliverables", "Social-ready cutdowns", "Copy & captions"],
+      proofId: "gfg-solutions",
     },
     {
       number: "04",
@@ -72,8 +77,12 @@ const Services = () => {
       ],
       details: "We run digital marketing as a system, not a checklist. Each channel reports into a shared dashboard so you can see what's working and reinvest in what's actually moving the business.",
       deliverables: ["Channel audit", "Keyword + audience research", "Campaign build & launch", "Monthly optimization", "Performance dashboard"],
+      proofId: "smart-financial",
     },
   ];
+
+  const plateFor = (id?: string) =>
+    id ? caseStudies.find((cs) => cs.id === id) : undefined;
 
   const toggleService = (idx: number) => {
     setExpandedService(expandedService === idx ? null : idx);
@@ -122,7 +131,7 @@ const Services = () => {
             {services.map((service, idx) => (
               <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                 <div className="group border-t border-line py-8 lg:py-12 transition-all duration-md ease-smooth hover:bg-surface/30 relative before:absolute before:left-0 before:top-8 before:bottom-8 before:w-[2px] before:bg-accent before:scale-y-0 before:transition-transform before:duration-sm hover:before:scale-y-100 before:origin-top">
-                  <div className="grid-12 gap-y-4 lg:gap-y-8">
+                  <div className="grid-12 gap-y-6 lg:gap-y-8">
                     <div className="hidden lg:block col-span-12 lg:col-span-2">
                       <button
                         onClick={() => toggleService(idx)}
@@ -133,7 +142,7 @@ const Services = () => {
                       </button>
                     </div>
 
-                    <div className="col-span-12 lg:col-span-6">
+                    <div className="col-span-12 lg:col-span-5">
                       <h2 className="font-display text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent flex items-baseline gap-3">
                         <span className="lg:hidden text-accent-faint text-base font-display">{service.number}</span>
                         <Link to={service.path} className="hover:text-accent flex-1">{service.title}</Link>
@@ -164,7 +173,7 @@ const Services = () => {
                       </div>
                     </div>
 
-                    <div className="col-span-12 lg:col-span-4">
+                    <div className="col-span-12 lg:col-span-2">
                       {/* Pill tags on mobile/tablet, list on desktop */}
                       <div className="flex flex-wrap gap-2 lg:hidden">
                         {service.capabilities.map((cap, i) => (
@@ -188,6 +197,25 @@ const Services = () => {
                         ))}
                       </ul>
                     </div>
+
+                    {/* Proof plate — image-forward client reference */}
+                    {plateFor(service.proofId) && (
+                      <div className="col-span-12 lg:col-span-3">
+                        <Link
+                          to={`/work/${service.proofId}`}
+                          className="block"
+                          aria-label={`View the ${plateFor(service.proofId)!.title} case study`}
+                        >
+                          <WorkPlate
+                            caseStudy={plateFor(service.proofId)!}
+                            aspect="aspect-[4/3]"
+                          />
+                          <p className="eyebrow-faint mt-3 block">
+                            {plateFor(service.proofId)!.title}
+                          </p>
+                        </Link>
+                      </div>
+                    )}
 
                     {expandedService === idx && (
                       <div className="col-span-12 animate-fade-in">
@@ -227,10 +255,18 @@ const Services = () => {
             ))}
           </div>
 
+          {/* Proof */}
+          <RelatedCaseStudies
+            ids={["gfg-solutions", "smart-financial"]}
+            chapterNumber={2}
+            chapterLabel="Proof"
+            heading="Recent Work"
+            eyebrow="A short list of what these disciplines produced in practice."
+          />
+
           {/* Process Timeline */}
-          <LeafDivider />
           <ScrollReveal variant="fade-up">
-            <SectionChapter number={2} label="Process" />
+            <SectionChapter number={3} label="Process" />
             <ProcessTimeline />
           </ScrollReveal>
         </Section>

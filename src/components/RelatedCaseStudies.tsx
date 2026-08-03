@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { caseStudies } from "@/data/caseStudies";
 import SectionChapter from "@/components/SectionChapter";
 import ScrollReveal from "@/components/ScrollReveal";
-import WorkPlate from "@/components/WorkPlate";
+import WorkTile from "@/components/WorkTile";
 
 interface RelatedCaseStudiesProps {
   ids: string[];
@@ -40,25 +40,7 @@ const RelatedCaseStudies = ({
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-cards">
           {items.map((cs) => (
-            <Link
-              key={cs.id}
-              to={`/work/${cs.id}`}
-              className="group relative block"
-            >
-              <WorkPlate caseStudy={cs} aspect="aspect-[16/9]" />
-              <div className="mt-4 flex items-start justify-between gap-6">
-                <div>
-                  <span className="eyebrow mb-1.5 block">
-                    {cs.category}
-                  </span>
-                  <h3 className="font-display text-text group-hover:text-accent transition-colors">
-                    {cs.title}
-                  </h3>
-                  <p className="text-sm text-mute mt-1.5 line-clamp-2 max-w-md">{cs.subtitle}</p>
-                </div>
-                <ArrowUpRight className="w-5 h-5 mt-1 text-mute group-hover:text-accent transition-colors flex-shrink-0" />
-              </div>
-            </Link>
+            <WorkTile key={cs.id} caseStudy={cs} aspect="aspect-[16/9]" />
           ))}
         </div>
         <div className="mt-10">
