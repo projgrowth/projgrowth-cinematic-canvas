@@ -434,6 +434,43 @@
   .prose-measure { max-width: 65ch; text-wrap: pretty; }
   .prose-measure-wide { max-width: 72ch; text-wrap: pretty; }
 
+  /* Long-form article body — single source of truth for rendered markdown
+     and legal copy. Headings inherit the global display scale; only the
+     prose-specific rhythm lives here. */
+  .article-body { max-width: 72ch; text-wrap: pretty; color: hsl(var(--mute)); }
+  .article-body > * + * { margin-top: 1.5rem; }
+  .article-body h2 {
+    color: hsl(var(--text));
+    font-weight: 500;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  .article-body h3 {
+    color: hsl(var(--text));
+    font-size: clamp(1.125rem, 0.8vw + 0.8rem, 1.375rem);
+    font-weight: 500;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .article-body h2 + *, .article-body h3 + * { margin-top: 0; }
+  .article-body p { color: hsl(var(--mute)); }
+  .article-body ul, .article-body ol { padding-left: 1.25rem; }
+  .article-body ul { list-style: disc; }
+  .article-body ol { list-style: decimal; }
+  .article-body li { margin-top: 0.5rem; color: hsl(var(--mute)); }
+  .article-body li::marker { color: hsl(var(--accent)); }
+  .article-body a { color: hsl(var(--accent)); }
+  .article-body a:hover { text-decoration: underline; }
+  .article-body strong { color: hsl(var(--text)); font-weight: 500; }
+
+  /* Multi-step form step title — locked so the five steps never drift */
+  .step-heading {
+    font-family: var(--font-display);
+    color: hsl(var(--text));
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
   /* Unified link hover — animated accent underline.
      Apply to inline anchors in body copy. */
   .link-underline {
@@ -603,7 +640,7 @@
 
   /* Skip link styles - Enhanced visibility */
   .skip-link {
-    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-4 focus:bg-accent focus:text-base focus:rounded-md focus:font-medium focus:shadow-glow-accent focus:min-h-[44px] focus:flex focus:items-center;
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-4 focus:bg-accent focus:text-on-accent focus:rounded-md focus:font-medium focus:shadow-glow-accent focus:min-h-[44px] focus:flex focus:items-center;
   }
 
 

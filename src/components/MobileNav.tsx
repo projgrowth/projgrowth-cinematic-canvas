@@ -97,7 +97,7 @@ const MobileNav = () => {
                           key={s.path}
                           to={s.path}
                           onClick={close}
-                          className={`text-base min-h-[44px] flex items-center transition-colors duration-sm ${
+                          className={`min-h-[44px] flex items-center transition-colors duration-sm ${
                             location.pathname === s.path
                               ? "text-accent"
                               : "text-mute hover:text-text"

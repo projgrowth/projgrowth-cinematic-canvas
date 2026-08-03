@@ -64,7 +64,7 @@ const ProcessTimeline = () => {
               </span>
               
               {/* Duration */}
-              <span className="text-sm md:text-base text-mute shrink-0">
+              <span className="text-sm text-mute shrink-0">
                 {step.duration}
               </span>
               

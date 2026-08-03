@@ -1,26 +1,15 @@
 import { Section } from "@/components/ui/section";
 import { useParams, Link, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, AlertCircle, Lightbulb, Share2, Linkedin, Twitter } from "lucide-react";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
+import PageHero from "@/components/PageHero";
 import { caseStudies } from "@/data/caseStudies";
-import { useRef } from "react";
 import SectionChapter from "@/components/SectionChapter";
 import { Helmet } from "react-helmet-async";
 
 const CaseStudyDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const heroRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
   const caseStudy = caseStudies.find(cs => cs.id === slug);
   
   if (!caseStudy) {
@@ -71,77 +60,45 @@ const CaseStudyDetail = () => {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       </Helmet>
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-[60vh] md:min-h-[70vh] flex items-end overflow-hidden">
-        {/* Background */}
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-br from-accent/10 via-base to-base"
-          style={{ y: heroY }}
+      {/* Hero — shared PageHero shell with optional parallax media */}
+      <Section size="hero" className="overflow-hidden min-h-0 pb-0">
+        <PageHero
+          chapter={{ number: 1, label: caseStudy.category }}
+            title={caseStudy.title}
+            lede={caseStudy.subtitle}
+            parallax={!!caseStudy.heroMedia}
+            media={
+              caseStudy.heroMedia ? (
+                caseStudy.heroMedia.type === "video" ? (
+                  <video
+                    src={caseStudy.heroMedia.url}
+                    poster={caseStudy.heroMedia.poster}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover opacity-30"
+                  />
+                ) : (
+                  <img
+                    src={caseStudy.heroMedia.url}
+                    alt=""
+                    className="w-full h-full object-cover opacity-30"
+                  />
+                )
+              ) : undefined
+            }
+            status={
+              <div className="flex flex-wrap gap-2">
+                {caseStudy.categories.map((cat) => (
+                  <span key={cat} className="pill-accent">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+            }
         />
-        
-        {/* Hero media */}
-        {caseStudy.heroMedia && (
-          <motion.div 
-            className="absolute inset-0"
-            style={{ y: heroY, opacity: heroOpacity }}
-          >
-            {caseStudy.heroMedia.type === "video" ? (
-              <video
-                src={caseStudy.heroMedia.url}
-                poster={caseStudy.heroMedia.poster}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover opacity-30"
-              />
-            ) : (
-              <img
-                src={caseStudy.heroMedia.url}
-                alt={caseStudy.title}
-                className="w-full h-full object-cover opacity-30"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-base via-base/80 to-transparent" />
-          </motion.div>
-        )}
-
-        {/* Content */}
-        <div className="container-site relative z-10 pb-12 md:pb-20">
-          <Link 
-            to="/work" 
-            className="inline-flex items-center gap-2 text-mute hover:text-accent transition-colors mb-8 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Work
-          </Link>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex flex-wrap gap-2 mb-4">
-              {caseStudy.categories.map((cat) => (
-                <span 
-                  key={cat}
-                  className="pill-accent"
-                >
-                  {cat}
-                </span>
-              ))}
-            </div>
-
-            <h1 className="font-display text-text mb-4">
-              {caseStudy.title}
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-mute max-w-3xl">
-              {caseStudy.subtitle}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      </Section>
 
 
       {/* Main Content */}
@@ -208,7 +165,7 @@ const CaseStudyDetail = () => {
             {/* The Challenge */}
             <ScrollReveal variant="fade-up">
               <div className="space-y-6">
-                  <SectionChapter number={1} label="Challenge" />
+                  <SectionChapter number={2} label="Challenge" />
                   <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-destructive/10 border border-destructive/20 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-destructive" />
@@ -217,17 +174,10 @@ const CaseStudyDetail = () => {
                 </div>
                 <ul className="space-y-4 pl-2">
                   {caseStudy.theirIssues.map((issue, idx) => (
-                    <motion.li 
-                      key={idx}
-                      className="flex items-start gap-4 text-mute"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                    >
+                    <li key={idx} className="flex items-start gap-4 text-mute">
                       <span className="text-destructive/60 mt-1.5">—</span>
-                      <span className="text-base md:text-lg">{issue}</span>
-                    </motion.li>
+                      <span className="md:text-lg">{issue}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -236,7 +186,7 @@ const CaseStudyDetail = () => {
             {/* The Solution */}
             <ScrollReveal variant="fade-up" delay={0.1}>
               <div className="space-y-6">
-                <SectionChapter number={2} label="Approach" />
+                <SectionChapter number={3} label="Approach" />
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
                     <Lightbulb className="w-5 h-5 text-accent" />
@@ -245,17 +195,10 @@ const CaseStudyDetail = () => {
                 </div>
                 <ul className="space-y-4 pl-2">
                   {caseStudy.howWeHelped.map((help, idx) => (
-                    <motion.li 
-                      key={idx}
-                      className="flex items-start gap-4"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                    >
+                    <li key={idx} className="flex items-start gap-4">
                       <CheckCircle2 className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
-                      <span className="text-base md:text-lg text-text">{help}</span>
-                    </motion.li>
+                      <span className="md:text-lg text-text">{help}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -263,7 +206,7 @@ const CaseStudyDetail = () => {
 
             {/* The Impact */}
             <ScrollReveal variant="fade-up" delay={0.2}>
-              <SectionChapter number={3} label="What Changed" />
+              <SectionChapter number={4} label="What Changed" />
               <div className="p-8 md:p-10 bg-gradient-to-br from-accent/5 via-surface to-accent/10 rounded-lg border border-accent/20">
                 <h2 className="font-display text-text mb-4">Why It Matters</h2>
                 <p className="text-lg md:text-xl text-mute">
@@ -279,13 +222,9 @@ const CaseStudyDetail = () => {
                   <h2 className="font-display text-text">Our Process</h2>
                   <div className="grid gap-4">
                     {caseStudy.processSteps.map((step, idx) => (
-                      <motion.div
+                      <div
                         key={idx}
                         className="flex gap-6 p-5 bg-surface rounded-lg border border-line group hover:border-accent/30 transition-colors"
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: idx * 0.1 }}
                       >
                         <span className="font-display text-accent-faint group-hover:text-accent transition-colors">
                           {String(idx + 1).padStart(2, '0')}
@@ -294,7 +233,7 @@ const CaseStudyDetail = () => {
                           <h3 className="text-text font-medium mb-1">{step.title}</h3>
                           <p className="text-mute text-sm">{step.description}</p>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -308,13 +247,9 @@ const CaseStudyDetail = () => {
                   <h2 className="font-display text-text">The Work</h2>
                   <div className="grid md:grid-cols-2 gap-4">
                     {caseStudy.gallery.map((item, idx) => (
-                      <motion.div
+                      <div
                         key={idx}
                         className="relative aspect-video rounded-lg overflow-hidden border border-line group"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: idx * 0.1 }}
                       >
                         {item.type === "video" ? (
                           <video
@@ -338,7 +273,7 @@ const CaseStudyDetail = () => {
                             <p className="text-sm text-text">{item.caption}</p>
                           </div>
                         )}
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>

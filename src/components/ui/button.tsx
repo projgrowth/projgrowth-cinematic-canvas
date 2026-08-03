@@ -21,7 +21,7 @@ const buttonVariants = cva(
       size: {
         default: "h-11 px-6 py-3", /* Enhanced touch targets */
         sm: "h-9 rounded-md px-4",
-        lg: "h-12 rounded-md px-8 text-base",
+        lg: "h-12 rounded-md px-8",
         icon: "h-11 w-11", /* Improved touch target */
       },
     },

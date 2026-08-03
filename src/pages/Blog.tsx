@@ -7,7 +7,6 @@ import { Clock, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import PageHero from "@/components/PageHero";
 import SectionChapter from "@/components/SectionChapter";
 import { SurfaceCard } from "@/components/ui/card-surface";
@@ -73,7 +72,6 @@ const Blog = () => {
       canonicalUrl="/blog"
     >
       <Section>
-        <Breadcrumbs />
 
         <PageHero
           chapter={{ number: 1, label: "Field Notes" }}

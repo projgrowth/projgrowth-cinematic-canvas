@@ -155,7 +155,7 @@ const Home = () => {
                 <p className="eyebrow-faint text-accent mb-2 block">
                   {availability.now.label}
                 </p>
-                <p className="font-display text-text text-base leading-snug">
+                <p className="font-display text-text leading-snug">
                   {availability.now.value}
                 </p>
               </div>
@@ -165,7 +165,7 @@ const Home = () => {
                 </p>
                 <Link
                   to={`/work/${availability.recent.slug}`}
-                  className="group inline-flex items-center gap-2 font-display text-text text-base leading-snug transition-colors duration-sm hover:text-accent"
+                  className="group inline-flex items-center gap-2 font-display text-text leading-snug transition-colors duration-sm hover:text-accent"
                 >
                   {availability.recent.title}
                   <ArrowRight className="w-4 h-4 transition-transform duration-sm group-hover:translate-x-0.5" />

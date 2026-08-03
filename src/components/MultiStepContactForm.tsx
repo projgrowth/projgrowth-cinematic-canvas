@@ -288,7 +288,7 @@ Company: ${formData.company || "Not provided"}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-2xl md:text-3xl font-display text-foreground mb-2">
+            <h2 className="step-heading">
               What brings you here today?
             </h2>
             <p className="text-muted mb-8">Select the option that best describes your needs</p>
@@ -334,7 +334,7 @@ Company: ${formData.company || "Not provided"}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-2xl md:text-3xl font-display text-foreground mb-2">
+            <h2 className="step-heading">
               {serviceQuestions[formData.service]?.question || "Tell us more"}
             </h2>
             <p className="text-muted mb-8">This helps us prepare for our conversation (optional)</p>
@@ -357,7 +357,7 @@ Company: ${formData.company || "Not provided"}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-2xl md:text-3xl font-display text-foreground mb-2">
+            <h2 className="step-heading">
               What's your timeline?
             </h2>
             <p className="text-muted mb-8">When do you need this completed?</p>
@@ -403,7 +403,7 @@ Company: ${formData.company || "Not provided"}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-2xl md:text-3xl font-display text-foreground mb-2">
+            <h2 className="step-heading">
               Investment range
             </h2>
             <p className="text-muted mb-8">This helps us tailor our recommendations</p>
@@ -453,7 +453,7 @@ Company: ${formData.company || "Not provided"}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-2xl md:text-3xl font-display text-foreground mb-2">
+            <h2 className="step-heading">
               Almost there!
             </h2>
             <p className="text-muted mb-8">How can we reach you?</p>

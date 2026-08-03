@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionChapter from "@/components/SectionChapter";
 
@@ -10,6 +11,10 @@ interface PageHeroProps {
   align?: "left" | "center";
   children?: ReactNode;
   className?: string;
+  /** Optional full-bleed backdrop (image/video). Rendered behind the copy. */
+  media?: ReactNode;
+  /** Drift the backdrop on scroll. Only meaningful together with `media`. */
+  parallax?: boolean;
 }
 
 /**
@@ -25,10 +30,30 @@ const PageHero = ({
   align = "left",
   children,
   className = "",
+  media,
+  parallax = false,
 }: PageHeroProps) => {
   const alignClass = align === "center" ? "text-center mx-auto" : "";
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  const mediaY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const mediaOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
   return (
-    <div className={`relative ${className}`}>
+    <div ref={containerRef} className={`relative ${className}`}>
+      {media && (
+        <motion.div
+          className="absolute inset-0 -z-0 overflow-hidden pointer-events-none"
+          aria-hidden="true"
+          style={parallax ? { y: mediaY, opacity: mediaOpacity } : undefined}
+        >
+          {media}
+          <div className="absolute inset-0 bg-gradient-to-t from-base via-base/80 to-transparent" />
+        </motion.div>
+      )}
       <div
         className="absolute -inset-x-8 top-0 h-64 pointer-events-none -z-0"
         aria-hidden="true"
