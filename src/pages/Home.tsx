@@ -267,50 +267,43 @@ const Home = () => {
       {/* Featured Work — 3-card grid */}
       <Section>
         <ScrollReveal variant="fade-up">
-          <div className="section-header">
-            <div className="flex justify-center">
+          <div className="grid-12 gap-y-6 mb-12 md:mb-16">
+            <div className="col-span-12 lg:col-span-5">
               <SectionChapter number={4} label="Selected Work" />
+              <h2 className="font-display text-text">Work That Moves the Needle</h2>
             </div>
-            <h2 className="font-display text-text mb-3">Work That Moves the Needle</h2>
-            <p className="lede">A tight selection of what we've built — and what happened after.</p>
+            <div className="col-span-12 lg:col-span-6 lg:col-start-7 flex items-end">
+              <p className="lede">A tight selection of what we've built — and what happened after.</p>
+            </div>
           </div>
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.15}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-cards">
+          {/* Asymmetric editorial layout: one lead project, two supporting */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards">
             {featuredProjects.map((project, idx) => {
-              const gradient = categoryGradients[project.category] || "from-accent/10 to-accent/5";
-              const Icon = categoryIcons[project.category] || FileText;
+              const lead = idx === 0;
               return (
-                <Link key={idx} to={`/work/${project.id}`} className="group block">
-                  <div className={`relative overflow-hidden bg-gradient-to-br ${gradient} border border-line rounded-lg p-6 md:p-8 h-full flex flex-col transition-all duration-md hover:border-accent/40 hover:shadow-elegant`}>
-                    {project.logo && (
-                      <img
-                        src={project.logo}
-                        alt=""
-                        aria-hidden="true"
-                        loading="lazy"
-                        decoding="async"
-                        className="pointer-events-none absolute -right-6 -bottom-6 w-40 h-40 object-contain opacity-[0.06] group-hover:opacity-[0.12] transition-opacity duration-md"
-                      />
-                    )}
-                    <div className="relative flex items-start justify-between mb-6">
-                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-md border border-accent/30 bg-bg/40">
-                        <Icon className="w-4 h-4 text-accent" />
+                <Link
+                  key={project.id}
+                  to={`/work/${project.id}`}
+                  className={`group block ${lead ? "lg:col-span-7 lg:row-span-2" : "lg:col-span-5"}`}
+                >
+                  <WorkPlate
+                    caseStudy={project}
+                    aspect={lead ? "aspect-[16/11]" : "aspect-[16/9]"}
+                  />
+                  <div className="mt-4 flex items-start justify-between gap-6">
+                    <div>
+                      <span className="text-xs uppercase tracking-widest text-accent/80 mb-1.5 block">
+                        {project.category}
                       </span>
-                      <span className="text-[10px] uppercase tracking-widest text-mute pt-2">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
+                      <h3 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
+                        {project.title}
+                      </h3>
+                      <p className="text-mute text-sm mt-1.5 max-w-md">{project.subtitle}</p>
                     </div>
-                    <span className="relative text-xs text-accent mb-2 block">{project.category}</span>
-                    <h3 className="relative font-display text-text mb-2 group-hover:text-accent transition-colors duration-sm">
-                      {project.title}
-                    </h3>
-                    <p className="relative text-mute text-sm flex-1">{project.subtitle}</p>
-                    <div className="relative mt-6 flex items-center gap-1 text-accent text-sm font-medium">
-                      View Case Study
-                      <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-sm group-hover:translate-x-1" />
-                    </div>
+                    <ArrowRight className="w-5 h-5 mt-1 flex-shrink-0 text-mute transition-all duration-sm group-hover:text-accent group-hover:translate-x-1" />
                   </div>
                 </Link>
               );
@@ -319,7 +312,7 @@ const Home = () => {
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.3}>
-          <div className="mt-12 text-center">
+          <div className="mt-12">
             <Link
               to="/work"
               className="inline-flex items-center gap-2 text-accent hover:text-accent-strong transition-colors duration-sm font-medium"
