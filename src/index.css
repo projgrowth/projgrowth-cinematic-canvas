@@ -320,6 +320,67 @@
     color: hsl(var(--accent));
     font-weight: 500;
   }
+  /* Neutral variant — same rhythm, muted color. Use for labels that are
+     structural (column headings, meta labels), not editorial accents. */
+  .eyebrow-mute {
+    @apply eyebrow;
+    color: hsl(var(--mute));
+  }
+  /* Quietest variant — for dense card meta. */
+  .eyebrow-faint {
+    @apply eyebrow;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    color: var(--text-faint);
+  }
+
+  /* Hairline rule — replaces ad-hoc border-t border-line/50 variants */
+  .rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      to right,
+      hsl(var(--line)),
+      hsl(var(--line) / 0.35) 60%,
+      transparent
+    );
+  }
+  .rule-flat { height: 1px; border: 0; background-color: hsl(var(--line)); }
+
+  /* Navigation link vocabulary — shared by desktop rail and mobile sheet */
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    color: hsl(var(--text) / 0.55);
+    letter-spacing: -0.008em;
+    transition: color var(--duration-sm) var(--ease);
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: hsl(var(--accent));
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--duration-sm) var(--ease);
+  }
+  .nav-link:hover { color: hsl(var(--text)); }
+  .nav-link:hover::after { transform: scaleX(1); }
+  .nav-link[data-active="true"] { color: hsl(var(--text)); }
+  .nav-link[data-active="true"]::after { transform: scaleX(1); }
+
+  /* Header rail — frosted glass, hairline, inner highlight */
+  .nav-rail {
+    background-color: hsl(var(--base) / 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid hsl(var(--line) / 0.6);
+    box-shadow: var(--inner-highlight), var(--shadow-rail);
+  }
   .lede {
     font-size: clamp(1.0625rem, 0.6vw + 0.9rem, 1.3rem);
     line-height: 1.5;
