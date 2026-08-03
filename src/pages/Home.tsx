@@ -23,6 +23,30 @@ const availability = {
 };
 
 const heroWords = [
+
+const FeaturedProject = ({
+  project,
+  aspect,
+}: {
+  project: (typeof featuredProjects)[number];
+  aspect: string;
+}) => (
+  <Link to={`/work/${project.id}`} className="group block">
+    <WorkPlate caseStudy={project} aspect={aspect} />
+    <div className="mt-4 flex items-start justify-between gap-6">
+      <div>
+        <span className="text-xs uppercase tracking-widest text-accent/80 mb-1.5 block">
+          {project.category}
+        </span>
+        <h3 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
+          {project.title}
+        </h3>
+        <p className="text-mute text-sm mt-1.5 max-w-md">{project.subtitle}</p>
+      </div>
+      <ArrowRight className="w-5 h-5 mt-1 flex-shrink-0 text-mute transition-all duration-sm group-hover:text-accent group-hover:translate-x-1" />
+    </div>
+  </Link>
+);
   { text: "We design brands", accent: false },
   { text: "that earn attention", accent: false },
   { text: "and keep it.", accent: true },
