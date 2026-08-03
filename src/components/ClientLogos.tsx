@@ -2,11 +2,13 @@ import ScrollReveal from "./ScrollReveal";
 
 const clients = [
   { name: "GFG Solutions", logo: "/logos/gfg-solutions.svg" },
+  { name: "Smart Financial Planning", logo: "/logos/smart-financial.png" },
   { name: "Real Thread", logo: "/logos/real-thread.svg" },
   { name: "Victoria Jewelers", logo: "/logos/victoria-jewelers.svg" },
   { name: "Diverse Wealth", logo: "/logos/diverse-wealth.svg" },
   { name: "Northwestern Mutual", logo: "/logos/northwestern-mutual.svg" },
   { name: "Custom Dinks", logo: "/logos/custom-dinks.svg" },
+  { name: "Florida Private Providers", logo: "/logos/florida-private-providers.svg" },
   { name: "Fritzler Law", logo: "/logos/fritzler-law.svg" },
 ];
 
@@ -24,7 +26,7 @@ const ClientLogos = () => {
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.1}>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 items-center gap-y-10 gap-x-8">
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 items-center gap-y-10 gap-x-10">
             {clients.map((client) => (
               <li key={client.name} className="flex items-center justify-center lg:justify-start">
                 <img
