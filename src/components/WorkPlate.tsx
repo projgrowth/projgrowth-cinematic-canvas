@@ -71,7 +71,7 @@ const WorkPlate = ({
       )}
 
       {/* Bottom scrim for legibility over photography */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-bg/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-base/70 to-transparent" />
     </div>
   );
 };
