@@ -126,7 +126,7 @@ const Home = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.05 }}
             >
-              Digital Studio · Orlando, FL · Booking Q1 2026
+              Digital Studio · Orlando, FL
             </motion.p>
             <h1 className="font-display text-text">
               {heroWords.map((word, i) => (
