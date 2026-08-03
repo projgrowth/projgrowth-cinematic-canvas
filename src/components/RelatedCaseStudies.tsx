@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { caseStudies } from "@/data/caseStudies";
 import SectionChapter from "@/components/SectionChapter";
 import ScrollReveal from "@/components/ScrollReveal";
+import WorkPlate from "@/components/WorkPlate";
 
 interface RelatedCaseStudiesProps {
   ids: string[];
