@@ -144,10 +144,10 @@ const Services = () => {
 
                     <div className="col-span-12 lg:col-span-5">
                       <h2 className="font-display text-text mb-3 md:mb-4 transition-colors duration-sm ease-smooth group-hover:text-accent flex items-baseline gap-3">
-                        <span className="lg:hidden text-accent-faint text-base font-display">{service.number}</span>
+                        <span className="lg:hidden text-accent-faint font-display">{service.number}</span>
                         <Link to={service.path} className="hover:text-accent flex-1">{service.title}</Link>
                       </h2>
-                      <p className="text-base md:text-lg text-mute mb-4 md:mb-6">
+                      <p className="md:text-lg text-mute mb-4 md:mb-6">
                         {service.description}
                       </p>
 

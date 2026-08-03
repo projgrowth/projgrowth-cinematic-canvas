@@ -176,7 +176,7 @@ const CaseStudyDetail = () => {
                   {caseStudy.theirIssues.map((issue, idx) => (
                     <li key={idx} className="flex items-start gap-4 text-mute">
                       <span className="text-destructive/60 mt-1.5">—</span>
-                      <span className="text-base md:text-lg">{issue}</span>
+                      <span className="md:text-lg">{issue}</span>
                     </li>
                   ))}
                 </ul>
@@ -197,7 +197,7 @@ const CaseStudyDetail = () => {
                   {caseStudy.howWeHelped.map((help, idx) => (
                     <li key={idx} className="flex items-start gap-4">
                       <CheckCircle2 className="w-5 h-5 text-accent mt-1 flex-shrink-0" />
-                      <span className="text-base md:text-lg text-text">{help}</span>
+                      <span className="md:text-lg text-text">{help}</span>
                     </li>
                   ))}
                 </ul>

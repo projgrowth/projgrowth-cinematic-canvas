@@ -65,7 +65,7 @@ const Layout = ({
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-accent focus:text-base focus:rounded-md focus:font-medium focus:shadow-glow-accent"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-accent focus:text-on-accent focus:rounded-md focus:font-medium focus:shadow-glow-accent"
       >
         Skip to main content
       </a>
