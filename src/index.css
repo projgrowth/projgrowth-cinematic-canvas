@@ -311,6 +311,47 @@
   .btn-outline-cta { @apply btn-base; background: transparent; color: hsl(var(--accent)); border: 1px solid hsl(var(--accent)); }
   .btn-outline-cta:hover { background-color: hsl(var(--accent)); color: hsl(var(--primary-foreground)); }
 
+  /* Locked form field recipe — every text input/textarea/select uses this
+     so radius, padding, focus ring and placeholder colour never drift. */
+  .input-field {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    background-color: hsl(var(--surface));
+    border: 1px solid hsl(var(--line));
+    border-radius: var(--radius-md);
+    color: hsl(var(--text));
+    font-size: 0.9375rem;
+    transition: border-color var(--duration-sm) var(--ease),
+                box-shadow var(--duration-sm) var(--ease);
+  }
+  .input-field::placeholder { color: hsl(var(--mute)); }
+  .input-field:hover { border-color: var(--accent-border); }
+  .input-field:focus {
+    outline: none;
+    border-color: hsl(var(--accent));
+    box-shadow: 0 0 0 3px hsl(var(--accent) / 0.18);
+  }
+
+  /* Circular / square icon button — share buttons, socials, small controls */
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    border-radius: var(--radius-pill);
+    border: 1px solid hsl(var(--line));
+    background-color: hsl(var(--surface));
+    color: hsl(var(--mute));
+    transition: all var(--duration-sm) var(--ease);
+  }
+  .icon-btn:hover {
+    color: hsl(var(--accent));
+    border-color: var(--accent-border-hover);
+    background-color: var(--accent-tint);
+  }
+
   /* Text recipes */
   .eyebrow {
     font-family: var(--font-display);
