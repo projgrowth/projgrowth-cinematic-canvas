@@ -23,6 +23,10 @@ const availability = {
 };
 
 const heroWords = [
+  { text: "We design brands", accent: false },
+  { text: "that earn attention", accent: false },
+  { text: "and keep it.", accent: true },
+];
 
 const FeaturedProject = ({
   project,
@@ -47,10 +51,6 @@ const FeaturedProject = ({
     </div>
   </Link>
 );
-  { text: "We design brands", accent: false },
-  { text: "that earn attention", accent: false },
-  { text: "and keep it.", accent: true },
-];
 
 const Home = () => {
   const reduceMotion = useReducedMotion();
