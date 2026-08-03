@@ -36,7 +36,7 @@ const Navigation = () => {
 
   const links = [
     { path: "/", label: "Home" },
-    { path: "/work", label: "Portfolio" },
+    { path: "/work", label: "Work" },
     { path: "/services", label: "Services" },
     { path: "/blog", label: "Blog" },
     { path: "/about", label: "About" },
@@ -53,34 +53,33 @@ const Navigation = () => {
           fixed top-0 left-0 right-0 z-50 
           transition-all duration-sm ease-smooth
           ${isHidden ? "-translate-y-full" : "translate-y-0"}
-          ${isScrolled 
-            ? "bg-base/95 backdrop-blur-md border-b border-line/50 shadow-[0_1px_3px_rgba(0,0,0,0.3)]" 
-            : "bg-transparent border-b border-transparent"
-          }
+          ${isScrolled ? "nav-rail" : "bg-transparent border-b border-transparent"}
         `}
         aria-label="Main navigation"
       >
         <div className="container-site">
-          <div className="flex items-center justify-between py-4 md:py-6">
+          <div
+            className={`flex items-center justify-between transition-all duration-sm ease-smooth ${
+              isScrolled ? "py-3 md:py-3.5" : "py-4 md:py-6"
+            }`}
+          >
             <Link 
               to="/" 
-              className="text-xl md:text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm focus-ring rounded-sm flex items-center gap-2 group min-h-[44px]"
+              className="text-lg md:text-xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm focus-ring rounded-sm flex items-center gap-2.5 group min-h-[44px]"
               aria-label="ProjGrowth - Go to homepage"
             >
-              <img src={pgLogo} alt="" className="h-5 md:h-7 w-auto logo-accent-hover" />
+              <img src={pgLogo} alt="" className="h-5 md:h-6 w-auto logo-accent-hover" />
               <span className="hidden sm:inline">ProjGrowth</span>
             </Link>
             
             {/* Desktop Navigation */}
-            <ul className="hidden md:flex items-center gap-8 lg:gap-10" role="list">
+            <ul className="hidden md:flex items-center gap-6 lg:gap-8" role="list">
               {links.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className={`
-                      text-sm md:text-base transition-colors duration-sm relative min-h-[44px] flex items-center px-2 focus-ring rounded-sm
-                      ${isActive(link.path) ? 'text-text after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-0.5 after:bg-accent after:rounded-full' : 'text-text/60 hover:text-text'}
-                    `}
+                    data-active={isActive(link.path)}
+                    className="nav-link text-sm min-h-[44px] py-2 focus-ring rounded-sm"
                     aria-current={location.pathname === link.path ? "page" : undefined}
                   >
                     {link.label}
@@ -91,7 +90,7 @@ const Navigation = () => {
 
             <Link
               to="/contact"
-              className="hidden md:inline-flex btn-solid text-sm px-5 whitespace-nowrap"
+              className="hidden md:inline-flex btn-solid text-sm px-5 min-h-[40px] rounded-full whitespace-nowrap focus-ring"
             >
               Start a project
             </Link>
