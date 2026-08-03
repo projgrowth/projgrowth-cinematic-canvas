@@ -7,11 +7,12 @@ import GrowthLines from "@/components/GrowthLines";
 import AmbientGlow from "@/components/AmbientGlow";
 import { Helmet } from "react-helmet-async";
 import { caseStudies } from "@/data/caseStudies";
-import { ArrowRight, FileText, Globe, Sparkles, Film, Cpu, LineChart } from "lucide-react";
+import { ArrowRight, Globe, Sparkles, Film, LineChart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import ResultsStrip from "@/components/home/ResultsStrip";
 import SectionChapter from "@/components/SectionChapter";
+import WorkPlate from "@/components/WorkPlate";
 
 const featuredProjects = caseStudies.slice(0, 3);
 
@@ -19,22 +20,6 @@ const availability = {
   now: { label: "Now", value: "Wealth advisory + legaltech builds in flight" },
   recent: { label: "Recent", title: "Florida Private Providers", slug: "florida-private" },
   next: { label: "Next", value: "Accepting 2 new partners for Q1" },
-};
-
-const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  "Content Systems": FileText,
-  "Web & Product": Globe,
-  "Brand & Messaging": Sparkles,
-  "Cinematic Production": Film,
-  "AI & Tools": Cpu,
-};
-
-const categoryGradients: Record<string, string> = {
-  "Content Systems": "from-accent/10 to-accent/5",
-  "Web & Product": "from-blue-500/10 to-blue-500/5",
-  "Brand & Messaging": "from-purple-500/10 to-purple-500/5",
-  "Cinematic Production": "from-amber-500/10 to-amber-500/5",
-  "AI & Tools": "from-emerald-500/10 to-emerald-500/5",
 };
 
 const heroWords = [
