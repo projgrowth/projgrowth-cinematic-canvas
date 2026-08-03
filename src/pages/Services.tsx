@@ -173,7 +173,7 @@ const Services = () => {
                       </div>
                     </div>
 
-                    <div className="col-span-12 lg:col-span-3">
+                    <div className="col-span-12 lg:col-span-2">
                       {/* Pill tags on mobile/tablet, list on desktop */}
                       <div className="flex flex-wrap gap-2 lg:hidden">
                         {service.capabilities.map((cap, i) => (
@@ -200,7 +200,7 @@ const Services = () => {
 
                     {/* Proof plate — image-forward client reference */}
                     {plateFor(service.proofId) && (
-                      <div className="col-span-12 lg:col-span-2">
+                      <div className="col-span-12 lg:col-span-3">
                         <Link
                           to={`/work/${service.proofId}`}
                           className="block"
