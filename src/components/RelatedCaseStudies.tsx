@@ -48,7 +48,7 @@ const RelatedCaseStudies = ({
               <WorkPlate caseStudy={cs} aspect="aspect-[16/9]" />
               <div className="mt-4 flex items-start justify-between gap-6">
                 <div>
-                  <span className="text-xs uppercase tracking-widest text-accent/80 mb-1.5 block">
+                  <span className="eyebrow mb-1.5 block">
                     {cs.category}
                   </span>
                   <h3 className="font-display text-text group-hover:text-accent transition-colors">

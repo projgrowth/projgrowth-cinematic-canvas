@@ -51,6 +51,7 @@
     --radius-md: 0.75rem; /* 12px */
     --radius-lg: 0.875rem; /* 14px — architectural, not bubbly */
     --radius: var(--radius-md);
+    --radius-pill: 9999px;
 
     /* Enhanced Spacing Scale - Fluid and Granular */
     --space-2xs: clamp(0.25rem, 0.5vw + 0.125rem, 0.375rem); /* 4px -> 6px */
@@ -72,6 +73,7 @@
     --shadow-elegant: 0 8px 32px -8px rgba(0, 0, 0, 0.15);
     --shadow-glow-accent: 0 8px 40px -8px hsl(var(--accent) / 0.22);
     --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    --shadow-rail: 0 1px 0 0 hsl(var(--line) / 0.6), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
 
     /* Gradients */
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(165 45% 62%));
@@ -162,6 +164,13 @@
     line-height: 1.35;
     letter-spacing: -0.01em;
     font-weight: 600;
+  }
+
+  h4 {
+    font-size: clamp(0.9375rem, 0.5vw + 0.6rem, 1.0625rem); /* 15px -> 17px */
+    line-height: 1.4;
+    letter-spacing: -0.006em;
+    font-weight: 500;
   }
 
   body {
@@ -302,6 +311,47 @@
   .btn-outline-cta { @apply btn-base; background: transparent; color: hsl(var(--accent)); border: 1px solid hsl(var(--accent)); }
   .btn-outline-cta:hover { background-color: hsl(var(--accent)); color: hsl(var(--primary-foreground)); }
 
+  /* Locked form field recipe — every text input/textarea/select uses this
+     so radius, padding, focus ring and placeholder colour never drift. */
+  .input-field {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    background-color: hsl(var(--surface));
+    border: 1px solid hsl(var(--line));
+    border-radius: var(--radius-md);
+    color: hsl(var(--text));
+    font-size: 0.9375rem;
+    transition: border-color var(--duration-sm) var(--ease),
+                box-shadow var(--duration-sm) var(--ease);
+  }
+  .input-field::placeholder { color: hsl(var(--mute)); }
+  .input-field:hover { border-color: var(--accent-border); }
+  .input-field:focus {
+    outline: none;
+    border-color: hsl(var(--accent));
+    box-shadow: 0 0 0 3px hsl(var(--accent) / 0.18);
+  }
+
+  /* Circular / square icon button — share buttons, socials, small controls */
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    border-radius: var(--radius-pill);
+    border: 1px solid hsl(var(--line));
+    background-color: hsl(var(--surface));
+    color: hsl(var(--mute));
+    transition: all var(--duration-sm) var(--ease);
+  }
+  .icon-btn:hover {
+    color: hsl(var(--accent));
+    border-color: var(--accent-border-hover);
+    background-color: var(--accent-tint);
+  }
+
   /* Text recipes */
   .eyebrow {
     font-family: var(--font-display);
@@ -310,6 +360,67 @@
     letter-spacing: 0.18em;
     color: hsl(var(--accent));
     font-weight: 500;
+  }
+  /* Neutral variant — same rhythm, muted color. Use for labels that are
+     structural (column headings, meta labels), not editorial accents. */
+  .eyebrow-mute {
+    @apply eyebrow;
+    color: hsl(var(--mute));
+  }
+  /* Quietest variant — for dense card meta. */
+  .eyebrow-faint {
+    @apply eyebrow;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    color: var(--text-faint);
+  }
+
+  /* Hairline rule — replaces ad-hoc border-t border-line/50 variants */
+  .rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      to right,
+      hsl(var(--line)),
+      hsl(var(--line) / 0.35) 60%,
+      transparent
+    );
+  }
+  .rule-flat { height: 1px; border: 0; background-color: hsl(var(--line)); }
+
+  /* Navigation link vocabulary — shared by desktop rail and mobile sheet */
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    color: hsl(var(--text) / 0.55);
+    letter-spacing: -0.008em;
+    transition: color var(--duration-sm) var(--ease);
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: hsl(var(--accent));
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--duration-sm) var(--ease);
+  }
+  .nav-link:hover { color: hsl(var(--text)); }
+  .nav-link:hover::after { transform: scaleX(1); }
+  .nav-link[data-active="true"] { color: hsl(var(--text)); }
+  .nav-link[data-active="true"]::after { transform: scaleX(1); }
+
+  /* Header rail — frosted glass, hairline, inner highlight */
+  .nav-rail {
+    background-color: hsl(var(--base) / 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid hsl(var(--line) / 0.6);
+    box-shadow: var(--inner-highlight), var(--shadow-rail);
   }
   .lede {
     font-size: clamp(1.0625rem, 0.6vw + 0.9rem, 1.3rem);

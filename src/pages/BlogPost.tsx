@@ -284,16 +284,16 @@ const BlogPost = () => {
           )}
 
           <div className="hidden lg:flex fixed left-8 top-1/2 -translate-y-1/2 flex-col gap-3 z-40">
-            <button onClick={() => handleShare("twitter")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Share on Twitter">
+            <button onClick={() => handleShare("twitter")} className="icon-btn" aria-label="Share on Twitter">
               <Twitter className="w-4 h-4" />
             </button>
-            <button onClick={() => handleShare("linkedin")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Share on LinkedIn">
+            <button onClick={() => handleShare("linkedin")} className="icon-btn" aria-label="Share on LinkedIn">
               <Linkedin className="w-4 h-4" />
             </button>
-            <button onClick={() => handleShare("facebook")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Share on Facebook">
+            <button onClick={() => handleShare("facebook")} className="icon-btn" aria-label="Share on Facebook">
               <Facebook className="w-4 h-4" />
             </button>
-            <button onClick={() => handleShare("copy")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Copy link">
+            <button onClick={() => handleShare("copy")} className="icon-btn" aria-label="Copy link">
               <LinkIcon className="w-4 h-4" />
             </button>
           </div>
@@ -311,16 +311,16 @@ const BlogPost = () => {
                 Share this article
               </p>
               <div className="flex gap-3">
-                <button onClick={() => handleShare("twitter")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Share on Twitter">
+                <button onClick={() => handleShare("twitter")} className="icon-btn" aria-label="Share on Twitter">
                   <Twitter className="w-4 h-4" />
                 </button>
-                <button onClick={() => handleShare("linkedin")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Share on LinkedIn">
+                <button onClick={() => handleShare("linkedin")} className="icon-btn" aria-label="Share on LinkedIn">
                   <Linkedin className="w-4 h-4" />
                 </button>
-                <button onClick={() => handleShare("facebook")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Share on Facebook">
+                <button onClick={() => handleShare("facebook")} className="icon-btn" aria-label="Share on Facebook">
                   <Facebook className="w-4 h-4" />
                 </button>
-                <button onClick={() => handleShare("copy")} className="p-3 bg-surface border border-line rounded-full hover:border-accent hover:text-accent transition-colors" aria-label="Copy link">
+                <button onClick={() => handleShare("copy")} className="icon-btn" aria-label="Copy link">
                   <LinkIcon className="w-4 h-4" />
                 </button>
               </div>

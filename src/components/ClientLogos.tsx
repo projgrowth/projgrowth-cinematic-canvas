@@ -19,7 +19,7 @@ const ClientLogos = () => {
         <ScrollReveal variant="fade-up">
           <p
             id="clients-heading"
-            className="text-mute text-xs uppercase tracking-[0.18em] mb-10 md:mb-12"
+            className="eyebrow-mute mb-10 md:mb-12"
           >
             Trusted By
           </p>

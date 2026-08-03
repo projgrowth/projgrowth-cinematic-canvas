@@ -37,7 +37,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-display text-xs uppercase tracking-[0.18em] text-text mb-5">Quick Links</h3>
+            <h3 className="eyebrow text-text mb-5">Quick Links</h3>
             <ul className="space-y-2">
               {[
                 { path: "/work", label: "Work" },
@@ -60,7 +60,7 @@ const Footer = () => {
 
           {/* Services — now linked */}
           <div>
-            <h3 className="font-display text-xs uppercase tracking-[0.18em] text-text mb-5">Services</h3>
+            <h3 className="eyebrow text-text mb-5">Services</h3>
             <ul className="space-y-2">
               {[
                 { path: "/services/branding", label: "Brand Strategy" },
@@ -82,7 +82,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="font-display text-xs uppercase tracking-[0.18em] text-text mb-5">Get in Touch</h3>
+            <h3 className="eyebrow text-text mb-5">Get in Touch</h3>
             <div className="space-y-4">
               <a
                 href={`mailto:${contactEmail}`}
@@ -102,7 +102,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-md border border-line bg-surface text-mute hover:text-accent hover:border-accent hover:bg-accent/10 transition-colors duration-sm"
+                    className="icon-btn"
                   >
                     <social.icon className="w-4 h-4" />
                   </a>

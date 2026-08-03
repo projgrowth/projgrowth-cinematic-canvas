@@ -43,7 +43,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
 
         <div className="p-8">
           <SheetHeader className="text-left mb-8">
-            <span className="text-xs text-accent uppercase tracking-wider mb-3 block">
+            <span className="eyebrow mb-3 block">
               {caseStudy.categories.join(" • ")}
             </span>
             <SheetTitle className="font-display text-text mb-3">
@@ -56,7 +56,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
 
           <div className="space-y-8">
             <section>
-              <h4 className="text-sm uppercase tracking-wider text-accent mb-3">
+              <h4 className="eyebrow mb-3">
                 What They Do
               </h4>
               <p className="text-text">
@@ -65,7 +65,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
             </section>
 
             <section>
-              <h4 className="text-sm uppercase tracking-wider text-accent mb-3">
+              <h4 className="eyebrow mb-3">
                 Their Issues
               </h4>
               <ul className="space-y-2">
@@ -79,7 +79,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
             </section>
 
             <section>
-              <h4 className="text-sm uppercase tracking-wider text-accent mb-3">
+              <h4 className="eyebrow mb-3">
                 How We Helped
               </h4>
               <ul className="space-y-2">
@@ -93,7 +93,7 @@ const CaseStudySheet = ({ caseStudy, open, onOpenChange }: CaseStudySheetProps) 
             </section>
 
             <section className="p-6 bg-surface rounded-lg border border-line">
-              <h4 className="text-sm uppercase tracking-wider text-accent mb-3">
+              <h4 className="eyebrow mb-3">
                 Why It Matters
               </h4>
               <p className="text-text text-lg">

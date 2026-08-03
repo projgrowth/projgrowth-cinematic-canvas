@@ -78,7 +78,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <span className="text-xs text-mute uppercase tracking-wider mb-1 block">
+          <span className="eyebrow-mute mb-1 block">
             {caseStudy.category}
           </span>
           <h3 className="font-display text-text mb-1 md:mb-2 transition-colors duration-sm group-hover:text-accent truncate">
@@ -232,7 +232,7 @@ const CaseStudyCard = ({ caseStudy, onClick, index, viewMode = "grid" }: CaseStu
         </motion.div>
       </motion.div>
       
-      <span className="text-xs text-mute uppercase tracking-wider mb-2 block">
+      <span className="eyebrow-mute mb-2 block">
         {caseStudy.category}
       </span>
       

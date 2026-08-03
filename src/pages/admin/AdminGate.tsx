@@ -63,7 +63,7 @@ const AdminGate = ({ onAuthenticated }: Props) => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           autoComplete="email"
-          className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+          className="input-field"
         />
         <input
           type="password"
@@ -71,7 +71,7 @@ const AdminGate = ({ onAuthenticated }: Props) => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           autoComplete="current-password"
-          className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-text placeholder:text-mute focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+          className="input-field"
           required
         />
         {error && <p className="text-sm text-destructive">{error}</p>}

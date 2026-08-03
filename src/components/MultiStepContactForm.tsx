@@ -344,7 +344,7 @@ Company: ${formData.company || "Not provided"}
               onChange={(e) => setFormData(prev => ({ ...prev, serviceDetail: e.target.value }))}
               placeholder={serviceQuestions[formData.service]?.placeholder || "Share any details..."}
               rows={5}
-              className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm resize-none"
+              className="input-field resize-none"
             />
           </motion.div>
         )}
@@ -508,7 +508,7 @@ Company: ${formData.company || "Not provided"}
                   type="text"
                   value={formData.company}
                   onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
-                  className="w-full px-4 py-3 bg-surface border border-line rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm"
+                  className="input-field"
                   placeholder="Your company"
                 />
               </div>

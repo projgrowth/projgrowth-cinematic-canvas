@@ -71,7 +71,7 @@ const ResultsStrip = () => {
                     {tail}
                   </p>
                   {o.tag && (
-                    <p className="mt-2 text-mute text-xs uppercase tracking-widest">{o.tag}</p>
+                    <p className="mt-2 eyebrow-mute block">{o.tag}</p>
                   )}
                 </div>
                 {o.slug && (

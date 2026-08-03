@@ -77,7 +77,7 @@ const DiscoveryList = ({ discovery }: { discovery: Discovery[] }) => {
                 </div>
                 {d.polished_brief && (
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-accent mb-2">Polished brief (AI)</div>
+                    <div className="eyebrow mb-2">Polished brief (AI)</div>
                     <div className="text-text bg-base p-4 rounded border border-accent/30 whitespace-pre-wrap">{d.polished_brief}</div>
                     <button
                       onClick={() => navigator.clipboard.writeText(d.polished_brief || "")}
@@ -89,7 +89,7 @@ const DiscoveryList = ({ discovery }: { discovery: Discovery[] }) => {
                 )}
                 {d.generated_brief && (
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-mute mb-2">Generated brief</div>
+                    <div className="eyebrow-mute mb-2">Generated brief</div>
                     <div className="text-text bg-base p-4 rounded border border-line">{d.generated_brief}</div>
                     <button
                       onClick={() => navigator.clipboard.writeText(d.generated_brief || "")}
@@ -101,7 +101,7 @@ const DiscoveryList = ({ discovery }: { discovery: Discovery[] }) => {
                 )}
                 {d.reference_signed_urls && d.reference_signed_urls.length > 0 && (
                   <div>
-                    <div className="text-xs uppercase tracking-wide text-mute mb-2">Reference uploads</div>
+                    <div className="eyebrow-mute mb-2">Reference uploads</div>
                     <div className="grid grid-cols-3 gap-2">
                       {d.reference_signed_urls.map((u, i) => (
                         <a key={i} href={u} target="_blank" rel="noreferrer" className="block aspect-square overflow-hidden rounded border border-line bg-base">
@@ -114,7 +114,7 @@ const DiscoveryList = ({ discovery }: { discovery: Discovery[] }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
                   {Object.entries(r).map(([k, v]) => (
                     <div key={k} className="flex gap-3">
-                      <span className="text-mute text-xs uppercase tracking-wide min-w-[110px]">{k}</span>
+                      <span className="eyebrow-mute min-w-[110px]">{k}</span>
                       <span className="text-text text-xs flex-1 break-words">
                         {Array.isArray(v) ? (v.length ? v.join(", ") : "—") : String(v ?? "—")}
                       </span>

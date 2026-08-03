@@ -164,13 +164,13 @@ const CaseStudyDetail = () => {
 
                 {/* What They Do */}
                 <div>
-                  <h3 className="text-xs uppercase tracking-wider text-accent mb-3">About</h3>
+                  <h3 className="eyebrow mb-3">About</h3>
                   <p className="text-mute">{caseStudy.whatTheyDo}</p>
                 </div>
 
                 {/* Share */}
                 <div>
-                  <h3 className="text-xs uppercase tracking-wider text-accent mb-3">Share</h3>
+                  <h3 className="eyebrow mb-3">Share</h3>
                   <div className="flex gap-2">
                     <button
                       onClick={handleShare}
@@ -380,7 +380,7 @@ const CaseStudyDetail = () => {
               >
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                 <div className="text-left">
-                  <span className="text-xs uppercase tracking-wider block">Previous</span>
+                  <span className="eyebrow-mute block">Previous</span>
                   <span className="text-text group-hover:text-accent transition-colors">{prevStudy.title}</span>
                 </div>
               </Link>
@@ -394,7 +394,7 @@ const CaseStudyDetail = () => {
                 className="flex items-center gap-3 text-mute hover:text-accent transition-colors group text-right"
               >
                 <div>
-                  <span className="text-xs uppercase tracking-wider block">Next</span>
+                  <span className="eyebrow-mute block">Next</span>
                   <span className="text-text group-hover:text-accent transition-colors">{nextStudy.title}</span>
                 </div>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

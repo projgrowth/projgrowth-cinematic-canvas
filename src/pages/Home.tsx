@@ -39,7 +39,7 @@ const FeaturedProject = ({
     <WorkPlate caseStudy={project} aspect={aspect} />
     <div className="mt-4 flex items-start justify-between gap-6">
       <div>
-        <span className="text-xs uppercase tracking-widest text-accent/80 mb-1.5 block">
+        <span className="eyebrow mb-1.5 block">
           {project.category}
         </span>
         <h3 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
@@ -176,7 +176,7 @@ const Home = () => {
           >
             <div className="w-full max-w-[300px] border-l border-accent/30 pl-6 space-y-6">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-accent mb-2">
+                <p className="eyebrow-faint text-accent mb-2 block">
                   {availability.now.label}
                 </p>
                 <p className="font-display text-text text-base leading-snug">
@@ -184,7 +184,7 @@ const Home = () => {
                 </p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-mute mb-2">
+                <p className="eyebrow-faint mb-2 block">
                   {availability.recent.label}
                 </p>
                 <Link
@@ -196,7 +196,7 @@ const Home = () => {
                 </Link>
               </div>
               <div className="pt-4 border-t border-line">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-mute mb-2">
+                <p className="eyebrow-faint mb-2 block">
                   {availability.next.label}
                 </p>
                 <p className="text-sm text-mute leading-snug">

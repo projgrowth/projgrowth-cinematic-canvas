@@ -11,7 +11,7 @@ const GlobalCTA = () => {
       <ScrollReveal variant="fade-up">
         <div className="relative z-10 grid-12 gap-y-8 items-end">
           <div className="col-span-12 lg:col-span-7">
-            <p className="text-xs uppercase tracking-[0.18em] text-mute mb-5">
+            <p className="eyebrow-mute mb-5">
               Have something in mind?
             </p>
             <h2 className="font-display text-text mb-5">Let's start a project.</h2>

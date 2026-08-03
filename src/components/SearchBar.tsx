@@ -20,7 +20,7 @@ const SearchBar = ({ value, onChange, placeholder = "Search..." }: SearchBarProp
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-11 pr-11 py-3 md:py-4 bg-surface border border-line rounded-md text-text placeholder:text-mute focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all duration-sm ease-smooth min-h-[48px]"
+        className="input-field pl-11 pr-11"
       />
       {value && (
         <button
