@@ -194,7 +194,7 @@
   .section-lg { padding-top: var(--section-py-lg); padding-bottom: var(--section-py-lg); }
   .section-hero {
     padding-top: clamp(8rem, 12vw, 10rem); /* 128–160px — clears nav (80px) + breathing room */
-    padding-bottom: var(--section-py-lg);
+    padding-bottom: var(--section-py-md);
     min-height: min(60vh, 620px);
   }
   .section-header { margin-bottom: var(--header-mb); max-width: 65ch; }
@@ -313,9 +313,9 @@
   }
   .lede {
     font-size: clamp(1.0625rem, 0.6vw + 0.9rem, 1.3rem);
-    line-height: 1.6;
+    line-height: 1.5;
     color: hsl(var(--text) / 0.78);
-    max-width: 60ch;
+    max-width: 56ch;
     text-wrap: pretty;
   }
 
