@@ -5,10 +5,10 @@ import ScrollReveal from "@/components/ScrollReveal";
 import MultiStepContactForm from "@/components/MultiStepContactForm";
 import PageHero from "@/components/PageHero";
 import SectionChapter from "@/components/SectionChapter";
-import LeafDivider from "@/components/LeafDivider";
 import AmbientGlow from "@/components/AmbientGlow";
 import { Mail, MessageSquare } from "lucide-react";
-import QuickContactForm from "@/components/QuickContactForm";
+import WorkPlate from "@/components/WorkPlate";
+import { caseStudies } from "@/data/caseStudies";
 import {
   Accordion,
   AccordionContent,
@@ -58,59 +58,62 @@ const Contact = () => {
       {/* Hero — matches PageHero shell used on every other inner page */}
       <Section className="relative overflow-hidden">
         <AmbientGlow variant="hero" />
-        <PageHero
-          chapter={{ number: 1, label: "Begin" }}
-          title={
-            <>
-              Let's Build
-              <br />
-              <span className="text-accent">Something Great</span>
-            </>
-          }
-          lede="Tell us about your project and we'll craft a tailored approach to bring your vision to life."
-          className="mb-10 md:mb-12"
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-cards max-w-2xl">
-          <a
-            href="mailto:info@projgrowth.com"
-            className="surface-card !p-4 flex items-center gap-3 hover:border-accent/50 transition-all duration-sm group"
-          >
-            <Mail className="w-5 h-5 text-accent flex-shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-text group-hover:text-accent transition-colors">Email Us</p>
-              <p className="text-xs text-mute">info@projgrowth.com</p>
+        <div className="grid-12 gap-y-10 items-end">
+          {/* Editorial column, mirroring Home's hero split */}
+          <div className="col-span-12 lg:col-span-7">
+            <PageHero
+              chapter={{ number: 1, label: "Begin" }}
+              title={
+                <>
+                  Let's Build
+                  <br />
+                  <span className="text-accent">Something Great</span>
+                </>
+              }
+              lede="Tell us about your project and we'll craft a tailored approach to bring your vision to life."
+              className="mb-8 md:mb-10"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-cards max-w-2xl">
+              <a
+                href="mailto:info@projgrowth.com"
+                className="surface-card !p-4 flex items-center gap-3 hover:border-accent/50 transition-all duration-sm group"
+              >
+                <Mail className="w-5 h-5 text-accent flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-medium text-text group-hover:text-accent transition-colors">Email Us</p>
+                  <p className="text-xs text-mute">info@projgrowth.com</p>
+                </div>
+              </a>
+              <div className="surface-card !p-4 flex items-center gap-3">
+                <MessageSquare className="w-5 h-5 text-accent flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-medium text-text">Response Time</p>
+                  <p className="text-xs text-mute">Within 24 hours, Mon-Fri</p>
+                </div>
+              </div>
             </div>
-          </a>
-          <div className="surface-card !p-4 flex items-center gap-3">
-            <MessageSquare className="w-5 h-5 text-accent flex-shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-text">Response Time</p>
-              <p className="text-xs text-mute">Within 24 hours, Mon-Fri</p>
-            </div>
+          </div>
+
+          {/* Image-forward plate column */}
+          <div className="col-span-12 lg:col-span-5 lg:col-start-8">
+            {caseStudies[0] && (
+              <WorkPlate
+                caseStudy={caseStudies[0]}
+                aspect="aspect-[4/3] lg:aspect-[5/6]"
+                priority
+              />
+            )}
           </div>
         </div>
       </Section>
 
-      {/* Quick Contact */}
-      <Section>
-        <ScrollReveal>
-          <div className="max-w-xl mx-auto">
-            <SectionChapter number={2} label="Quick Message" align="center" />
-            <h2 className="font-display text-text mb-2 text-center">Quick Message</h2>
-            <p className="text-sm text-mute mb-6 text-center">Don't need the full rundown? Just drop us a line.</p>
-            <QuickContactForm />
-          </div>
-        </ScrollReveal>
-      </Section>
-
-      {/* Multi-Step Form Section */}
-      <LeafDivider />
+      {/* Single guided form — one path in, no duplicate entry points */}
       <Section>
         <ScrollReveal>
           <div className="text-center mb-8">
-            <SectionChapter number={3} label="Start a project" align="center" />
+            <SectionChapter number={2} label="Start a project" align="center" />
             <h2 className="font-display text-text mb-2">Start a project</h2>
-            <p className="text-mute">Want to tell us more? Walk through our guided form.</p>
+            <p className="text-mute">A few questions so we can respond with something useful.</p>
           </div>
           <MultiStepContactForm />
         </ScrollReveal>
@@ -120,7 +123,7 @@ const Contact = () => {
       <Section>
         <ScrollReveal variant="fade-up">
           <div className="max-w-3xl mx-auto">
-            <SectionChapter number={4} label="Questions" align="center" />
+            <SectionChapter number={3} label="Questions" align="center" />
             <h2 className="font-display text-text mb-10 md:mb-12 text-center">
               Frequently Asked Questions
             </h2>
