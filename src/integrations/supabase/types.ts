@@ -101,6 +101,30 @@ export type Database = {
         }
         Relationships: []
       }
+      client_access_attempts: {
+        Row: {
+          client_slug: string
+          created_at: string
+          id: string
+          ip_hash: string
+          succeeded: boolean
+        }
+        Insert: {
+          client_slug: string
+          created_at?: string
+          id?: string
+          ip_hash: string
+          succeeded?: boolean
+        }
+        Update: {
+          client_slug?: string
+          created_at?: string
+          id?: string
+          ip_hash?: string
+          succeeded?: boolean
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           budget: string | null
