@@ -141,6 +141,7 @@ Disallow: /functions/
 
 # --- Admin & internal areas ---
 Disallow: /admin/
+Disallow: /client/
 Disallow: /discovery
 Disallow: /rgc
 Disallow: /random-golf-club

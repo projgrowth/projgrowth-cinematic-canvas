@@ -28,6 +28,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminLeads = lazy(() => import("./pages/AdminLeads"));
 const Discovery = lazy(() => import("./pages/Discovery"));
 const RGC = lazy(() => import("./pages/RGC"));
+const GolinowskiLawRebuild = lazy(() => import("./pages/client/GolinowskiLawRebuild"));
 
 const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
   { path: "/", element: <Home /> },
@@ -49,6 +50,7 @@ const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
   { path: "/discovery", element: <Discovery />, raw: true },
   { path: "/rgc", element: <RGC />, raw: true },
   { path: "/random-golf-club", element: <Navigate to="/rgc" replace />, raw: true },
+  { path: "/client/golinowskilawrebuild", element: <GolinowskiLawRebuild />, raw: true },
   { path: "*", element: <NotFound /> },
 ];
 
