@@ -17,5 +17,5 @@ export const golinowskiGateway: GatewayCopy = {
   project: "Website Rebuild",
   holdingTitle: "Website Review",
   holdingBody:
-    "Your private review is being prepared. Please return using this same link shortly.",
+    "Golinowski Law — the live preview of your site is still being published from the network. Please try again using this same link within the hour.",
 };
