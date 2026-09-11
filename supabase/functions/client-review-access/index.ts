@@ -18,10 +18,6 @@ const GATEWAYS: Record<string, { passwordSecret: string; urlSecret: string }> = 
     passwordSecret: "GOLINOWSKI_REVIEW_PASSWORD",
     urlSecret: "GOLINOWSKI_REVIEW_URL",
   },
-  gatewayselftest: {
-    passwordSecret: "GATEWAY_SELFTEST_PASSWORD",
-    urlSecret: "GATEWAY_SELFTEST_URL",
-  },
 };
 
 const MAX_FAILURES = 5;
