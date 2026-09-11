@@ -140,7 +140,9 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
                   disabled={busy}
                   aria-invalid={!!error}
                   aria-describedby={error ? errorId : undefined}
-                  className="input-field text-[16px] min-h-[48px]"
+                  className={`w-full min-h-[48px] bg-transparent border-b text-text text-[16px] tracking-[0.25em] py-3 outline-none transition-colors duration-200 focus:border-accent disabled:opacity-50 ${
+                    error ? "border-destructive" : "border-line hover:border-mute"
+                  }`}
                 />
 
                 <div aria-live="polite" className="min-h-[1.5rem] mt-3">
