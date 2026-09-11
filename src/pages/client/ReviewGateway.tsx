@@ -112,6 +112,20 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
           <div className="lg:col-span-5 lg:col-start-8 w-full">
             {state === "pending" ? (
               <div className="border-t border-line pt-6">
+                <div className="flex items-center gap-4 mb-8">
+                  <span className="relative flex h-3 w-3">
+                    {reduceMotion ? null : (
+                      <motion.span
+                        className="absolute inline-flex h-full w-full rounded-full bg-accent"
+                        initial={{ opacity: 0.6, scale: 1 }}
+                        animate={{ opacity: 0, scale: 2.4 }}
+                        transition={{ duration: 2.4, ease: "easeOut", repeat: Infinity }}
+                      />
+                    )}
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-accent" />
+                  </span>
+                  <span className="eyebrow text-text">Publishing in progress</span>
+                </div>
                 <p className="text-mute leading-relaxed max-w-md">{gateway.holdingBody}</p>
               </div>
             ) : state === "granted" ? (
