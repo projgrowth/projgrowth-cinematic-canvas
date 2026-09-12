@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useId, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
@@ -14,79 +14,36 @@ const MESSAGES = {
   unavailable: "Access is temporarily unavailable. Please try again shortly.",
 };
 
-const BUILD_STEPS = [
-  "Compiling site build",
-  "Optimizing images and type",
-  "Publishing to the network",
-  "Final verification",
-];
-
-/** Presentational build sequence shown while the review destination is prepared. */
-const BuildProgress = ({ body, reduceMotion }: { body: string; reduceMotion: boolean }) => {
-  // Hold on the third step ("Publishing to the network") — never claim completion.
-  const [active, setActive] = useState(reduceMotion ? 2 : 0);
-
-  useEffect(() => {
-    if (reduceMotion) return;
-    const timers = [
-      window.setTimeout(() => setActive(1), 2600),
-      window.setTimeout(() => setActive(2), 6200),
-    ];
-    return () => timers.forEach(window.clearTimeout);
-  }, [reduceMotion]);
-
-  const progress = [24, 58, 90][Math.min(active, 2)];
+/** Minimal loading state: pulsing client mark and a single quiet line. */
+const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion: boolean }) => {
+  const initials = client
+    .split(/\s+/)
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
-    <div className="border-t border-line pt-6">
-      <div className="flex items-center gap-4 mb-8">
-        <span className="relative flex h-3 w-3">
-          {reduceMotion ? null : (
-            <motion.span
-              className="absolute inline-flex h-full w-full rounded-full bg-accent"
-              initial={{ opacity: 0.6, scale: 1 }}
-              animate={{ opacity: 0, scale: 2.4 }}
-              transition={{ duration: 2.4, ease: "easeOut", repeat: Infinity }}
-            />
-          )}
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-accent" />
-        </span>
-        <span className="eyebrow text-text">Preparing your preview</span>
+    <div className="flex flex-col items-center text-center" role="status" aria-live="polite">
+      <div className="relative">
+        {reduceMotion ? null : (
+          <motion.span
+            className="absolute inset-0 rounded-full bg-accent/20 blur-xl"
+            initial={{ opacity: 0.4, scale: 0.9 }}
+            animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.9, 1.15, 0.9] }}
+            transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+          />
+        )}
+        <motion.span
+          className="relative flex items-center justify-center w-24 h-24 rounded-full border border-line/80 bg-surface/50 font-display text-3xl tracking-tight text-text"
+          animate={reduceMotion ? undefined : { opacity: [0.85, 1, 0.85] }}
+          transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+        >
+          {initials}
+        </motion.span>
       </div>
-
-      <ul className="max-w-md" role="status" aria-live="polite">
-        {BUILD_STEPS.map((step, i) => {
-          const done = i < active;
-          const current = i === active;
-          return (
-            <li
-              key={step}
-              className="flex items-baseline justify-between gap-6 border-b border-line/60 py-3"
-            >
-              <span className={done || current ? "text-text" : "text-mute/60"}>{step}</span>
-              <span
-                className={`eyebrow-faint shrink-0 ${
-                  current ? "text-accent" : done ? "text-mute" : "text-mute/50"
-                }`}
-              >
-                {done ? "Done" : current ? "In progress" : "Queued"}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-
-      <div className="mt-8 h-px w-full bg-line" aria-hidden="true">
-        <div
-          className="h-px bg-accent"
-          style={{
-            width: `${progress}%`,
-            transition: reduceMotion ? "none" : "width 1.8s cubic-bezier(0.22, 1, 0.36, 1)",
-          }}
-        />
-      </div>
-
-      <p className="text-mute leading-relaxed max-w-md mt-6">{body}</p>
+      <p className="mt-8 font-display text-lg md:text-xl text-text">{client}</p>
+      <p className="mt-2 text-mute">Loading your review…</p>
     </div>
   );
 };
