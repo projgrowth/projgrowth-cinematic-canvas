@@ -123,86 +123,88 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
         </div>
       </header>
 
-      <main className="container-site flex-1 flex items-center py-12 md:py-20">
+      <main className="container-site flex-1 flex items-center justify-center py-12 md:py-20">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start"
+          className="w-full"
         >
-          {/* Identity column */}
-          <div className="lg:col-span-6">
-            <p className="eyebrow-mute">Private Client Review</p>
-            <div className="mt-6 border-t border-line pt-6">
-              <h1 className="font-display text-3xl md:text-5xl leading-[1.05] tracking-tight text-text">
-                {state === "pending" ? gateway.client : gateway.client}
-              </h1>
-              <p className="font-display text-xl md:text-2xl text-mute mt-2">
-                {state === "pending" ? gateway.holdingTitle : gateway.project}
-              </p>
+          {state === "pending" ? (
+            <LoadingScreen client={gateway.client} reduceMotion={!!reduceMotion} />
+          ) : state === "granted" ? (
+            <div className="flex items-center justify-center gap-3 text-mute">
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+              <span role="status">Opening your review…</span>
             </div>
-          </div>
-
-          {/* Action column */}
-          <div className="lg:col-span-5 lg:col-start-8 w-full">
-            {state === "pending" ? (
-              <BuildProgress body={gateway.holdingBody} reduceMotion={!!reduceMotion} />
-            ) : state === "granted" ? (
-              <div className="border-t border-line pt-6 flex items-center gap-3 text-mute">
-                <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                <span role="status">Opening your review…</span>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} noValidate className="border-t border-line pt-6">
-                <p className="text-mute leading-relaxed mb-8 max-w-md">
-                  Enter your private access code to continue.
-                </p>
-
-                <label htmlFor={inputId} className="eyebrow-mute block mb-3">
-                  Access Code
-                </label>
-                <input
-                  id={inputId}
-                  name="access-code"
-                  type="password"
-                  autoComplete="current-password"
-                  autoCapitalize="off"
-                  spellCheck={false}
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  disabled={busy}
-                  aria-invalid={!!error}
-                  aria-describedby={error ? errorId : undefined}
-                  className={`w-full min-h-[48px] bg-transparent border-b text-text text-[16px] tracking-[0.25em] py-3 outline-none transition-colors duration-200 focus:border-accent disabled:opacity-50 ${
-                    error ? "border-destructive" : "border-line hover:border-mute"
-                  }`}
-                />
-
-                <div aria-live="polite" className="min-h-[1.5rem] mt-3">
-                  {error && (
-                    <p id={errorId} role="alert" className="text-sm text-destructive">
-                      {error}
-                    </p>
-                  )}
+          ) : (
+            <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+              {/* Identity column */}
+              <div className="lg:col-span-6">
+                <p className="eyebrow-mute">Private Client Review</p>
+                <div className="mt-6 border-t border-line pt-6">
+                  <h1 className="font-display text-3xl md:text-5xl leading-[1.05] tracking-tight text-text">
+                    {gateway.client}
+                  </h1>
+                  <p className="font-display text-xl md:text-2xl text-mute mt-2">
+                    {gateway.project}
+                  </p>
                 </div>
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={busy || !code.trim()}
-                  className="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-3 min-h-[48px] px-7 border border-line text-text eyebrow hover:border-accent hover:text-accent focus-ring transition-colors duration-200 disabled:opacity-40 disabled:hover:border-line disabled:hover:text-text"
-                >
-                  {state === "checking" ? (
-                    <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                  ) : (
-                    <>
-                      Enter Review
-                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
+              {/* Action column */}
+              <div className="lg:col-span-5 lg:col-start-8 w-full">
+                <form onSubmit={handleSubmit} noValidate className="border-t border-line pt-6">
+                  <p className="text-mute leading-relaxed mb-8 max-w-md">
+                    Enter your private access code to continue.
+                  </p>
+
+                  <label htmlFor={inputId} className="eyebrow-mute block mb-3">
+                    Access Code
+                  </label>
+                  <input
+                    id={inputId}
+                    name="access-code"
+                    type="password"
+                    autoComplete="current-password"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    disabled={busy}
+                    aria-invalid={!!error}
+                    aria-describedby={error ? errorId : undefined}
+                    className={`w-full min-h-[48px] bg-transparent border-b text-text text-[16px] tracking-[0.25em] py-3 outline-none transition-colors duration-200 focus:border-accent disabled:opacity-50 ${
+                      error ? "border-destructive" : "border-line hover:border-mute"
+                    }`}
+                  />
+
+                  <div aria-live="polite" className="min-h-[1.5rem] mt-3">
+                    {error && (
+                      <p id={errorId} role="alert" className="text-sm text-destructive">
+                        {error}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={busy || !code.trim()}
+                    className="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-3 min-h-[48px] px-7 border border-line text-text eyebrow hover:border-accent hover:text-accent focus-ring transition-colors duration-200 disabled:opacity-40 disabled:hover:border-line disabled:hover:text-text"
+                  >
+                    {state === "checking" ? (
+                      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                    ) : (
+                      <>
+                        Enter Review
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
         </motion.div>
       </main>
 
