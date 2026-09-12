@@ -1,31 +1,29 @@
-import { Section } from "@/components/ui/section";
 import { motion, useReducedMotion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import ClientLogos from "@/components/ClientLogos";
-import AmbientGlow from "@/components/AmbientGlow";
-import { Helmet } from "react-helmet-async";
 import { caseStudies } from "@/data/caseStudies";
-import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import { SurfaceCard } from "@/components/ui/card-surface";
-import ResultsStrip from "@/components/home/ResultsStrip";
-import SectionChapter from "@/components/SectionChapter";
-import WorkTile from "@/components/WorkTile";
 
-const featuredProjects = caseStudies.slice(0, 3);
-
-const availability = {
-  now: { label: "Now", value: "Wealth advisory + legaltech builds in flight" },
-  recent: { label: "Recent", title: "Florida Private Providers", slug: "florida-private" },
-  next: { label: "Next", value: "Accepting 2 new partners for Q1" },
-};
-
-const heroWords = [
-  { text: "We design brands", accent: false },
-  { text: "that earn attention", accent: false },
-  { text: "and keep it.", accent: true },
+const services = [
+  { title: "Web Design", outcome: "Sites that convert, not just look good.", description: "Precision-built digital experiences shaped around how your customers decide.", path: "/services/web-design" },
+  { title: "Branding", outcome: "Become the obvious choice.", description: "Positioning, identity, and language that make the value of your business unmistakable.", path: "/services/branding" },
+  { title: "Content", outcome: "One shoot. A month of output.", description: "Editorial and cinematic systems that turn expertise into consistent visibility.", path: "/services/content-creation" },
+  { title: "Growth", outcome: "Pipeline, not vanity reports.", description: "Search, paid, and lifecycle strategy connected to meaningful business outcomes.", path: "/services/digital-marketing" },
 ];
+
+const principles = [
+  { title: "Systems over fragments.", description: "Brand, website, content, and growth work as one operating system — not disconnected deliverables." },
+  { title: "Senior talent, directly.", description: "The people shaping the strategy are the same people accountable for the final detail." },
+  { title: "Clarity before decoration.", description: "Positioning and structure come first. The visual work earns attention because the thinking holds up." },
+];
+
+const featured = caseStudies.find((item) => item.id === "smart-financial") ?? caseStudies[0];
+const supporting = ["florida-private", "gfg-solutions"]
+  .map((id) => caseStudies.find((item) => item.id === id))
+  .filter((item): item is (typeof caseStudies)[number] => Boolean(item));
 
 const Home = () => {
   const reduceMotion = useReducedMotion();
@@ -34,46 +32,19 @@ const Home = () => {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": "https://projgrowth.com",
-    "name": "ProjGrowth",
-    "description": "Orlando digital marketing agency specializing in web design, branding, content creation, and digital marketing for growing businesses.",
-    "url": "https://projgrowth.com",
-    "email": "info@projgrowth.com",
-    "image": "https://projgrowth.com/favicon.png",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Orlando",
-      "addressRegion": "FL",
-      "addressCountry": "US"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 28.5383,
-      "longitude": -81.3792
-    },
-    "areaServed": ["Orlando", "Central Florida", "Winter Park", "Kissimmee", "Lake Mary", "Sanford", "Altamonte Springs"],
-    "serviceType": ["Web Design", "Branding", "Content Creation", "Digital Marketing", "Graphic Design", "SEO Services"],
-    "priceRange": "$$",
-    "openingHours": "Mo-Fr 09:00-17:00",
-    "sameAs": [
-      "https://www.instagram.com/projgrowth/",
-      "https://www.linkedin.com/company/projgrowth",
-      "https://twitter.com/projgrowth"
-    ]
+    name: "ProjGrowth",
+    description: "Orlando digital marketing agency specializing in web design, branding, content creation, and digital marketing for growing businesses.",
+    url: "https://projgrowth.com",
+    email: "info@projgrowth.com",
+    image: "https://projgrowth.com/favicon.png",
+    address: { "@type": "PostalAddress", addressLocality: "Orlando", addressRegion: "FL", addressCountry: "US" },
+    geo: { "@type": "GeoCoordinates", latitude: 28.5383, longitude: -81.3792 },
+    areaServed: ["Orlando", "Central Florida", "Winter Park", "Kissimmee", "Lake Mary", "Sanford", "Altamonte Springs"],
+    serviceType: ["Web Design", "Branding", "Content Creation", "Digital Marketing", "Graphic Design", "SEO Services"],
+    priceRange: "$$",
+    openingHours: "Mo-Fr 09:00-17:00",
+    sameAs: ["https://www.instagram.com/projgrowth/", "https://www.linkedin.com/company/projgrowth", "https://twitter.com/projgrowth"],
   };
-
-  const services = [
-    { title: "Web Design", outcome: "Sites that convert, not just look good.", description: "Precision-engineered sites on modern stacks. Fast, conversion-focused, and built to reflect a brand worth paying attention to.", path: "/services/web-design" },
-    { title: "Branding", outcome: "The obvious choice in your category.", description: "Identity systems rooted in positioning. Logo, language, and visual direction that make you the obvious choice in the room.", path: "/services/branding" },
-    { title: "Content Creation", outcome: "One shoot. A month of output.", description: "Cinematic short-form, editorial copy, and social content — built in systems so one shoot becomes months of output.", path: "/services/content-creation" },
-    { title: "Digital Marketing", outcome: "Pipeline, not vanity reports.", description: "Full-funnel strategy tied to revenue, not reports. SEO, paid, and email that compounds over time.", path: "/services/digital-marketing" },
-  ];
-
-  const differentiators = [
-    { title: "We think in systems.", description: "Not projects. Brand infrastructure, content engines, and design systems that compound month over month — not deliverables that gather dust." },
-    { title: "Craft is non-negotiable.", description: "Every pixel, every word, every interaction is intentional. We'd rather slow down than ship something that doesn't earn its place." },
-    { title: "Senior talent. Always.", description: "You work directly with us. No account managers, no juniors handed your project, no one reading from a playbook." },
-    { title: "Strategy first. Every time.", description: "Positioning and messaging before we touch any tool. Better thinking at the start makes every execution sharper at the end." },
-  ];
 
   return (
     <Layout
@@ -82,231 +53,163 @@ const Home = () => {
       seoKeywords="digital marketing agency Orlando, web design Orlando, branding agency Orlando, content creation Orlando, Orlando marketing company, SEO Orlando"
       canonicalUrl="/"
     >
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(localBusinessSchema)}
-        </script>
-      </Helmet>
+      <Helmet><script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script></Helmet>
 
-      {/* Hero */}
-      <Section size="hero" className="hero-offset">
-        <AmbientGlow variant="hero" />
-        <div className="grid-12 relative z-10 items-center">
-          {/* Left — headline and CTAs */}
-          <div className="col-span-12 lg:col-span-7 stack gap-6 md:gap-8">
-            <motion.p
-              className="eyebrow"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.05 }}
-            >
-              Digital Studio · Orlando, FL
-            </motion.p>
-            <h1 className="font-display text-text">
-              {heroWords.map((word, i) => (
-                <motion.span
-                  key={i}
-                  className={`block ${word.accent ? "text-accent" : ""}`}
-                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.08 + i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-                >
-                  {word.text}
-                </motion.span>
-              ))}
-            </h1>
-
-            <motion.p
-              className="lede max-w-2xl"
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: 0.38 }}
-            >
-              Sharp design. Clear strategy. Work that actually moves the business. We partner with founders and marketing leaders who are done settling for mediocre.
-            </motion.p>
+      <section className="home-silver home-opening hero-offset" aria-labelledby="home-title">
+        <div className="container-site home-opening-inner">
+          <div className="home-opening-grid">
+            <div className="home-opening-copy">
+              <motion.p className="home-meta" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduceMotion ? 0 : 0.35 }}>
+                ProjGrowth / Orlando
+              </motion.p>
+              <motion.h1
+                id="home-title"
+                className="home-display"
+                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.55, delay: 0.08 }}
+              >
+                Websites and brand systems <span>built to move business.</span>
+              </motion.h1>
+              <motion.p
+                className="home-intro"
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.2 }}
+              >
+                Strategy, design, content, and technology for ambitious teams ready to look sharper, sell clearer, and operate better.
+              </motion.p>
+              <motion.div
+                className="home-actions"
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.28 }}
+              >
+                <Link to="/contact" className="home-primary-link group">Start a project <ArrowRight aria-hidden="true" /></Link>
+                <Link to="/work" className="home-text-link group">View selected work <ArrowRight aria-hidden="true" /></Link>
+              </motion.div>
+            </div>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 mt-2 md:mt-4"
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: 0.46 }}
+              className="home-artifact-wrap"
+              initial={reduceMotion ? false : { opacity: 0, x: 18 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.6, delay: 0.18 }}
             >
-              <Link to="/contact" className="btn-solid group">
-                Start a project
-                <ArrowRight className="w-5 h-5 transition-transform duration-sm group-hover:translate-x-1" />
-              </Link>
-              <Link to="/work" className="btn-outline-cta">
-                View our work
+              <Link to="/work/florida-private" className="home-artifact group" aria-label="View Florida Private Providers case study">
+                <div className="home-artifact-head">
+                  <span>Selected system</span><span>01 / 03</span>
+                </div>
+                <div className="home-artifact-field">
+                  <div className="home-artifact-orbit" aria-hidden="true"><span /><span /><span /></div>
+                  <img src="/logos/florida-private-providers.svg" alt="Florida Private Providers" width="320" height="180" />
+                  <div className="home-artifact-data">
+                    <span>AI-assisted review</span><span>County code engine</span><span>Client workflow</span>
+                  </div>
+                </div>
+                <div className="home-artifact-foot">
+                  <span>Web & Product / AI & Tools</span><ArrowUpRight aria-hidden="true" />
+                </div>
               </Link>
             </motion.div>
           </div>
 
-          {/* Right — credential panel (desktop only) */}
-          <motion.div
-            className="hidden lg:flex col-span-5 justify-end items-center"
-            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="w-full max-w-[300px] border-l border-line pl-7 space-y-6">
-              <div>
-                <p className="eyebrow-faint mb-2 block">
-                  {availability.now.label}
-                </p>
-                <p className="font-display text-text leading-snug">
-                  {availability.now.value}
-                </p>
-              </div>
-              <div>
-                <p className="eyebrow-faint mb-2 block">
-                  {availability.recent.label}
-                </p>
-                <Link
-                  to={`/work/${availability.recent.slug}`}
-                  className="group inline-flex items-center gap-2 font-display text-text leading-snug transition-colors duration-sm hover:text-accent"
-                >
-                  {availability.recent.title}
-                  <ArrowRight className="w-4 h-4 transition-transform duration-sm group-hover:translate-x-0.5" />
-                </Link>
-              </div>
-              <div className="pt-4 border-t border-line">
-                <p className="eyebrow-faint mb-2 block">
-                  {availability.next.label}
-                </p>
-                <p className="text-sm text-mute leading-snug">
-                  {availability.next.value}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* Services Overview */}
-      <Section>
-        <ScrollReveal variant="fade-up">
-          <div className="grid-12 section-intro-grid">
-            <div className="col-span-12 lg:col-span-4">
-              <p className="eyebrow mb-4">Our Craft</p>
-              <h2 className="font-display text-text mb-3">
-                The Full Stack of Brand-Building
-              </h2>
-              <p className="lede">
-                Four disciplines. One team. Every engagement built around what your brand actually needs.
-              </p>
-            </div>
-
-            <div className="col-span-12 lg:col-span-7 lg:col-start-6 grid grid-cols-1 sm:grid-cols-2 gap-cards">
-              {services.map((service, idx) => (
-                <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
-                  <Link to={service.path} className="group block h-full">
-                    <SurfaceCard pad="md" interactive className="h-full">
-                      <span className="eyebrow-faint block mb-5" aria-hidden="true">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                      <h3 className="font-display text-text mb-1.5 transition-colors duration-sm group-hover:text-accent">
-                        {service.title}
-                      </h3>
-                      <p className="text-accent text-sm mb-3">{service.outcome}</p>
-                      <p className="text-mute">{service.description}</p>
-                    </SurfaceCard>
-                  </Link>
-                </ScrollReveal>
-              ))}
-            </div>
+          <div className="home-capability-rail" aria-label="Core capabilities">
+            {services.map((service, index) => (
+              <span key={service.title}><b>{String(index + 1).padStart(2, "0")}</b>{service.title}</span>
+            ))}
           </div>
-        </ScrollReveal>
-      </Section>
+        </div>
+      </section>
 
-      {/* Results Strip — qualitative outcomes from real engagements */}
-      <ResultsStrip />
-
-      {/* How We Work — editorial numbered list */}
-      <section className="relative bg-surface/70 border-y border-line">
-        <div className="container-site section">
+      <section className="home-silver home-section" aria-labelledby="capabilities-title">
+        <div className="container-site">
           <ScrollReveal variant="fade-up">
-            <div className="grid-12 section-intro-grid mb-12 md:mb-16">
-              <div className="col-span-12 lg:col-span-4">
-                <SectionChapter number={3} label="How We Work" />
-                <h2 className="font-display text-text">
-                  Not a Vendor.<br />A Strategic Partner.
-                </h2>
-              </div>
-              <div className="col-span-12 lg:col-span-7 lg:col-start-6 flex items-end">
-                <p className="lede">
-                  We take on a small number of engagements at a time — so every client gets our full focus, not a fraction of it.
-                </p>
-              </div>
+            <div className="home-section-heading">
+              <p className="home-meta">01 / Capabilities</p>
+              <h2 id="capabilities-title" className="home-section-title">One team across the full growth system.</h2>
+              <p className="home-section-copy">The right disciplines, brought together around the business problem — not sold as isolated services.</p>
             </div>
           </ScrollReveal>
-
-          <div className="divide-y divide-line">
-            {differentiators.map((item, idx) => (
-              <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.08}>
-                <div className="flex gap-8 md:gap-12 py-7 md:py-9 group">
-                  <span className="font-display text-xs text-accent-faint w-6 flex-shrink-0 pt-1">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                  <div className="flex-1 md:flex md:items-start md:gap-12">
-                    <h3 className="font-display text-text mb-2 md:mb-0 md:w-64 flex-shrink-0 group-hover:text-accent transition-colors duration-sm">
-                      {item.title}
-                    </h3>
-                    <p className="text-mute md:flex-1">{item.description}</p>
-                  </div>
-                </div>
+          <div className="home-capability-list">
+            {services.map((service, index) => (
+              <ScrollReveal key={service.title} variant="fade-up" delay={index * 0.05}>
+                <Link to={service.path} className="home-capability-row group">
+                  <span className="home-capability-number">{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{service.title}</h3>
+                  <p className="home-capability-outcome">{service.outcome}</p>
+                  <p className="home-capability-description">{service.description}</p>
+                  <ArrowUpRight aria-hidden="true" />
+                </Link>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Work — 3-card grid */}
-      <Section>
-        <ScrollReveal variant="fade-up">
-          <div className="grid-12 section-intro-grid mb-12 md:mb-16">
-            <div className="col-span-12 lg:col-span-4">
-              <SectionChapter number={4} label="Selected Work" />
-              <h2 className="font-display text-text">Work That Moves the Needle</h2>
+      <section className="home-silver home-section home-proof-section" aria-labelledby="work-title">
+        <div className="container-site">
+          <ScrollReveal variant="fade-up">
+            <div className="home-section-heading home-section-heading-compact">
+              <p className="home-meta">02 / Selected work</p>
+              <h2 id="work-title" className="home-section-title">The problem, then the system.</h2>
             </div>
-            <div className="col-span-12 lg:col-span-7 lg:col-start-6 flex items-end">
-              <p className="lede">A tight selection of what we've built — and what happened after.</p>
-            </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
 
-        <ScrollReveal variant="fade-up" delay={0.15}>
-          {/* Asymmetric editorial layout: one lead project, two supporting */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards items-start">
-            <div className="lg:col-span-7">
-              <WorkTile
-                caseStudy={featuredProjects[0]}
-                aspect="aspect-[4/3]"
-                priority
-                size="lead"
-              />
-            </div>
-            <div className="lg:col-span-5 stack-cards">
-              {featuredProjects.slice(1).map((project) => (
-                <WorkTile key={project.id} caseStudy={project} aspect="aspect-[16/10]" />
+          <div className="home-work-grid">
+            <ScrollReveal variant="fade-up">
+              <Link to={`/work/${featured.id}`} className="home-work-lead group">
+                <div className="home-work-canvas">
+                  <span className="home-work-index">01</span>
+                  {featured.logo && <img src={featured.logo} alt={`${featured.title} logo`} width="340" height="220" />}
+                  <div className="home-work-signal"><span>Plan</span><span>Invest</span><span>Live</span></div>
+                </div>
+                <div className="home-work-caption">
+                  <div><p className="home-meta">{featured.category}</p><h3>{featured.title}</h3></div>
+                  <p>{featured.subtitle}</p>
+                  <ArrowUpRight aria-hidden="true" />
+                </div>
+              </Link>
+            </ScrollReveal>
+
+            <div className="home-work-index-list">
+              {supporting.map((project, index) => (
+                <ScrollReveal key={project.id} variant="fade-up" delay={(index + 1) * 0.08}>
+                  <Link to={`/work/${project.id}`} className="home-work-index-row group">
+                    <span>{String(index + 2).padStart(2, "0")}</span>
+                    <div className="home-work-logo-field">
+                      {project.logo && <img src={project.logo} alt="" width="180" height="100" />}
+                    </div>
+                    <div><p className="home-meta">{project.category}</p><h3>{project.title}</h3><p>{project.subtitle}</p></div>
+                    <ArrowUpRight aria-hidden="true" />
+                  </Link>
+                </ScrollReveal>
               ))}
+              <Link to="/work" className="home-all-work group">View all projects <ArrowRight aria-hidden="true" /></Link>
             </div>
           </div>
-        </ScrollReveal>
+        </div>
+      </section>
 
-        <ScrollReveal variant="fade-up" delay={0.3}>
-          <div className="mt-12">
-            <Link
-              to="/work"
-              className="inline-flex items-center gap-2 text-accent hover:text-accent-strong transition-colors duration-sm font-medium"
-            >
-              View All Projects
-              <ArrowRight className="w-5 h-5" />
-            </Link>
+      <section className="home-silver home-section home-principles" aria-labelledby="principles-title">
+        <div className="container-site">
+          <ScrollReveal variant="fade-up">
+            <div className="home-section-heading">
+              <p className="home-meta">03 / How we work</p>
+              <h2 id="principles-title" className="home-section-title">Small by design. Serious about the work.</h2>
+              <p className="home-section-copy">Direct collaboration, deliberate decisions, and a standard of craft that holds from strategy through launch.</p>
+            </div>
+          </ScrollReveal>
+          <div className="home-principle-grid">
+            {principles.map((principle, index) => (
+              <ScrollReveal key={principle.title} variant="fade-up" delay={index * 0.07}>
+                <article><span>{String(index + 1).padStart(2, "0")}</span><h3>{principle.title}</h3><p>{principle.description}</p></article>
+              </ScrollReveal>
+            ))}
           </div>
-        </ScrollReveal>
-      </Section>
+        </div>
+      </section>
 
-      {/* Client Logos */}
       <ClientLogos />
     </Layout>
   );
