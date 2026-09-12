@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
@@ -13,6 +13,84 @@ const MESSAGES = {
   throttled: "Too many attempts. Please try again shortly.",
   unavailable: "Access is temporarily unavailable. Please try again shortly.",
 };
+
+const BUILD_STEPS = [
+  "Compiling site build",
+  "Optimizing images and type",
+  "Publishing to the network",
+  "Final verification",
+];
+
+/** Presentational build sequence shown while the review destination is prepared. */
+const BuildProgress = ({ body, reduceMotion }: { body: string; reduceMotion: boolean }) => {
+  // Hold on the third step ("Publishing to the network") — never claim completion.
+  const [active, setActive] = useState(reduceMotion ? 2 : 0);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const timers = [
+      window.setTimeout(() => setActive(1), 2600),
+      window.setTimeout(() => setActive(2), 6200),
+    ];
+    return () => timers.forEach(window.clearTimeout);
+  }, [reduceMotion]);
+
+  const progress = [24, 58, 90][Math.min(active, 2)];
+
+  return (
+    <div className="border-t border-line pt-6">
+      <div className="flex items-center gap-4 mb-8">
+        <span className="relative flex h-3 w-3">
+          {reduceMotion ? null : (
+            <motion.span
+              className="absolute inline-flex h-full w-full rounded-full bg-accent"
+              initial={{ opacity: 0.6, scale: 1 }}
+              animate={{ opacity: 0, scale: 2.4 }}
+              transition={{ duration: 2.4, ease: "easeOut", repeat: Infinity }}
+            />
+          )}
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-accent" />
+        </span>
+        <span className="eyebrow text-text">Preparing your preview</span>
+      </div>
+
+      <ul className="max-w-md" role="status" aria-live="polite">
+        {BUILD_STEPS.map((step, i) => {
+          const done = i < active;
+          const current = i === active;
+          return (
+            <li
+              key={step}
+              className="flex items-baseline justify-between gap-6 border-b border-line/60 py-3"
+            >
+              <span className={done || current ? "text-text" : "text-mute/60"}>{step}</span>
+              <span
+                className={`eyebrow-faint shrink-0 ${
+                  current ? "text-accent" : done ? "text-mute" : "text-mute/50"
+                }`}
+              >
+                {done ? "Done" : current ? "In progress" : "Queued"}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className="mt-8 h-px w-full bg-line" aria-hidden="true">
+        <div
+          className="h-px bg-accent"
+          style={{
+            width: `${progress}%`,
+            transition: reduceMotion ? "none" : "width 1.8s cubic-bezier(0.22, 1, 0.36, 1)",
+          }}
+        />
+      </div>
+
+      <p className="text-mute leading-relaxed max-w-md mt-6">{body}</p>
+    </div>
+  );
+};
+
 
 /**
  * Private, unlinked gateway for a single client review. The access code and
@@ -111,23 +189,7 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
           {/* Action column */}
           <div className="lg:col-span-5 lg:col-start-8 w-full">
             {state === "pending" ? (
-              <div className="border-t border-line pt-6">
-                <div className="flex items-center gap-4 mb-8">
-                  <span className="relative flex h-3 w-3">
-                    {reduceMotion ? null : (
-                      <motion.span
-                        className="absolute inline-flex h-full w-full rounded-full bg-accent"
-                        initial={{ opacity: 0.6, scale: 1 }}
-                        animate={{ opacity: 0, scale: 2.4 }}
-                        transition={{ duration: 2.4, ease: "easeOut", repeat: Infinity }}
-                      />
-                    )}
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-accent" />
-                  </span>
-                  <span className="eyebrow text-text">Publishing in progress</span>
-                </div>
-                <p className="text-mute leading-relaxed max-w-md">{gateway.holdingBody}</p>
-              </div>
+              <BuildProgress body={gateway.holdingBody} reduceMotion={!!reduceMotion} />
             ) : state === "granted" ? (
               <div className="border-t border-line pt-6 flex items-center gap-3 text-mute">
                 <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />

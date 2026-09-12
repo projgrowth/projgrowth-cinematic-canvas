@@ -15,7 +15,7 @@ export const golinowskiGateway: GatewayCopy = {
   slug: "golinowskilawrebuild",
   client: "Golinowski Law",
   project: "Website Rebuild",
-  holdingTitle: "Website Review",
+  holdingTitle: "Website Rebuild",
   holdingBody:
-    "Golinowski Law — the live preview of your site is still being published from the network. Please try again using this same link within the hour.",
+    "Large preview loading — this can take a few minutes. Keep this link; refreshing is safe.",
 };
