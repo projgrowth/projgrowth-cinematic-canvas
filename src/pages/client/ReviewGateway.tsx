@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import pgLogo from "@/assets/logos/pg-logo.png";
-import golinowskiLogo from "@/assets/golinowski-law-logo.png.asset.json";
+import golinowskiLogo from "@/assets/logos/golinowski-law.png";
 import type { GatewayCopy } from "./gateways";
 
 type State = "idle" | "checking" | "granted" | "pending";
