@@ -33,7 +33,7 @@ const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion:
         width={915}
         height={621}
         className="relative w-52 sm:w-64 md:w-72 h-auto"
-        animate={reduceMotion ? undefined : { opacity: [0.75, 1, 0.75], scale: [0.985, 1, 0.985] }}
+        animate={reduceMotion ? undefined : { opacity: [0.85, 1, 0.85], scale: [0.985, 1, 0.985] }}
         transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
       />
     </div>
