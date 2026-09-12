@@ -28,7 +28,7 @@ const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion:
         />
       )}
       <motion.img
-        src={golinowskiLogo.url}
+        src={golinowskiLogo}
         alt={`${client} logo`}
         width={915}
         height={621}
