@@ -15,6 +15,14 @@
     --accent-alt: 165 40% 46%; /* Deeper complementary green */
     --line: 240 5% 26%; /* Border — brighter for crisp edge definition */
 
+    /* Silver material roles */
+    --metal: 220 8% 82%;
+    --metal-muted: 220 5% 54%;
+    --metal-line: 220 6% 24%;
+    --graphite: 220 5% 10%;
+    --graphite-raised: 220 5% 13%;
+    --metal-highlight: hsl(var(--metal) / 0.16);
+
     /* Accent opacity scale - locked tokens */
     --accent-tint: hsl(var(--accent) / 0.08);
     --accent-border: hsl(var(--accent) / 0.20);
@@ -69,11 +77,11 @@
 
     /* Shadows - Subtle depth */
     --shadow-none: none;
-    --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.2);
-    --shadow-elegant: 0 8px 32px -8px rgba(0, 0, 0, 0.15);
+    --shadow-soft: 0 2px 12px hsl(var(--base) / 0.45);
+    --shadow-elegant: 0 8px 32px -8px hsl(var(--base) / 0.55);
     --shadow-glow-accent: 0 8px 40px -8px hsl(var(--accent) / 0.22);
-    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    --shadow-rail: 0 1px 0 0 hsl(var(--line) / 0.6), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+    --shadow-inner: inset 0 2px 4px 0 hsl(var(--base) / 0.45);
+    --shadow-rail: 0 1px 0 0 hsl(var(--line) / 0.6), 0 8px 24px -12px hsl(var(--base) / 0.8);
     --shadow-card: var(--inner-highlight), 0 2px 8px hsl(var(--base) / 0.5);
     --shadow-card-hover: var(--inner-highlight), 0 8px 28px -10px hsl(var(--accent) / 0.18);
 
@@ -82,9 +90,9 @@
     --gradient-surface: linear-gradient(180deg, hsl(var(--surface)), hsl(240 5% 7%));
 
     /* Typography */
-    --font-display: "Outfit", "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
-    --font-body: "Inter", system-ui, -apple-system, sans-serif;
-    --tracking-display: -0.02em;
+    --font-display: "Space Grotesk", "Outfit", system-ui, -apple-system, sans-serif;
+    --font-body: "DM Sans", system-ui, -apple-system, sans-serif;
+    --tracking-display: 0;
     --tracking-ui: 0;
     --tracking-meta: 0.14em;
 
