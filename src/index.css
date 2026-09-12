@@ -664,7 +664,7 @@
 
   /* Enhanced Touch Targets - Minimum 44px at any zoom level */
   .btn-interactive {
-    @apply min-h-[44px] min-w-[44px] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
+    @apply min-h-[44px] min-w-[44px] transition-[color,background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:shadow-md;
   }
 
   /* Card hover — kept for non-SurfaceCard markup (e.g. CaseStudyCard).

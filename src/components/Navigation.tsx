@@ -51,7 +51,7 @@ const Navigation = () => {
       <nav 
         className={`
           fixed top-0 left-0 right-0 z-50 
-          transition-all duration-sm ease-smooth
+          transition-[transform,background-color,border-color,box-shadow] duration-sm ease-smooth
           ${isHidden ? "-translate-y-full" : "translate-y-0"}
           ${isScrolled ? "nav-rail" : "bg-transparent border-b border-transparent"}
         `}
@@ -59,7 +59,7 @@ const Navigation = () => {
       >
         <div className="container-site">
           <div
-            className={`flex items-center justify-between transition-all duration-sm ease-smooth ${
+            className={`flex items-center justify-between transition-[padding] duration-sm ease-smooth ${
               isScrolled ? "py-3 md:py-3.5" : "py-4 md:py-6"
             }`}
           >
@@ -73,7 +73,7 @@ const Navigation = () => {
             </Link>
             
             {/* Desktop Navigation */}
-            <ul className="hidden md:flex items-center gap-6 lg:gap-8" role="list">
+            <ul className="hidden lg:flex items-center gap-8" role="list">
               {links.map((link) => (
                 <li key={link.path}>
                   <Link
@@ -90,13 +90,13 @@ const Navigation = () => {
 
             <Link
               to="/contact"
-              className="hidden md:inline-flex btn-solid text-sm px-5 min-h-[44px] whitespace-nowrap focus-ring"
+              className="hidden lg:inline-flex btn-solid text-sm px-5 min-h-[44px] whitespace-nowrap focus-ring"
             >
               Start a project
             </Link>
 
             {/* Mobile Navigation */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <MobileNav />
             </div>
           </div>

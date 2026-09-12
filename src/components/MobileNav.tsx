@@ -87,7 +87,7 @@ const MobileNav = () => {
                     />
                   </button>
                   <div
-                    className={`overflow-hidden transition-all duration-md ease-smooth ${
+                    className={`overflow-hidden transition-[max-height,padding] duration-md ease-smooth ${
                       servicesExpanded ? "max-h-64 pb-4" : "max-h-0"
                     }`}
                   >
