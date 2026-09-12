@@ -12,23 +12,42 @@ const clients = [
   { name: "Fritzler Law", logo: "/logos/fritzler-law.svg" },
 ];
 
-const ClientLogos = () => (
-  <section className="home-client-rail" aria-labelledby="clients-heading">
-    <div className="container-site">
-      <ScrollReveal variant="fade-up">
-        <div className="home-client-rail-inner">
-          <p id="clients-heading" className="home-meta">Selected clients</p>
-          <ul>
+const ClientLogos = () => {
+  return (
+    <section className="section border-t border-line" aria-labelledby="clients-heading">
+      <div className="container-site">
+        <ScrollReveal variant="fade-up">
+          <p
+            id="clients-heading"
+            className="eyebrow mb-10 md:mb-12"
+          >
+            Trusted By
+          </p>
+        </ScrollReveal>
+
+        <ScrollReveal variant="fade-up" delay={0.1}>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 items-center gap-y-10 gap-x-8 md:gap-x-10">
             {clients.map((client) => (
-              <li key={client.name}>
-                <img src={client.logo} alt={`${client.name} logo`} loading="lazy" decoding="async" width="180" height="48" />
+              <li
+                key={client.name}
+                className="flex h-14 md:h-16 items-center justify-center"
+              >
+                <img
+                  src={client.logo}
+                  alt={`${client.name} logo`}
+                  loading="lazy"
+                  decoding="async"
+                  width={180}
+                  height={48}
+                  className="h-full w-auto max-w-full object-contain opacity-75 transition-opacity duration-md hover:opacity-100"
+                />
               </li>
             ))}
           </ul>
-        </div>
-      </ScrollReveal>
-    </div>
-  </section>
-);
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+};
 
 export default ClientLogos;
