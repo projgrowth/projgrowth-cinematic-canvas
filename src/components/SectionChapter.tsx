@@ -16,7 +16,7 @@ const SectionChapter = ({ number, label, align = "left", className = "" }: Secti
     <span className="font-display text-xs tracking-widest text-accent tabular-nums">
       {String(number).padStart(2, "0")} /
     </span>
-    <span className="eyebrow !mb-0">{label}</span>
+    <span className="eyebrow">{label}</span>
     <span className="h-px w-12 bg-accent/40" aria-hidden="true" />
   </div>
 );

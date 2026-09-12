@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import SectionChapter from "@/components/SectionChapter";
 
 type Outcome = {
   text: string;
@@ -42,9 +41,9 @@ const ResultsStrip = () => {
     <section className="relative border-y border-line bg-surface/40">
       <div className="container-site section">
         <ScrollReveal variant="fade-up">
-          <div className="grid-12 gap-y-10 mb-12 md:mb-16">
+          <div className="grid-12 section-intro-grid mb-12 md:mb-16">
             <div className="col-span-12 lg:col-span-4">
-              <SectionChapter number={2} label="Outcomes" />
+              <p className="eyebrow mb-4">Outcomes</p>
               <h2 className="font-display text-text">
                 Outcomes,<br />not deliverables.
               </h2>

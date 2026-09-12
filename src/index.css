@@ -74,6 +74,8 @@
     --shadow-glow-accent: 0 8px 40px -8px hsl(var(--accent) / 0.22);
     --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     --shadow-rail: 0 1px 0 0 hsl(var(--line) / 0.6), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+    --shadow-card: var(--inner-highlight), 0 2px 8px hsl(var(--base) / 0.5);
+    --shadow-card-hover: var(--inner-highlight), 0 8px 28px -10px hsl(var(--accent) / 0.18);
 
     /* Gradients */
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(165 45% 62%));
@@ -82,6 +84,9 @@
     /* Typography */
     --font-display: "Outfit", "Neue Montreal", "Satoshi", "Aeonik", "Inter", system-ui, -apple-system, sans-serif;
     --font-body: "Inter", system-ui, -apple-system, sans-serif;
+    --tracking-display: -0.02em;
+    --tracking-ui: 0;
+    --tracking-meta: 0.14em;
 
     /* Motion */
     --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -206,6 +211,7 @@
     padding-bottom: var(--section-py-md);
     min-height: min(60vh, 620px);
   }
+  .hero-offset { margin-top: calc(-1 * var(--nav-height)); }
   .section-header { margin-bottom: var(--header-mb); max-width: 65ch; }
   .section-header h1, .section-header h2 { text-wrap: balance; }
   .section-header p { text-wrap: pretty; }
@@ -216,19 +222,19 @@
     background-color: hsl(var(--surface));
     border: 1px solid hsl(var(--line));
     border-radius: var(--radius-lg);
-    box-shadow: var(--inner-highlight), 0 2px 8px rgba(0,0,0,0.5);
+    box-shadow: var(--shadow-card);
     transition: border-color var(--duration-md) var(--ease),
                 box-shadow var(--duration-md) var(--ease),
                 transform var(--duration-md) var(--ease);
   }
   .surface-card:hover {
     border-color: var(--accent-border-hover);
-    box-shadow: var(--inner-highlight), 0 8px 32px -8px hsl(var(--accent) / 0.25);
+    box-shadow: var(--shadow-card-hover);
   }
-  .hover-lift {
-    transition: transform var(--duration-md) var(--ease);
-  }
-  .hover-lift:hover { transform: translateY(-2px); }
+  .surface-card-outline { background-color: transparent; }
+  .surface-card-elevated { box-shadow: var(--shadow-elegant); }
+  .surface-card-ghost { background-color: transparent; box-shadow: none; }
+  .surface-card-interactive:hover { transform: translateY(-2px); }
 
   /* Locked pill / badge / chip vocabulary */
   .pill-base {
@@ -341,8 +347,12 @@
     border-radius: var(--radius-md);
     font-weight: 500;
     font-family: var(--font-body);
-    letter-spacing: -0.005em;
-    transition: all var(--duration-sm) var(--ease);
+    letter-spacing: var(--tracking-ui);
+    transition: color var(--duration-sm) var(--ease),
+                background-color var(--duration-sm) var(--ease),
+                border-color var(--duration-sm) var(--ease),
+                box-shadow var(--duration-sm) var(--ease),
+                transform var(--duration-sm) var(--ease);
   }
   .btn-solid  { @apply btn-base; background-color: hsl(var(--accent)); color: hsl(var(--primary-foreground)); }
   .btn-solid:hover  { background-color: hsl(var(--accent) / 0.9); box-shadow: var(--shadow-glow-accent); }
@@ -395,7 +405,7 @@
     font-family: var(--font-display);
     font-size: clamp(0.7rem, 0.3vw + 0.65rem, 0.8rem);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: var(--tracking-meta);
     color: hsl(var(--accent));
     font-weight: 500;
   }
@@ -409,7 +419,7 @@
   .eyebrow-faint {
     @apply eyebrow;
     font-size: 0.6875rem;
-    letter-spacing: 0.16em;
+    letter-spacing: var(--tracking-meta);
     color: var(--text-faint);
   }
 
@@ -432,7 +442,7 @@
     display: inline-flex;
     align-items: center;
     color: hsl(var(--text) / 0.55);
-    letter-spacing: -0.008em;
+    letter-spacing: var(--tracking-ui);
     transition: color var(--duration-sm) var(--ease);
   }
   .nav-link::after {
@@ -538,7 +548,7 @@
     }
   }
 
-  /* Enhanced Grid System */
+  /* Stable 12-column grid. Child span utilities remain valid at every width. */
   .grid-12 {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -546,26 +556,19 @@
   }
 
   
-  /* Responsive Grid Breakpoints */
-  @media (max-width: 1200px) {
-    .grid-12 {
-      grid-template-columns: repeat(8, 1fr);
-    }
-  }
-
   @media (max-width: 768px) {
     .grid-12 {
-      grid-template-columns: repeat(4, 1fr);
       gap: var(--space-2);
     }
   }
 
   @media (max-width: 480px) {
     .grid-12 {
-      grid-template-columns: 1fr;
-      gap: var(--space-2);
+      gap: var(--space-1);
     }
   }
+
+  .section-intro-grid { row-gap: var(--space-4); }
 
   .stack {
     display: flex;
@@ -579,15 +582,15 @@
   }
 
   .animate-smooth {
-    transition: all var(--duration-md) var(--ease);
+    transition: color var(--duration-md) var(--ease), background-color var(--duration-md) var(--ease), border-color var(--duration-md) var(--ease), box-shadow var(--duration-md) var(--ease), opacity var(--duration-md) var(--ease), transform var(--duration-md) var(--ease);
   }
 
   .animate-fast {
-    transition: all var(--duration-sm) var(--ease);
+    transition: color var(--duration-sm) var(--ease), background-color var(--duration-sm) var(--ease), border-color var(--duration-sm) var(--ease), box-shadow var(--duration-sm) var(--ease), opacity var(--duration-sm) var(--ease), transform var(--duration-sm) var(--ease);
   }
 
   .animate-quick {
-    transition: all var(--duration-xs) var(--ease);
+    transition: color var(--duration-xs) var(--ease), background-color var(--duration-xs) var(--ease), border-color var(--duration-xs) var(--ease), box-shadow var(--duration-xs) var(--ease), opacity var(--duration-xs) var(--ease), transform var(--duration-xs) var(--ease);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -640,7 +643,7 @@
   /* Enhanced Focus Styles - Scales with zoom */
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-base;
-    transition: all var(--duration-sm) var(--ease);
+    transition: color var(--duration-sm) var(--ease), background-color var(--duration-sm) var(--ease), box-shadow var(--duration-sm) var(--ease), outline-color var(--duration-sm) var(--ease);
   }
 
   /* High-contrast mode support */

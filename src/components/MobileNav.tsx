@@ -143,7 +143,7 @@ const MobileNav = () => {
           <Link
             to="/contact"
             onClick={close}
-            className="btn-solid w-full rounded-full text-sm"
+            className="btn-solid w-full text-sm"
           >
             Start a project
             <ArrowUpRight className="w-4 h-4" />

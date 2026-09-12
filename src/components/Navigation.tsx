@@ -90,7 +90,7 @@ const Navigation = () => {
 
             <Link
               to="/contact"
-              className="hidden md:inline-flex btn-solid text-sm px-5 min-h-[40px] rounded-full whitespace-nowrap focus-ring"
+              className="hidden md:inline-flex btn-solid text-sm px-5 min-h-[44px] whitespace-nowrap focus-ring"
             >
               Start a project
             </Link>
