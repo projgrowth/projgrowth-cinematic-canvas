@@ -87,7 +87,7 @@ const MobileNav = () => {
                     />
                   </button>
                   <div
-                    className={`overflow-hidden transition-all duration-md ease-smooth ${
+                    className={`overflow-hidden transition-[max-height,padding] duration-md ease-smooth ${
                       servicesExpanded ? "max-h-64 pb-4" : "max-h-0"
                     }`}
                   >
@@ -143,7 +143,7 @@ const MobileNav = () => {
           <Link
             to="/contact"
             onClick={close}
-            className="btn-solid w-full rounded-full text-sm"
+            className="btn-solid w-full text-sm"
           >
             Start a project
             <ArrowUpRight className="w-4 h-4" />

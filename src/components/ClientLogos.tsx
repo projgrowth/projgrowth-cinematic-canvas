@@ -19,18 +19,18 @@ const ClientLogos = () => {
         <ScrollReveal variant="fade-up">
           <p
             id="clients-heading"
-            className="eyebrow-mute mb-10 md:mb-12"
+            className="eyebrow mb-10 md:mb-12"
           >
             Trusted By
           </p>
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={0.1}>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 items-center gap-y-12 gap-x-10">
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 items-center gap-y-10 gap-x-8 md:gap-x-10">
             {clients.map((client) => (
               <li
                 key={client.name}
-                className="flex h-16 md:h-20 items-center justify-center"
+                className="flex h-14 md:h-16 items-center justify-center"
               >
                 <img
                   src={client.logo}
@@ -39,7 +39,7 @@ const ClientLogos = () => {
                   decoding="async"
                   width={180}
                   height={48}
-                  className="h-full w-auto max-w-full object-contain opacity-80 transition-opacity duration-md hover:opacity-100"
+                  className="h-full w-auto max-w-full object-contain opacity-75 transition-opacity duration-md hover:opacity-100"
                 />
               </li>
             ))}

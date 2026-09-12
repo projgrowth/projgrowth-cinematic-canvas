@@ -27,8 +27,8 @@ const WorkTile = ({
 }: WorkTileProps) => (
   <Link to={`/work/${caseStudy.id}`} className={`group block ${className}`}>
     <WorkPlate caseStudy={caseStudy} aspect={aspect} priority={priority} />
-    <div className="mt-4 flex items-start justify-between gap-6">
-      <div>
+    <div className="mt-5 flex items-start justify-between gap-6">
+      <div className="min-w-0">
         <span className="eyebrow mb-1.5 block">{caseStudy.category}</span>
         {size === "lead" ? (
           <h2 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
@@ -41,7 +41,7 @@ const WorkTile = ({
         )}
         <p className="text-mute text-sm mt-1.5 max-w-md">{caseStudy.subtitle}</p>
       </div>
-      <ArrowRight className="w-5 h-5 mt-1 flex-shrink-0 text-mute transition-all duration-sm group-hover:text-accent group-hover:translate-x-1" />
+      <ArrowRight className="w-5 h-5 mt-1 flex-shrink-0 text-mute transition-[color,transform] duration-sm group-hover:text-accent group-hover:translate-x-1" />
     </div>
   </Link>
 );

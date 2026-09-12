@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 
 interface ScrollRevealProps {
@@ -43,16 +43,17 @@ const ScrollReveal = ({
   className = ''
 }: ScrollRevealProps) => {
   const { elementRef, isVisible } = useIntersectionObserver({ threshold });
+  const reduceMotion = useReducedMotion();
 
   return (
     <motion.div
       ref={elementRef}
-      initial="hidden"
+      initial={reduceMotion ? "visible" : "hidden"}
       animate={isVisible ? 'visible' : 'hidden'}
       variants={variants[variant]}
       transition={{
-        duration,
-        delay,
+        duration: reduceMotion ? 0 : duration,
+        delay: reduceMotion ? 0 : delay,
         ease: [0.25, 0.1, 0.25, 1]
       }}
       className={className}

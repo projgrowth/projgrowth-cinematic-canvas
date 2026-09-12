@@ -8,10 +8,10 @@ const surfaceCardVariants = cva(
     variants: {
       variant: {
         surface: "",
-        outline: "!bg-transparent",
-        elevated: "shadow-elegant",
+        outline: "surface-card-outline",
+        elevated: "surface-card-elevated",
         ghost:
-          "!bg-transparent border border-line hover:border-accent/40 transition-colors duration-sm",
+          "surface-card-ghost",
       },
       pad: {
         sm: "p-5",
@@ -19,7 +19,7 @@ const surfaceCardVariants = cva(
         lg: "p-7 md:p-9",
       },
       interactive: {
-        true: "hover-lift hover:border-accent/40 hover:shadow-elegant transition-all duration-sm",
+        true: "surface-card-interactive",
         false: "",
       },
     },

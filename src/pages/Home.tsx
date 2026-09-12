@@ -3,11 +3,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import ClientLogos from "@/components/ClientLogos";
-import GrowthLines from "@/components/GrowthLines";
 import AmbientGlow from "@/components/AmbientGlow";
 import { Helmet } from "react-helmet-async";
 import { caseStudies } from "@/data/caseStudies";
-import { ArrowRight, Globe, Sparkles, Film, LineChart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import ResultsStrip from "@/components/home/ResultsStrip";
@@ -63,10 +62,10 @@ const Home = () => {
   };
 
   const services = [
-    { title: "Web Design", icon: Globe, outcome: "Sites that convert, not just look good.", description: "Precision-engineered sites on modern stacks. Fast, conversion-focused, and built to reflect a brand worth paying attention to.", path: "/services/web-design" },
-    { title: "Branding", icon: Sparkles, outcome: "The obvious choice in your category.", description: "Identity systems rooted in positioning. Logo, language, and visual direction that make you the obvious choice in the room.", path: "/services/branding" },
-    { title: "Content Creation", icon: Film, outcome: "One shoot. A month of output.", description: "Cinematic short-form, editorial copy, and social content — built in systems so one shoot becomes months of output.", path: "/services/content-creation" },
-    { title: "Digital Marketing", icon: LineChart, outcome: "Pipeline, not vanity reports.", description: "Full-funnel strategy tied to revenue, not reports. SEO, paid, and email that compounds over time.", path: "/services/digital-marketing" },
+    { title: "Web Design", outcome: "Sites that convert, not just look good.", description: "Precision-engineered sites on modern stacks. Fast, conversion-focused, and built to reflect a brand worth paying attention to.", path: "/services/web-design" },
+    { title: "Branding", outcome: "The obvious choice in your category.", description: "Identity systems rooted in positioning. Logo, language, and visual direction that make you the obvious choice in the room.", path: "/services/branding" },
+    { title: "Content Creation", outcome: "One shoot. A month of output.", description: "Cinematic short-form, editorial copy, and social content — built in systems so one shoot becomes months of output.", path: "/services/content-creation" },
+    { title: "Digital Marketing", outcome: "Pipeline, not vanity reports.", description: "Full-funnel strategy tied to revenue, not reports. SEO, paid, and email that compounds over time.", path: "/services/digital-marketing" },
   ];
 
   const differentiators = [
@@ -90,9 +89,8 @@ const Home = () => {
       </Helmet>
 
       {/* Hero */}
-      <Section size="hero" className="-mt-[var(--nav-height)]">
+      <Section size="hero" className="hero-offset">
         <AmbientGlow variant="hero" />
-        <GrowthLines />
         <div className="grid-12 relative z-10 items-center">
           {/* Left — headline and CTAs */}
           <div className="col-span-12 lg:col-span-7 stack gap-6 md:gap-8">
@@ -109,9 +107,9 @@ const Home = () => {
                 <motion.span
                   key={i}
                   className={`block ${word.accent ? "text-accent" : ""}`}
-                  initial={reduceMotion ? false : { opacity: 0, y: 30, filter: "blur(4px)" }}
-                  animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.08 + i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   {word.text}
                 </motion.span>
@@ -120,18 +118,18 @@ const Home = () => {
 
             <motion.p
               className="lede max-w-2xl"
-              initial={{ opacity: 0, y: 20 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: 0.38 }}
             >
               Sharp design. Clear strategy. Work that actually moves the business. We partner with founders and marketing leaders who are done settling for mediocre.
             </motion.p>
 
             <motion.div
               className="flex flex-col sm:flex-row gap-4 mt-2 md:mt-4"
-              initial={{ opacity: 0, y: 20 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: 0.46 }}
             >
               <Link to="/contact" className="btn-solid group">
                 Start a project
@@ -146,13 +144,13 @@ const Home = () => {
           {/* Right — credential panel (desktop only) */}
           <motion.div
             className="hidden lg:flex col-span-5 justify-end items-center"
-            initial={{ opacity: 0, x: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="w-full max-w-[300px] border-l border-accent/30 pl-6 space-y-6">
+            <div className="w-full max-w-[300px] border-l border-line pl-7 space-y-6">
               <div>
-                <p className="eyebrow-faint text-accent mb-2 block">
+                <p className="eyebrow-faint mb-2 block">
                   {availability.now.label}
                 </p>
                 <p className="font-display text-text leading-snug">
@@ -187,9 +185,9 @@ const Home = () => {
       {/* Services Overview */}
       <Section>
         <ScrollReveal variant="fade-up">
-          <div className="grid-12 gap-y-10">
+          <div className="grid-12 section-intro-grid">
             <div className="col-span-12 lg:col-span-4">
-              <SectionChapter number={1} label="Our Craft" />
+              <p className="eyebrow mb-4">Our Craft</p>
               <h2 className="font-display text-text mb-3">
                 The Full Stack of Brand-Building
               </h2>
@@ -198,21 +196,19 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="col-span-12 lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-cards">
+            <div className="col-span-12 lg:col-span-7 lg:col-start-6 grid grid-cols-1 sm:grid-cols-2 gap-cards">
               {services.map((service, idx) => (
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                   <Link to={service.path} className="group block h-full">
-                    <SurfaceCard pad="md" interactive className="relative overflow-hidden h-full transition-transform duration-sm group-hover:-translate-y-0.5">
-                      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-sm" />
-                      <div className="absolute bottom-0 left-0 h-px w-0 bg-accent transition-all duration-md group-hover:w-full" />
-                      <div className="relative mb-4 inline-flex items-center justify-center w-10 h-10 rounded-md border border-accent/30 bg-accent/5 transition-colors duration-sm group-hover:border-accent/60 group-hover:bg-accent/10">
-                        <service.icon className="w-5 h-5 text-accent" />
-                      </div>
-                      <h3 className="relative font-display text-text mb-1.5 transition-colors duration-sm group-hover:text-accent">
+                    <SurfaceCard pad="md" interactive className="h-full">
+                      <span className="eyebrow-faint block mb-5" aria-hidden="true">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="font-display text-text mb-1.5 transition-colors duration-sm group-hover:text-accent">
                         {service.title}
                       </h3>
-                      <p className="relative text-accent/80 text-sm mb-3 italic">{service.outcome}</p>
-                      <p className="relative text-mute">{service.description}</p>
+                      <p className="text-accent text-sm mb-3">{service.outcome}</p>
+                      <p className="text-mute">{service.description}</p>
                     </SurfaceCard>
                   </Link>
                 </ScrollReveal>
@@ -229,7 +225,7 @@ const Home = () => {
       <section className="relative bg-surface/70 border-y border-line">
         <div className="container-site section">
           <ScrollReveal variant="fade-up">
-            <div className="grid-12 gap-y-10 mb-12 md:mb-16">
+            <div className="grid-12 section-intro-grid mb-12 md:mb-16">
               <div className="col-span-12 lg:col-span-4">
                 <SectionChapter number={3} label="How We Work" />
                 <h2 className="font-display text-text">
@@ -267,12 +263,12 @@ const Home = () => {
       {/* Featured Work — 3-card grid */}
       <Section>
         <ScrollReveal variant="fade-up">
-          <div className="grid-12 gap-y-6 mb-12 md:mb-16">
-            <div className="col-span-12 lg:col-span-5">
+          <div className="grid-12 section-intro-grid mb-12 md:mb-16">
+            <div className="col-span-12 lg:col-span-4">
               <SectionChapter number={4} label="Selected Work" />
               <h2 className="font-display text-text">Work That Moves the Needle</h2>
             </div>
-            <div className="col-span-12 lg:col-span-6 lg:col-start-7 flex items-end">
+            <div className="col-span-12 lg:col-span-7 lg:col-start-6 flex items-end">
               <p className="lede">A tight selection of what we've built — and what happened after.</p>
             </div>
           </div>
@@ -284,7 +280,9 @@ const Home = () => {
             <div className="lg:col-span-7">
               <WorkTile
                 caseStudy={featuredProjects[0]}
-                aspect="aspect-[4/3] lg:aspect-[7/8]"
+                aspect="aspect-[4/3]"
+                priority
+                size="lead"
               />
             </div>
             <div className="lg:col-span-5 stack-cards">

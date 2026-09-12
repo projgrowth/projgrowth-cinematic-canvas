@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import SectionChapter from "@/components/SectionChapter";
 
 type Outcome = {
   text: string;
@@ -42,9 +41,9 @@ const ResultsStrip = () => {
     <section className="relative border-y border-line bg-surface/40">
       <div className="container-site section">
         <ScrollReveal variant="fade-up">
-          <div className="grid-12 gap-y-10 mb-12 md:mb-16">
+          <div className="grid-12 section-intro-grid mb-12 md:mb-16">
             <div className="col-span-12 lg:col-span-4">
-              <SectionChapter number={2} label="Outcomes" />
+              <p className="eyebrow mb-4">Outcomes</p>
               <h2 className="font-display text-text">
                 Outcomes,<br />not deliverables.
               </h2>
@@ -63,7 +62,7 @@ const ResultsStrip = () => {
             const tail = rest.join(o.accent);
             const Inner = (
               <div className="relative flex items-center justify-between gap-6 py-7 md:py-9 px-4 md:px-6 -mx-4 md:-mx-6 group transition-colors duration-sm hover:bg-surface/60">
-                <span className="absolute left-0 top-2 bottom-2 w-0 bg-accent transition-all duration-sm group-hover:w-1 rounded-r" />
+                <span className="absolute left-0 top-2 bottom-2 w-0 bg-accent transition-[width] duration-sm group-hover:w-1 rounded-r" />
                 <div className="min-w-0">
                   <p className="outcome-line">
                     {first}
@@ -75,7 +74,7 @@ const ResultsStrip = () => {
                   )}
                 </div>
                 {o.slug && (
-                  <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 text-mute flex-shrink-0 transition-all duration-sm group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 text-mute flex-shrink-0 transition-[color,transform] duration-sm group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 )}
               </div>
             );

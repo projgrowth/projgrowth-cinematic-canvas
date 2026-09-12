@@ -20,12 +20,12 @@ const Footer = () => {
   return (
     <footer className="border-t border-line bg-base">
       <div className="container-site py-section">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-cards mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10 mb-12">
           {/* Brand */}
-          <div className="space-y-4">
+          <div className="col-span-2 lg:col-span-4 space-y-4">
             <Link 
               to="/" 
-              className="text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm flex items-center gap-2 group"
+              className="min-h-[44px] text-2xl font-display font-medium tracking-tight text-text hover:text-accent transition-colors duration-sm flex items-center gap-2 group"
             >
               <img src={pgLogo} alt="" className="h-6 w-auto logo-accent-hover" />
               ProjGrowth
@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="col-span-1 lg:col-span-2 lg:col-start-6">
             <h3 className="eyebrow text-text mb-5">Quick Links</h3>
             <ul className="space-y-2">
               {[
@@ -49,7 +49,7 @@ const Footer = () => {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-sm text-mute hover:text-accent transition-colors duration-sm"
+                    className="inline-flex min-h-[44px] items-center text-sm text-mute hover:text-accent transition-colors duration-sm"
                   >
                     {link.label}
                   </Link>
@@ -59,7 +59,7 @@ const Footer = () => {
           </div>
 
           {/* Services — now linked */}
-          <div>
+          <div className="col-span-1 lg:col-span-2">
             <h3 className="eyebrow text-text mb-5">Services</h3>
             <ul className="space-y-2">
               {[
@@ -71,7 +71,7 @@ const Footer = () => {
                 <li key={service.path}>
                   <Link
                     to={service.path}
-                    className="text-sm text-mute hover:text-accent transition-colors duration-sm"
+                    className="inline-flex min-h-[44px] items-center text-sm text-mute hover:text-accent transition-colors duration-sm"
                   >
                     {service.label}
                   </Link>
@@ -81,12 +81,12 @@ const Footer = () => {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="col-span-2 lg:col-span-3">
             <h3 className="eyebrow text-text mb-5">Get in Touch</h3>
             <div className="space-y-4">
               <a
                 href={`mailto:${contactEmail}`}
-                className="inline-flex items-center gap-2 text-sm text-text hover:text-accent transition-colors duration-sm"
+                className="inline-flex min-h-[44px] items-center gap-2 text-sm text-text hover:text-accent transition-colors duration-sm"
               >
                 <Mail className="w-4 h-4 text-accent" />
                 {contactEmail}
@@ -120,13 +120,13 @@ const Footer = () => {
           <div className="flex gap-4 md:gap-6">
             <Link
               to="/privacy"
-              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
+               className="inline-flex min-h-[44px] items-center text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
-              className="text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
+               className="inline-flex min-h-[44px] items-center text-xs md:text-sm text-mute hover:text-accent transition-colors duration-sm"
             >
               Terms of Service
             </Link>
