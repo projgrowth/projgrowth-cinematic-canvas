@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import pgLogo from "@/assets/logos/pg-logo.png";
+import golinowskiLogo from "@/assets/golinowski-law-logo.png.asset.json";
 import type { GatewayCopy } from "./gateways";
 
 type State = "idle" | "checking" | "granted" | "pending";
@@ -14,39 +15,31 @@ const MESSAGES = {
   unavailable: "Access is temporarily unavailable. Please try again shortly.",
 };
 
-/** Minimal loading state: pulsing client mark and a single quiet line. */
-const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion: boolean }) => {
-  const initials = client
-    .split(/\s+/)
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
-  return (
-    <div className="flex flex-col items-center text-center" role="status" aria-live="polite">
-      <div className="relative">
-        {reduceMotion ? null : (
-          <motion.span
-            className="absolute inset-0 rounded-full bg-accent/20 blur-xl"
-            initial={{ opacity: 0.4, scale: 0.9 }}
-            animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.9, 1.15, 0.9] }}
-            transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
-          />
-        )}
+/** Minimal loading state: pulsing client logo and a single quiet line. */
+const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion: boolean }) => (
+  <div className="flex flex-col items-center text-center" role="status" aria-live="polite">
+    <div className="relative">
+      {reduceMotion ? null : (
         <motion.span
-          className="relative flex items-center justify-center w-24 h-24 rounded-full border border-line/80 bg-surface/50 font-display text-3xl tracking-tight text-text"
-          animate={reduceMotion ? undefined : { opacity: [0.85, 1, 0.85] }}
+          className="absolute inset-0 -m-6 rounded-full bg-accent/15 blur-2xl"
+          initial={{ opacity: 0.35, scale: 0.9 }}
+          animate={{ opacity: [0.35, 0.65, 0.35], scale: [0.9, 1.08, 0.9] }}
           transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
-        >
-          {initials}
-        </motion.span>
-      </div>
-      <p className="mt-8 font-display text-lg md:text-xl text-text">{client}</p>
-      <p className="mt-2 text-mute">Loading your review…</p>
+        />
+      )}
+      <motion.img
+        src={golinowskiLogo.url}
+        alt={`${client} logo`}
+        width={915}
+        height={621}
+        className="relative w-52 sm:w-64 md:w-72 h-auto"
+        animate={reduceMotion ? undefined : { opacity: [0.75, 1, 0.75], scale: [0.985, 1, 0.985] }}
+        transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+      />
     </div>
-  );
-};
+    <p className="mt-10 text-mute">Loading your review…</p>
+  </div>
+);
 
 
 /**
