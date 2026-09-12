@@ -16,6 +16,5 @@ export const golinowskiGateway: GatewayCopy = {
   client: "Golinowski Law",
   project: "Website Rebuild",
   holdingTitle: "Website Rebuild",
-  holdingBody:
-    "Large preview loading — this can take a few minutes. Keep this link; refreshing is safe.",
+  holdingBody: "Loading your review…",
 };
