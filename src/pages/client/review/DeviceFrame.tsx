@@ -123,12 +123,6 @@ const DeviceFrame = ({ src, device, commentMode, pins, draft, onPlace, onReady }
               />
             </div>
 
-            {/* Keeps the corner clean: covers and swallows clicks. */}
-            <div
-              aria-hidden="true"
-              className="absolute bottom-0 right-0 bg-base"
-              style={{ width: mask.w, height: mask.h }}
-            />
 
             {/* Annotation layer */}
             <div
