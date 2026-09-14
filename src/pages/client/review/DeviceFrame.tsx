@@ -123,7 +123,6 @@ const DeviceFrame = ({ src, device, commentMode, pins, draft, onPlace, onReady }
               />
             </div>
 
-
             {/* Annotation layer */}
             <div
               onClick={handleClick}
