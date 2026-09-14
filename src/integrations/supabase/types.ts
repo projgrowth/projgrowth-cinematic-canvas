@@ -218,6 +218,48 @@ export type Database = {
         }
         Relationships: []
       }
+      review_comments: {
+        Row: {
+          body: string
+          client_slug: string
+          created_at: string
+          device: string
+          id: string
+          page_label: string | null
+          page_path: string
+          status: string
+          updated_at: string
+          x_pct: number
+          y_pct: number
+        }
+        Insert: {
+          body: string
+          client_slug: string
+          created_at?: string
+          device?: string
+          id?: string
+          page_label?: string | null
+          page_path?: string
+          status?: string
+          updated_at?: string
+          x_pct?: number
+          y_pct?: number
+        }
+        Update: {
+          body?: string
+          client_slug?: string
+          created_at?: string
+          device?: string
+          id?: string
+          page_label?: string | null
+          page_path?: string
+          status?: string
+          updated_at?: string
+          x_pct?: number
+          y_pct?: number
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           created_at: string | null
