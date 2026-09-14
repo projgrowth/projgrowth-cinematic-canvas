@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { MessageSquarePlus, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -14,10 +14,15 @@ interface Props {
   token: string;
 }
 
+const byTime = (a: ReviewComment, b: ReviewComment) =>
+  new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+
 /**
  * Private review room: a realistic phone/desktop presentation of the client
  * site with pinned notes. All note reads and writes go through an edge
- * function authorized by the short-lived session token.
+ * function authorized by the short-lived session token, so notes are only ever
+ * visible to someone who entered the access code — and they are stored, so the
+ * same code brings the whole history back later.
  */
 const ReviewRoom = ({ gateway, url, token }: Props) => {
   const [device, setDevice] = useState<Device>(() =>
@@ -27,23 +32,44 @@ const ReviewRoom = ({ gateway, url, token }: Props) => {
   const [commentMode, setCommentMode] = useState(false);
   const [draft, setDraft] = useState<{ x: number; y: number } | null>(null);
   const [comments, setComments] = useState<ReviewComment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [error, setError] = useState("");
+  const [highlightId, setHighlightId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const { data } = await supabase.functions.invoke("client-review-comments", {
+    setLoadFailed(false);
+    const { data, error: fnError } = await supabase.functions.invoke("client-review-comments", {
       body: { action: "list", token },
     });
-    if (Array.isArray(data?.comments)) setComments(data.comments as ReviewComment[]);
+    if (fnError || !Array.isArray(data?.comments)) {
+      setLoadFailed(true);
+    } else {
+      setComments((data.comments as ReviewComment[]).slice().sort(byTime));
+    }
+    setLoading(false);
   }, [token]);
 
   useEffect(() => {
     load();
   }, [load]);
 
+  useEffect(() => {
+    if (!highlightId) return;
+    const t = window.setTimeout(() => setHighlightId(null), 2400);
+    return () => window.clearTimeout(t);
+  }, [highlightId]);
+
+  const numberOf = useMemo(() => {
+    const map = new Map<string, number>();
+    comments.forEach((c, i) => map.set(c.id, i + 1));
+    return map;
+  }, [comments]);
+
   const pins = comments.filter((c) => c.page_path === page.path && c.device === device);
 
-  const submitNote = async (body: string) => {
-    if (!draft) return;
+  const submitNote = async (body: string): Promise<boolean> => {
+    if (!draft) return false;
     setError("");
     const { data, error: fnError } = await supabase.functions.invoke("client-review-comments", {
       body: {
@@ -58,15 +84,19 @@ const ReviewRoom = ({ gateway, url, token }: Props) => {
       },
     });
     if (fnError || !data?.comment) {
-      setError("That note didn't send. Please try again in a moment.");
-      return;
+      setError("That note didn't send. Your words are safe below — try again in a moment.");
+      return false;
     }
-    setComments((prev) => [...prev, data.comment as ReviewComment]);
+    const created = data.comment as ReviewComment;
+    setComments((prev) => [...prev, created].sort(byTime));
+    setHighlightId(created.id);
     setDraft(null);
     setCommentMode(false);
+    return true;
   };
 
   const src = `${url.replace(/\/$/, "")}${page.path}`;
+  const draftKey = `pg:review:${gateway.slug}:${device}:${page.path}`;
 
   return (
     <div className="w-full">
@@ -134,9 +164,9 @@ const ReviewRoom = ({ gateway, url, token }: Props) => {
         ))}
       </nav>
 
-      <p className="text-sm text-mute mb-5">
+      <p className="text-sm text-mute mb-5" aria-live="polite">
         {commentMode
-          ? "Click anywhere on the preview to place a note."
+          ? "Click the spot you want to talk about, then write your note."
           : "Browse the site as your visitors will. Switch on comment mode to leave a note."}
       </p>
 
@@ -147,6 +177,7 @@ const ReviewRoom = ({ gateway, url, token }: Props) => {
         pins={pins}
         draft={draft}
         onPlace={(x, y) => setDraft({ x, y })}
+        pinNumber={(id) => numberOf.get(id) ?? 1}
       />
 
       {error && (
@@ -156,10 +187,32 @@ const ReviewRoom = ({ gateway, url, token }: Props) => {
       )}
 
       {draft && (
-        <NoteComposer pageLabel={page.label} onCancel={() => setDraft(null)} onSubmit={submitNote} />
+        <NoteComposer
+          pageLabel={page.label}
+          draftKey={draftKey}
+          onCancel={() => setDraft(null)}
+          onSubmit={submitNote}
+        />
       )}
 
-      <NotesList comments={comments} />
+      {loading ? (
+        <p className="mt-8 border-t border-line pt-6 text-mute">Loading your notes…</p>
+      ) : loadFailed ? (
+        <div className="mt-8 border-t border-line pt-6">
+          <p className="text-mute">Your notes couldn't be loaded just now.</p>
+          <button
+            onClick={() => {
+              setLoading(true);
+              load();
+            }}
+            className="mt-4 inline-flex items-center min-h-[44px] px-5 border border-line eyebrow text-text hover:border-accent hover:text-accent focus-ring transition-colors duration-200"
+          >
+            Try again
+          </button>
+        </div>
+      ) : (
+        <NotesList comments={comments} highlightId={highlightId} />
+      )}
     </div>
   );
 };
