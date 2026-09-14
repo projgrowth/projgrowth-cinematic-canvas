@@ -59,7 +59,16 @@ const MobileChrome = () => (
  * The frame is deliberately self-contained: the embedded site cannot open new
  * windows or navigate the portal, and the platform badge corner is masked.
  */
-const DeviceFrame = ({ src, device, commentMode, pins, draft, onPlace, onReady }: Props) => {
+const DeviceFrame = ({
+  src,
+  device,
+  commentMode,
+  pins,
+  draft,
+  onPlace,
+  onReady,
+  pinNumber,
+}: Props) => {
   const hostRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const base = BASE[device];
@@ -137,7 +146,7 @@ const DeviceFrame = ({ src, device, commentMode, pins, draft, onPlace, onReady }
                   className="absolute -translate-x-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-accent text-accent-foreground text-xs font-medium flex items-center justify-center shadow-[0_0_0_3px_hsl(var(--base)/0.7)]"
                   style={{ left: `${pin.x_pct}%`, top: `${pin.y_pct}%` }}
                 >
-                  {i + 1}
+                  {pinNumber ? pinNumber(pin.id) : i + 1}
                 </span>
               ))}
               {draft && (
