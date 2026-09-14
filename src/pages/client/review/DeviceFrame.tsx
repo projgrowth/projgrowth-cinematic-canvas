@@ -17,6 +17,8 @@ interface Props {
   draft: { x: number; y: number } | null;
   onPlace: (x: number, y: number) => void;
   onReady?: () => void;
+  /** Number shown on a pin, matched to the note list. */
+  pinNumber?: (id: string) => number;
 }
 
 /** Neutral browser bar: three dots and an empty field. No text, not clickable. */
