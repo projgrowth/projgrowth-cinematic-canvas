@@ -76,8 +76,9 @@ const DeviceFrame = ({ src, device, commentMode, pins, draft, onPlace, onReady }
   }, [base.w]);
 
   const width = base.w * scale;
-  const height = base.h * scale;
-  const mask = device === "mobile" ? { w: 132, h: 46 } : { w: 184, h: 58 };
+  // The site renders at its true height, but the frame shows slightly less of
+  // it, so anything pinned to the very bottom of the viewport stays clipped out.
+  const height = (base.h - 64) * scale;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!commentMode) return;
