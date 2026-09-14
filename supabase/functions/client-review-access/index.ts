@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.84.0";
 import bcrypt from "https://esm.sh/bcryptjs@2.4.3";
+import { issueReviewToken } from "../_shared/reviewToken.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -110,10 +111,11 @@ serve(async (req: Request) => {
     if (!ok) return json({ error: "invalid_code" }, 401);
 
     const url = Deno.env.get(gateway.urlSecret)?.trim();
+    const token = await issueReviewToken(slug);
     if (!url || !/^https:\/\//i.test(url)) {
-      return json({ status: "pending" }, 200);
+      return json({ status: "pending", token }, 200);
     }
-    return json({ status: "ready", url }, 200);
+    return json({ status: "ready", url, token }, 200);
   } catch {
     return json({ error: "unavailable" }, 503);
   }

@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import pgLogo from "@/assets/logos/pg-logo.png";
 import golinowskiLogo from "@/assets/logos/golinowski-law.png";
 import type { GatewayCopy } from "./gateways";
+import ReviewRoom from "./review/ReviewRoom";
 
 type State = "idle" | "checking" | "granted" | "pending";
 
@@ -51,6 +52,7 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
   const [code, setCode] = useState("");
   const [state, setState] = useState<State>("idle");
   const [error, setError] = useState("");
+  const [review, setReview] = useState<{ url: string; token: string } | null>(null);
   const inputId = useId();
   const errorId = `${inputId}-error`;
   const reduceMotion = useReducedMotion();
@@ -76,11 +78,8 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
       }
 
       if (data.status === "ready" && typeof data.url === "string") {
+        setReview({ url: data.url, token: typeof data.token === "string" ? data.token : "" });
         setState("granted");
-        window.setTimeout(
-          () => window.location.replace(data.url),
-          reduceMotion ? 0 : 220,
-        );
         return;
       }
 
@@ -98,7 +97,8 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
     }
   };
 
-  const busy = state === "checking" || state === "granted";
+  const busy = state === "checking";
+  const inRoom = state === "granted" && !!review;
 
   return (
     <div className="page-canvas dot-grid min-h-screen flex flex-col">
@@ -116,7 +116,11 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
         </div>
       </header>
 
-      <main className="container-site flex-1 flex items-center justify-center py-12 md:py-20">
+      <main
+        className={`container-site flex-1 flex justify-center ${
+          inRoom ? "items-start py-8 md:py-10" : "items-center py-12 md:py-20"
+        }`}
+      >
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -125,6 +129,8 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
         >
           {state === "pending" ? (
             <LoadingScreen client={gateway.client} reduceMotion={!!reduceMotion} />
+          ) : inRoom && review ? (
+            <ReviewRoom gateway={gateway} url={review.url} token={review.token} />
           ) : state === "granted" ? (
             <div className="flex items-center justify-center gap-3 text-mute">
               <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />

@@ -26,6 +26,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminLeads = lazy(() => import("./pages/AdminLeads"));
+const AdminReviews = lazy(() => import("./pages/AdminReviews"));
 const Discovery = lazy(() => import("./pages/Discovery"));
 const RGC = lazy(() => import("./pages/RGC"));
 const GolinowskiLawRebuild = lazy(() => import("./pages/client/GolinowskiLawRebuild"));
@@ -47,6 +48,7 @@ const routes: { path: string; element: React.ReactNode; raw?: boolean }[] = [
   { path: "/privacy", element: <Privacy /> },
   { path: "/terms", element: <Terms /> },
   { path: "/admin/leads", element: <AdminLeads /> },
+  { path: "/admin/reviews", element: <AdminReviews />, raw: true },
   { path: "/discovery", element: <Discovery />, raw: true },
   { path: "/rgc", element: <RGC />, raw: true },
   { path: "/random-golf-club", element: <Navigate to="/rgc" replace />, raw: true },
