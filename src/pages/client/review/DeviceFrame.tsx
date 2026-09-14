@@ -92,9 +92,9 @@ const DeviceFrame = ({ src, device, commentMode, pins, draft, onPlace, onReady }
     <div ref={hostRef} className="w-full">
       <div
         className={`relative mx-auto overflow-hidden border border-line bg-base ${
-          device === "mobile" ? "rounded-[2.5rem] p-[6px]" : "rounded-lg"
+          device === "mobile" ? "rounded-[2rem]" : "rounded-lg"
         }`}
-        style={{ width: width ? width + (device === "mobile" ? 12 : 0) : undefined }}
+        style={{ width: width || undefined }}
       >
         <div className="overflow-hidden rounded-[inherit]">
           {device === "desktop" ? <DesktopChrome /> : <MobileChrome />}
