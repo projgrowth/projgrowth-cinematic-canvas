@@ -1,4 +1,5 @@
 import { useId, useState } from "react";
+import { clearSession, readSession, saveSession } from "./reviewSession";
 import { Helmet } from "react-helmet-async";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
@@ -49,10 +50,19 @@ const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion:
  * protected is present in this bundle or in the unauthenticated payload.
  */
 const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
+  const restored = typeof window === "undefined" ? null : readSession(gateway.slug);
   const [code, setCode] = useState("");
-  const [state, setState] = useState<State>("idle");
+  const [state, setState] = useState<State>(restored ? "granted" : "idle");
   const [error, setError] = useState("");
-  const [review, setReview] = useState<{ url: string; token: string } | null>(null);
+  const [review, setReview] = useState<{ url: string; token: string } | null>(restored);
+
+  /** The signed session ran out: fall back to the code, explaining why. */
+  const handleExpired = () => {
+    clearSession(gateway.slug);
+    setReview(null);
+    setState("idle");
+    setError("Your review session timed out. Enter your code to pick up where you left off.");
+  };
   const inputId = useId();
   const errorId = `${inputId}-error`;
   const reduceMotion = useReducedMotion();
@@ -78,7 +88,12 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
       }
 
       if (data.status === "ready" && typeof data.url === "string") {
-        setReview({ url: data.url, token: typeof data.token === "string" ? data.token : "" });
+        const session = {
+          url: data.url,
+          token: typeof data.token === "string" ? data.token : "",
+        };
+        setReview(session);
+        saveSession(gateway.slug, session);
         setState("granted");
         return;
       }
@@ -130,7 +145,12 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
           {state === "pending" ? (
             <LoadingScreen client={gateway.client} reduceMotion={!!reduceMotion} />
           ) : inRoom && review ? (
-            <ReviewRoom gateway={gateway} url={review.url} token={review.token} />
+            <ReviewRoom
+              gateway={gateway}
+              url={review.url}
+              token={review.token}
+              onExpired={handleExpired}
+            />
           ) : state === "granted" ? (
             <div className="flex items-center justify-center gap-3 text-mute">
               <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
