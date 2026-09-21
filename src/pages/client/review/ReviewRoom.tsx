@@ -12,7 +12,13 @@ interface Props {
   gateway: GatewayCopy;
   url: string;
   token: string;
+  /** Called when the signed session is no longer accepted. */
+  onExpired?: () => void;
 }
+
+/** True when an edge function rejected the session token. */
+const isExpired = (e: unknown) =>
+  (e as { context?: { status?: number } })?.context?.status === 401;
 
 const byTime = (a: ReviewComment, b: ReviewComment) =>
   new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
