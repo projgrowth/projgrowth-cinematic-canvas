@@ -88,7 +88,12 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
       }
 
       if (data.status === "ready" && typeof data.url === "string") {
-        setReview({ url: data.url, token: typeof data.token === "string" ? data.token : "" });
+        const session = {
+          url: data.url,
+          token: typeof data.token === "string" ? data.token : "",
+        };
+        setReview(session);
+        saveSession(gateway.slug, session);
         setState("granted");
         return;
       }
@@ -140,7 +145,12 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
           {state === "pending" ? (
             <LoadingScreen client={gateway.client} reduceMotion={!!reduceMotion} />
           ) : inRoom && review ? (
-            <ReviewRoom gateway={gateway} url={review.url} token={review.token} />
+            <ReviewRoom
+              gateway={gateway}
+              url={review.url}
+              token={review.token}
+              onExpired={handleExpired}
+            />
           ) : state === "granted" ? (
             <div className="flex items-center justify-center gap-3 text-mute">
               <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
