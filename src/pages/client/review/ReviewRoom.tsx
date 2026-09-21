@@ -30,7 +30,7 @@ const byTime = (a: ReviewComment, b: ReviewComment) =>
  * visible to someone who entered the access code — and they are stored, so the
  * same code brings the whole history back later.
  */
-const ReviewRoom = ({ gateway, url, token }: Props) => {
+const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
   const [device, setDevice] = useState<Device>(() =>
     typeof window !== "undefined" && window.innerWidth < 900 ? "mobile" : "desktop",
   );
@@ -48,6 +48,10 @@ const ReviewRoom = ({ gateway, url, token }: Props) => {
     const { data, error: fnError } = await supabase.functions.invoke("client-review-comments", {
       body: { action: "list", token },
     });
+    if (fnError && isExpired(fnError)) {
+      onExpired?.();
+      return;
+    }
     if (fnError || !Array.isArray(data?.comments)) {
       setLoadFailed(true);
     } else {
@@ -89,6 +93,10 @@ const ReviewRoom = ({ gateway, url, token }: Props) => {
         body,
       },
     });
+    if (fnError && isExpired(fnError)) {
+      onExpired?.();
+      return false;
+    }
     if (fnError || !data?.comment) {
       setError("That note didn't send. Your words are safe below — try again in a moment.");
       return false;
