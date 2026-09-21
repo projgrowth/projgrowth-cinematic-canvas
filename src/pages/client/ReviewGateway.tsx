@@ -50,10 +50,19 @@ const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion:
  * protected is present in this bundle or in the unauthenticated payload.
  */
 const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
+  const restored = typeof window === "undefined" ? null : readSession(gateway.slug);
   const [code, setCode] = useState("");
-  const [state, setState] = useState<State>("idle");
+  const [state, setState] = useState<State>(restored ? "granted" : "idle");
   const [error, setError] = useState("");
-  const [review, setReview] = useState<{ url: string; token: string } | null>(null);
+  const [review, setReview] = useState<{ url: string; token: string } | null>(restored);
+
+  /** The signed session ran out: fall back to the code, explaining why. */
+  const handleExpired = () => {
+    clearSession(gateway.slug);
+    setReview(null);
+    setState("idle");
+    setError("Your review session timed out. Enter your code to pick up where you left off.");
+  };
   const inputId = useId();
   const errorId = `${inputId}-error`;
   const reduceMotion = useReducedMotion();
