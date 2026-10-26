@@ -44,8 +44,8 @@ function buildOgUrl(
 }
 
 const SEO = ({
-  title = "ProjGrowth - Digital Experiences That Grow Businesses",
-  description = "Modern creative studio specializing in brand strategy, digital design, and web development. We create meaningful digital experiences that drive business growth.",
+  title = "ProjGrowth - Orlando Digital Studio",
+  description = "Orlando digital studio building brands, websites, and content systems for founders and marketing leaders.",
   ogImage,
   twitterImage,
   canonicalUrl,
