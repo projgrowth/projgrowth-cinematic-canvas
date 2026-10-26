@@ -3,28 +3,22 @@ import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
 import ClientLogos from "@/components/ClientLogos";
-import AmbientGlow from "@/components/AmbientGlow";
 import { Helmet } from "react-helmet-async";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies, platedCaseStudies } from "@/data/caseStudies";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import ResultsStrip from "@/components/home/ResultsStrip";
-import SectionChapter from "@/components/SectionChapter";
+import WorkPlate from "@/components/WorkPlate";
 import WorkTile from "@/components/WorkTile";
 
-const featuredProjects = caseStudies.slice(0, 3);
+const featuredProjects = platedCaseStudies().slice(0, 3);
+const heroCase = caseStudies.find((study) => study.id === "gfg-solutions") ?? featuredProjects[0];
 
-const availability = {
-  now: { label: "Now", value: "Wealth advisory + legaltech builds in flight" },
-  recent: { label: "Recent", title: "Florida Private Providers", slug: "florida-private" },
-  next: { label: "Next", value: "Accepting 2 new partners for Q1" },
-};
-
-const heroWords = [
-  { text: "We design brands", accent: false },
-  { text: "that earn attention", accent: false },
-  { text: "and keep it.", accent: true },
+const heroLines = [
+  "We design brands",
+  "that earn attention",
+  "and keep it.",
 ];
 
 const Home = () => {
@@ -88,12 +82,10 @@ const Home = () => {
         </script>
       </Helmet>
 
-      {/* Hero */}
+      {/* Hero — headline left, real case plate right. Plate stacks under CTAs on small screens. */}
       <Section size="hero" className="hero-offset">
-        <AmbientGlow variant="hero" />
         <div className="grid-12 relative z-10 items-center">
-          {/* Left — headline and CTAs */}
-          <div className="col-span-12 lg:col-span-7 stack gap-6 md:gap-8">
+          <div className="col-span-12 lg:col-span-5 stack gap-6 md:gap-8 min-w-0">
             <motion.p
               className="eyebrow"
               initial={{ opacity: 0 }}
@@ -102,16 +94,16 @@ const Home = () => {
             >
               Digital Studio · Orlando, FL
             </motion.p>
-            <h1 className="font-display text-text">
-              {heroWords.map((word, i) => (
+            <h1 className="font-display">
+              {heroLines.map((line, i) => (
                 <motion.span
-                  key={i}
-                  className={`block ${word.accent ? "text-accent" : ""}`}
+                  key={line}
+                  className="block text-[rgb(241,240,238)]"
                   initial={reduceMotion ? false : { opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.08 + i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
-                  {word.text}
+                  {line}
                 </motion.span>
               ))}
             </h1>
@@ -141,44 +133,21 @@ const Home = () => {
             </motion.div>
           </div>
 
-          {/* Right — credential panel (desktop only) */}
-          <motion.div
-            className="hidden lg:flex col-span-5 justify-end items-center"
-            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="w-full max-w-[300px] border-l border-line pl-7 space-y-6">
-              <div>
-                <p className="eyebrow-faint mb-2 block">
-                  {availability.now.label}
+          {heroCase && (
+            <motion.div
+              className="col-span-12 lg:col-span-7 min-w-0"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <Link to={`/work/${heroCase.id}`} className="group block">
+                <WorkPlate caseStudy={heroCase} aspect="aspect-[16/10]" priority />
+                <p className="mt-3 text-sm tracking-wide text-[rgba(241,240,238,0.45)]">
+                  {heroCase.title} · {heroCase.category} · {heroCase.outcome}
                 </p>
-                <p className="font-display text-text leading-snug">
-                  {availability.now.value}
-                </p>
-              </div>
-              <div>
-                <p className="eyebrow-faint mb-2 block">
-                  {availability.recent.label}
-                </p>
-                <Link
-                  to={`/work/${availability.recent.slug}`}
-                  className="group inline-flex items-center gap-2 font-display text-text leading-snug transition-colors duration-sm hover:text-accent"
-                >
-                  {availability.recent.title}
-                  <ArrowRight className="w-4 h-4 transition-transform duration-sm group-hover:translate-x-0.5" />
-                </Link>
-              </div>
-              <div className="pt-4 border-t border-line">
-                <p className="eyebrow-faint mb-2 block">
-                  {availability.next.label}
-                </p>
-                <p className="text-sm text-mute leading-snug">
-                  {availability.next.value}
-                </p>
-              </div>
-            </div>
-          </motion.div>
+              </Link>
+            </motion.div>
+          )}
         </div>
       </Section>
 
@@ -200,15 +169,12 @@ const Home = () => {
               {services.map((service, idx) => (
                 <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.1}>
                   <Link to={service.path} className="group block h-full">
-                    <SurfaceCard pad="md" interactive className="h-full">
-                      <span className="eyebrow-faint block mb-5" aria-hidden="true">
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                      <h3 className="font-display text-text mb-1.5 transition-colors duration-sm group-hover:text-accent">
+                    <SurfaceCard pad="md" interactive className="surface-card-quiet h-full">
+                      <h3 className="font-display text-[rgb(241,240,238)] mb-1.5">
                         {service.title}
                       </h3>
-                      <p className="text-accent text-sm mb-3">{service.outcome}</p>
-                      <p className="text-mute">{service.description}</p>
+                      <p className="text-sm text-[rgb(241,240,238)] mb-3">{service.outcome}</p>
+                      <p className="text-mute line-clamp-2">{service.description}</p>
                     </SurfaceCard>
                   </Link>
                 </ScrollReveal>
@@ -227,7 +193,7 @@ const Home = () => {
           <ScrollReveal variant="fade-up">
             <div className="grid-12 section-intro-grid mb-12 md:mb-16">
               <div className="col-span-12 lg:col-span-4">
-                <SectionChapter number={3} label="How We Work" />
+                <p className="eyebrow mb-4">How We Work</p>
                 <h2 className="font-display text-text">
                   Not a Vendor.<br />A Strategic Partner.
                 </h2>
@@ -244,11 +210,11 @@ const Home = () => {
             {differentiators.map((item, idx) => (
               <ScrollReveal key={idx} variant="fade-up" delay={idx * 0.08}>
                 <div className="flex gap-8 md:gap-12 py-7 md:py-9 group">
-                  <span className="font-display text-xs text-accent-faint w-6 flex-shrink-0 pt-1">
+                  <span className="font-display text-xs w-6 flex-shrink-0 pt-1 text-[rgba(241,240,238,0.45)]">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                   <div className="flex-1 md:flex md:items-start md:gap-12">
-                    <h3 className="font-display text-text mb-2 md:mb-0 md:w-64 flex-shrink-0 group-hover:text-accent transition-colors duration-sm">
+                    <h3 className="font-display text-[rgb(241,240,238)] mb-2 md:mb-0 md:w-64 flex-shrink-0">
                       {item.title}
                     </h3>
                     <p className="text-mute md:flex-1">{item.description}</p>
@@ -265,7 +231,7 @@ const Home = () => {
         <ScrollReveal variant="fade-up">
           <div className="grid-12 section-intro-grid mb-12 md:mb-16">
             <div className="col-span-12 lg:col-span-4">
-              <SectionChapter number={4} label="Selected Work" />
+              <p className="eyebrow mb-4">Selected Work</p>
               <h2 className="font-display text-text">Work That Moves the Needle</h2>
             </div>
             <div className="col-span-12 lg:col-span-7 lg:col-start-6 flex items-end">
@@ -274,30 +240,31 @@ const Home = () => {
           </div>
         </ScrollReveal>
 
-        <ScrollReveal variant="fade-up" delay={0.15}>
-          {/* Asymmetric editorial layout: one lead project, two supporting */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards items-start">
-            <div className="lg:col-span-7">
-              <WorkTile
-                caseStudy={featuredProjects[0]}
-                aspect="aspect-[4/3]"
-                priority
-                size="lead"
-              />
+        {featuredProjects[0] && (
+          <ScrollReveal variant="fade-up" delay={0.15}>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-cards items-start">
+              <div className="lg:col-span-7">
+                <WorkTile
+                  caseStudy={featuredProjects[0]}
+                  aspect="aspect-[16/10]"
+                  priority
+                  size="lead"
+                />
+              </div>
+              <div className="lg:col-span-5 stack-cards">
+                {featuredProjects.slice(1).map((project) => (
+                  <WorkTile key={project.id} caseStudy={project} aspect="aspect-[16/10]" />
+                ))}
+              </div>
             </div>
-            <div className="lg:col-span-5 stack-cards">
-              {featuredProjects.slice(1).map((project) => (
-                <WorkTile key={project.id} caseStudy={project} aspect="aspect-[16/10]" />
-              ))}
-            </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        )}
 
         <ScrollReveal variant="fade-up" delay={0.3}>
           <div className="mt-12">
             <Link
               to="/work"
-              className="inline-flex items-center gap-2 text-accent hover:text-accent-strong transition-colors duration-sm font-medium"
+              className="inline-flex items-center gap-2 font-medium text-[rgb(241,240,238)] transition-opacity duration-sm hover:opacity-70"
             >
               View All Projects
               <ArrowRight className="w-5 h-5" />

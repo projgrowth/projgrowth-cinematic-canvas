@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies, hasPlateImage, type CaseStudy } from "@/data/caseStudies";
 import SectionChapter from "@/components/SectionChapter";
 import ScrollReveal from "@/components/ScrollReveal";
 import WorkTile from "@/components/WorkTile";
@@ -26,7 +26,7 @@ const RelatedCaseStudies = ({
 }: RelatedCaseStudiesProps) => {
   const items = ids
     .map((id) => caseStudies.find((c) => c.id === id))
-    .filter((c): c is NonNullable<typeof c> => Boolean(c));
+    .filter((c): c is CaseStudy => Boolean(c) && hasPlateImage(c));
 
   if (items.length === 0) return null;
 

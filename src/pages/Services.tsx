@@ -10,7 +10,7 @@ import SectionChapter from "@/components/SectionChapter";
 import ClientLogos from "@/components/ClientLogos";
 import RelatedCaseStudies from "@/components/RelatedCaseStudies";
 import WorkPlate from "@/components/WorkPlate";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies, hasPlateImage } from "@/data/caseStudies";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -198,17 +198,17 @@ const Services = () => {
                       </ul>
                     </div>
 
-                    {/* Proof plate — image-forward client reference */}
-                    {plateFor(service.proofId) && (
+                    {/* Proof plate — real crops only. No logo-on-pattern stand-ins. */}
+                    {plateFor(service.proofId) && hasPlateImage(plateFor(service.proofId)!) && (
                       <div className="col-span-12 lg:col-span-3">
                         <Link
                           to={`/work/${service.proofId}`}
-                          className="block"
+                          className="group block"
                           aria-label={`View the ${plateFor(service.proofId)!.title} case study`}
                         >
                           <WorkPlate
                             caseStudy={plateFor(service.proofId)!}
-                            aspect="aspect-[4/3]"
+                            aspect="aspect-[16/10]"
                           />
                           <p className="eyebrow-faint mt-3 block">
                             {plateFor(service.proofId)!.title}

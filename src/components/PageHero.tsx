@@ -5,6 +5,8 @@ import SectionChapter from "@/components/SectionChapter";
 
 interface PageHeroProps {
   chapter?: { number: number; label: string };
+  /** Quiet cream label. Use instead of a numbered chapter mark. */
+  kicker?: string;
   title: ReactNode;
   lede?: ReactNode;
   status?: ReactNode;
@@ -15,6 +17,8 @@ interface PageHeroProps {
   media?: ReactNode;
   /** Drift the backdrop on scroll. Only meaningful together with `media`. */
   parallax?: boolean;
+  /** Skip the accent halo. Work uses this so mint stays on the solid CTA. */
+  quiet?: boolean;
 }
 
 /**
@@ -24,6 +28,7 @@ interface PageHeroProps {
  */
 const PageHero = ({
   chapter,
+  kicker,
   title,
   lede,
   status,
@@ -32,6 +37,7 @@ const PageHero = ({
   className = "",
   media,
   parallax = false,
+  quiet = false,
 }: PageHeroProps) => {
   const alignClass = align === "center" ? "text-center mx-auto" : "";
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,16 +60,19 @@ const PageHero = ({
           <div className="absolute inset-0 bg-gradient-to-t from-base via-base/80 to-transparent" />
         </motion.div>
       )}
-      <div
-        className="absolute -inset-x-8 top-0 h-64 pointer-events-none -z-0"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse at 20% 50%, hsl(var(--accent) / 0.06), transparent 65%)",
-        }}
-      />
+      {!quiet && (
+        <div
+          className="absolute -inset-x-8 top-0 h-64 pointer-events-none -z-0"
+          aria-hidden="true"
+          style={{
+            background:
+              "radial-gradient(ellipse at 20% 50%, hsl(var(--accent) / 0.06), transparent 65%)",
+          }}
+        />
+      )}
       <ScrollReveal variant="fade-up">
         <div className={`relative z-10 ${alignClass}`}>
+          {kicker && <p className="eyebrow mb-4">{kicker}</p>}
           {chapter && (
             <SectionChapter number={chapter.number} label={chapter.label} align={align} />
           )}

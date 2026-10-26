@@ -31,17 +31,19 @@ const WorkTile = ({
       <div className="min-w-0">
         <span className="eyebrow mb-1.5 block">{caseStudy.category}</span>
         {size === "lead" ? (
-          <h2 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
+          <h2 className="font-display text-[rgb(241,240,238)]">
             {caseStudy.title}
           </h2>
         ) : (
-          <h3 className="font-display text-text transition-colors duration-sm group-hover:text-accent">
+          <h3 className="font-display text-[rgb(241,240,238)]">
             {caseStudy.title}
           </h3>
         )}
-        <p className="text-mute text-sm mt-1.5 max-w-md">{caseStudy.subtitle}</p>
+        <p className="mt-1.5 max-w-md text-sm text-[rgba(241,240,238,0.72)]">
+          {caseStudy.outcome}
+        </p>
       </div>
-      <ArrowRight className="w-5 h-5 mt-1 flex-shrink-0 text-mute transition-[color,transform] duration-sm group-hover:text-accent group-hover:translate-x-1" />
+      <ArrowRight className="mt-1 h-5 w-5 flex-shrink-0 text-[rgba(241,240,238,0.45)] transition-transform duration-sm group-hover:translate-x-1 group-hover:text-[rgb(241,240,238)]" />
     </div>
   </Link>
 );

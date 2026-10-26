@@ -2,51 +2,34 @@ import { Section } from "@/components/ui/section";
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/Layout";
-import CategoryFilter from "@/components/CategoryFilter";
-import SearchBar from "@/components/SearchBar";
 import ScrollReveal from "@/components/ScrollReveal";
 import PageHero from "@/components/PageHero";
 import WorkTile from "@/components/WorkTile";
-import { caseStudies, categories } from "@/data/caseStudies";
-import GlobalCTA from "@/components/GlobalCTA";
+import { platedCaseStudies, platedCategories } from "@/data/caseStudies";
 
 const Work = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const availableCategories = platedCategories();
 
-  const [activeCategory, setActiveCategory] = useState(() => 
-    searchParams.get("category") || "All"
-  );
-  const [searchQuery, setSearchQuery] = useState(() => 
-    searchParams.get("q") || ""
-  );
+  const [activeCategory, setActiveCategory] = useState(() => {
+    const fromUrl = searchParams.get("category") || "All";
+    return availableCategories.includes(fromUrl) ? fromUrl : "All";
+  });
 
   useEffect(() => {
     const params = new URLSearchParams();
     if (activeCategory !== "All") params.set("category", activeCategory);
-    if (searchQuery) params.set("q", searchQuery);
-
     setSearchParams(params, { replace: true });
-  }, [activeCategory, searchQuery, setSearchParams]);
+  }, [activeCategory, setSearchParams]);
 
   const filteredCaseStudies = useMemo(
     () =>
-      caseStudies.filter((study) => {
-      const matchesCategory = activeCategory === "All" || study.categories.includes(activeCategory);
-      const matchesSearch = 
-        study.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        study.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        study.category.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
-      }),
-    [activeCategory, searchQuery]
+      platedCaseStudies().filter(
+        (study) => activeCategory === "All" || study.categories.includes(activeCategory)
+      ),
+    [activeCategory]
   );
 
-  const handleClearFilters = () => {
-    setActiveCategory("All");
-    setSearchQuery("");
-  };
-
-  const hasActiveFilters = activeCategory !== "All" || Boolean(searchQuery);
   const [lead, ...rest] = filteredCaseStudies;
 
   return (
@@ -58,66 +41,52 @@ const Work = () => {
     >
       <Section>
         <PageHero
-          chapter={{ number: 1, label: "Selected Work" }}
+          kicker="Selected Work"
+          quiet
           title="Work"
           lede="A curated selection of systems, content engines, and digital builds designed to increase clarity, output, and long-term brand equity."
-          className="mb-12 md:mb-16 relative z-10"
+          className="mb-10 md:mb-12 relative z-10"
         />
 
-        {/* Filter Bar */}
-        <ScrollReveal variant="fade-up" delay={0.1}>
-          <div className="space-y-4 mb-10 relative z-10">
-            <SearchBar
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder="Search case studies..."
-            />
-
-            <CategoryFilter
-              categories={categories}
-              activeCategory={activeCategory}
-              onCategoryChange={setActiveCategory}
-            />
-
-            {hasActiveFilters && (
-              <p className="text-sm text-mute">
-                Showing {filteredCaseStudies.length} of {caseStudies.length} projects
-              </p>
-            )}
-          </div>
-        </ScrollReveal>
-
-        {filteredCaseStudies.length === 0 ? (
-          <ScrollReveal variant="fade-up">
-            <div className="text-center section space-y-6">
-              <div className="w-16 h-16 mx-auto rounded-full bg-surface border border-line flex items-center justify-center">
-                <span className="text-2xl text-mute">∅</span>
-              </div>
-              <div>
-                <p className="text-xl text-text mb-2">No projects found</p>
-                <p className="text-mute">Try adjusting your filters or search terms</p>
-              </div>
+        <nav aria-label="Filter work" className="relative z-10 mb-10 flex flex-wrap gap-x-6 gap-y-1">
+          {availableCategories.map((category) => {
+            const isActive = activeCategory === category;
+            return (
               <button
-                onClick={handleClearFilters}
-                className="btn-outline-cta"
+                key={category}
+                type="button"
+                onClick={() => setActiveCategory(category)}
+                className={`min-h-11 bg-transparent px-0 text-sm ${
+                  isActive
+                    ? "text-[rgb(241,240,238)] underline decoration-[rgb(241,240,238)] underline-offset-[6px]"
+                    : "text-[rgba(241,240,238,0.45)] hover:text-[rgb(241,240,238)]"
+                }`}
+                aria-current={isActive ? "true" : undefined}
               >
-                Clear filters
+                {category}
               </button>
-            </div>
-          </ScrollReveal>
+            );
+          })}
+        </nav>
+
+        {filteredCaseStudies.length === 0 || !lead ? (
+          <div className="relative z-10 section space-y-4">
+            <p className="text-xl text-[rgb(241,240,238)]">No projects in this discipline</p>
+            <button type="button" onClick={() => setActiveCategory("All")} className="btn-outline-cta">
+              Show all work
+            </button>
+          </div>
         ) : (
           <div className="relative z-10 stack gap-cards">
-            {/* Lead project — full-width plate */}
             <ScrollReveal variant="fade-up">
               <WorkTile
                 caseStudy={lead}
-                aspect="aspect-[4/3] md:aspect-[2/1]"
+                aspect="aspect-[16/10]"
                 priority
                 size="lead"
               />
             </ScrollReveal>
 
-            {/* Remaining projects — two-up editorial rhythm */}
             {rest.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-cards">
                 {rest.map((study, idx) => (
@@ -126,10 +95,7 @@ const Work = () => {
                     variant="fade-up"
                     delay={Math.min(idx, 4) * 0.08}
                   >
-                    <WorkTile
-                      caseStudy={study}
-                      aspect="aspect-[4/3]"
-                    />
+                    <WorkTile caseStudy={study} aspect="aspect-[16/10]" />
                   </ScrollReveal>
                 ))}
               </div>
@@ -137,8 +103,6 @@ const Work = () => {
           </div>
         )}
       </Section>
-
-      <GlobalCTA />
     </Layout>
   );
 };

@@ -21,6 +21,8 @@ export interface CaseStudy {
   category: string;
   categories: string[];
   subtitle: string;
+  /** One true outcome line for plates. No invented metrics. */
+  outcome: string;
   whatTheyDo: string;
   theirIssues: string[];
   howWeHelped: string[];
@@ -45,6 +47,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Content Systems",
     categories: ["Content Systems", "Web & Product", "Brand & Messaging"],
     subtitle: "A complete tax-education content ecosystem",
+    outcome: "Tax-education system that compounds monthly",
     whatTheyDo: "A strategy and tax-planning firm serving growth-stage business owners.",
     theirIssues: [
       "Tax concepts were complex and difficult to explain",
@@ -75,6 +78,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Brand & Messaging",
     categories: ["Brand & Messaging", "Content Systems", "Web & Product"],
     subtitle: "A clarity-first brand and content system",
+    outcome: "Clarity-first brand and site, rebuilt",
     whatTheyDo: "A modern, planning-focused wealth advisory firm.",
     theirIssues: [
       "Brand voice didn't match their sophistication",
@@ -105,6 +109,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Cinematic Production",
     categories: ["Cinematic Production", "Content Systems"],
     subtitle: "Manufacturing turned into modern storytelling",
+    outcome: "Process and craft, filmed on site",
     whatTheyDo: "A B-Corp apparel manufacturer with a focus on premium custom printing.",
     theirIssues: [
       "Needed more dynamic ways to showcase production quality",
@@ -127,6 +132,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Cinematic Production",
     categories: ["Cinematic Production"],
     subtitle: "Premium product cinematics for boutique retail",
+    outcome: "Luxury product, filmed in detail",
     whatTheyDo: "A legacy luxury jeweler offering designer and custom pieces.",
     theirIssues: [
       "Product visuals felt static and commercial",
@@ -148,6 +154,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Content Systems",
     categories: ["Content Systems"],
     subtitle: "Consistent advisor-focused content engine",
+    outcome: "Advisors visible on a monthly cadence",
     whatTheyDo: "A planning-forward wealth firm serving professionals and pre-retirees.",
     theirIssues: [
       "Advisors weren't visible or differentiated",
@@ -170,6 +177,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Content Systems",
     categories: ["Content Systems"],
     subtitle: "Humanized advisor stories at scale",
+    outcome: "Advisor stories on a monthly cadence",
     whatTheyDo: "A large advisor team with strong culture and active clientele.",
     theirIssues: [
       "Needed a modern way to highlight individual advisors",
@@ -191,6 +199,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Web & Product",
     categories: ["Web & Product"],
     subtitle: "A fully interactive paddle customization platform",
+    outcome: "A paddle you can customize in the browser",
     whatTheyDo: "A customizable pickleball paddle brand.",
     theirIssues: [
       "Needed a premium digital experience",
@@ -213,6 +222,7 @@ export const caseStudies: CaseStudy[] = [
     category: "AI & Tools",
     categories: ["AI & Tools", "Web & Product"],
     subtitle: "A modern approach to plan review",
+    outcome: "Plan review, moved into a tool",
     whatTheyDo: "A construction and compliance firm reviewing building plans.",
     theirIssues: [
       "Manual review was slow and repetitive",
@@ -241,6 +251,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Web & Product",
     categories: ["Web & Product", "Brand & Messaging"],
     subtitle: "A modern, credibility-first legal website",
+    outcome: "A legal site built to read as trust",
     whatTheyDo: "A Florida-based law practice specializing in estate planning, probate, and business law.",
     theirIssues: [
       "Website felt outdated and didn't reflect expertise",
@@ -261,3 +272,28 @@ export const caseStudies: CaseStudy[] = [
 ];
 
 export const categories = ["All", "Content Systems", "Web & Product", "Brand & Messaging", "Cinematic Production", "AI & Tools"];
+
+/** Real UI / film crops in /public. A logo on a dot grid is not a plate. */
+const PLATE_IMAGES = new Set([
+  "/case-gfg.jpg",
+  "/case-smartfinancial.jpg",
+  "/case-floridaprivate.jpg",
+]);
+
+export function hasPlateImage(study: Pick<CaseStudy, "image">): boolean {
+  return PLATE_IMAGES.has(study.image);
+}
+
+export function platedCaseStudies(): CaseStudy[] {
+  return caseStudies.filter(hasPlateImage);
+}
+
+/** Categories that still have a real plate. Empty disciplines stay hidden. */
+export function platedCategories(): string[] {
+  const present = new Set<string>();
+  for (const study of caseStudies) {
+    if (!hasPlateImage(study)) continue;
+    for (const category of study.categories) present.add(category);
+  }
+  return categories.filter((category) => category === "All" || present.has(category));
+}
