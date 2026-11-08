@@ -1,27 +1,30 @@
-import { useState } from "react";
 import { Check, Loader2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useMachine } from "@/lib/useMachine";
+import { initialJob, jobTransition } from "@/lib/machines/job";
 import type { SelfTestResult } from "./types";
 
 const SelfTestBanner = ({ credentials }: { credentials: { email: string; password: string } }) => {
-  const [running, setRunning] = useState(false);
-  const [result, setResult] = useState<SelfTestResult | null>(null);
+  const [job, send] = useMachine(initialJob<SelfTestResult>(), jobTransition<SelfTestResult>);
 
   const run = async () => {
-    setRunning(true);
-    setResult(null);
+    const attempt = send({ type: "start" });
+    if (attempt.previous.status === "running") return;
     try {
       const { data, error } = await supabase.functions.invoke("admin-self-test", { body: credentials });
       if (error) {
-        setResult({ ok: false, steps: [], error: error.message });
+        send({ type: "finish", result: { ok: false, steps: [], error: error.message } });
       } else {
-        setResult(data);
+        send({ type: "finish", result: data });
       }
-    } catch (e: any) {
-      setResult({ ok: false, steps: [], error: e?.message || "Failed" });
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Failed";
+      send({ type: "finish", result: { ok: false, steps: [], error: message } });
     }
-    setRunning(false);
   };
+
+  const running = job.status === "running";
+  const result = job.status === "settled" ? job.result : null;
 
   return (
     <>
@@ -44,7 +47,7 @@ const SelfTestBanner = ({ credentials }: { credentials: { email: string; passwor
             <div className="font-medium text-text">
               {result.ok ? "✓ Self-test passed" : "✗ Self-test failed"}
             </div>
-            <button onClick={() => setResult(null)} className="text-xs text-mute hover:text-text">
+            <button onClick={() => send({ type: "dismiss" })} className="text-xs text-mute hover:text-text">
               Dismiss
             </button>
           </div>

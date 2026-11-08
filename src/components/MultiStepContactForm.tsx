@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Globe, Palette, FileText, HelpCircle, 
@@ -8,6 +8,15 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useMachine } from "@/lib/useMachine";
+import {
+  CONTACT_STEPS,
+  EMPTY_CONTACT_ERRORS,
+  contactFlowTransition,
+  contactStepNumber,
+  initialContactFlow,
+  type ContactStepId,
+} from "@/lib/machines/contactFlow";
 
 
 interface FormData {
@@ -58,11 +67,8 @@ const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
 
 const MultiStepContactForm = () => {
   const { toast } = useToast();
-  const [step, setStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
-  
+  const [flow, send] = useMachine(initialContactFlow, contactFlowTransition);
+
   const [formData, setFormData] = useState<FormData>({
     service: "",
     serviceDetail: "",
@@ -74,35 +80,52 @@ const MultiStepContactForm = () => {
     website: "", // Honeypot
   });
 
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-  });
+  useEffect(() => {
+    if (flow.status !== "succeeded" || !flow.confetti) return;
+    const timer = window.setTimeout(() => {
+      send({ type: "confettiFinished" });
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [flow, send]);
 
-  const totalSteps = 5;
-  const progress = (step / totalSteps) * 100;
-
-  const handleSelect = useCallback((field: keyof FormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    trackEvent("form_step_interaction", { step, field, value });
-  }, [step]);
-
-  const nextStep = useCallback(() => {
-    trackEvent("form_step_complete", { step, stepName: getStepName(step) });
-    setStep(prev => Math.min(prev + 1, totalSteps));
-  }, [step]);
-
-  const prevStep = useCallback(() => {
-    setStep(prev => Math.max(prev - 1, 1));
-  }, []);
-
-  const getStepName = (s: number) => {
-    const names = ["service", "details", "timeline", "budget", "contact"];
-    return names[s - 1] || "unknown";
-  };
+  const step: ContactStepId = flow.status === "editing" ? flow.step : "contact";
+  const stepNumber = contactStepNumber(step);
+  const errors = flow.status === "editing" ? flow.errors : EMPTY_CONTACT_ERRORS;
+  const submitting = flow.status === "submitting";
+  const totalSteps = CONTACT_STEPS.length;
+  const progress = (stepNumber / totalSteps) * 100;
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const canProceed = () => {
+    switch (step) {
+      case "service": return !!formData.service;
+      case "details": return true; // Detail is optional
+      case "timeline": return !!formData.timeline;
+      case "budget": return !!formData.budget;
+      case "contact": return !!formData.name && !!formData.email && validateEmail(formData.email);
+      default: {
+        const unreachable: never = step;
+        return unreachable;
+      }
+    }
+  };
+
+  const handleSelect = useCallback((field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    trackEvent("form_step_interaction", { step: stepNumber, stepName: step, field, value });
+  }, [step, stepNumber]);
+
+  const nextStep = () => {
+    if (flow.status !== "editing") return;
+    trackEvent("form_step_complete", { step: stepNumber, stepName: step });
+    send({ type: "continue", allowed: canProceed() });
+  };
+
+  const prevStep = () => {
+    send({ type: "back" });
   };
 
   const handleSubmit = async () => {
@@ -122,10 +145,14 @@ const MultiStepContactForm = () => {
       isValid = false;
     }
 
-    setErrors(newErrors);
-    if (!isValid) return;
+    if (!isValid) {
+      send({ type: "invalid", errors: newErrors });
+      return;
+    }
 
-    setIsSubmitting(true);
+    const attempt = send({ type: "submit" });
+    if (attempt.previous.status === "submitting" || attempt.state.status !== "submitting") return;
+
     trackEvent("form_submit_attempt", { service: formData.service, timeline: formData.timeline, budget: formData.budget });
 
     try {
@@ -158,20 +185,16 @@ Company: ${formData.company || "Not provided"}
             description: "Please wait a while before submitting again.",
             variant: "destructive",
           });
-          setIsSubmitting(false);
+          send({ type: "failed" });
           return;
         }
         throw error;
       }
 
       trackEvent("form_submit_success", { service: formData.service });
-      setIsSubmitting(false);
-      setShowConfetti(true);
-      setIsComplete(true);
-      
-      setTimeout(() => setShowConfetti(false), 3000);
+      send({ type: "succeeded" });
     } catch (error) {
-      setIsSubmitting(false);
+      send({ type: "failed" });
       trackEvent("form_submit_error", { error: String(error) });
       toast({
         title: "Error",
@@ -181,18 +204,7 @@ Company: ${formData.company || "Not provided"}
     }
   };
 
-  const canProceed = () => {
-    switch (step) {
-      case 1: return !!formData.service;
-      case 2: return true; // Detail is optional
-      case 3: return !!formData.timeline;
-      case 4: return !!formData.budget;
-      case 5: return !!formData.name && !!formData.email && validateEmail(formData.email);
-      default: return false;
-    }
-  };
-
-  if (isComplete) {
+  if (flow.status === "succeeded") {
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
@@ -200,7 +212,7 @@ Company: ${formData.company || "Not provided"}
         className="relative section-sm text-center"
       >
         {/* Confetti */}
-        {showConfetti && (
+        {flow.confetti && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {[...Array(50)].map((_, i) => (
               <motion.div
@@ -265,7 +277,7 @@ Company: ${formData.company || "Not provided"}
       {/* Progress Bar */}
       <div className="mb-10">
         <div className="flex justify-between text-sm text-muted mb-2">
-          <span>Step {step} of {totalSteps}</span>
+          <span>Step {stepNumber} of {totalSteps}</span>
           <span>{Math.round(progress)}% complete</span>
         </div>
         <div className="h-1 bg-surface rounded-full overflow-hidden">
@@ -280,7 +292,7 @@ Company: ${formData.company || "Not provided"}
 
       {/* Form Steps */}
       <AnimatePresence mode="wait">
-        {step === 1 && (
+        {step === "service" && (
           <motion.div
             key="step1"
             initial={{ opacity: 0, x: 20 }}
@@ -326,7 +338,7 @@ Company: ${formData.company || "Not provided"}
           </motion.div>
         )}
 
-        {step === 2 && (
+        {step === "details" && (
           <motion.div
             key="step2"
             initial={{ opacity: 0, x: 20 }}
@@ -349,7 +361,7 @@ Company: ${formData.company || "Not provided"}
           </motion.div>
         )}
 
-        {step === 3 && (
+        {step === "timeline" && (
           <motion.div
             key="step3"
             initial={{ opacity: 0, x: 20 }}
@@ -395,7 +407,7 @@ Company: ${formData.company || "Not provided"}
           </motion.div>
         )}
 
-        {step === 4 && (
+        {step === "budget" && (
           <motion.div
             key="step4"
             initial={{ opacity: 0, x: 20 }}
@@ -445,7 +457,7 @@ Company: ${formData.company || "Not provided"}
           </motion.div>
         )}
 
-        {step === 5 && (
+        {step === "contact" && (
           <motion.div
             key="step5"
             initial={{ opacity: 0, x: 20 }}
@@ -469,7 +481,9 @@ Company: ${formData.company || "Not provided"}
                   value={formData.name}
                   onChange={(e) => {
                     setFormData(prev => ({ ...prev, name: e.target.value }));
-                    if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
+                    if (flow.status === "editing" && errors.name) {
+                      send({ type: "invalid", errors: { ...errors, name: "" } });
+                    }
                   }}
                   className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm ${
                     errors.name ? "border-destructive" : "border-line"
@@ -489,7 +503,9 @@ Company: ${formData.company || "Not provided"}
                   value={formData.email}
                   onChange={(e) => {
                     setFormData(prev => ({ ...prev, email: e.target.value }));
-                    if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
+                    if (flow.status === "editing" && errors.email) {
+                      send({ type: "invalid", errors: { ...errors, email: "" } });
+                    }
                   }}
                   className={`w-full px-4 py-3 bg-surface border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all duration-sm ${
                     errors.email ? "border-destructive" : "border-line"
@@ -535,22 +551,24 @@ Company: ${formData.company || "Not provided"}
       <div className="flex justify-between mt-10">
         <button
           onClick={prevStep}
-          disabled={step === 1}
+          disabled={step === "service" || submitting}
           className={`inline-flex items-center gap-2 px-6 py-3 rounded-md font-medium transition-all duration-sm ${
-            step === 1
+            step === "service"
               ? "opacity-0 pointer-events-none"
-              : "text-muted hover:text-foreground"
+              : submitting
+                ? "text-muted opacity-40 pointer-events-none"
+                : "text-muted hover:text-foreground"
           }`}
         >
           <ArrowLeft className="w-4 h-4" />
           Back
         </button>
 
-        {step < totalSteps ? (
+        {step !== "contact" ? (
           <button
             onClick={nextStep}
             disabled={!canProceed()}
-            className="btn-solid "
+            className="btn-solid disabled:opacity-40 disabled:pointer-events-none"
           >
             Continue
             <ArrowRight className="w-4 h-4" />
@@ -558,10 +576,10 @@ Company: ${formData.company || "Not provided"}
         ) : (
           <button
             onClick={handleSubmit}
-            disabled={isSubmitting || !canProceed()}
-            className="btn-solid "
+            disabled={submitting || !canProceed()}
+            className="btn-solid disabled:opacity-40 disabled:pointer-events-none"
           >
-            {isSubmitting ? (
+            {submitting ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
                 Sending...

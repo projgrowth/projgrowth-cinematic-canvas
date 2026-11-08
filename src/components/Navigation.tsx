@@ -1,38 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import MobileNav from "./MobileNav";
 import pgLogo from "@/assets/logos/pg-logo.png";
+import { nextNavChrome, type NavChrome } from "@/lib/machines/navChrome";
 
 const Navigation = () => {
   const location = useLocation();
-  const [isHidden, setIsHidden] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-
+  const [chrome, setChrome] = useState<NavChrome>("top");
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Track if scrolled past threshold for background shift
-      setIsScrolled(currentScrollY > 20);
-      
-      if (currentScrollY > 100) {
-        if (currentScrollY > lastScrollY) {
-          setIsHidden(true);
-        } else {
-          setIsHidden(false);
-        }
-      } else {
-        setIsHidden(false);
-      }
-      
-      setLastScrollY(currentScrollY);
+      const scrollY = window.scrollY;
+      setChrome(nextNavChrome(lastScrollY.current, scrollY));
+      lastScrollY.current = scrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const links = [
     { path: "/", label: "Home" },
@@ -52,15 +38,15 @@ const Navigation = () => {
         className={`
           fixed top-0 left-0 right-0 z-50 
           transition-[transform,background-color,border-color,box-shadow] duration-sm ease-smooth
-          ${isHidden ? "-translate-y-full" : "translate-y-0"}
-          ${isScrolled ? "nav-rail" : "bg-transparent border-b border-transparent"}
+          ${chrome === "hidden" ? "-translate-y-full" : "translate-y-0"}
+          ${chrome === "top" ? "bg-transparent border-b border-transparent" : "nav-rail"}
         `}
         aria-label="Main navigation"
       >
         <div className="container-site">
           <div
             className={`flex items-center justify-between transition-[padding] duration-sm ease-smooth ${
-              isScrolled ? "py-3 md:py-3.5" : "py-4 md:py-6"
+              chrome === "top" ? "py-4 md:py-6" : "py-3 md:py-3.5"
             }`}
           >
             <Link 

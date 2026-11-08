@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/section";
-import { useState, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+import { readWorkFilters, writeWorkFilters, type WorkFilters } from "@/lib/machines/workFilters";
 import Layout from "@/components/Layout";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
@@ -12,21 +13,11 @@ import GlobalCTA from "@/components/GlobalCTA";
 
 const Work = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { category: activeCategory, query: searchQuery } = readWorkFilters(searchParams, categories);
 
-  const [activeCategory, setActiveCategory] = useState(() => 
-    searchParams.get("category") || "All"
-  );
-  const [searchQuery, setSearchQuery] = useState(() => 
-    searchParams.get("q") || ""
-  );
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (activeCategory !== "All") params.set("category", activeCategory);
-    if (searchQuery) params.set("q", searchQuery);
-
-    setSearchParams(params, { replace: true });
-  }, [activeCategory, searchQuery, setSearchParams]);
+  const setFilters = (next: WorkFilters) => {
+    setSearchParams(writeWorkFilters(next), { replace: true });
+  };
 
   const filteredCaseStudies = useMemo(
     () =>
@@ -42,8 +33,7 @@ const Work = () => {
   );
 
   const handleClearFilters = () => {
-    setActiveCategory("All");
-    setSearchQuery("");
+    setFilters({ category: "All", query: "" });
   };
 
   const hasActiveFilters = activeCategory !== "All" || Boolean(searchQuery);
@@ -69,14 +59,14 @@ const Work = () => {
           <div className="space-y-4 mb-10 relative z-10">
             <SearchBar
               value={searchQuery}
-              onChange={setSearchQuery}
+              onChange={(query) => setFilters({ category: activeCategory, query })}
               placeholder="Search case studies..."
             />
 
             <CategoryFilter
               categories={categories}
               activeCategory={activeCategory}
-              onCategoryChange={setActiveCategory}
+              onCategoryChange={(category) => setFilters({ category, query: searchQuery })}
             />
 
             {hasActiveFilters && (

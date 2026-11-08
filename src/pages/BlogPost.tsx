@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import DOMPurify from "dompurify";
+import { recordView } from "@/lib/machines/remoteView";
 
 interface BlogPost {
   id: string;
@@ -159,7 +160,13 @@ const BlogPost = () => {
     window.open(url, "_blank", "width=600,height=400");
   };
 
-  if (isLoading) {
+  const articleView = recordView({
+    isLoading,
+    isError: Boolean(error),
+    hasRecord: Boolean(post),
+  });
+
+  if (articleView === "loading") {
     return (
       <Layout>
         <Section>
@@ -179,7 +186,25 @@ const BlogPost = () => {
     );
   }
 
-  if (error || !post) {
+  if (articleView === "error") {
+    return (
+      <Layout>
+        <Section>
+          <PageHero
+            chapter={{ number: 404, label: "Unavailable" }}
+            title="Couldn't load this article"
+            lede="Something went wrong while fetching the post. Refresh the page to try again."
+          >
+            <Link to="/blog" className="btn-outline-cta">
+              Back to blog
+            </Link>
+          </PageHero>
+        </Section>
+      </Layout>
+    );
+  }
+
+  if (articleView === "missing" || !post) {
     return (
       <Layout>
         <Section>

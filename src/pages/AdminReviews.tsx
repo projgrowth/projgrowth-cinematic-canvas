@@ -3,6 +3,13 @@ import { Helmet } from "react-helmet-async";
 import { Loader2, Lock, Trash2 } from "lucide-react";
 import Section from "@/components/ui/section";
 import { supabase } from "@/integrations/supabase/client";
+import { useMachine } from "@/lib/useMachine";
+import {
+  initialMutation,
+  initialSignIn,
+  mutationTransition,
+  signInTransition,
+} from "@/lib/machines/signIn";
 import { STATUS_LABEL, type ReviewStatus } from "./client/review/types";
 
 interface AdminComment {
@@ -25,8 +32,8 @@ const AdminReviews = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [comments, setComments] = useState<AdminComment[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [signIn, sendSignIn] = useMachine(initialSignIn, signInTransition);
+  const [mutation, sendMutation] = useMachine(initialMutation, mutationTransition);
 
   const call = async (
     credentials: { email: string; password: string },
@@ -39,26 +46,27 @@ const AdminReviews = () => {
     setComments(data.comments as AdminComment[]);
   };
 
-  const signIn = async (e: React.FormEvent) => {
+  const signInForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
+    const attempt = sendSignIn({ type: "submit" });
+    if (attempt.previous.status === "submitting" || attempt.state.status !== "submitting") return;
     try {
       await call({ email, password }, { action: "list" });
       setCreds({ email, password });
     } catch {
-      setError("Invalid email or password");
+      sendSignIn({ type: "rejected", message: "Invalid email or password" });
     }
-    setLoading(false);
   };
 
   const mutate = async (payload: Record<string, unknown>) => {
     if (!creds) return;
-    setError("");
+    const attempt = sendMutation({ type: "start" });
+    if (attempt.previous.status === "saving") return;
     try {
       await call(creds, payload);
+      sendMutation({ type: "succeeded" });
     } catch {
-      setError("That change didn't save. Please try again.");
+      sendMutation({ type: "failed", message: "That change didn't save. Please try again." });
     }
   };
 
@@ -69,7 +77,7 @@ const AdminReviews = () => {
           <title>Review Notes</title>
           <meta name="robots" content="noindex,nofollow" />
         </Helmet>
-        <form onSubmit={signIn} className="w-full max-w-sm space-y-4">
+        <form onSubmit={signInForm} className="w-full max-w-sm space-y-4">
           <div className="text-center mb-8">
             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-surface border border-line flex items-center justify-center">
               <Lock className="w-5 h-5 text-mute" />
@@ -84,6 +92,7 @@ const AdminReviews = () => {
             placeholder="Email"
             autoComplete="email"
             className="input-field"
+            disabled={signIn.status === "submitting"}
             required
           />
           <input
@@ -93,15 +102,16 @@ const AdminReviews = () => {
             placeholder="Password"
             autoComplete="current-password"
             className="input-field"
+            disabled={signIn.status === "submitting"}
             required
           />
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {signIn.status === "rejected" && <p className="text-sm text-destructive">{signIn.message}</p>}
           <button
             type="submit"
-            disabled={loading}
+            disabled={signIn.status === "submitting"}
             className="w-full px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "View Notes"}
+            {signIn.status === "submitting" ? <Loader2 className="w-4 h-4 animate-spin" /> : "View Notes"}
           </button>
         </form>
       </div>
@@ -117,7 +127,7 @@ const AdminReviews = () => {
       <Section size="sm">
         <h1 className="font-display text-text">Client Review Notes</h1>
         <p className="text-sm text-mute mt-1">{comments.length} total</p>
-        {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
+        {mutation.status === "failed" && <p className="mt-4 text-sm text-destructive">{mutation.message}</p>}
 
         {comments.length === 0 ? (
           <p className="mt-10 text-mute">No notes yet.</p>
@@ -136,7 +146,8 @@ const AdminReviews = () => {
                     <button
                       key={s}
                       onClick={() => mutate({ action: "status", id: c.id, status: s })}
-                      className={`min-h-[40px] px-3 text-xs border rounded-lg transition-colors ${
+                      disabled={mutation.status === "saving"}
+                      className={`min-h-[40px] px-3 text-xs border rounded-lg transition-colors disabled:opacity-40 ${
                         c.status === s
                           ? "border-accent text-accent"
                           : "border-line text-mute hover:text-text"
@@ -147,7 +158,8 @@ const AdminReviews = () => {
                   ))}
                   <button
                     onClick={() => mutate({ action: "delete", id: c.id })}
-                    className="ml-auto min-h-[40px] px-3 text-xs border border-line rounded-lg text-mute hover:text-destructive hover:border-destructive/40 transition-colors flex items-center gap-2"
+                    disabled={mutation.status === "saving"}
+                    className="ml-auto min-h-[40px] px-3 text-xs border border-line rounded-lg text-mute hover:text-destructive hover:border-destructive/40 transition-colors flex items-center gap-2 disabled:opacity-40"
                   >
                     <Trash2 className="w-3 h-3" />
                     Delete

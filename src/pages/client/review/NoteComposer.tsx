@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useMachine } from "@/lib/useMachine";
+import { composerTransition, initialComposerPhase } from "@/lib/machines/noteComposer";
 
 interface Props {
   pageLabel: string;
@@ -20,8 +22,7 @@ const readDraft = (key: string) => {
 
 const NoteComposer = ({ pageLabel, draftKey, onCancel, onSubmit }: Props) => {
   const [body, setBody] = useState(() => readDraft(draftKey));
-  const [sending, setSending] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [phase, send] = useMachine(initialComposerPhase, composerTransition);
   const ref = useRef<HTMLTextAreaElement>(null);
   const wrapRef = useRef<HTMLFormElement>(null);
 
@@ -43,19 +44,19 @@ const NoteComposer = ({ pageLabel, draftKey, onCancel, onSubmit }: Props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = body.trim();
-    if (!text || sending) return;
-    setSending(true);
-    setFailed(false);
+    if (!text) return;
+    const attempt = send({ type: "submit" });
+    if (attempt.previous === "sending" || attempt.state !== "sending") return;
     const ok = await onSubmit(text);
-    setSending(false);
     if (ok) {
       try {
         window.localStorage.removeItem(draftKey);
       } catch {
         /* nothing to clear */
       }
+      send({ type: "succeeded" });
     } else {
-      setFailed(true);
+      send({ type: "failed" });
     }
   };
 
@@ -86,7 +87,7 @@ const NoteComposer = ({ pageLabel, draftKey, onCancel, onSubmit }: Props) => {
       />
       <div className="mt-2 flex items-center justify-between gap-4">
         <p className="text-sm text-mute" aria-live="polite">
-          {failed
+          {phase === "failed"
             ? "Not sent. Your note is saved here — try again."
             : body
               ? "Saved on this device until you send it."
@@ -97,12 +98,12 @@ const NoteComposer = ({ pageLabel, draftKey, onCancel, onSubmit }: Props) => {
       <div className="mt-5 flex flex-wrap gap-3">
         <button
           type="submit"
-          disabled={!body.trim() || sending}
+          disabled={!body.trim() || phase === "sending"}
           className="inline-flex items-center justify-center gap-3 min-h-[48px] px-7 border border-line text-text eyebrow hover:border-accent hover:text-accent focus-ring transition-colors duration-200 disabled:opacity-40"
         >
-          {sending ? (
+          {phase === "sending" ? (
             <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-          ) : failed ? (
+          ) : phase === "failed" ? (
             "Retry"
           ) : (
             "Send Note"
@@ -111,7 +112,8 @@ const NoteComposer = ({ pageLabel, draftKey, onCancel, onSubmit }: Props) => {
         <button
           type="button"
           onClick={handleCancel}
-          className="inline-flex items-center min-h-[48px] px-5 text-mute eyebrow hover:text-text focus-ring transition-colors duration-200"
+          disabled={phase === "sending"}
+          className="inline-flex items-center min-h-[48px] px-5 text-mute eyebrow hover:text-text focus-ring transition-colors duration-200 disabled:opacity-40"
         >
           Discard
         </button>

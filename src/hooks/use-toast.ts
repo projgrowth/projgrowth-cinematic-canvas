@@ -85,16 +85,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action;
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
-      if (toastId) {
-        addToRemoveQueue(toastId);
-      } else {
-        state.toasts.forEach((toast) => {
-          addToRemoveQueue(toast.id);
-        });
-      }
-
       return {
         ...state,
         toasts: state.toasts.map((t) =>
@@ -118,6 +108,10 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       };
+    default: {
+      const unreachable: never = action;
+      return unreachable;
+    }
   }
 };
 
@@ -125,7 +119,20 @@ const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = { toasts: [] };
 
+function queueDismissals(state: State, action: Action) {
+  if (action.type !== "DISMISS_TOAST") return;
+  const { toastId } = action;
+  if (toastId) {
+    addToRemoveQueue(toastId);
+  } else {
+    state.toasts.forEach((toast) => {
+      addToRemoveQueue(toast.id);
+    });
+  }
+}
+
 function dispatch(action: Action) {
+  queueDismissals(memoryState, action);
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
     listener(memoryState);

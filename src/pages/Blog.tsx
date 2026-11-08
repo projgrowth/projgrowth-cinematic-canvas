@@ -12,6 +12,8 @@ import SectionChapter from "@/components/SectionChapter";
 import { SurfaceCard } from "@/components/ui/card-surface";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { activeCategory } from "@/lib/machines/workFilters";
+import { listView } from "@/lib/machines/remoteView";
 
 interface BlogPost {
   id: string;
@@ -44,7 +46,7 @@ const BlogCardSkeleton = () => (
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  const { data: posts, isLoading } = useQuery({
+  const { data: posts, isLoading, isError } = useQuery({
     queryKey: ["blog-posts"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -59,10 +61,16 @@ const Blog = () => {
   });
 
   const categories = ["All", ...new Set(posts?.map((p) => p.category) || [])];
+  const category = activeCategory(selectedCategory, categories);
 
-  const filteredPosts = selectedCategory === "All" 
-    ? posts 
-    : posts?.filter((p) => p.category === selectedCategory);
+  const filteredPosts = category === "All"
+    ? posts
+    : posts?.filter((p) => p.category === category);
+  const postsView = listView({
+    isLoading,
+    isError,
+    count: filteredPosts?.length ?? 0,
+  });
 
   return (
     <Layout
@@ -83,26 +91,34 @@ const Blog = () => {
         <ScrollReveal delay={0.1}>
           <SectionChapter number={2} label="Latest" />
           <div className="flex flex-wrap gap-2 mb-10 border-b border-line pb-6">
-            {categories.map((category) => (
+            {categories.map((chip) => (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
+                key={chip}
+                onClick={() => setSelectedCategory(chip)}
                 className="chip-filter"
-                data-active={selectedCategory === category}
+                data-active={category === chip}
               >
-                {category}
+                {chip}
               </button>
             ))}
           </div>
         </ScrollReveal>
 
-        {isLoading ? (
+        {postsView === "loading" ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[1, 2, 3].map((i) => (
               <BlogCardSkeleton key={i} />
             ))}
           </div>
-        ) : filteredPosts && filteredPosts.length > 0 ? (
+        ) : postsView === "error" ? (
+          <div className="text-center section-sm">
+            <p className="text-mute">Couldn't load posts. Refresh the page to try again.</p>
+          </div>
+        ) : postsView === "empty" ? (
+          <div className="text-center section-sm">
+            <p className="text-mute">No blog posts found.</p>
+          </div>
+        ) : postsView === "ready" && filteredPosts ? (
           <motion.div 
             layout 
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"

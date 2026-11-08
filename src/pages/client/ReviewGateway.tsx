@@ -1,4 +1,10 @@
 import { useId, useState } from "react";
+import { useMachine } from "@/lib/useMachine";
+import {
+  REVIEW_NOTICES,
+  initialReviewGateway,
+  reviewGatewayTransition,
+} from "@/lib/machines/reviewGateway";
 import { clearSession, readSession, saveSession } from "./reviewSession";
 import { Helmet } from "react-helmet-async";
 import { motion, useReducedMotion } from "framer-motion";
@@ -8,14 +14,6 @@ import pgLogo from "@/assets/logos/pg-logo.png";
 import golinowskiLogo from "@/assets/logos/golinowski-law.png";
 import type { GatewayCopy } from "./gateways";
 import ReviewRoom from "./review/ReviewRoom";
-
-type State = "idle" | "checking" | "granted" | "pending";
-
-const MESSAGES = {
-  invalid: "Access code not recognized.",
-  throttled: "Too many attempts. Please try again shortly.",
-  unavailable: "Access is temporarily unavailable. Please try again shortly.",
-};
 
 /** Minimal loading state: pulsing client logo and a single quiet line. */
 const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion: boolean }) => (
@@ -52,16 +50,12 @@ const LoadingScreen = ({ client, reduceMotion }: { client: string; reduceMotion:
 const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
   const restored = typeof window === "undefined" ? null : readSession(gateway.slug);
   const [code, setCode] = useState("");
-  const [state, setState] = useState<State>(restored ? "granted" : "idle");
-  const [error, setError] = useState("");
-  const [review, setReview] = useState<{ url: string; token: string } | null>(restored);
+  const [session, send] = useMachine(() => initialReviewGateway(restored), reviewGatewayTransition);
 
   /** The signed session ran out: fall back to the code, explaining why. */
   const handleExpired = () => {
     clearSession(gateway.slug);
-    setReview(null);
-    setState("idle");
-    setError("Your review session timed out. Enter your code to pick up where you left off.");
+    send({ type: "expired" });
   };
   const inputId = useId();
   const errorId = `${inputId}-error`;
@@ -69,9 +63,9 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (state === "checking" || !code.trim()) return;
-    setState("checking");
-    setError("");
+    if (!code.trim()) return;
+    const attempt = send({ type: "submit" });
+    if (attempt.previous.status !== "prompt" || attempt.state.status !== "checking") return;
 
     try {
       const { data, error: fnError } = await supabase.functions.invoke(
@@ -81,39 +75,38 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
 
       if (fnError || !data) {
         const status = (fnError as { context?: { status?: number } })?.context?.status;
-        setError(status === 429 ? MESSAGES.throttled : status === 401 ? MESSAGES.invalid : MESSAGES.unavailable);
-        setState("idle");
+        const notice = status === 429 ? "throttled" : status === 401 ? "invalid" : "unavailable";
+        send({ type: "rejected", notice });
         setCode("");
         return;
       }
 
       if (data.status === "ready" && typeof data.url === "string") {
-        const session = {
+        const next = {
           url: data.url,
           token: typeof data.token === "string" ? data.token : "",
         };
-        setReview(session);
-        saveSession(gateway.slug, session);
-        setState("granted");
+        saveSession(gateway.slug, next);
+        send({ type: "ready", review: next });
         return;
       }
 
       if (data.status === "pending") {
-        setState("pending");
+        send({ type: "pending" });
         return;
       }
 
-      setError(MESSAGES.unavailable);
-      setState("idle");
+      send({ type: "unavailable" });
     } catch {
-      setError(MESSAGES.unavailable);
-      setState("idle");
+      send({ type: "unavailable" });
       setCode("");
     }
   };
 
-  const busy = state === "checking";
-  const inRoom = state === "granted" && !!review;
+  const busy = session.status === "checking";
+  const notice = session.status === "prompt" ? session.notice : null;
+  const error = notice ? REVIEW_NOTICES[notice] : "";
+  const inRoom = session.status === "granted";
 
   return (
     <div className="page-canvas dot-grid min-h-screen flex flex-col">
@@ -142,20 +135,15 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="w-full"
         >
-          {state === "pending" ? (
+          {session.status === "pending" ? (
             <LoadingScreen client={gateway.client} reduceMotion={!!reduceMotion} />
-          ) : inRoom && review ? (
+          ) : session.status === "granted" ? (
             <ReviewRoom
               gateway={gateway}
-              url={review.url}
-              token={review.token}
+              url={session.review.url}
+              token={session.review.token}
               onExpired={handleExpired}
             />
-          ) : state === "granted" ? (
-            <div className="flex items-center justify-center gap-3 text-mute">
-              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-              <span role="status">Opening your review…</span>
-            </div>
           ) : (
             <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               {/* Identity column */}
@@ -211,7 +199,7 @@ const ReviewGateway = ({ gateway }: { gateway: GatewayCopy }) => {
                     disabled={busy || !code.trim()}
                     className="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-3 min-h-[48px] px-7 border border-line text-text eyebrow hover:border-accent hover:text-accent focus-ring transition-colors duration-200 disabled:opacity-40 disabled:hover:border-line disabled:hover:text-text"
                   >
-                    {state === "checking" ? (
+                    {session.status === "checking" ? (
                       <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                     ) : (
                       <>

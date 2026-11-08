@@ -1,20 +1,16 @@
 import { motion, AnimatePresence } from "framer-motion";
 import pgLogo from "@/assets/logos/pg-logo.png";
 
-interface PageLoaderProps {
-  isLoading: boolean;
-}
-
-const PageLoader = ({ isLoading }: PageLoaderProps) => {
+/** Suspense fallback. Mounted only while a route is pending, so it has no hidden/loading flag of its own. */
+const PageLoader = () => {
   return (
     <AnimatePresence>
-      {isLoading && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-base"
-        >
+      <motion.div
+        initial={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-base"
+      >
           <div className="flex flex-col items-center gap-4">
             {/* Animated logo/spinner */}
             <motion.div
@@ -46,8 +42,7 @@ const PageLoader = ({ isLoading }: PageLoaderProps) => {
               />
             </div>
           </div>
-        </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   );
 };
