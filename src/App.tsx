@@ -62,7 +62,7 @@ const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
-      <Suspense fallback={<PageLoader isLoading={true} />}>
+      <Suspense fallback={<PageLoader />}>
         <Routes location={location} key={location.pathname}>
           {routes.map(({ path, element, raw }) => (
             <Route

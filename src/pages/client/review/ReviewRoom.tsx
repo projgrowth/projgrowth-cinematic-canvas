@@ -1,6 +1,18 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MessageSquarePlus, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useMachine } from "@/lib/useMachine";
+import {
+  NOTE_SEND_FAILURE,
+  annotationCommentMode,
+  annotationDraft,
+  annotationTransition,
+  initialAnnotation,
+  initialNoteSend,
+  initialNotesLoad,
+  noteSendTransition,
+  notesLoadTransition,
+} from "@/lib/machines/reviewRoom";
 
 import type { GatewayCopy } from "../gateways";
 import DeviceFrame from "./DeviceFrame";
@@ -35,30 +47,31 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
     typeof window !== "undefined" && window.innerWidth < 900 ? "mobile" : "desktop",
   );
   const [page, setPage] = useState(gateway.pages[0]);
-  const [commentMode, setCommentMode] = useState(false);
-  const [draft, setDraft] = useState<{ x: number; y: number } | null>(null);
+  const [annotation, sendAnnotation] = useMachine(initialAnnotation, annotationTransition);
   const [comments, setComments] = useState<ReviewComment[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadFailed, setLoadFailed] = useState(false);
-  const [error, setError] = useState("");
+  const [notes, sendNotes] = useMachine(initialNotesLoad, notesLoadTransition);
+  const [sendState, sendNoteState] = useMachine(initialNoteSend, noteSendTransition);
   const [highlightId, setHighlightId] = useState<string | null>(null);
+  const commentMode = annotationCommentMode(annotation);
+  const draft = annotationDraft(annotation);
+  const onExpiredRef = useRef(onExpired);
+  onExpiredRef.current = onExpired;
 
   const load = useCallback(async () => {
-    setLoadFailed(false);
     const { data, error: fnError } = await supabase.functions.invoke("client-review-comments", {
       body: { action: "list", token },
     });
     if (fnError && isExpired(fnError)) {
-      onExpired?.();
+      onExpiredRef.current?.();
       return;
     }
     if (fnError || !Array.isArray(data?.comments)) {
-      setLoadFailed(true);
+      sendNotes({ type: "failed" });
     } else {
       setComments((data.comments as ReviewComment[]).slice().sort(byTime));
+      sendNotes({ type: "loaded" });
     }
-    setLoading(false);
-  }, [token]);
+  }, [sendNotes, token]);
 
   useEffect(() => {
     load();
@@ -79,8 +92,9 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
   const pins = comments.filter((c) => c.page_path === page.path && c.device === device);
 
   const submitNote = async (body: string): Promise<boolean> => {
-    if (!draft) return false;
-    setError("");
+    if (annotation.mode !== "composing") return false;
+    const pin = annotation.pin;
+    sendNoteState({ type: "clear" });
     const { data, error: fnError } = await supabase.functions.invoke("client-review-comments", {
       body: {
         action: "create",
@@ -88,8 +102,8 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
         page_path: page.path,
         page_label: page.label,
         device,
-        x_pct: draft.x,
-        y_pct: draft.y,
+        x_pct: pin.x,
+        y_pct: pin.y,
         body,
       },
     });
@@ -98,14 +112,13 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
       return false;
     }
     if (fnError || !data?.comment) {
-      setError("That note didn't send. Your words are safe below — try again in a moment.");
+      sendNoteState({ type: "fail", message: NOTE_SEND_FAILURE });
       return false;
     }
     const created = data.comment as ReviewComment;
     setComments((prev) => [...prev, created].sort(byTime));
     setHighlightId(created.id);
-    setDraft(null);
-    setCommentMode(false);
+    sendAnnotation({ type: "noteSent" });
     return true;
   };
 
@@ -126,7 +139,7 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
                 key={d}
                 onClick={() => {
                   setDevice(d);
-                  setDraft(null);
+                  sendAnnotation({ type: "contextChanged" });
                 }}
                 aria-pressed={device === d}
                 className={`min-h-[44px] px-4 eyebrow transition-colors duration-200 focus-ring ${
@@ -139,8 +152,7 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
           </div>
           <button
             onClick={() => {
-              setCommentMode((v) => !v);
-              setDraft(null);
+              sendAnnotation({ type: "toggleCommentMode" });
             }}
             aria-pressed={commentMode}
             className={`inline-flex items-center gap-2 min-h-[44px] px-4 border eyebrow transition-colors duration-200 focus-ring ${
@@ -166,7 +178,7 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
             key={p.path}
             onClick={() => {
               setPage(p);
-              setDraft(null);
+              sendAnnotation({ type: "contextChanged" });
             }}
             aria-current={page.path === p.path}
             className={`min-h-[44px] eyebrow transition-colors duration-200 focus-ring ${
@@ -190,33 +202,33 @@ const ReviewRoom = ({ gateway, url, token, onExpired }: Props) => {
         commentMode={commentMode}
         pins={pins}
         draft={draft}
-        onPlace={(x, y) => setDraft({ x, y })}
+        onPlace={(x, y) => sendAnnotation({ type: "place", pin: { x, y } })}
         pinNumber={(id) => numberOf.get(id) ?? 1}
       />
 
-      {error && (
+      {sendState.status === "failed" && (
         <p role="alert" className="mt-5 text-sm text-destructive">
-          {error}
+          {sendState.message}
         </p>
       )}
 
-      {draft && (
+      {annotation.mode === "composing" && (
         <NoteComposer
           pageLabel={page.label}
           draftKey={draftKey}
-          onCancel={() => setDraft(null)}
+          onCancel={() => sendAnnotation({ type: "cancelDraft" })}
           onSubmit={submitNote}
         />
       )}
 
-      {loading ? (
+      {notes.status === "loading" ? (
         <p className="mt-8 border-t border-line pt-6 text-mute">Loading your notes…</p>
-      ) : loadFailed ? (
+      ) : notes.status === "failed" ? (
         <div className="mt-8 border-t border-line pt-6">
           <p className="text-mute">Your notes couldn't be loaded just now.</p>
           <button
             onClick={() => {
-              setLoading(true);
+              sendNotes({ type: "retry" });
               load();
             }}
             className="mt-4 inline-flex items-center min-h-[44px] px-5 border border-line eyebrow text-text hover:border-accent hover:text-accent focus-ring transition-colors duration-200"

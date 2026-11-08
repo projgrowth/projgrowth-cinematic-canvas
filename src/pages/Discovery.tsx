@@ -17,6 +17,15 @@ import {
 import { buildPlan, engagementTier, genBrief, visionSummary } from "./discovery/logic";
 import { C, OCard, Chip, Q, TA, TxtInput, MockTile } from "./discovery/primitives";
 import { ReferenceStep, AxisSlider, SvcSkip } from "./discovery/steps";
+import { useMachine } from "@/lib/useMachine";
+import {
+  discoveryTransition,
+  initialDiscoveryPhase,
+  intakeTransition,
+  restoreDiscoveryPhase,
+  type IntakeEvent,
+  type IntakeStep,
+} from "@/lib/machines/discoveryFlow";
 
 
 // ============================================================
@@ -364,7 +373,7 @@ function VisionBoard({ spec, name }: { spec: ReturnType<typeof deriveSpec>; name
 // Landing
 // ============================================================
 function Landing({ host, onStart }: { host: string; onStart: (n: string, e: string, p: string, s: string[], c: string) => void }) {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState<IntakeStep>("identity");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [practice, setPractice] = useState("");
@@ -376,6 +385,21 @@ function Landing({ host, onStart }: { host: string; onStart: (n: string, e: stri
   const ok0 = name.trim().length > 1 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim());
   const ok1 = services.length > 0;
   const first = sn(name);
+  const go = (event: IntakeEvent) => {
+    const result = intakeTransition(step, event);
+    if (result.type === "begin") {
+      onStart(name.trim(), email.trim(), practice.trim(), services, step === "vision" ? confidence : "guided");
+      return;
+    }
+    setStep(result.step);
+  };
+  const continueEvent: IntakeEvent = {
+    type: "continue",
+    identityReady: ok0,
+    helpReady: ok1,
+    wantsLogo,
+    visionReady: !!confidence,
+  };
 
   return (
     <DiscoveryShell>
@@ -383,16 +407,16 @@ function Landing({ host, onStart }: { host: string; onStart: (n: string, e: stri
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <div style={{ fontSize: 11, letterSpacing: ".22em", color: EMERALD, textTransform: "uppercase", marginBottom: 18 }}>NM Advisor · Brand Discovery</div>
           <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: 42, fontWeight: 200, color: C.text, marginBottom: 14, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
-            {step === 0 && first ? <>Hi {first}.</> : "A short session about your brand."}
+            {step === "identity" && first ? <>Hi {first}.</> : "A short session about your brand."}
           </h1>
           <p style={{ fontSize: 15, color: C.mute, lineHeight: 1.6, maxWidth: 460, margin: "0 auto" }}>
-            {step === 0
+            {step === "identity"
               ? <>{host} sent you here because you're thinking about your brand. The next 6 minutes are about <em>you</em> — not a form. You'll watch your brand take shape as you answer.</>
               : "Your answers shape what we recommend — and what we don't."}
           </p>
         </div>
 
-        {step === 0 && (
+        {step === "identity" && (
           <>
             <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 24 }}>
               <div>
@@ -408,11 +432,11 @@ function Landing({ host, onStart }: { host: string; onStart: (n: string, e: stri
                 <TxtInput value={practice} onChange={(e: any) => setPractice(e.target.value)} placeholder="Doe Wealth Strategies" style={{ marginTop: 6 }} />
               </div>
             </div>
-            <PrimaryButton disabled={!ok0} onClick={() => setStep(1)}>Continue →</PrimaryButton>
+            <PrimaryButton disabled={!ok0} onClick={() => go(continueEvent)}>Continue →</PrimaryButton>
           </>
         )}
 
-        {step === 1 && (
+        {step === "help" && (
           <>
             <h2 style={{ fontSize: 22, color: C.text, marginBottom: 6, fontWeight: 300 }}>What can we help with?</h2>
             <p style={{ fontSize: 13, color: C.mute, marginBottom: 4 }}>Pick everything you're considering — even loosely.</p>
@@ -431,13 +455,13 @@ function Landing({ host, onStart }: { host: string; onStart: (n: string, e: stri
               ))}
             </div>
             <div style={{ display: "flex", gap: 10 }}>
-              <BackButton onClick={() => setStep(0)} />
-              <PrimaryButton disabled={!ok1} onClick={() => wantsLogo ? setStep(2) : onStart(name.trim(), email.trim(), practice.trim(), services, "guided")}>{wantsLogo ? "Continue →" : "Begin →"}</PrimaryButton>
+              <BackButton onClick={() => go({ type: "back" })} />
+              <PrimaryButton disabled={!ok1} onClick={() => go(continueEvent)}>{wantsLogo ? "Continue →" : "Begin →"}</PrimaryButton>
             </div>
           </>
         )}
 
-        {step === 2 && (
+        {step === "vision" && (
           <>
             <h2 style={{ fontSize: 22, color: C.text, marginBottom: 6, fontWeight: 300 }}>How clear is your vision for the logo?</h2>
             <p style={{ fontSize: 13, color: C.mute, marginBottom: 24 }}>Honest answers shorten or lengthen what comes next.</p>
@@ -450,8 +474,8 @@ function Landing({ host, onStart }: { host: string; onStart: (n: string, e: stri
               ))}
             </div>
             <div style={{ display: "flex", gap: 10 }}>
-              <BackButton onClick={() => setStep(1)} />
-              <PrimaryButton disabled={!confidence} onClick={() => onStart(name.trim(), email.trim(), practice.trim(), services, confidence)}>Begin discovery →</PrimaryButton>
+              <BackButton onClick={() => go({ type: "back" })} />
+              <PrimaryButton disabled={!confidence} onClick={() => go(continueEvent)}>Begin discovery →</PrimaryButton>
             </div>
           </>
         )}
@@ -486,7 +510,7 @@ function BackButton({ onClick }: any) {
 // ============================================================
 // Reveal screen
 // ============================================================
-function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
+function Reveal({ name, form, services, host, onRefine, onSubmit, submitError }: any) {
   const dba = form.dbaName || `${sn(name)} Financial`;
   const spec = deriveSpec(form, dba);
   const summary = visionSummary(name, form);
@@ -535,6 +559,11 @@ function Reveal({ name, form, services, host, onRefine, onSubmit }: any) {
             Send this to {host} →
           </button>
         </div>
+        {submitError && (
+          <p role="alert" style={{ color: "#e8a4a4", fontSize: 13, textAlign: "center", marginTop: 16 }}>
+            {submitError}
+          </p>
+        )}
       </motion.div>
     </DiscoveryShell>
   );
@@ -604,7 +633,7 @@ export default function Discovery() {
   const hostSlug = url.searchParams.get("host") || "";
   const host = hostSlug === "cole" ? "Cole" : hostSlug ? hostSlug.charAt(0).toUpperCase() + hostSlug.slice(1) : "the ProjGrowth team";
 
-  const [phase, setPhase] = useState<"landing" | "form" | "reveal" | "submitting" | "done">("landing");
+  const [phase, sendPhase, replacePhase] = useMachine(initialDiscoveryPhase, discoveryTransition);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [practice, setPractice] = useState("");
@@ -613,7 +642,6 @@ export default function Discovery() {
   const [plan, setPlan] = useState<string[]>([]);
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<Form>(blank());
-  const [err, setErr] = useState("");
   const [hostNote, setHostNote] = useState<string | null>(null);
 
   useEffect(() => {
@@ -624,24 +652,24 @@ export default function Discovery() {
         if (s.email && s.form && s.plan) {
           setName(s.name || ""); setEmail(s.email); setPractice(s.practice || "");
           setServices(s.services || []); setConfidence(s.confidence || "guided");
-          setPlan(s.plan); setStep(s.step || 0); setForm(s.form); setPhase(s.phase || "landing");
+          setPlan(s.plan); setStep(s.step || 0); setForm(s.form); replacePhase(restoreDiscoveryPhase(s.phase));
         }
       }
-    } catch {}
-  }, []);
+    } catch { /* ignore unreadable discovery drafts */ }
+  }, [replacePhase]);
   useEffect(() => {
-    if (phase === "form") {
-      try { localStorage.setItem(STORE, JSON.stringify({ name, email, practice, services, confidence, plan, step, form, phase })); } catch {}
+    if (phase.status === "form") {
+      try { localStorage.setItem(STORE, JSON.stringify({ name, email, practice, services, confidence, plan, step, form, phase: "form" })); } catch {}
     }
-  }, [name, email, practice, services, confidence, plan, step, form, phase]);
+  }, [name, email, practice, services, confidence, plan, step, form, phase.status]);
 
   // auto-skip iconConcept when user picked wordmark
   useEffect(() => {
-    if (phase !== "form") return;
+    if (phase.status !== "form") return;
     if (plan[step] === "iconConcept" && form.mark === "wordmark") {
       setStep(s => Math.min(s + 1, plan.length - 1));
     }
-  }, [step, plan, form.mark, phase]);
+  }, [step, plan, form.mark, phase.status]);
 
   const set = (k: keyof Form, v: any) => setForm(f => ({ ...f, [k]: v }));
   const tog = (k: keyof Form, v: any) => setForm(f => {
@@ -654,11 +682,13 @@ export default function Discovery() {
     const newPlan = buildPlan(conf, svcs);
     setPlan(newPlan);
     setForm({ ...blank(), dbaName: p });
-    setStep(0); setPhase("form");
+    setStep(0);
+    sendPhase({ type: "start" });
   };
 
   const submit = async () => {
-    setPhase("submitting"); setErr("");
+    const attempt = sendPhase({ type: "submit" });
+    if (attempt.previous.status !== "reveal" || attempt.state.status !== "submitting") return;
     try {
       const brief = genBrief(name, form, services, confidence);
       const tier = engagementTier(confidence, services);
@@ -674,10 +704,9 @@ export default function Discovery() {
       });
       if (error) throw error;
       try { localStorage.removeItem(STORE); } catch {}
-      setPhase("done");
+      sendPhase({ type: "submitSucceeded" });
     } catch (e: any) {
-      setErr(e?.message || "Submission failed. Please try again.");
-      setPhase("reveal");
+      sendPhase({ type: "submitFailed", message: e?.message || "Submission failed. Please try again." });
     }
   };
 
@@ -690,12 +719,12 @@ export default function Discovery() {
     let next = step + 1;
     while (next < plan.length && plan[next] === "iconConcept" && form.mark === "wordmark") next++;
     if (next < plan.length) { setStep(next); return; }
-    setPhase("reveal");
+    sendPhase({ type: "review" });
   };
 
   // ⌨️ Keyboard nav: Enter = next, ← / → = back / next
   useEffect(() => {
-    if (phase !== "form") return;
+    if (phase.status !== "form") return;
     const handler = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
       const inField = t && (t.tagName === "TEXTAREA" || (t.tagName === "INPUT" && (t as HTMLInputElement).type !== "button"));
@@ -710,18 +739,22 @@ export default function Discovery() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [phase, step, plan, form, hostNote]);
+  }, [phase.status, step, plan, form, hostNote]);
 
   const dbaPreview = form.dbaName || sn(name);
   const spec = useMemo(() => deriveSpec(form, dbaPreview), [form, dbaPreview]);
 
-  if (phase === "landing") return <Landing host={host} onStart={startForm} />;
-  if (phase === "done") return <Thanks name={name} email={email} practice={practice} form={form} services={services} confidence={confidence} host={host} />;
-  if (phase === "submitting") {
+  if (phase.status === "landing") return <Landing host={host} onStart={startForm} />;
+  if (phase.status === "done") return <Thanks name={name} email={email} practice={practice} form={form} services={services} confidence={confidence} host={host} />;
+  if (phase.status === "submitting") {
     return <DiscoveryShell><div style={{ textAlign: "center", padding: 80, color: C.mute }}>Sending your vision to {host}…</div></DiscoveryShell>;
   }
-  if (phase === "reveal") {
-    return <Reveal name={name} form={form} services={services} host={host} onRefine={() => { setPhase("form"); setStep(plan.length - 1); }} onSubmit={submit} />;
+  if (phase.status === "reveal") {
+    return <Reveal name={name} form={form} services={services} host={host} submitError={phase.submitError} onRefine={() => { sendPhase({ type: "refine" }); setStep(plan.length - 1); }} onSubmit={submit} />;
+  }
+  if (phase.status !== "form") {
+    const unreachable: never = phase;
+    return unreachable;
   }
 
   const TOTAL = plan.length;
@@ -774,8 +807,6 @@ export default function Discovery() {
               <button onClick={() => setHostNote(null)} style={{ background: "transparent", border: "none", color: EMERALD, cursor: "pointer", fontSize: 16, opacity: 0.6 }}>×</button>
             </motion.div>
           )}
-
-          {err && <p style={{ color: "#e8a4a4", fontSize: 13, marginTop: 16 }}>{err}</p>}
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 36 }}>
             <button onClick={() => {

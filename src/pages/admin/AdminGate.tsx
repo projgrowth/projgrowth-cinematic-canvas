@@ -2,6 +2,13 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Loader2, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useMachine } from "@/lib/useMachine";
+import {
+  ADMIN_GATE_ERRORS,
+  adminGateBusy,
+  adminGateTransition,
+  initialAdminGate,
+} from "@/lib/machines/adminGate";
 import type { Discovery, Submission } from "./types";
 
 type Props = {
@@ -11,29 +18,30 @@ type Props = {
 const AdminGate = ({ onAuthenticated }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [gate, send] = useMachine(initialAdminGate, adminGateTransition);
+  const busy = adminGateBusy(gate);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
+    const attempt = send({ type: "submit" });
+    if (attempt.previous.status === "verifying" || attempt.previous.status === "loadingLeads") return;
+    if (attempt.state.status !== "verifying") return;
 
     try {
       const { data, error: fnError } = await supabase.functions.invoke("admin-verify", {
         body: { email, password },
       });
       if (fnError || !data?.authenticated) {
-        setError("Invalid email or password");
-        setLoading(false);
+        send({ type: "rejected", message: ADMIN_GATE_ERRORS.invalid });
         return;
       }
+      const verified = send({ type: "verified" });
+      if (verified.state.status !== "loadingLeads") return;
       const { data: leadsData, error: leadsError } = await supabase.functions.invoke("admin-leads", {
         body: { email, password },
       });
       if (leadsError) {
-        setError("Failed to fetch leads");
-        setLoading(false);
+        send({ type: "rejected", message: ADMIN_GATE_ERRORS.leads });
         return;
       }
       onAuthenticated(
@@ -41,9 +49,8 @@ const AdminGate = ({ onAuthenticated }: Props) => {
         { submissions: leadsData?.submissions || [], discovery: leadsData?.discovery || [] }
       );
     } catch {
-      setError("Something went wrong");
+      send({ type: "rejected", message: ADMIN_GATE_ERRORS.unexpected });
     }
-    setLoading(false);
   };
 
   return (
@@ -63,6 +70,7 @@ const AdminGate = ({ onAuthenticated }: Props) => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           autoComplete="email"
+          disabled={busy}
           className="input-field"
         />
         <input
@@ -71,16 +79,20 @@ const AdminGate = ({ onAuthenticated }: Props) => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           autoComplete="current-password"
+          disabled={busy}
           className="input-field"
           required
         />
-        {error && <p className="text-sm text-destructive">{error}</p>}
+        {gate.status === "rejected" && <p className="text-sm text-destructive">{gate.message}</p>}
         <button
           type="submit"
-          disabled={loading}
+          disabled={busy}
+          aria-busy={busy}
           className="w-full px-4 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "View Leads"}
+          {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "View Leads"}
+          {gate.status === "verifying" && <span className="sr-only">Checking access</span>}
+          {gate.status === "loadingLeads" && <span className="sr-only">Loading leads</span>}
         </button>
       </form>
     </div>

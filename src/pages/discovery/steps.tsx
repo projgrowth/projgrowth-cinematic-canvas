@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useMachine } from "@/lib/useMachine";
+import { initialUpload, uploadTransition } from "@/lib/machines/referenceUpload";
 import { NM_BLUE, EMERALD } from "./mockups";
 import { AXES, REFS, REF_STYLE } from "./constants";
 import { C, Q } from "./primitives";
@@ -23,30 +25,30 @@ function getDiscoverySessionId(): string {
 
 export function ReferenceStep({ form, set, tog }: any) {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState("");
+  const [upload, sendUpload] = useMachine(initialUpload, uploadTransition);
   const [flipped, setFlipped] = useState<string | null>(null);
 
   const onUpload = async (e: any) => {
     const files = Array.from(e.target.files as FileList).slice(0, 3 - form.refUploads.length);
     if (!files.length) return;
-    setBusy(true); setErr("");
+    const attempt = sendUpload({ type: "start" });
+    if (attempt.previous.status === "uploading") return;
     try {
       const urls: string[] = [];
       const sessionId = getDiscoverySessionId();
       for (const f of files) {
-        if (f.size > 5 * 1024 * 1024) { setErr("Max 5MB per file."); continue; }
+        if (f.size > 5 * 1024 * 1024) { sendUpload({ type: "notice", message: "Max 5MB per file." }); continue; }
         const fd = new FormData();
         fd.append("file", f);
         const { data, error } = await supabase.functions.invoke<{ path: string; error?: string }>(
           "upload-discovery-reference",
           { body: fd, headers: { "x-session-id": sessionId } },
         );
-        if (error || !data?.path) { setErr("Upload failed. Try a different image."); continue; }
+        if (error || !data?.path) { sendUpload({ type: "notice", message: "Upload failed. Try a different image." }); continue; }
         urls.push(data.path);
       }
       if (urls.length) set("refUploads", [...form.refUploads, ...urls]);
-    } finally { setBusy(false); if (fileRef.current) fileRef.current.value = ""; }
+    } finally { sendUpload({ type: "finish" }); if (fileRef.current) fileRef.current.value = ""; }
   };
 
   return (
@@ -72,14 +74,17 @@ export function ReferenceStep({ form, set, tog }: any) {
       </div>
       <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16 }}>
         <div style={{ fontSize: 11, color: C.mute, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>Or upload your own references</div>
-        <div onClick={() => fileRef.current?.click()} style={{
+        <div
+          onClick={() => { if (upload.status !== "uploading") fileRef.current?.click(); }}
+          aria-busy={upload.status === "uploading"}
+          style={{
           border: `1.5px dashed ${C.border}`, borderRadius: 10, padding: "20px", textAlign: "center",
-          cursor: "pointer", color: C.mute, fontSize: 13, background: C.surface,
+          cursor: upload.status === "uploading" ? "default" : "pointer", color: C.mute, fontSize: 13, background: C.surface,
         }}>
-          {busy ? "Uploading…" : `Drop or click to upload (max 3 · 5MB each) — ${form.refUploads.length}/3 used`}
+          {upload.status === "uploading" ? "Uploading…" : `Drop or click to upload (max 3 · 5MB each) — ${form.refUploads.length}/3 used`}
         </div>
-        <input ref={fileRef} type="file" accept="image/*" multiple style={{ display: "none" }} onChange={onUpload} />
-        {err && <div style={{ color: "#e8a4a4", fontSize: 12, marginTop: 6 }}>{err}</div>}
+        <input ref={fileRef} type="file" accept="image/*" multiple style={{ display: "none" }} onChange={onUpload} disabled={upload.status === "uploading"} />
+        {upload.notice && <div style={{ color: "#e8a4a4", fontSize: 12, marginTop: 6 }}>{upload.notice}</div>}
         {form.refUploads.length > 0 && (
           <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
             {form.refUploads.map((p: string) => (

@@ -8,7 +8,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useState } from "react";
+import { useMachine } from "@/lib/useMachine";
+import { initialMobileMenu, mobileMenuTransition } from "@/lib/machines/mobileMenu";
 
 const serviceLinks = [
   { path: "/services/web-design", label: "Web Design" },
@@ -28,16 +29,17 @@ const mainLinks = [
 
 const MobileNav = () => {
   const location = useLocation();
-  const [open, setOpen] = useState(false);
-  const [servicesExpanded, setServicesExpanded] = useState(false);
+  const [menu, send] = useMachine(initialMobileMenu, mobileMenuTransition);
+  const open = menu.sheet === "open";
+  const servicesExpanded = menu.services === "expanded";
 
   const isActive = (path: string) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
-  const close = () => setOpen(false);
+  const close = () => send({ type: "navigate" });
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={(next) => send({ type: "sheet", open: next })}>
       <SheetTrigger asChild>
         <button
           className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-text hover:text-accent transition-colors duration-sm focus-ring rounded-sm"
@@ -66,7 +68,7 @@ const MobileNav = () => {
               {link.group ? (
                 <>
                   <button
-                    onClick={() => setServicesExpanded((v) => !v)}
+                    onClick={() => send({ type: "toggleServices" })}
                     aria-expanded={servicesExpanded}
                     className="w-full text-left py-4 min-h-[56px] flex items-baseline gap-4 group"
                   >
