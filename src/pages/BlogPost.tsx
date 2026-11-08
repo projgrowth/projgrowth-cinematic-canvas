@@ -12,7 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import DOMPurify from "dompurify";
-import { recordView } from "@/lib/machines/remoteView";
+import { articleView } from "@/lib/machines/remoteView";
 
 interface BlogPost {
   id: string;
@@ -113,8 +113,8 @@ const BlogPost = () => {
         .maybeSingle();
 
       if (error) throw error;
-      if (!data) throw new Error("Post not found");
-      return data as BlogPost;
+      // Absence is a successful empty result. Throwing "Post not found" would retry and look like a failed fetch.
+      return (data as BlogPost | null) ?? null;
     },
     enabled: !!slug,
   });
@@ -160,13 +160,13 @@ const BlogPost = () => {
     window.open(url, "_blank", "width=600,height=400");
   };
 
-  const articleView = recordView({
+  const view = articleView({
     isLoading,
-    isError: Boolean(error),
+    error,
     hasRecord: Boolean(post),
   });
 
-  if (articleView === "loading") {
+  if (view === "loading") {
     return (
       <Layout>
         <Section>
@@ -186,7 +186,7 @@ const BlogPost = () => {
     );
   }
 
-  if (articleView === "error") {
+  if (view === "error") {
     return (
       <Layout>
         <Section>
@@ -204,7 +204,7 @@ const BlogPost = () => {
     );
   }
 
-  if (articleView === "missing" || !post) {
+  if (view === "missing" || !post) {
     return (
       <Layout>
         <Section>

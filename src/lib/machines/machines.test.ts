@@ -20,7 +20,7 @@ import { initialJob, jobTransition } from "./job.ts";
 import { discoveryTransition, intakeTransition, restoreDiscoveryPhase } from "./discoveryFlow.ts";
 import { initialUpload, uploadTransition } from "./referenceUpload.ts";
 import { activeCategory, readWorkFilters, writeWorkFilters } from "./workFilters.ts";
-import { listView, recordView } from "./remoteView.ts";
+import { POST_NOT_FOUND, articleView, listView, recordView } from "./remoteView.ts";
 
 const contactAt = (step: "service" | "details" | "timeline" | "budget" | "contact"): ContactFlowState => ({
   status: "editing",
@@ -251,4 +251,7 @@ test("work filters and remote views name the legal combinations", () => {
   assert.equal(listView({ isLoading: false, isError: false, count: 2 }), "ready");
   assert.equal(recordView({ isLoading: false, isError: true, hasRecord: false }), "error");
   assert.equal(recordView({ isLoading: false, isError: false, hasRecord: false }), "missing");
+  assert.equal(articleView({ isLoading: false, error: new Error(POST_NOT_FOUND), hasRecord: false }), "missing");
+  assert.equal(articleView({ isLoading: false, error: new Error("network"), hasRecord: false }), "error");
+  assert.equal(articleView({ isLoading: false, error: null, hasRecord: true }), "ready");
 });
